@@ -16,7 +16,10 @@ def create_app(config_filename):
     #====== BLUEPRINTS ========================================================
     from app.school.views import school
     app.register_blueprint(school, url_prefix='/school')
-
+    from app.schdl_class.views import schdl_class
+    app.register_blueprint(schdl_class, url_prefix='/class')
+    from app.calendar.views import calendar
+    app.register_blueprint(calendar, url_prefix='/calendar')
     # ====== END-BLUEPRINTS ===================================================
 
     @app.route('/')
