@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Title{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <a href="{{ url_for('school.add_schl') }}"> Add school</a>>
+    <table>
+        <tbody>
+        <tr>
+            <td>School name</td>
+            <td>Edit</td>
+        </tr>
+        {% for school in schools %}
+            <tr>
+                <td>{{ school.school_name}} </td>
+                <td><a href="{{ url_for('school.edit_schl', schl_id=school.id)}}">Edit</a>></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}
