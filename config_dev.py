@@ -7,7 +7,7 @@ import os
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 STATIC_FOLDER = 'C:/Projects/schl_schdl/static/'
 # Define the database - we are working with
-SQLALCHEMY_DATABASE_URI = 'sqlite:///C:/Projects/chl_schdl/app/database.db'
+SQLALCHEMY_DATABASE_URI = 'sqlite:///C:/Projects/schl_schdl/app/database.db'
 SQLALCHEMY_MIGRATE_REPO = os.path.join(BASE_DIR, 'db_repository')
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 DATABASE_CONNECT_OPTIONS = {}
