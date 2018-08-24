@@ -16,6 +16,8 @@ def create_app(config_filename):
     #====== BLUEPRINTS ========================================================
     from app.school.views import school
     app.register_blueprint(school, url_prefix='/school')
+    from app.teacher.views import teacher
+    app.register_blueprint(teacher, url_prefix='/teacher')
     from app.schdl_class.views import schdl_class
     app.register_blueprint(schdl_class, url_prefix='/class')
     from app.calendar.views import calendar
