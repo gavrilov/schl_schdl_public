@@ -18,6 +18,8 @@ def create_app(config_filename):
     app.register_blueprint(school, url_prefix='/school')
     from app.teacher.views import teacher
     app.register_blueprint(teacher, url_prefix='/teacher')
+    from app.subject.views import subject
+    app.register_blueprint(subject, url_prefix='/subject')
     from app.schdl_class.views import schdl_class
     app.register_blueprint(schdl_class, url_prefix='/class')
     from app.calendar.views import calendar

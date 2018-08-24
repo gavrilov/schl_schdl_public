@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}{{ subject.name }} - Info{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <a href="{{ url_for('subject.add_subject') }}"> Add Subject</a>>
+    <table>
+        <tbody>
+        <tr>
+            <td>Subject</td>
+            <td>Edit</td>
+        </tr>
+            <tr>
+                <td>{{ subject.name}} </td>
+                <td><a href="{{ url_for('subject.edit_subject', subject_id=subject_id)}}">Edit</a>></td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}

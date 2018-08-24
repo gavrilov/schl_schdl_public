@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Add New Subject{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <form method="POST" action="{{ url_for('subject.add_subject') }}">
+        {{ form.csrf_token }}
+        {{ form.name.label }} {{ form.name(size=50) }}
+        <input type="submit" value="Save">
+    </form>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}
