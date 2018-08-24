@@ -22,7 +22,12 @@ def school_list():
 @school.route('/<schl_id>', methods=['GET', 'POST'])
 def info(schl_id):
     current_school = School.query.filter_by(id=schl_id).first()
-    return render_template('school/school_info.html', school=current_school)
+    if current_school:
+        return render_template('school/school_info.html', school=current_school)
+    else:
+        flash("School with id " + str(schl_id) + " did not find", "danger")
+        return redirect(url_for('school.main'))
+
 
 
 @school.route('/add', methods=['GET', 'POST'])
