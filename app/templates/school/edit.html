@@ -11,7 +11,7 @@
     {{ super() }}
     <form method="POST" action="{{ url_for('school.edit_schl', schl_id=schl_id) }}">
         {{ form.csrf_token }}
-        {{ form.school_name.label }} {{ form.school_name(size=50) }}
+        {{ form.name.label }} {{ form.name(size=50) }}
         {{ form.current.label }} {{ form.current }}
         <input type="submit" value="Save">
     </form>
