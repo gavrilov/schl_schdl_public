@@ -1,10 +1,12 @@
 from app.database import db
-
+from app.schdl_class.models import Schdl_Class
 
 class Subject(db.Model):
     __tablename__ = "subjects"
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
     name = db.Column('name', db.Unicode(2048))
+    current = db.Column('current', db.Boolean())
+    classes = db.relationship('Schdl_Class', backref='subject', lazy='dynamic')
     #director_name = db.Column('director_name', db.Unicode(2048))
     #email = db.Column('email', db.Unicode(2048))
     #email2 = db.Column('email2', db.Unicode(2048))
