@@ -4,7 +4,7 @@ from wtforms.validators import DataRequired, Optional
 
 
 class SchoolForm(FlaskForm):
-    school_name = StringField('School Name', validators=[DataRequired()])
+    name = StringField('School Name', validators=[DataRequired()])
     current = BooleanField('Current School')
     #password_hash = StringField('Password', validators=[DataRequired()])
     #email = StringField('Email', validators=[DataRequired()])

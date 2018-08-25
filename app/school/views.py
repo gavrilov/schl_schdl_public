@@ -39,7 +39,7 @@ def add_schl():
         # save new school to db
         db.session.add(new_school)
         db.session.commit()
-        flash(new_school.school_name + " created", "success")
+        flash(new_school.name + " created", "success")
         return redirect(url_for('school.main'))
     else:
         return render_template('school/add.html', form=form)
@@ -54,7 +54,7 @@ def edit_schl(schl_id):
         form.populate_obj(current_school)
         #save to db
         db.session.commit()
-        flash(current_school.school_name + " edited", "success")
+        flash(current_school.name + " edited", "success")
         return redirect(url_for('school.main'))
     else:
         if current_school:
