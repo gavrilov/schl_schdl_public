@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Class List{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <div class="row">
+            <div class="col-md-3 offset-md-9">
+                {% if current_classes_only %}
+                    <a class="btn btn-outline-primary" href="{{ url_for('schdl_class.class_list') }}" role="button">Show All Classes</a>
+                {% else %}
+                    <a class="btn btn-outline-primary" href="{{ url_for('schdl_class.main') }}" role="button">Show Current Classes</a>
+                {% endif %}
+                <a class="btn btn-outline-success" href="{{ url_for('schdl_class.add_class') }}" role="button">Add New Class</a>
+        </div>
+
+    </div>
+    <div class="row">
+        <h1>List of classes</h1>
+        <table class="table table-hover table-bordered">
+            <caption>List of classes</caption>
+            <tbody>
+            <tr>
+                <th>Subject</th>
+                <th>School</th>
+                <th>Teacher</th>
+                <th>Edit</th>
+            </tr>
+            {% for current_class in classes %}
+                <tr>
+                    <td>{{ current_class.subject.name }}</td>
+                    <td>{{ current_class.school.name }}</td>
+                    <td>{{ current_class.teacher.first_name }}</td>
+                    <td><a href="{{ url_for('schdl_class.edit_class', class_id=current_class.id) }}">Edit</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}
