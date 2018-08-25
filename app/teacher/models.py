@@ -7,6 +7,7 @@ class Teacher(db.Model):
     first_name = db.Column('first_name', db.Unicode(2048))
     last_name = db.Column('last_name', db.Unicode(2048))
     current = db.Column('current', db.Boolean())
+    classes = db.relationship('Schdl_Class', backref='teacher', lazy='dynamic')
     #director_name = db.Column('director_name', db.Unicode(2048))
     #email = db.Column('email', db.Unicode(2048))
     #email2 = db.Column('email2', db.Unicode(2048))
