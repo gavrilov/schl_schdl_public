@@ -16,4 +16,4 @@ pipelines:
             - pip
           script: # Modify the commands below to build your repository.
             - pip install -r requirements.txt
-            - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git production
+            - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git production:master
