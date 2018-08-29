@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 import os
 import logging
 from logging.handlers import RotatingFileHandler
-from .database import db
+from app.database import db
 from config import Config
 migrate = Migrate()
 
