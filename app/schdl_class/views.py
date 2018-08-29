@@ -1,10 +1,10 @@
 from flask import Flask, request, render_template, session, Blueprint, flash, redirect, url_for
 from app import db
 from .forms import ClassForm
-from .models import Schdl_Class
-from app.school.models import School
-from app.teacher.models import Teacher
-from app.subject.models import Subject
+from app.models import Schdl_Class
+from app.models import School
+from app.models import Teacher
+from app.models import Subject
 
 schdl_class = Blueprint('schdl_class', __name__, template_folder='templates')
 

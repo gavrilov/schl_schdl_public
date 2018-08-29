@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, session, Blueprint, flash, redirect, url_for
 from app import db
-from .models import Subject
+from app.models import Subject
 from .forms import SubjectForm
 
 
