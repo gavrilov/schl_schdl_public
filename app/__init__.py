@@ -2,15 +2,15 @@ from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from .database import db
-
+from config import Config
 migrate = Migrate()
 
 
-def create_app(config_filename):
+def create_app(config_class=Config):
     app = Flask(__name__)
     Bootstrap(app)
 
-    app.config.from_pyfile(config_filename)
+    app.config.from_object(config_class)
     app.secret_key = app.config['SECRET_KEY']
 
     #====== BLUEPRINTS ========================================================
