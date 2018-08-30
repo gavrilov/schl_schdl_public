@@ -66,3 +66,13 @@ class Event(db.Model):
     class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
     teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'))
     # school_id = db.Column(db.Integer, db.ForeignKey('schools.id'))
+
+
+class Parent(db.Model):
+    __tablename__ = "parents"
+    id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
+    first_name = db.Column('first_name', db.Unicode(2048))
+    last_name = db.Column('last_name', db.Unicode(2048))
+
+    #classes = db.relationship('Schdl_Class', backref='teacher', lazy='dynamic')
+    #events = db.relationship('Event', backref='teacher', lazy='dynamic')
