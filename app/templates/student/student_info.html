@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}{{ student.first_name }} {{ student.last_name }} - Info{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <a href="{{ url_for('student.add_student') }}"> Add Student</a>>
+    <table>
+        <tbody>
+        <tr>
+            <td>Student First Name</td>
+            <td>Student Last Name</td>
+            <td>Edit</td>
+        </tr>
+        <tr>
+            <td>{{ student.first_name }} </td>
+            <td>{{ student.last_name }} </td>
+            <td><a href="{{ url_for('student.edit_student', student_id=student.id) }}">Edit</a>></td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}
