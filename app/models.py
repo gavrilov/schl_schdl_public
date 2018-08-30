@@ -73,6 +73,16 @@ class Parent(db.Model):
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
     first_name = db.Column('first_name', db.Unicode(2048))
     last_name = db.Column('last_name', db.Unicode(2048))
-
+    students = db.relationship('Student', backref='parent', lazy='dynamic')
     #classes = db.relationship('Schdl_Class', backref='teacher', lazy='dynamic')
     #events = db.relationship('Event', backref='teacher', lazy='dynamic')
+
+
+class Student(db.Model):
+    __tablename__ = "students"
+    id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
+    first_name = db.Column('first_name', db.Unicode(2048))
+    last_name = db.Column('last_name', db.Unicode(2048))
+    parent_id = db.Column(db.Integer, db.ForeignKey('parents.id'))
+    # classes = db.relationship('Schdl_Class', backref='teacher', lazy='dynamic')
+    # events = db.relationship('Event', backref='teacher', lazy='dynamic')
