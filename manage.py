@@ -11,7 +11,7 @@ migrate = Migrate(app, db)
 
 
 def make_shell_context():
-    # TODO shell context and manager commands 
+    # TODO shell context and manager commands
     # return dict(app=app, db=db, models=models)
     return True
 
