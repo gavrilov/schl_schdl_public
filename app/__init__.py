@@ -29,6 +29,8 @@ def create_app(config_class=Config):
     app.register_blueprint(calendar, url_prefix='/calendar')
     from app.event.views import event
     app.register_blueprint(event, url_prefix='/event')
+    from app.parent.views import parent
+    app.register_blueprint(parent, url_prefix='/parent')
     # ====== END-BLUEPRINTS ===================================================
 
     if not app.debug and not app.testing:
