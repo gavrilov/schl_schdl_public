@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Add New Parent{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <form method="POST" action="{{ url_for('parent.add_parent') }}">
+        {{ form.csrf_token }}
+        {{ form.first_name.label }} {{ form.first_name(size=50) }}
+        {{ form.last_name.label }} {{ form.last_name(size=50) }}
+        <input type="submit" value="Save">
+    </form>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}
