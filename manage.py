@@ -1,17 +1,19 @@
-from app import create_app
-
-from app.database import db
-from flask_script import Manager, Shell
 from flask_migrate import MigrateCommand, Migrate
+from flask_script import Manager, Shell
 
+from app import create_app
+from app.database import db
+from config import Config
 
-app = create_app('C:/Projects/flask-easypost/config_dev.py')
+app = create_app(config_class=Config)
 manager = Manager(app)
 migrate = Migrate(app, db)
 
 
 def make_shell_context():
-    return dict(app=app, db=db, models=models)
+    # TODO shell context and manager commands 
+    # return dict(app=app, db=db, models=models)
+    return True
 
 manager.add_command('shell', Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
