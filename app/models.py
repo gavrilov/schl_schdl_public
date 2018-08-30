@@ -9,6 +9,7 @@ class Schdl_Class(db.Model):
     teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'))
     subject_id = db.Column(db.Integer, db.ForeignKey('subjects.id'))
     current = db.Column('current', db.Boolean())
+    events = db.relationship('Event', backref='schl_class', lazy='dynamic')
 
 
 class School(db.Model):
@@ -17,6 +18,7 @@ class School(db.Model):
     name = db.Column('name', db.Unicode(2048))
     current = db.Column('current', db.Boolean())
     classes = db.relationship('Schdl_Class', backref='school', lazy='dynamic')
+    #events = db.relationship('Event', backref='school', lazy='dynamic')
     #director_name = db.Column('director_name', db.Unicode(2048))
     #email = db.Column('email', db.Unicode(2048))
     #email2 = db.Column('email2', db.Unicode(2048))
@@ -48,6 +50,7 @@ class Teacher(db.Model):
     last_name = db.Column('last_name', db.Unicode(2048))
     current = db.Column('current', db.Boolean())
     classes = db.relationship('Schdl_Class', backref='teacher', lazy='dynamic')
+    events = db.relationship('Event', backref='teacher', lazy='dynamic')
     #director_name = db.Column('director_name', db.Unicode(2048))
     #email = db.Column('email', db.Unicode(2048))
     #email2 = db.Column('email2', db.Unicode(2048))
@@ -55,3 +58,11 @@ class Teacher(db.Model):
     #phone2 = db.Column('phone2', db.Unicode(2048))
     #website = db.Column('website', db.Unicode(2048))
     #addresses = db.relationship('EasypostDefaultAddress', backref='user', lazy='dynamic')
+
+
+class Event(db.Model):
+    __tablename__ = "events"
+    id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
+    class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
+    teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'))
+    # school_id = db.Column(db.Integer, db.ForeignKey('schools.id'))
