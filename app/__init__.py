@@ -1,11 +1,14 @@
-from flask import Flask, render_template, redirect, url_for
+import logging
+import os
+from logging.handlers import RotatingFileHandler
+
+from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
-import os
-import logging
-from logging.handlers import RotatingFileHandler
+
 from app.database import db
 from config import Config
+
 migrate = Migrate()
 
 
@@ -31,6 +34,8 @@ def create_app(config_class=Config):
     app.register_blueprint(event, url_prefix='/event')
     from app.parent.views import parent
     app.register_blueprint(parent, url_prefix='/parent')
+    from app.student.views import student
+    app.register_blueprint(student, url_prefix='/student')
     # ====== END-BLUEPRINTS ===================================================
 
     if not app.debug and not app.testing:
