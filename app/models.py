@@ -1,8 +1,7 @@
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app import login
-from app.database import db
+from app import login, db
 
 
 class Schdl_Class(db.Model):

@@ -6,11 +6,13 @@ from flask import Flask, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 
-from app.database import db
 from config import Config
 
+db = SQLAlchemy()
 migrate = Migrate()
+
 login = LoginManager()
 login.login_view = 'user.sing_in'
 login.login_message = 'Please log in to access this page.'
@@ -24,7 +26,8 @@ def create_app(config_class=Config):
     login.login_view = 'user.sign_in'
     app.config.from_object(config_class)
     app.secret_key = app.config['SECRET_KEY']
-
+    db.init_app(app)
+    migrate.init_app(app, db)
     #====== BLUEPRINTS ========================================================
     from app.school.views import school
     app.register_blueprint(school, url_prefix='/school')
@@ -68,11 +71,6 @@ def create_app(config_class=Config):
     def hello_world():
         return redirect(url_for('user.email_check'))
 
-    db.init_app(app)
-    with app.app_context():
-        # Extensions like Flask-SQLAlchemy now know what the "current" app is while within this block
-        db.create_all()
 
-    migrate.init_app(app, db)
     return app
 
