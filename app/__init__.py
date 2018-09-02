@@ -2,20 +2,26 @@ import logging
 import os
 from logging.handlers import RotatingFileHandler
 
-from flask import Flask, render_template
+from flask import Flask, redirect, url_for
 from flask_bootstrap import Bootstrap
+from flask_login import LoginManager
 from flask_migrate import Migrate
 
 from app.database import db
 from config import Config
 
 migrate = Migrate()
+login = LoginManager()
+login.login_view = 'user.sing_in'
+login.login_message = 'Please log in to access this page.'
+login.login_message_category = "warning"
 
 
 def create_app(config_class=Config):
     app = Flask(__name__)
     Bootstrap(app)
-
+    login.init_app(app)
+    login.login_view = 'user.sign_in'
     app.config.from_object(config_class)
     app.secret_key = app.config['SECRET_KEY']
 
@@ -60,7 +66,7 @@ def create_app(config_class=Config):
 
     @app.route('/')
     def hello_world():
-        return render_template('main_page.html')
+        return redirect(url_for('user.email_check'))
 
     db.init_app(app)
     with app.app_context():
