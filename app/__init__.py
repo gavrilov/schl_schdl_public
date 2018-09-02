@@ -38,8 +38,8 @@ def create_app(config_class=Config):
     app.register_blueprint(calendar, url_prefix='/calendar')
     from app.event.views import event
     app.register_blueprint(event, url_prefix='/event')
-    from app.parent.views import parent
-    app.register_blueprint(parent, url_prefix='/parent')
+    from app.user.views import user
+    app.register_blueprint(user, url_prefix='/user')
     from app.student.views import student
     app.register_blueprint(student, url_prefix='/student')
     # ====== END-BLUEPRINTS ===================================================

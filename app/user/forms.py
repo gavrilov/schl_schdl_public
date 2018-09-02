@@ -1,9 +1,34 @@
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField, RadioField, HiddenField, BooleanField
-from wtforms.validators import DataRequired, Optional
+from flask_wtf import FlaskForm, RecaptchaField
+from wtforms import StringField, SubmitField, BooleanField, PasswordField
+from wtforms.fields.html5 import EmailField
+from wtforms.validators import DataRequired, InputRequired, Email, EqualTo
 
 
-class ParentForm(FlaskForm):
+class EmailCheckForm(FlaskForm):
+    username = EmailField("Email", validators=[InputRequired("Please enter your email address."),
+                                               Email("Please enter your email address.")])
+    recaptcha = RecaptchaField()
+    submit = SubmitField('Next')
+
+
+class SignInForm(FlaskForm):
+    username = EmailField("Email", validators=[InputRequired("Please enter your email address."),
+                                               Email("Please enter your email address.")])
+    password = PasswordField("Password", validators=[DataRequired("Please enter your password")])
+    remember_me = BooleanField('Remember Me')
+    recaptcha = RecaptchaField()
+    submit = SubmitField('Login')
+
+
+class RegistrationForm(FlaskForm):
+    username = StringField('Email', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    password2 = PasswordField(
+        'Repeat Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Register')
+
+
+class UserForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired()])
     last_name = StringField('Last Name', validators=[DataRequired()])
     #current = BooleanField('Current Teacher')

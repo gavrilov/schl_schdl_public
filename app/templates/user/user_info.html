@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}{{ parent.first_name }} {{ parent.last_name }} - Info{% endblock %}
+{% block title %}{{ user.first_name }} {{ user.last_name }} - Info{% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -9,7 +9,7 @@
 
 {% block page_content %}
     {{ super() }}
-    <a href="{{ url_for('parent.add_parent') }}"> Add Parent</a>>
+    <a href="{{ url_for('user.add_user') }}"> Add Parent</a>>
     <table>
         <tbody>
         <tr>
@@ -18,9 +18,9 @@
             <td>Edit</td>
         </tr>
             <tr>
-                <td>{{ parent.first_name}} </td>
-                <td>{{ parent.last_name}} </td>
-                <td><a href="{{ url_for('parent.edit_parent', parent_id=parent.id)}}">Edit</a>></td>
+                <td>{{ user.first_name }} </td>
+                <td>{{ user.last_name }} </td>
+                <td><a href="{{ url_for('user.edit_user', user_id=user.id) }}">Edit</a>></td>
             </tr>
         </tbody>
     </table>

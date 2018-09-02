@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Sign In / Registration{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <div class="row justify-content-center">
+        <form id="checkemail-form" method="POST" action="{{ url_for('user.email_check') }}">
+            {{ form.csrf_token }}
+            <img src="{{ url_for('static', filename='company_logo.jpg') }}"
+                 class="img-fluid mx-auto d-block">
+            <div class="form-group row">
+                <h1>Enter your email to continue</h1>
+            </div>
+            <div class="form-group row">
+                {{ form.username(size=30, class="form-control", placeholder="Enter your Email") }}
+            </div>
+            <div class="form-group row">
+                {{ form.recaptcha }}
+            </div>
+            <div class="form-group row">
+                <button id="recaptcha-submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        function onSubmitCallback(token) {
+            document.getElementById("checkemail-form").submit();
+        }
+    </script>
+{% endblock %}
