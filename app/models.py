@@ -16,8 +16,11 @@ class School(db.Model):
     __tablename__ = "schools"
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
     name = db.Column('name', db.Unicode(2048))
+    director_name = db.Column('director_name', db.Unicode(2048))
+    note = db.Column('note', db.Unicode(2048))
     current = db.Column('current', db.Boolean())
     classes = db.relationship('Schdl_Class', backref='school', lazy='dynamic')
+    contacts = db.relationship('SchoolContacts', backref='school', lazy='dynamic')
     #events = db.relationship('Event', backref='school', lazy='dynamic')
     #director_name = db.Column('director_name', db.Unicode(2048))
     #email = db.Column('email', db.Unicode(2048))
@@ -26,6 +29,20 @@ class School(db.Model):
     #phone2 = db.Column('phone2', db.Unicode(2048))
     #website = db.Column('website', db.Unicode(2048))
     #addresses = db.relationship('EasypostDefaultAddress', backref='user', lazy='dynamic')
+
+
+class SchoolContacts(db.Model):
+    __tablename__ = "schoolcontacts"
+    id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
+    school_id = db.Column(db.Integer, db.ForeignKey('schools.id'))
+    note = db.Column('note', db.Unicode(2048))
+    email = db.Column('email', db.Unicode(2048))
+    phone = db.Column('phone', db.Unicode(2048), index=True)
+    address1 = db.Column('address1', db.Unicode(2048))
+    address2 = db.Column('address2', db.Unicode(2048))
+    city = db.Column('city', db.Unicode(2048))
+    state = db.Column('state', db.Unicode(2048))
+    zip = db.Column('zip', db.Unicode(2048))
 
 
 class Subject(db.Model):
@@ -51,6 +68,7 @@ class Teacher(db.Model):
     current = db.Column('current', db.Boolean())
     classes = db.relationship('Schdl_Class', backref='teacher', lazy='dynamic')
     events = db.relationship('Event', backref='teacher', lazy='dynamic')
+    contacts = db.relationship('TeacherContacts', backref='teacher', lazy='dynamic')
     #director_name = db.Column('director_name', db.Unicode(2048))
     #email = db.Column('email', db.Unicode(2048))
     #email2 = db.Column('email2', db.Unicode(2048))
@@ -58,6 +76,20 @@ class Teacher(db.Model):
     #phone2 = db.Column('phone2', db.Unicode(2048))
     #website = db.Column('website', db.Unicode(2048))
     #addresses = db.relationship('EasypostDefaultAddress', backref='user', lazy='dynamic')
+
+
+class TeacherContacts(db.Model):
+    __tablename__ = "teachercontacts"
+    id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
+    teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'))
+    note = db.Column('note', db.Unicode(2048))
+    email = db.Column('email', db.Unicode(2048))
+    phone = db.Column('phone', db.Unicode(2048), index=True)
+    address1 = db.Column('address1', db.Unicode(2048))
+    address2 = db.Column('address2', db.Unicode(2048))
+    city = db.Column('city', db.Unicode(2048))
+    state = db.Column('state', db.Unicode(2048))
+    zip = db.Column('zip', db.Unicode(2048))
 
 
 class Event(db.Model):
@@ -74,8 +106,23 @@ class Parent(db.Model):
     first_name = db.Column('first_name', db.Unicode(2048))
     last_name = db.Column('last_name', db.Unicode(2048))
     students = db.relationship('Student', backref='parent', lazy='dynamic')
+    contacts = db.relationship('ParentContacts', backref='parent', lazy='dynamic')
     #classes = db.relationship('Schdl_Class', backref='teacher', lazy='dynamic')
     #events = db.relationship('Event', backref='teacher', lazy='dynamic')
+
+
+class ParentContacts(db.Model):
+    __tablename__ = "parentcontacts"
+    id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
+    school_id = db.Column(db.Integer, db.ForeignKey('parents.id'))
+    note = db.Column('note', db.Unicode(2048))
+    email = db.Column('email', db.Unicode(2048))
+    phone = db.Column('phone', db.Unicode(2048), index=True)
+    address1 = db.Column('address1', db.Unicode(2048))
+    address2 = db.Column('address2', db.Unicode(2048))
+    city = db.Column('city', db.Unicode(2048))
+    state = db.Column('state', db.Unicode(2048))
+    zip = db.Column('zip', db.Unicode(2048))
 
 
 class Student(db.Model):
