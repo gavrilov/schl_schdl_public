@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Sign In{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+
+{% block page_content %}
+    {{ super() }}
+    <div class="row justify-content-center">
+        <form id="checkemail-form" method="POST" action="{{ url_for('user.sign_in') }}">
+            {{ form.csrf_token }}
+            <img src="{{ url_for('static', filename='company_logo.jpg') }}"
+                 class="img-fluid mx-auto d-block">
+            <div class="form-group row">
+                <h1>Enter your password</h1>
+            </div>
+            <div class="form-group row">
+                {{ form.username(size=30, class="form-control", placeholder="Enter your Email") }}
+            </div>
+            <div class="form-group row">
+                {{ form.password(size=30, class="form-control", placeholder="Enter your Password") }}
+            </div>
+            <div class="row">
+                <div class="form-check mr-auto">
+                    {{ form.remember_me(class="form-check-input") }}
+                    {{ form.remember_me.label(class="form-check-label") }}
+
+                </div>
+                <div class="ml-auto">
+                    <a href="{{ url_for('user.forgot') }}">Forgot password?</a>
+                </div>
+            </div>
+            <div class="form-group row">
+                {{ form.recaptcha }}
+            </div>
+            <div class="form-group row">
+                <button id="recaptcha-submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        function onSubmitCallback(token) {
+            document.getElementById("checkemail-form").submit();
+        }
+    </script>
+{% endblock %}
