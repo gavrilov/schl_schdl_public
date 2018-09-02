@@ -4,7 +4,6 @@ from app.database import db
 class Schdl_Class(db.Model):
     __tablename__ = "classes"
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
-    #user_id = db.Column(db.Integer, db.ForeignKey('easypost_users.id'))
     school_id = db.Column(db.Integer, db.ForeignKey('schools.id'))
     teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'))
     subject_id = db.Column(db.Integer, db.ForeignKey('subjects.id'))
@@ -21,14 +20,6 @@ class School(db.Model):
     current = db.Column('current', db.Boolean())
     classes = db.relationship('Schdl_Class', backref='school', lazy='dynamic')
     contacts = db.relationship('SchoolContacts', backref='school', lazy='dynamic')
-    #events = db.relationship('Event', backref='school', lazy='dynamic')
-    #director_name = db.Column('director_name', db.Unicode(2048))
-    #email = db.Column('email', db.Unicode(2048))
-    #email2 = db.Column('email2', db.Unicode(2048))
-    #phone1 = db.Column('phone1', db.Unicode(2048))
-    #phone2 = db.Column('phone2', db.Unicode(2048))
-    #website = db.Column('website', db.Unicode(2048))
-    #addresses = db.relationship('EasypostDefaultAddress', backref='user', lazy='dynamic')
 
 
 class SchoolContacts(db.Model):
@@ -51,13 +42,6 @@ class Subject(db.Model):
     name = db.Column('name', db.Unicode(2048))
     current = db.Column('current', db.Boolean())
     classes = db.relationship('Schdl_Class', backref='subject', lazy='dynamic')
-    #director_name = db.Column('director_name', db.Unicode(2048))
-    #email = db.Column('email', db.Unicode(2048))
-    #email2 = db.Column('email2', db.Unicode(2048))
-    #phone1 = db.Column('phone1', db.Unicode(2048))
-    #phone2 = db.Column('phone2', db.Unicode(2048))
-    #website = db.Column('website', db.Unicode(2048))
-    #addresses = db.relationship('EasypostDefaultAddress', backref='user', lazy='dynamic')
 
 
 class Teacher(db.Model):
@@ -69,13 +53,6 @@ class Teacher(db.Model):
     classes = db.relationship('Schdl_Class', backref='teacher', lazy='dynamic')
     events = db.relationship('Event', backref='teacher', lazy='dynamic')
     contacts = db.relationship('TeacherContacts', backref='teacher', lazy='dynamic')
-    #director_name = db.Column('director_name', db.Unicode(2048))
-    #email = db.Column('email', db.Unicode(2048))
-    #email2 = db.Column('email2', db.Unicode(2048))
-    #phone1 = db.Column('phone1', db.Unicode(2048))
-    #phone2 = db.Column('phone2', db.Unicode(2048))
-    #website = db.Column('website', db.Unicode(2048))
-    #addresses = db.relationship('EasypostDefaultAddress', backref='user', lazy='dynamic')
 
 
 class TeacherContacts(db.Model):
@@ -107,8 +84,6 @@ class Parent(db.Model):
     last_name = db.Column('last_name', db.Unicode(2048))
     students = db.relationship('Student', backref='parent', lazy='dynamic')
     contacts = db.relationship('ParentContacts', backref='parent', lazy='dynamic')
-    #classes = db.relationship('Schdl_Class', backref='teacher', lazy='dynamic')
-    #events = db.relationship('Event', backref='teacher', lazy='dynamic')
 
 
 class ParentContacts(db.Model):
