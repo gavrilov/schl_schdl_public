@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Contact Info{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <form method="POST" action="{{ url_for('user.add_contacts') }}">
+        {{ form.csrf_token }}
+        {{ form.email.label }} {{ form.email(size=50) }}
+        {{ form.phone.label }} {{ form.phone(size=50) }}
+        {{ form.address1.label }} {{ form.address1(size=50) }}
+        {{ form.address2.label }} {{ form.address2(size=50) }}
+        {{ form.city.label }} {{ form.city(size=50) }}
+        {{ form.state.label }} {{ form.state(size=50) }}
+        {{ form.zip.label }} {{ form.zip(size=50) }}
+        {{ form.note.label }} {{ form.note(size=50) }}
+        {{ form.submit(size=50) }}
+    </form>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}

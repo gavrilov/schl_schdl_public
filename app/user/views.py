@@ -3,8 +3,8 @@ from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 
 from app import db
-from app.models import User
-from .forms import UserForm, EmailCheckForm, SignInForm, RegistrationForm
+from app.models import User, UserContacts, Student
+from .forms import UserForm, EmailCheckForm, SignInForm, RegistrationForm, UserContactForm
 
 user = Blueprint('user', __name__, template_folder='templates')
 
@@ -12,10 +12,49 @@ user = Blueprint('user', __name__, template_folder='templates')
 @user.route('/', methods=['GET', 'POST'])
 @login_required
 def main():
-    # TODO filter current user by current students or so
-    users = User.query.filter_by().all()
-    return render_template('user/user_list.html', users=users, current_users_only=False)
+    students = Student.query.filter_by(user_id=current_user.id).all()
+    contacts = UserContacts.query.filter_by(user_id=current_user.id).all()
+    print(contacts)
+    if not contacts:
+        flash("Please add your contact information", "danger")
+        return redirect(url_for('user.add_contacts'))
+    if not students:
+        flash("Please add students", "danger")
+        return redirect(url_for('student.add_student'))
+    return render_template('user/user_info.html', user=current_user, students=students, contacts=contacts)
 
+
+@user.route('/edit/', methods=['GET', 'POST'])
+@login_required
+def edit():
+    form = UserForm()
+    if form.validate_on_submit():
+        form.populate_obj(current_user)
+        # save to db
+        db.session.commit()
+        flash(current_user.first_name + " " + current_user.last_name + " edited", "success")
+        return redirect(url_for('user.main'))
+    else:
+        form = UserForm(obj=current_user)
+        return render_template('user/edit.html', form=form, user_id=current_user.id)
+
+
+@user.route('/contacts/add/', methods=['GET', 'POST'])
+@login_required
+def add_contacts():
+    form = UserContactForm()
+    form.email.data = current_user.username
+    if form.validate_on_submit():
+        contact_info = UserContacts()
+        form.populate_obj(contact_info)
+        # save new school to db
+        contact_info.user_id = current_user.id
+        db.session.add(contact_info)
+        db.session.commit()
+        flash("Contact information created", "success")
+        return redirect(url_for('user.main'))
+    else:
+        return render_template('user/contact_info.html', form=form)
 
 @user.route('/all', methods=['GET', 'POST'])
 def user_list():
@@ -94,6 +133,8 @@ def register():
     if form.validate_on_submit():
         new_user = User()
         new_user.username = form.username.data
+        new_user.first_name = form.first_name.data
+        new_user.last_name = form.last_name.data
         new_user.set_password(form.password.data)
         db.session.add(new_user)
         db.session.commit()
@@ -125,6 +166,7 @@ def sign_in():
 @user.route('/logout', methods=['GET', 'POST'])
 def logout():
     logout_user()
+    flash('You have successfully logged out. Buy-Buy!', 'success')
     return redirect(url_for('hello_world'))
 
 
@@ -133,6 +175,6 @@ def forgot():
     form = SignInForm()
     form.username.data = request.cookies.get('username')
     if form.validate_on_submit():
-        flash('Thamk you!', 'success')
+        flash('Please contact with admin, that form does not work yet!', 'danger')
         return render_template('user/sign_in.html', form=form)
     return render_template('user/sign_in.html', form=form)
