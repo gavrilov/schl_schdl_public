@@ -9,18 +9,46 @@
 
 {% block page_content %}
     {{ super() }}
-    <form method="POST" action="{{ url_for('user.add_contacts') }}">
-        {{ form.csrf_token }}
-        {{ form.email.label }} {{ form.email(size=50) }}
-        {{ form.phone.label }} {{ form.phone(size=50) }}
-        {{ form.address1.label }} {{ form.address1(size=50) }}
-        {{ form.address2.label }} {{ form.address2(size=50) }}
-        {{ form.city.label }} {{ form.city(size=50) }}
-        {{ form.state.label }} {{ form.state(size=50) }}
-        {{ form.zip.label }} {{ form.zip(size=50) }}
-        {{ form.note.label }} {{ form.note(size=50) }}
-        {{ form.submit(size=50) }}
-    </form>
+    <div class="row justify-content-center">
+        <form method="POST" action="{{ url_for('user.add_contacts') }}">
+            {{ form.csrf_token }}
+            <div class="form-group row">
+                <h1>Enter your Contact Information</h1>
+            </div>
+            <div class="form-group row">
+                {{ form.email.label }}
+                {{ form.email(size=30, class="form-control", placeholder="Enter your Email") }}
+            </div>
+            <div class="form-group row">
+                {{ form.phone.label }}
+                {{ form.phone(size=30, class="form-control", placeholder="Enter your Cellphone number") }}
+            </div>
+            <div class="form-group row">
+                {{ form.address1.label }}
+                {{ form.address1(size=30, class="form-control", placeholder="Street and number") }}
+            </div>
+            <div class="form-group row">
+                {{ form.address2.label }}
+                {{ form.address2(size=30, class="form-control", placeholder="Apartment, suite, unit, building, floor, etc.") }}
+            </div>
+            <div class="form-group row">
+                {{ form.city.label }}
+                {{ form.city(size=30, class="form-control", placeholder="City") }}
+            </div>
+            <div class="form-group row">
+                {{ form.state.label }}
+                {{ form.state(class="form-control") }}
+            </div>
+            <div class="form-group row">
+                {{ form.zip.label }}
+                {{ form.zip(size=30, class="form-control", placeholder="ZIP") }}
+            </div>
+            <div class="form-group row">
+                <button id="recaptcha-submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+
 {% endblock %}
 
 
