@@ -2,7 +2,7 @@ import logging
 import os
 from logging.handlers import RotatingFileHandler
 
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, render_template
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
 from flask_migrate import Migrate
@@ -66,11 +66,13 @@ def create_app(config_class=Config):
         app.logger.setLevel(logging.INFO)
         app.logger.info('App startup')
 
-
     @app.route('/')
     def hello_world():
         return redirect(url_for('user.email_check'))
 
+    @app.route('/privacy')
+    def privacy():
+        return render_template('privacy.html')
 
     return app
 
