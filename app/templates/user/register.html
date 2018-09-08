@@ -43,6 +43,7 @@
 
 {% block scripts %}
     {{ super() }}
+    <!--Script for Invisible Captcha -->
     <script>
         function onSubmitCallback(token) {
             document.getElementById("checkemail-form").submit();
