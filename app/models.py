@@ -117,6 +117,9 @@ class UserContacts(db.Model):
     city = db.Column('city', db.Unicode(2048))
     state = db.Column('state', db.Unicode(2048))
     zip = db.Column('zip', db.Unicode(2048))
+    contact_by_email = db.Column('contact_by_email', db.Boolean())
+    contact_by_txt = db.Column('contact_by_txt', db.Boolean())
+    contact_by_mail = db.Column('contact_by_mail', db.Boolean())
 
 
 class Student(db.Model):
