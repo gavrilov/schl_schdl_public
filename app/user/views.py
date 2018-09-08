@@ -14,7 +14,6 @@ user = Blueprint('user', __name__, template_folder='templates')
 def main():
     students = Student.query.filter_by(user_id=current_user.id).all()
     contacts = UserContacts.query.filter_by(user_id=current_user.id).all()
-    print(contacts)
     if not contacts:
         flash("Please add your contact information", "danger")
         return redirect(url_for('user.add_contacts'))
@@ -43,7 +42,12 @@ def edit():
 @login_required
 def add_contacts():
     form = UserContactForm()
+    form.state.data = 'TX'  # TODO default state of enrichment classes provider
+    form.contact_by_email.data = True
+    form.contact_by_mail.data = True
+    form.contact_by_txt.data = True
     form.email.data = current_user.username
+
     if form.validate_on_submit():
         contact_info = UserContacts()
         form.populate_obj(contact_info)
@@ -51,10 +55,16 @@ def add_contacts():
         contact_info.user_id = current_user.id
         db.session.add(contact_info)
         db.session.commit()
-        flash("Contact information created", "success")
+        flash("Contact information updated", "success")
         return redirect(url_for('user.main'))
-    else:
-        return render_template('user/contact_info.html', form=form)
+
+    if form.errors:
+        print(form.errors)
+        for error in form.errors.values():
+            flash(error, 'danger')
+
+    return render_template('user/contact_info.html', form=form)
+
 
 @user.route('/all', methods=['GET', 'POST'])
 def user_list():
@@ -112,15 +122,21 @@ def email_check():
     if form.validate_on_submit():
         user_exist = User.query.filter_by(username=form.username.data).first()
         if user_exist:
-            flash('Parent exist. Please Login or Reset Password', 'warning')
+            flash('Please Enter your Password', 'info')
             resp = make_response(redirect(url_for('user.sign_in')))
             resp.set_cookie('username', form.username.data)
             return resp
         else:
-            flash('Email sent. Please go to link to confirm your email address', 'success')
+            # flash('Email sent. Please go to link to confirm your email address', 'success')
             resp = make_response(redirect(url_for('user.register')))
             resp.set_cookie('username', form.username.data)
             return resp
+
+    if form.errors:
+        print(form.errors)
+        for error in form.errors.values():
+            flash(error, 'danger')
+
     return render_template('user/email_check.html', form=form)
 
 
@@ -138,8 +154,13 @@ def register():
         new_user.set_password(form.password.data)
         db.session.add(new_user)
         db.session.commit()
-        flash('Congratulations, you are now a registered user!', 'success')
+        flash('A verification link has been sent to your email account', 'success')
         return redirect(url_for('user.sign_in'))
+
+    if form.errors:
+        for error in form.errors:
+            flash(error, 'danger')
+
     return render_template('user/register.html', form=form)
 
 
@@ -152,14 +173,19 @@ def sign_in():
     if form.validate_on_submit():
         this_user = User.query.filter_by(username=form.username.data).first()
         if this_user is None or not this_user.check_password(form.password.data):
-            flash('Invalid username or password', 'danger')
+            flash('Invalid Username or Password', 'danger')
             return redirect(url_for('user.sign_in'))
         login_user(this_user, remember=form.remember_me.data)
-        flash('Hello!', 'success')
+        flash('Hello, ' + current_user.first_name, 'success')
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('user.main')
         return redirect(next_page)
+
+    if form.errors:
+        for error in form.errors:
+            flash(error, 'danger')
+
     return render_template('user/sign_in.html', form=form)
 
 

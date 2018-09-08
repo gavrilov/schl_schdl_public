@@ -1,50 +1,54 @@
 from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import StringField, SubmitField, BooleanField, PasswordField, SelectField
 from wtforms.fields.html5 import EmailField
-from wtforms.validators import DataRequired, InputRequired, Email, EqualTo, Optional
+from wtforms.validators import DataRequired, InputRequired, Email, EqualTo, Optional, Regexp
 
 
 class EmailCheckForm(FlaskForm):
-    username = EmailField("Email", validators=[InputRequired("Please enter your email address."),
-                                               Email("Please enter your email address.")])
+    username = EmailField("Email", validators=[InputRequired("Please enter your email address"),
+                                               Email("Please enter your email address")])
     recaptcha = RecaptchaField()
     submit = SubmitField('Next')
 
 
 class SignInForm(FlaskForm):
-    username = EmailField("Email", validators=[InputRequired("Please enter your email address."),
-                                               Email("Please enter your email address.")])
+    username = EmailField("Email", validators=[InputRequired("Please enter your email address"),
+                                               Email("Please enter your email address")])
     password = PasswordField("Password", validators=[DataRequired("Please enter your password")])
-    remember_me = BooleanField('Keep me signed in')
+    remember_me = BooleanField('Keep me signed in', validators=[Optional()])
     recaptcha = RecaptchaField()
     submit = SubmitField('Login')
 
 
 class RegistrationForm(FlaskForm):
-    username = EmailField("Email", validators=[InputRequired("Please enter your email address."),
-                                               Email("Please enter your email address.")])
-    first_name = StringField('First Name', validators=[DataRequired()])
-    last_name = StringField('Last Name', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
+    username = EmailField("Email", validators=[InputRequired("Please enter your email address"),
+                                               Email("Please enter your email address")])
+    first_name = StringField('First Name', validators=[DataRequired("Please enter your First Name")])
+    last_name = StringField('Last Name', validators=[DataRequired("Please enter your Last Name")])
+    password = PasswordField('Password', validators=[DataRequired("Please enter your Password")])
+    password2 = PasswordField('Repeat Password', validators=[DataRequired("Passwords must match"), EqualTo('password')])
+    agreement = BooleanField('I agree to the Terms of Service and Privacy Policy',
+                             validators=[DataRequired("You must accept the agreement to continue")])
     submit = SubmitField('Register')
 
 
 class UserForm(FlaskForm):
-    first_name = StringField('First Name', validators=[DataRequired()])
-    last_name = StringField('Last Name', validators=[DataRequired()])
+    first_name = StringField('First Name', validators=[DataRequired("Please enter your First Name")])
+    last_name = StringField('Last Name', validators=[DataRequired("Please enter your Last Name")])
     submit = SubmitField('Submit')
 
 
 class UserContactForm(FlaskForm):
     # TODO validate: email? address info with USPS, phone number
-    email = EmailField("Email", validators=[InputRequired("Please enter your email address."),
-                                            Email("Please enter your email address.")])
-    phone = StringField('Cellphone #', validators=[DataRequired()])
-    address1 = StringField('Address 1', validators=[DataRequired()])
-    address2 = StringField('Address 2', validators=[DataRequired()])
-    city = StringField('City', validators=[DataRequired()])
-    state = SelectField('State', validators=[DataRequired()],
+    email = EmailField("Email", validators=[InputRequired("Please enter your email address"),
+                                            Email("Please enter your email address")])
+    phone = StringField('Cellphone #', validators=[DataRequired("Please enter your phone number"),
+                                                   Regexp("^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$",
+                                                          message="Please enter 10 digits of your Cellphone number i.e. 83212345678")])
+    address1 = StringField('Mailing Address', validators=[DataRequired("Please enter your address")])
+    address2 = StringField('Address 2', validators=[Optional()])
+    city = StringField('City', validators=[DataRequired("Please enter your City")])
+    state = SelectField('State', validators=[DataRequired("Please enter your State")],
                         choices=[("AL", "Alabama"), ("AK", "Alaska"), ("AS", "American Samoa"), ("AZ", "Arizona"),
                                  ("AR", "Arkansas"), ("CA", "California"), ("CO", "Colorado"), ("CT", "Connecticut"),
                                  ("DE", "Delaware"), ("DC", "District Of Columbia"),
@@ -62,6 +66,10 @@ class UserContactForm(FlaskForm):
                                  ("TN", "Tennessee"), ("TX", "Texas"), ("UT", "Utah"), ("VT", "Vermont"),
                                  ("VI", "Virgin Islands"), ("VA", "Virginia"), ("WA", "Washington"),
                                  ("WV", "West Virginia"), ("WI", "Wisconsin"), ("WY", "Wyoming")])
-    zip = StringField('ZIP', validators=[DataRequired()])
+    zip = StringField('ZIP', validators=[DataRequired("Please enter your ZIP code"), Regexp("^\d{5}(?:[-\s]\d{4})?$",
+                                                                                            message="Please enter 5 digit of your ZIP code i.e 77001")])
+    contact_by_email = BooleanField('email', validators=[Optional()])
+    contact_by_txt = BooleanField('text messages', validators=[Optional()])
+    contact_by_mail = BooleanField('mail', validators=[Optional()])
     note = StringField('Note', validators=[Optional()])
     submit = SubmitField('Submit')
