@@ -8,7 +8,7 @@
 {% block content %}
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    {% include "nav_bar.html" %}
+        {% include "nav_bar.html" %}
     </nav>
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -42,4 +42,10 @@
 {% block scripts %}
     <!-- SCRIPTS -->
     {{ super() }}
+    <!-- Alert auto hide script-->
+    <script>
+        $(".alert-dismissible").fadeTo(4500, 1000).slideUp(1000, function () {
+            $(".alert-dismissible").alert('close');
+        });
+    </script>
 {% endblock %}
