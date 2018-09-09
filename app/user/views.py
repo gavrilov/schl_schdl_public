@@ -1,4 +1,4 @@
-from flask import request, render_template, Blueprint, flash, redirect, url_for, make_response
+from flask import request, render_template, Blueprint, flash, redirect, url_for, make_response, current_app
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 
@@ -72,6 +72,8 @@ def edit_contacts(contact_id):
     contact_info = UserContacts.query.filter_by(id=contact_id).first()
 
     if not contact_info or contact_info.user_id != current_user.id:
+        current_app.logger.warning(
+            'User is trying to edit not his contact. user_id = {} contact_id = {}'.format(current_user.id, contact_id))
         flash("Contact does not find", "danger")
         return redirect(url_for('user.main'))
 
@@ -99,6 +101,10 @@ def delete_contacts(contact_id):
     contact_info = UserContacts.query.filter_by(id=contact_id).first()
 
     if not contact_info or contact_info.user_id != current_user.id:
+        current_app.logger.warning(
+            'User is trying to delete not his contact. user_id = {} contact_id = {}'.format(current_user.id,
+                                                                                            contact_id))
+        flash("Contact does not find", "danger")
         flash("Contact does not find", "danger")
         return redirect(url_for('user.main'))
 
