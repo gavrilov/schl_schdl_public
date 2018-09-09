@@ -2,6 +2,7 @@ import logging
 import os
 from logging.handlers import RotatingFileHandler
 
+from SlackLogger import SlackHandler
 from flask import Flask, redirect, url_for, render_template
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
@@ -63,9 +64,13 @@ def create_app(config_class=Config):
             file_handler.setLevel(logging.INFO)
             app.logger.addHandler(file_handler)
 
+        # Slack logging
+        slack_handler = SlackHandler(app.config['SLACK_WEBHOOK_URL'])
+        slack_handler.setLevel(logging.INFO)
+        app.logger.addHandler(slack_handler)
+
         app.logger.setLevel(logging.INFO)
         app.logger.info('App startup')
-
     @app.route('/')
     def hello_world():
         return redirect(url_for('user.email_check'))
