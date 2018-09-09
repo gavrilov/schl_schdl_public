@@ -61,19 +61,21 @@ def add_student():
 
 
 @student.route('/edit/<student_id>', methods=['GET', 'POST'])
+@login_required
 def edit_student(student_id):
     current_student = Student.query.filter_by(id=student_id).first()
-    form = StudentForm()
+    if not current_student or current_student.user_id != current_user.id:
+        flash("Student does not find", "danger")
+        return redirect(url_for('user.main'))
+
+    form = StudentForm(obj=current_student)
+
     if form.validate_on_submit():
+        print(form.gender.data == 1)
         form.populate_obj(current_student)
         # save to db
         db.session.commit()
         flash(current_student.first_name + " " + current_student.last_name + " edited", "success")
-        return redirect(url_for('student.main'))
-    else:
-        if current_student:
-            form = StudentForm(obj=current_student)
-            return render_template('student/edit.html', form=form, student_id=student_id)
-        else:
-            flash("Student with id " + str(student_id) + " did not find", "danger")
-            return redirect(url_for('student.main'))
+        return redirect(url_for('user.main'))
+
+    return render_template('student/edit.html', form=form, student_id=student_id)

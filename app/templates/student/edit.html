@@ -9,12 +9,36 @@
 
 {% block page_content %}
     {{ super() }}
-    <form method="POST" action="{{ url_for('student.edit_student', student_id=student_id) }}">
-        {{ form.csrf_token }}
-        {{ form.first_name.label }} {{ form.first_name(size=50) }}
-        {{ form.last_name.label }} {{ form.last_name(size=50) }}
-        <input type="submit" value="Save">
-    </form>
+    <div class="row justify-content-center">
+        <form method="POST" action="{{ url_for('student.edit_student', student_id=student_id) }}">
+            {{ form.csrf_token }}
+            <div class="form-group row">
+                <h1>Edit Student Information</h1>
+            </div>
+            <div class="form-group row">
+                {{ form.first_name.label }}
+                {{ form.first_name(size=30, class="form-control", placeholder="Enter First Name of Student") }}
+            </div>
+            <div class="form-group row">
+                {{ form.last_name.label }}
+                {{ form.last_name(size=30, class="form-control", placeholder="Enter Last Name of Student") }}
+            </div>
+            <div class="form-group row">
+                <div class="form-check mr-auto">
+                    {{ form.gender(class="form-check-input") }}
+                    {{ form.gender.label(class="form-check-label") }}
+
+                </div>
+            </div>
+            <div class="form-group row">
+                {{ form.dob.label }}
+                {{ form.dob(class="form-control") }}
+            </div>
+            <div class="form-group row">
+                <button id="recaptcha-submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
 {% endblock %}
 
 
