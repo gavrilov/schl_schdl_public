@@ -26,10 +26,9 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
     app.secret_key = app.config['SECRET_KEY']
-    sentry.init_app(app, dsn=app.config['SENTERY_DSN'], logging=True, level=logging.INFO)
+
     Bootstrap(app)
     login.init_app(app)
-    login.login_view = 'user.sign_in'
     db.init_app(app)
     migrate.init_app(app, db)
     #====== BLUEPRINTS ========================================================
@@ -71,6 +70,9 @@ def create_app(config_class=Config):
         slack_handler = SlackHandler(app.config['SLACK_WEBHOOK_URL'])
         slack_handler.setLevel(logging.INFO)
         app.logger.addHandler(slack_handler)
+
+        # Sentry.io logging
+        sentry.init_app(app, logging=True, level=logging.INFO)
 
         app.logger.setLevel(logging.INFO)
         app.logger.info('App startup')
