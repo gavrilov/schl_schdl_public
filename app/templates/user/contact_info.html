@@ -10,64 +10,68 @@
 {% block page_content %}
     {{ super() }}
     <div class="row justify-content-center">
-        <form method="POST" action="{{ url_for('user.add_contacts') }}">
-            {{ form.csrf_token }}
-            <div class="form-group row">
-                <h1>Edit your Contact Information</h1>
-            </div>
-            <div class="form-group row">
-                {{ form.email.label }}
-                {{ form.email(size=30, class="form-control", placeholder="Enter your Email") }}
-            </div>
-            <div class="form-group row">
-                {{ form.phone.label }}
-                {{ form.phone(size=30, class="form-control", placeholder="Enter your Cellphone number") }}
-            </div>
-            <div class="form-group row">
-                {{ form.address1.label }}
-                {{ form.address1(size=30, class="form-control", placeholder="Street and number") }}
-            </div>
-            <div class="form-group row">
-                {{ form.address2(size=30, class="form-control", placeholder="Apartment, suite, unit, building, floor, etc.") }}
-            </div>
-            <div class="form-group row">
-                {{ form.city.label }}
-                {{ form.city(size=30, class="form-control", placeholder="City") }}
-            </div>
-            <div class="form-group row">
-                {{ form.state.label }}
-                {{ form.state(class="form-control") }}
-            </div>
-            <div class="form-group row">
-                {{ form.zip.label }}
-                {{ form.zip(size=30, class="form-control", placeholder="ZIP") }}
-            </div>
-            <h5>How we can contact with you?<br>
-                <small class="text-muted">only important information about your child/class/payment</small>
-            </h5>
-            <div class="form-row">
-                <div class="form-group col-md-4 text-center">
-                    <div class="form-check">
-                        {{ form.contact_by_email(class="form-check-input") }}
-                        {{ form.contact_by_email.label(class="form-check-label") }}
-                    </div>
-                </div>
-                <div class="form-group col-md-4 text-center">
-                    <div class="form-check">
-                        {{ form.contact_by_txt(class="form-check-input") }}
-                        {{ form.contact_by_txt.label(class="form-check-label") }}
-                    </div>
-                </div>
-                <div class="form-group col-md-4 text-center">
-                    <div class="form-check">
-                        {{ form.contact_by_mail(class="form-check-input") }}
-                        {{ form.contact_by_mail.label(class="form-check-label") }}
-                    </div>
+        {% if editing_existing_contact %}
+            <form method="POST" action="{{ url_for('user.edit_contacts', contact_id=contact_id) }}">
+        {% else %}
+            <form method="POST" action="{{ url_for('user.add_contacts') }}">
+        {% endif %}
+        {{ form.csrf_token }}
+        <div class="form-group row">
+            <h1>Edit your Contact Information</h1>
+        </div>
+        <div class="form-group row">
+            {{ form.email.label }}
+            {{ form.email(size=30, class="form-control", placeholder="Enter your Email") }}
+        </div>
+        <div class="form-group row">
+            {{ form.phone.label }}
+            {{ form.phone(size=30, class="form-control", placeholder="Enter your Cellphone number") }}
+        </div>
+        <div class="form-group row">
+            {{ form.address1.label }}
+            {{ form.address1(size=30, class="form-control", placeholder="Street and number") }}
+        </div>
+        <div class="form-group row">
+            {{ form.address2(size=30, class="form-control", placeholder="Apartment, suite, unit, building, floor, etc.") }}
+        </div>
+        <div class="form-group row">
+            {{ form.city.label }}
+            {{ form.city(size=30, class="form-control", placeholder="City") }}
+        </div>
+        <div class="form-group row">
+            {{ form.state.label }}
+            {{ form.state(class="form-control") }}
+        </div>
+        <div class="form-group row">
+            {{ form.zip.label }}
+            {{ form.zip(size=30, class="form-control", placeholder="ZIP") }}
+        </div>
+        <h5>How we can contact with you?<br>
+            <small class="text-muted">only important information about your child/class/payment</small>
+        </h5>
+        <div class="form-row">
+            <div class="form-group col-md-4 text-center">
+                <div class="form-check">
+                    {{ form.contact_by_email(class="form-check-input") }}
+                    {{ form.contact_by_email.label(class="form-check-label") }}
                 </div>
             </div>
-            <div class="form-group row">
-                <button id="recaptcha-submit" class="btn btn-primary">Submit</button>
+            <div class="form-group col-md-4 text-center">
+                <div class="form-check">
+                    {{ form.contact_by_txt(class="form-check-input") }}
+                    {{ form.contact_by_txt.label(class="form-check-label") }}
+                </div>
             </div>
+            <div class="form-group col-md-4 text-center">
+                <div class="form-check">
+                    {{ form.contact_by_mail(class="form-check-input") }}
+                    {{ form.contact_by_mail.label(class="form-check-label") }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <button id="recaptcha-submit" class="btn btn-primary">Submit</button>
+        </div>
         </form>
     </div>
 
