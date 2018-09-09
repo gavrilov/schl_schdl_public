@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint, flash, redirect, url_for
+from flask import render_template, Blueprint, flash, redirect, url_for, current_app
 from flask_login import current_user, login_required
 
 from app import db
@@ -37,12 +37,6 @@ def add_student():
     form = StudentForm()
 
     if form.validate_on_submit():
-
-        if form.gender.data == 1:
-            form.gender.data = True
-        else:
-            form.gender.data = False
-
         new_student = Student()
         form.populate_obj(new_student)
         new_student.user_id = current_user.id
