@@ -1,4 +1,5 @@
 from flask import render_template, Blueprint, flash, redirect, url_for
+from flask_login import current_user, login_required
 
 from app import db
 from app.models import Student
@@ -31,18 +32,32 @@ def info(student_id):
 
 
 @student.route('/add', methods=['GET', 'POST'])
+@login_required
 def add_student():
     form = StudentForm()
+
     if form.validate_on_submit():
+
+        if form.gender.data == 1:
+            form.gender.data = True
+        else:
+            form.gender.data = False
+
         new_student = Student()
         form.populate_obj(new_student)
+        new_student.user_id = current_user.id
         # save new school to db
         db.session.add(new_student)
         db.session.commit()
         flash(new_student.first_name + " " + new_student.last_name + " created", "success")
-        return redirect(url_for('student.main'))
-    else:
-        return render_template('student/add.html', form=form)
+        return redirect(url_for('user.main'))
+
+    if form.errors:
+        print(form.errors)
+        for error in form.errors.values():
+            flash(error, 'danger')
+
+    return render_template('student/add.html', form=form)
 
 
 @student.route('/edit/<student_id>', methods=['GET', 'POST'])

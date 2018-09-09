@@ -127,6 +127,8 @@ class Student(db.Model):
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
     first_name = db.Column('first_name', db.Unicode(2048))
     last_name = db.Column('last_name', db.Unicode(2048))
+    gender = db.Column('gender', db.Boolean())  # 1 - for boy, 0 - for girl
+    dob = db.Column('dob', db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     # classes = db.relationship('Schdl_Class', backref='teacher', lazy='dynamic')
     # events = db.relationship('Event', backref='teacher', lazy='dynamic')
