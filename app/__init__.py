@@ -8,6 +8,7 @@ from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from raven.contrib.flask import Sentry
 
 from config import Config
 
@@ -19,14 +20,16 @@ login.login_view = 'user.sing_in'
 login.login_message = 'Please log in to access this page.'
 login.login_message_category = "warning"
 
+sentry = Sentry()
 
 def create_app(config_class=Config):
     app = Flask(__name__)
+    app.config.from_object(config_class)
+    app.secret_key = app.config['SECRET_KEY']
+    sentry.init_app(app, dsn=app.config['SENTERY_DSN'], logging=True, level=logging.INFO)
     Bootstrap(app)
     login.init_app(app)
     login.login_view = 'user.sign_in'
-    app.config.from_object(config_class)
-    app.secret_key = app.config['SECRET_KEY']
     db.init_app(app)
     migrate.init_app(app, db)
     #====== BLUEPRINTS ========================================================
