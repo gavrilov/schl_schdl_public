@@ -118,6 +118,8 @@ def edit_user(user_id):
 
 @user.route('/email', methods=['GET', 'POST'])
 def email_check():
+    if current_user.is_authenticated:
+        return redirect(url_for('user.main'))
     form = EmailCheckForm()
     if form.validate_on_submit():
         user_exist = User.query.filter_by(username=form.username.data).first()
