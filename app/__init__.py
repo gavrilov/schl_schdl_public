@@ -17,7 +17,7 @@ migrate = Migrate()
 
 login = LoginManager()
 login.login_view = 'user.sing_in'
-login.login_message = 'Please log in to access this page.'
+login.login_message = 'Please log in to access this page'
 login.login_message_category = "warning"
 
 sentry = Sentry()
@@ -74,6 +74,7 @@ def create_app(config_class=Config):
 
         app.logger.setLevel(logging.INFO)
         app.logger.info('App startup')
+
     @app.route('/')
     def hello_world():
         return redirect(url_for('user.email_check'))
