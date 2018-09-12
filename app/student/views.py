@@ -61,7 +61,6 @@ def edit_student(student_id):
     if not current_student or current_student.user_id != current_user.id:
         current_app.logger.warning(
             'User is trying to edit not his student. user_id = {} student_id = {}'.format(current_user.id, student_id))
-        flash("Contact does not find", "danger")
         flash("Student does not find", "danger")
         return redirect(url_for('user.main'))
 
