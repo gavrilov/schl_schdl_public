@@ -1,0 +1,107 @@
+{% extends "admin/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <h1>{{ current_user.first_name }} {{ current_user.last_name }} </h1>
+    <h3 style="color: lightgrey">{{ current_user.username }}</h3>
+    <div class="row">
+        <div class="col text-left">
+            <h3>Student List</h3>
+        </div>
+        <div class="col text-right">
+            <a class="btn btn-outline-primary" href="{{ url_for('student.add_student') }}" role="button">Add Student</a>
+        </div>
+    </div>
+    <!--Students-->
+    <table class="table table-striped table-hover">
+        <tbody>
+        {% for student in students %}
+            <tr>
+                <td>{{ student.first_name }} {{ student.last_name }}</td>
+                <td class="text-right">
+                    <a class="far fa-edit" href="{{ url_for('student.edit_student', student_id=student.id) }}"
+                       role="button" data-toggle="tooltip" title="edit" style="color: blue"></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="row">
+        <div class="col text-left">
+            <h3>Contacts</h3>
+        </div>
+        <div class="col text-right">
+            <a class="btn btn-outline-primary" href="{{ url_for('user.add_contacts') }}" role="button">Add Contact</a>
+        </div>
+    </div>
+    <!--Contacts-->
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <tbody>
+            {% for contact in contacts %}
+                <tr>
+                    <td>{{ contact.email }}
+                        {% if contact.contact_by_email == 1 %}
+                            <i class="fas fa-at" style="font-size: 1em; color: green;" data-toggle="tooltip"
+                               title="email is allowed"></i>
+                        {% else %}
+                            <i class="fas fa-at" style="font-size: 1em; color: red;" data-toggle="tooltip"
+                               title="email is prohibited"></i>
+                        {% endif %}
+                    </td>
+                    <td>{{ contact.phone }}
+                        {% if contact.contact_by_txt == 1 %}
+                            <i class="fas fa-mobile-alt" style="font-size: 1em; color: green;" data-toggle="tooltip"
+                               title="txt messages is allowed"></i>
+                        {% else %}
+                            <i class="fas fa-mobile-alt" style="font-size: 1em; color: red;" data-toggle="tooltip"
+                               title="txt messages is prohibited"></i>
+                        {% endif %}
+                    </td>
+                    <td>{{ contact.address1 }} {{ contact.address2 }} {{ contact.city }} {{ contact.state }} {{ contact.zip }}
+                        {% if contact.contact_by_mail == 1 %}
+                            <i class="far fa-envelope" style="font-size: 1em; color: green;" data-toggle="tooltip"
+                               title="mail is allowed"></i>
+                        {% else %}
+                            <i class="far fa-envelope" style="font-size: 1em; color: red;" data-toggle="tooltip"
+                               title="mail is prohibited"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a class="far fa-edit" href="{{ url_for('user.edit_contacts', contact_id=contact.id) }}"
+                           role="button" data-toggle="tooltip" title="edit" style="color: blue"></a>
+                    </td>
+                    <td>
+                        <a class="far fa-trash-alt" href="{{ url_for('user.delete_contacts', contact_id=contact.id) }}"
+                           role="button" data-toggle="tooltip" title="delete" style="color: red"></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    <!--Script for Tooltip-->
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+{% endblock %}

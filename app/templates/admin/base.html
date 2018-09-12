@@ -1,0 +1,51 @@
+{% extends "bootstrap/base.html" %}
+<title>{% block title %}{% endblock %}</title>
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        {% include "admin/nav_bar_admin.html" %}
+    </nav>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class='container'>
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="container-fluid">
+        <div class="row mt-5">
+            <!-- SLIDENAV -->
+            <nav class="col-md-2 d-none d-md-block sidebar">
+                {# include "side_bar.html" #}
+            </nav>
+            <main class="col-10 offset-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+                <!-- PAGE CONTENT -->
+                {% block page_content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <!-- SCRIPTS -->
+    {{ super() }}
+    <!-- Alert auto hide script-->
+    <script>
+        $(".alert-dismissible").fadeTo(4500, 1000).slideUp(1000, function () {
+            $(".alert-dismissible").alert('close');
+        });
+    </script>
+{% endblock %}

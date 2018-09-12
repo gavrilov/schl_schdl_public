@@ -32,6 +32,8 @@ def create_app(config_class=Config):
     db.init_app(app)
     migrate.init_app(app, db)
     #====== BLUEPRINTS ========================================================
+    from app.admin.views import admin
+    app.register_blueprint(admin, url_prefix='/admin')
     from app.school.views import school
     app.register_blueprint(school, url_prefix='/school')
     from app.teacher.views import teacher
