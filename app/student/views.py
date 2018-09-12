@@ -2,7 +2,7 @@ from flask import render_template, Blueprint, flash, redirect, url_for, current_
 from flask_login import current_user, login_required
 
 from app import db
-from app.models import Student
+from app.models import Student, Schdl_Class
 from .forms import StudentForm
 
 student = Blueprint('student', __name__, template_folder='templates')
@@ -75,3 +75,27 @@ def edit_student(student_id):
         return redirect(url_for('user.main'))
 
     return render_template('student/edit.html', form=form, student_id=student_id)
+
+
+@student.route('/enroll/<student_id>', methods=['GET', 'POST'])
+@login_required
+def enroll_student(student_id):
+    current_student = Student.query.filter_by(id=student_id).first()
+    if not current_student or current_student.user_id != current_user.id:
+        current_app.logger.warning(
+            'User is trying to enroll not his student. user_id = {} student_id = {}'.format(current_user.id,
+                                                                                            student_id))
+        flash("Student does not find", "danger")
+        return redirect(url_for('user.main'))
+    current_classes = Schdl_Class.query.filter_by(current=True).all()
+    form = StudentForm(obj=current_student)
+
+    if form.validate_on_submit():
+        print(form.gender.data == 1)
+        form.populate_obj(current_student)
+        # save to db
+        db.session.commit()
+        flash(current_student.first_name + " " + current_student.last_name + " edited", "success")
+        return redirect(url_for('user.main'))
+
+    return render_template('student/enroll.html', current_classes=current_classes, student=current_student)
