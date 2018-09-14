@@ -29,7 +29,7 @@
                 <td class="text-right">
                     {% for enrollment in student.enrollments %}
                         <a class="btn btn-success" href="{{ url_for('student.enroll_student', student_id=student.id) }}"
-                           role="button">{{ enrollment.schl_class.subject.name }}</a>
+                           role="button">{{ enrollment.schdl_class.subject.name }}</a>
                     {% endfor %}
                     <a class="btn btn-success" href="{{ url_for('student.enroll_student', student_id=student.id) }}"
                        role="button">Enroll Classes</a>
