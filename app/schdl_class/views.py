@@ -1,8 +1,8 @@
-from flask import render_template, Blueprint, flash, redirect, url_for
+from flask import render_template, Blueprint, flash, redirect, url_for, current_app
 from flask_login import current_user, login_required
 
 from app import db
-from app.models import Schdl_Class, Student
+from app.models import Schdl_Class, Student, Enrollment
 from app.models import School
 from app.models import Subject
 from app.models import Teacher
@@ -117,3 +117,32 @@ def enroll_class(class_id, student_id):
         return redirect(url_for('user.main'))
 
     return render_template('schdl_class/enroll.html', current_class=current_class, current_student=current_student)
+
+
+@schdl_class.route('/payment/<class_id>/<student_id>', methods=['GET', 'POST'])
+@login_required
+def payment_class(class_id, student_id):
+    # TODO get payment with Stripe. If payment successful add Student to enrollments
+    current_class = Schdl_Class.query.filter_by(id=class_id).first()
+    current_student = Student.query.filter_by(id=student_id).first()
+
+    if not current_class:
+        current_app.logger.warning(
+            'User is trying to enroll not existing class. user_id = {} class_id = {}'.format(current_user.id,
+                                                                                             class_id))
+        flash('Class does not find', 'danger')
+        return redirect(url_for('user.main'))
+    if not current_student or current_student.user_id != current_user.id:
+        current_app.logger.warning(
+            'User is trying to enroll not his student. user_id = {} student_id = {}'.format(current_user.id,
+                                                                                            student_id))
+        flash("Student does not find", "danger")
+        return redirect(url_for('user.main'))
+    new_enrollment = Enrollment()
+    new_enrollment.class_id = current_class.id
+    new_enrollment.student_id = current_student.id
+    db.session.add(new_enrollment)
+    db.session.commit()
+    flash("{} has been added to student list of {} classes".format(current_student.first_name,
+                                                                   current_class.subject.name), "success")
+    return redirect(url_for('user.main'))

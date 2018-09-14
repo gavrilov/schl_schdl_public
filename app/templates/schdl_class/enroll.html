@@ -29,7 +29,7 @@
                 <td>{{ current_class.school.name }}</td>
                 <td>{{ current_class.teacher.first_name }} {{ current_class.teacher.last_name }}</td>
                 <td class="text-right"><a class="btn btn-info"
-                                          href="#"
+                                          href="{{ url_for('schdl_class.payment_class', class_id=current_class.id, student_id=current_student.id) }}"
                                           role="button">Pay With Stripe</a></td>
             </tr>
 

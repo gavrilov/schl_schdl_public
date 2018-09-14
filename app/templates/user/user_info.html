@@ -26,9 +26,14 @@
         {% for student in students %}
             <tr>
                 <td>{{ student.first_name }} {{ student.last_name }}</td>
-                <td class="text-right"><a class="btn btn-success"
-                                          href="{{ url_for('student.enroll_student', student_id=student.id) }}"
-                                          role="button">Enroll Classes</a></td>
+                <td class="text-right">
+                    {% for enrollment in student.enrollments %}
+                        <a class="btn btn-success" href="{{ url_for('student.enroll_student', student_id=student.id) }}"
+                           role="button">{{ enrollment.schl_class.subject.name }}</a>
+                    {% endfor %}
+                    <a class="btn btn-success" href="{{ url_for('student.enroll_student', student_id=student.id) }}"
+                       role="button">Enroll Classes</a>
+                </td>
                 <td class="text-right">
                     <a class="far fa-edit" href="{{ url_for('student.edit_student', student_id=student.id) }}"
                        role="button" data-toggle="tooltip" title="edit" style="color: blue"></a>
