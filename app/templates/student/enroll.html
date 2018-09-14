@@ -26,9 +26,9 @@
                     <td>{{ current_class.school.name }}</td>
                     <td>{{ current_class.subject.name }}</td>
                     <td>{{ current_class.teacher.first_name }} {{ current_class.teacher.last_name }}</td>
-                    <td class="text-right"><a class="btn btn-success"
-                                              href="{{ url_for('student.enroll_student', student_id=student.id, class_id=current_class.id) }}"
-                                              role="button">Enroll Classes</a></td>
+                    <td class="text-right"><a class="btn btn-info"
+                                              href="{{ url_for('schdl_class.enroll_class', student_id=student.id, class_id=current_class.id) }}"
+                                              role="button">More</a></td>
                 </tr>
             {% endfor %}
             </tbody>

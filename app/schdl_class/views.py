@@ -1,10 +1,12 @@
-from flask import Flask, request, render_template, session, Blueprint, flash, redirect, url_for
+from flask import render_template, Blueprint, flash, redirect, url_for
+from flask_login import current_user, login_required
+
 from app import db
-from .forms import ClassForm
-from app.models import Schdl_Class
+from app.models import Schdl_Class, Student
 from app.models import School
-from app.models import Teacher
 from app.models import Subject
+from app.models import Teacher
+from .forms import ClassForm
 
 schdl_class = Blueprint('schdl_class', __name__, template_folder='templates')
 
@@ -84,7 +86,7 @@ def edit_class(class_id):
 
         if form.validate_on_submit():
             form.populate_obj(current_class)
-            #save to db
+            # save to db
             db.session.commit()
             flash(current_class.subject.name + " class edited", "success")
             return redirect(url_for('schdl_class.main'))
@@ -93,3 +95,25 @@ def edit_class(class_id):
     else:
         flash("Class with id " + str(class_id) + " did not find", "danger")
         return redirect(url_for('schdl_class.main'))
+
+
+@schdl_class.route('/enroll/<class_id>/<student_id>', methods=['GET', 'POST'])
+@login_required
+def enroll_class(class_id, student_id):
+    current_class = Schdl_Class.query.filter_by(id=class_id).first()
+    current_student = Student.query.filter_by(id=student_id).first()
+
+    if not current_class:
+        current_app.logger.warning(
+            'User is trying to enroll not existing class. user_id = {} class_id = {}'.format(current_user.id,
+                                                                                             class_id))
+        flash('Class does not find', 'danger')
+        return redirect(url_for('user.main'))
+    if not current_student or current_student.user_id != current_user.id:
+        current_app.logger.warning(
+            'User is trying to enroll not his student. user_id = {} student_id = {}'.format(current_user.id,
+                                                                                            student_id))
+        flash("Student does not find", "danger")
+        return redirect(url_for('user.main'))
+
+    return render_template('schdl_class/enroll.html', current_class=current_class, current_student=current_student)
