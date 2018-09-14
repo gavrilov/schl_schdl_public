@@ -57,7 +57,6 @@ class Teacher(db.Model):
     classes = db.relationship('Schdl_Class', backref='teacher', lazy='dynamic')
     events = db.relationship('Event', backref='teacher', lazy='dynamic')
     contacts = db.relationship('TeacherContacts', backref='teacher', lazy='dynamic')
-    enrollments = db.relationship('Enrollment', backref='teacher', lazy='dynamic')
 
 
 class TeacherContacts(db.Model):
@@ -140,5 +139,4 @@ class Enrollment(db.Model):
     __tablename__ = "enrollments"
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
     class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
-    teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'))
     student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
