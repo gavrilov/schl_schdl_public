@@ -5,8 +5,7 @@ from wtforms.validators import DataRequired, InputRequired, Email, EqualTo, Opti
 
 
 class SignInForm(FlaskForm):
-    username = EmailField("Email", validators=[InputRequired("Please enter your email address"),
-                                               Email("Please enter your email address")])
+    username = EmailField("Email", validators=[InputRequired("Please enter your email address")]
     password = PasswordField("Password", validators=[DataRequired("Please enter your password")])
     remember_me = BooleanField('Keep me signed in', validators=[Optional()])
     recaptcha = RecaptchaField()
@@ -14,8 +13,7 @@ class SignInForm(FlaskForm):
 
 
 class RegistrationForm(FlaskForm):
-    username = EmailField("Email", validators=[InputRequired("Please enter your email address"),
-                                               Email("Please enter your email address")])
+    username = EmailField("Email", validators=[InputRequired("Please enter your email address")])
     first_name = StringField('First Name', validators=[DataRequired("Please enter your First Name")])
     last_name = StringField('Last Name', validators=[DataRequired("Please enter your Last Name")])
     password = PasswordField('Password', validators=[DataRequired("Please enter your Password")])
