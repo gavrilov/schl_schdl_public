@@ -11,7 +11,7 @@ class Schdl_Class(db.Model):
     teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'))
     subject_id = db.Column(db.Integer, db.ForeignKey('subjects.id'))
     current = db.Column('current', db.Boolean())
-    events = db.relationship('Event', backref='schl_class', lazy='dynamic')
+    events = db.relationship('Event', backref='schdl_class', lazy='dynamic')
     enrollments = db.relationship('Enrollment', backref='schdl_class', lazy='dynamic')
 
 
