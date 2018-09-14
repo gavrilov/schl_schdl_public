@@ -171,6 +171,11 @@ def register():
     form = RegistrationForm()
     form.username.data = request.cookies.get('username')
     if form.validate_on_submit():
+        # Check if user is already registered
+        if User.query.filter_by(username=form.username.data).first():
+            flash('User already registered, please sign in', 'info')
+            return redirect(url_for('user.sign_in'))
+
         new_user = User()
         new_user.username = form.username.data
         new_user.first_name = form.first_name.data

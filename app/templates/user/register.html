@@ -16,7 +16,7 @@
             <img src="{{ url_for('static', filename='company_logo.jpg') }}"
                  class="img-fluid mx-auto d-block">
             <div class="form-group row">
-                <h1>Enter your Email and Password to Register</h1>
+                <h1>Register</h1>
             </div>
             <div class="form-group row">
                 {{ form.first_name(size=30, class="form-control", placeholder="Your First Name") }}
@@ -50,6 +50,9 @@
             </div>
             <div class="form-group row">
                 <button id="recaptcha-submit" class="btn btn-primary">Submit</button>
+            </div>
+            <div class="form-group row">
+                <h5>Already have an account? <a href="{{ url_for('user.sign_in') }}">Sign In</a></h5>
             </div>
         </form>
     </div>
