@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import StringField, SubmitField, BooleanField, PasswordField, SelectField
 from wtforms.fields.html5 import EmailField
-from wtforms.validators import DataRequired, InputRequired, Email, EqualTo, Optional, Regexp
+from wtforms.validators import DataRequired, InputRequired, EqualTo, Optional, Regexp
 
 
 class SignInForm(FlaskForm):
@@ -31,8 +31,7 @@ class UserForm(FlaskForm):
 
 class UserContactForm(FlaskForm):
     # TODO validate: email? address info with USPS, phone number
-    email = EmailField("Email", validators=[InputRequired("Please enter your email address"),
-                                            Email("Please enter your email address")])
+    email = EmailField("Email", validators=[InputRequired("Please enter your email address")])
     phone = StringField('Cellphone #', validators=[DataRequired("Please enter your phone number"),
                                                    Regexp("^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$",
                                                           message="Please enter 10 digits of your Cellphone number i.e. 83212345678")])
