@@ -12,6 +12,7 @@ class Schdl_Class(db.Model):
     subject_id = db.Column(db.Integer, db.ForeignKey('subjects.id'))
     current = db.Column('current', db.Boolean())
     events = db.relationship('Event', backref='schl_class', lazy='dynamic')
+    enrollments = db.relationship('Enrollment', backref='schdl_class', lazy='dynamic')
 
 
 class School(db.Model):
@@ -56,6 +57,7 @@ class Teacher(db.Model):
     classes = db.relationship('Schdl_Class', backref='teacher', lazy='dynamic')
     events = db.relationship('Event', backref='teacher', lazy='dynamic')
     contacts = db.relationship('TeacherContacts', backref='teacher', lazy='dynamic')
+    enrollments = db.relationship('Enrollment', backref='teacher', lazy='dynamic')
 
 
 class TeacherContacts(db.Model):
@@ -130,5 +132,13 @@ class Student(db.Model):
     gender = db.Column('gender', db.Boolean())  # 1 - for boy, 0 - for girl
     dob = db.Column('dob', db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    enrollments = db.relationship('Enrollment', backref='student', lazy='dynamic')
     # classes = db.relationship('Schdl_Class', backref='teacher', lazy='dynamic')
-    # events = db.relationship('Event', backref='teacher', lazy='dynamic')
+
+
+class Enrollment(db.Model):
+    __tablename__ = "enrollments"
+    id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
+    class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
+    teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'))
+    student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
