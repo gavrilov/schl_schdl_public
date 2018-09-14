@@ -1,6 +1,8 @@
 from flask import render_template, Blueprint, redirect, url_for, current_app
 from flask_login import current_user, login_required
 
+from app.models import User
+
 admin = Blueprint('admin', __name__, template_folder='templates')
 
 
@@ -13,3 +15,9 @@ def main():
         return redirect(url_for('user.main'))
     current_app.logger.info("Admin {} has been signed in to admin console".format(current_user.username))
     return render_template('admin/dashboard.html')
+
+
+@admin.route('/users', methods=['GET', 'POST'])
+def user_list():
+    users = User.query.all()
+    return render_template('user/user_list.html', users=users)

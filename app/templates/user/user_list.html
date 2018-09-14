@@ -30,12 +30,16 @@
             <caption>List of users</caption>
             <tbody>
             <tr>
+                <th>id</th>
+                <th>email</th>
                 <th>Parent First Name</th>
                 <th>Parent Last Name</th>
                 <th>Edit</th>
             </tr>
             {% for user in users %}
                 <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
                     <td><a href="{{ url_for('user.info', user_id=user.id) }}">{{ user.first_name }}</a></td>
                     <td><a href="{{ url_for('user.info', user_id=user.id) }}">{{ user.last_name }}</a></td>
                     <td><a href="{{ url_for('user.edit_user', user_id=user.id) }}">Edit</a></td>
