@@ -4,13 +4,6 @@ from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, InputRequired, Email, EqualTo, Optional, Regexp
 
 
-class EmailCheckForm(FlaskForm):
-    username = EmailField("Email", validators=[InputRequired("Please enter your email address"),
-                                               Email("Please enter your email address")])
-    recaptcha = RecaptchaField()
-    submit = SubmitField('Next')
-
-
 class SignInForm(FlaskForm):
     username = EmailField("Email", validators=[InputRequired("Please enter your email address"),
                                                Email("Please enter your email address")])

@@ -1,10 +1,10 @@
-from flask import request, render_template, Blueprint, flash, redirect, url_for, make_response, current_app
+from flask import request, render_template, Blueprint, flash, redirect, url_for, current_app
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 
 from app import db
 from app.models import User, UserContacts, Student
-from .forms import UserForm, EmailCheckForm, SignInForm, RegistrationForm, UserContactForm
+from .forms import UserForm, SignInForm, RegistrationForm, UserContactForm
 
 user = Blueprint('user', __name__, template_folder='templates')
 
@@ -162,32 +162,6 @@ def edit_user(user_id):
         else:
             flash("Parent with id " + str(user_id) + " did not find", "danger")
             return redirect(url_for('user.main'))
-
-
-@user.route('/email', methods=['GET', 'POST'])
-def email_check():
-    if current_user.is_authenticated:
-        return redirect(url_for('user.main'))
-    form = EmailCheckForm()
-    if form.validate_on_submit():
-        user_exist = User.query.filter_by(username=form.username.data).first()
-        if user_exist:
-            flash('Please Enter your Password', 'info')
-            resp = make_response(redirect(url_for('user.sign_in')))
-            resp.set_cookie('username', form.username.data)
-            return resp
-        else:
-            # flash('Email sent. Please go to link to confirm your email address', 'success')
-            resp = make_response(redirect(url_for('user.register')))
-            resp.set_cookie('username', form.username.data)
-            return resp
-
-    if form.errors:
-        print(form.errors)
-        for error in form.errors.values():
-            flash(error, 'danger')
-
-    return render_template('user/email_check.html', form=form)
 
 
 @user.route('/register', methods=['GET', 'POST'])
