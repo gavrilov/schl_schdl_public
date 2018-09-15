@@ -1,13 +1,13 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField, RadioField, HiddenField, BooleanField
-from wtforms.validators import DataRequired, Optional
+from wtforms import StringField, SubmitField, BooleanField
+from wtforms.validators import DataRequired
 
 
 class TeacherForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired()])
     last_name = StringField('Last Name', validators=[DataRequired()])
     current = BooleanField('Current Teacher')
-    #password_hash = StringField('Password', validators=[DataRequired()])
+    # password = StringField('Password', validators=[DataRequired()])
     #email = StringField('Email', validators=[DataRequired()])
     #easypost_api_key = StringField('EasyPost API Key', validators=[DataRequired()])
     submit = SubmitField('Submit')

@@ -1,10 +1,9 @@
-from flask import request, render_template, Blueprint, flash, redirect, url_for, current_app
-from flask_login import current_user, login_user, logout_user, login_required
-from werkzeug.urls import url_parse
+from flask import render_template, Blueprint, flash, redirect, url_for, current_app
+from flask_security import current_user, login_required
 
 from app import db
 from app.models import User, UserContacts, Student
-from .forms import UserForm, SignInForm, RegistrationForm, UserContactForm
+from app.user.forms import UserForm, UserContactForm
 
 user = Blueprint('user', __name__, template_folder='templates')
 
@@ -46,7 +45,7 @@ def add_contacts():
     # form.contact_by_email.data = True  # doesn't work - you cannot change it in the form
     # form.contact_by_mail.data = True
     # form.contact_by_txt.data = True
-    form.email.data = current_user.username
+    form.email.data = current_user.email
 
     if form.validate_on_submit():
         contact_info = UserContacts()
@@ -162,74 +161,3 @@ def edit_user(user_id):
         else:
             flash("Parent with id " + str(user_id) + " did not find", "danger")
             return redirect(url_for('user.main'))
-
-
-@user.route('/register', methods=['GET', 'POST'])
-def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('user.main'))
-    form = RegistrationForm()
-    # form.username.data = request.cookies.get('username')
-    if form.validate_on_submit():
-        # Check if user is already registered
-        if User.query.filter_by(username=form.username.data).first():
-            flash('User already registered, please sign in', 'info')
-            return redirect(url_for('user.sign_in'))
-
-        new_user = User()
-        new_user.username = form.username.data
-        new_user.first_name = form.first_name.data
-        new_user.last_name = form.last_name.data
-        new_user.set_password(form.password.data)
-        db.session.add(new_user)
-        db.session.commit()
-        flash('A verification link has been sent to your email account', 'success')
-        return redirect(url_for('user.sign_in'))
-
-    if form.errors:
-        for error in form.errors:
-            flash(error, 'danger')
-
-    return render_template('user/register.html', form=form)
-
-
-@user.route('/login', methods=['GET', 'POST'])
-def sign_in():
-    if current_user.is_authenticated:
-        return redirect(url_for('user.main'))
-    form = SignInForm()
-    # form.username.data = request.cookies.get('username')  # TODO does not work if you go directly to login page
-    if form.validate_on_submit():
-        this_user = User.query.filter_by(username=form.username.data).first()
-        if this_user is None or not this_user.check_password(form.password.data):
-            flash('Invalid Username or Password', 'danger')
-            return redirect(url_for('user.sign_in'))
-        login_user(this_user, remember=form.remember_me.data)
-        flash('Hello, ' + current_user.first_name, 'success')
-        next_page = request.args.get('next')
-        if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('user.main')
-        return redirect(next_page)
-
-    if form.errors:
-        for error in form.errors:
-            flash(error, 'danger')
-
-    return render_template('user/sign_in.html', form=form)
-
-
-@user.route('/logout', methods=['GET', 'POST'])
-def logout():
-    logout_user()
-    flash('You have successfully logged out. Buy-Buy!', 'success')
-    return redirect(url_for('hello_world'))
-
-
-@user.route('/forgot', methods=['GET', 'POST'])
-def forgot():
-    form = SignInForm()
-    form.username.data = request.cookies.get('username')
-    if form.validate_on_submit():
-        flash('Please contact with admin, that form does not work yet!', 'danger')
-        return render_template('user/sign_in.html', form=form)
-    return render_template('user/sign_in.html', form=form)

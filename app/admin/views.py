@@ -9,11 +9,11 @@ admin = Blueprint('admin', __name__, template_folder='templates')
 @admin.route('/', methods=['GET', 'POST'])
 @login_required
 def main():
-    if current_user.username not in current_app.config['ADMIN_USERNAME']:
+    if current_user.email not in current_app.config['ADMIN_USERNAME']:
         current_app.logger.warning(
-            "User {} with id = {} is trying to get admin access".format(current_user.username, current_user.id))
+            "User {} with id = {} is trying to get admin access".format(current_user.email, current_user.id))
         return redirect(url_for('user.main'))
-    current_app.logger.info("Admin {} has been signed in to admin console".format(current_user.username))
+    current_app.logger.info("Admin {} has been signed in to admin console".format(current_user.email))
     return render_template('admin/dashboard.html')
 
 

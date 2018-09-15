@@ -1,26 +1,19 @@
+from flask_security.forms import RegisterForm, LoginForm
 from flask_wtf import FlaskForm, RecaptchaField
-from wtforms import StringField, SubmitField, BooleanField, PasswordField, SelectField
+from wtforms import StringField, SubmitField, BooleanField, SelectField
 from wtforms.fields.html5 import EmailField
-from wtforms.validators import DataRequired, InputRequired, EqualTo, Optional, Regexp
+from wtforms.validators import DataRequired, InputRequired, Optional, Regexp
 
 
-class SignInForm(FlaskForm):
-    username = EmailField("Email", validators=[InputRequired("Please enter your email address")])
-    password = PasswordField("Password", validators=[DataRequired("Please enter your password")])
-    remember_me = BooleanField('Keep me signed in', validators=[Optional()])
+class SignInForm(LoginForm):
     recaptcha = RecaptchaField()
-    submit = SubmitField('Login')
 
 
-class RegistrationForm(FlaskForm):
-    username = EmailField("Email", validators=[InputRequired("Please enter your email address")])
+class RegistrationForm(RegisterForm):
     first_name = StringField('First Name', validators=[DataRequired("Please enter your First Name")])
     last_name = StringField('Last Name', validators=[DataRequired("Please enter your Last Name")])
-    password = PasswordField('Password', validators=[DataRequired("Please enter your Password")])
-    password2 = PasswordField('Repeat Password', validators=[DataRequired("Passwords must match"), EqualTo('password')])
     agreement = BooleanField('I agree to the Terms of Service and Privacy Policy',
                              validators=[DataRequired("You must accept the agreement to continue")])
-    submit = SubmitField('Register')
 
 
 class UserForm(FlaskForm):
