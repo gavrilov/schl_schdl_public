@@ -7,13 +7,24 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
+        <!-- LEFT PART -->
         <ul class="navbar-nav mr-auto">
-            <!-- LEFT PART
-            <li class="nav-item">
-                <a class="nav-link" href="#">Register / Sign In</a>
-            </li>
-             -->
+
+            {% if current_user.has_role('admin') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('admin.main') }}">Admin Dashboard</a>
+                </li>
+            {% endif %}
+            {% if current_user.has_role('teacher') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('admin.main') }}">Teacher Dashboard</a>
+                </li>
+            {% endif %}
+            {% if current_user.has_role('school') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('admin.main') }}">School Dashboard</a>
+                </li>
+            {% endif %}
         </ul>
 
         <!--RIGHT PART-->
