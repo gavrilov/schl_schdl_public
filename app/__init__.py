@@ -5,32 +5,33 @@ from logging.handlers import RotatingFileHandler
 from SlackLogger import SlackHandler
 from flask import Flask, redirect, url_for, render_template
 from flask_bootstrap import Bootstrap
-from flask_login import LoginManager
+from flask_mail import Mail
 from flask_migrate import Migrate
-from flask_sqlalchemy import SQLAlchemy
+from flask_security import Security
 from raven.contrib.flask import Sentry
 
+from app.models import db, user_datastore
+from app.user.forms import SignInForm, RegistrationForm
 from config import Config
 
-db = SQLAlchemy()
+security = Security()
 migrate = Migrate()
-
-login = LoginManager()
-login.login_view = 'user.sing_in'
-login.login_message = 'Please log in to access this page'
-login.login_message_category = "warning"
-
 sentry = Sentry()
+bootstrap = Bootstrap()
+mail = Mail()
 
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
     app.secret_key = app.config['SECRET_KEY']
 
-    Bootstrap(app)
-    login.init_app(app)
+    bootstrap.init_app(app)
+    security.init_app(app, user_datastore, login_form=SignInForm, register_form=RegistrationForm)
+
     db.init_app(app)
     migrate.init_app(app, db)
+    mail.init_app(app)
+
     #====== BLUEPRINTS ========================================================
     from app.admin.views import admin
     app.register_blueprint(admin, url_prefix='/admin')
@@ -52,7 +53,9 @@ def create_app(config_class=Config):
     app.register_blueprint(student, url_prefix='/student')
     # ====== END-BLUEPRINTS ===================================================
 
+    # Logging for Production
     if not app.debug and not app.testing:
+        # Heroku logging
         if app.config['LOG_TO_STDOUT']:
             stream_handler = logging.StreamHandler()
             stream_handler.setLevel(logging.INFO)
