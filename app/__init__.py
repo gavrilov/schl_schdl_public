@@ -84,7 +84,7 @@ def create_app(config_class=Config):
 
     @app.route('/')
     def hello_world():
-        return redirect(url_for('user.register'))
+        return redirect(url_for('security.register'))
 
     @app.route('/privacy')
     def privacy():
