@@ -14,6 +14,7 @@ class RegistrationForm(RegisterForm):
     last_name = StringField('Last Name', validators=[DataRequired("Please enter your Last Name")])
     agreement = BooleanField('I agree to the Terms of Service and Privacy Policy',
                              validators=[DataRequired("You must accept the agreement to continue")])
+    recaptcha = RecaptchaField()
 
 
 class UserForm(FlaskForm):
