@@ -1,0 +1,48 @@
+{% extends "admin/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}School List{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <div class="row">
+        <div class="col-md-3 offset-md-9">
+            {% if current_schools_only %}
+                <a class="btn btn-outline-primary" href="{{ url_for('school.school_list') }}" role="button">Show All
+                    Schools</a>
+            {% else %}
+                <a class="btn btn-outline-primary" href="{{ url_for('school.main') }}" role="button">Show Current
+                    Schools</a>
+            {% endif %}
+            <a class="btn btn-outline-success" href="{{ url_for('school.add_schl') }}" role="button">Add New School</a>
+        </div>
+
+    </div>
+    <div class="row">
+        <h1>List of schools</h1>
+        <table class="table table-hover table-bordered">
+            <caption>List of schools</caption>
+            <tbody>
+            <tr>
+                <th>School name</th>
+                <th>Edit</th>
+            </tr>
+            {% for school in schools %}
+                <tr>
+                    <td><a href="{{ url_for('school.info', schl_id=school.id) }}">{{ school.name }} </a></td>
+                    <td><a href="{{ url_for('school.edit_schl', schl_id=school.id) }}">Edit</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}

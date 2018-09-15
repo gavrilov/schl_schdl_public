@@ -169,7 +169,7 @@ def register():
     if current_user.is_authenticated:
         return redirect(url_for('user.main'))
     form = RegistrationForm()
-    form.username.data = request.cookies.get('username')
+    # form.username.data = request.cookies.get('username')
     if form.validate_on_submit():
         # Check if user is already registered
         if User.query.filter_by(username=form.username.data).first():
@@ -198,7 +198,7 @@ def sign_in():
     if current_user.is_authenticated:
         return redirect(url_for('user.main'))
     form = SignInForm()
-    form.username.data = request.cookies.get('username')  # TODO does not work if you go directly to login page
+    # form.username.data = request.cookies.get('username')  # TODO does not work if you go directly to login page
     if form.validate_on_submit():
         this_user = User.query.filter_by(username=form.username.data).first()
         if this_user is None or not this_user.check_password(form.password.data):
