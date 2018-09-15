@@ -1,7 +1,11 @@
-from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask_security import UserMixin, RoleMixin, SQLAlchemyUserDatastore
+from flask_sqlalchemy import SQLAlchemy
 
-from app import login, db
+db = SQLAlchemy()
+
+# table many-to-many conects users and roles secondary=roles_users
+roles_users = db.Table('roles_users', db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
+                       db.Column('role_id', db.Integer(), db.ForeignKey('roles.id')))
 
 
 class Schdl_Class(db.Model):
@@ -84,26 +88,23 @@ class Event(db.Model):
 class User(UserMixin, db.Model):
     __tablename__ = "users"
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
-    username = db.Column('username', db.Unicode(2048), unique=True, index=True)
+    email = db.Column('email', db.Unicode(2048), unique=True, index=True)
     first_name = db.Column('first_name', db.Unicode(2048))
     last_name = db.Column('last_name', db.Unicode(2048))
+    password = db.Column('password', db.Unicode(2048))
+    active = db.Column('active', db.Boolean())
+    confirmed_at = db.Column('confirmed_at', db.DateTime())
     students = db.relationship('Student', backref='user', lazy='dynamic')
     contacts = db.relationship('UserContacts', backref='user', lazy='dynamic')
-    password_hash = db.Column(db.Unicode(128))
-
-    def __repr__(self):
-        return '<User {}>'.format(self.username)
-
-    def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
-
-    def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+    roles = db.relationship('Role', secondary=roles_users,
+                            backref=db.backref('users', lazy='dynamic'))
 
 
-@login.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
+class Role(db.Model, RoleMixin):
+    __tablename__ = "roles"
+    id = db.Column('id', db.Integer(), primary_key=True)
+    name = db.Column('name', db.String(80), unique=True)
+    description = db.Column('description', db.String(255))
 
 
 class UserContacts(db.Model):
@@ -140,3 +141,7 @@ class Enrollment(db.Model):
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
     class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
     student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
+
+
+# for Flask-Security
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
