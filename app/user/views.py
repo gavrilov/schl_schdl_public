@@ -142,22 +142,3 @@ def add_user():
         return redirect(url_for('user.main'))
     else:
         return render_template('user/add.html', form=form)
-
-
-@user.route('/edit/<user_id>', methods=['GET', 'POST'])
-def edit_user(user_id):
-    current_user = User.query.filter_by(id=user_id).first()
-    form = UserForm()
-    if form.validate_on_submit():
-        form.populate_obj(current_user)
-        # save to db
-        db.session.commit()
-        flash(current_user.first_name + " " + current_user.last_name + " edited", "success")
-        return redirect(url_for('user.main'))
-    else:
-        if current_user:
-            form = UserForm(obj=current_user)
-            return render_template('user/edit.html', form=form, user_id=user_id)
-        else:
-            flash("Parent with id " + str(user_id) + " did not find", "danger")
-            return redirect(url_for('user.main'))

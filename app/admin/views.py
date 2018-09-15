@@ -59,6 +59,26 @@ def user_list():
     return render_template('admin/user_list.html', users=users)
 
 
+@admin.route('/user/<user_id>/edit', methods=['GET', 'POST'])
+@roles_required('admin')
+def user_edit(user_id):
+    user = User.query.filter_by(id=user_id).first()
+    form = UserForm()
+    if form.validate_on_submit():
+        form.populate_obj(user)
+        # save to db
+        db.session.commit()
+        flash(user.first_name + " " + user.last_name + " edited", "success")
+        return redirect(url_for('admin.user_list'))
+    else:
+        if user:
+            form = UserForm(obj=user)
+            return render_template('admin/user_edit.html', form=form, user_id=user_id)
+        else:
+            flash("User with id " + str(user_id) + " did not find", "danger")
+            return redirect(url_for('admin.user_list'))
+
+
 @admin.route('/students', methods=['GET', 'POST'])
 @roles_required('admin')
 def student_list():
