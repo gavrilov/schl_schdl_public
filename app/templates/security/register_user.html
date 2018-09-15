@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
 {% block title %}Register{% endblock %}
 
 {% block head %}
@@ -10,35 +11,33 @@
 
 {% block page_content %}
     {{ super() }}
+    {% include "security/_messages.html" %}
     <div class="row justify-content-center">
-        <form id="checkemail-form" method="POST" action="{{ url_for('user.register') }}">
-            {{ form.csrf_token }}
+        <form id="registration-form" method="POST" action="{{ url_for_security('register') }}">
+            {{ register_user_form.hidden_tag() }}
             <img src="{{ url_for('static', filename='company_logo.jpg') }}"
                  class="img-fluid mx-auto d-block">
             <div class="form-group row">
                 <h1>Register</h1>
             </div>
             <div class="form-group row">
-                {{ form.first_name(size=30, class="form-control", placeholder="Your First Name") }}
+                {{ render_field_with_errors(register_user_form.first_name, size=30, class="form-control", placeholder="Your First Name") }}
             </div>
             <div class="form-group row">
-                {{ form.last_name(size=30, class="form-control", placeholder="Your Last Name") }}
+                {{ render_field_with_errors(register_user_form.last_name, size=30, class="form-control", placeholder="Your Last Name") }}
             </div>
             <div class="form-group row">
-                {{ form.username(size=30, class="form-control", placeholder="Enter your Email") }}
+                {{ render_field_with_errors(register_user_form.email, size=30, class="form-control", placeholder="Enter your Email") }}
             </div>
             <div class="form-group row">
-                {{ form.password(size=30, class="form-control", placeholder="Enter your Password") }}
+                {{ render_field_with_errors(register_user_form.password, size=30, class="form-control", placeholder="Enter your Password") }}
             </div>
             <div class="form-group row">
-                {{ form.password2(size=30, class="form-control", placeholder="Repeat your Password") }}
-                {% for error in form.password2.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
+                {{ render_field_with_errors(register_user_form.password_confirm, size=30, class="form-control", placeholder="Repeat your Password") }}
             </div>
             <div class="form-group row">
                 <div class="form-check mr-auto">
-                    {{ form.agreement(class="form-check-input") }}
+                    {{ register_user_form.agreement(class="form-check-input") }}
                     <label class="form-check-label" for="agreement">
                         I agree to the <a href="{{ url_for('privacy') }}">Terms of Service and Privacy Policy</a>
                     </label>
@@ -46,13 +45,13 @@
             </div>
 
             <div class="form-group row">
-                {{ form.recaptcha }}
+                {{ register_user_form.recaptcha }}
             </div>
             <div class="form-group row">
                 <button id="recaptcha-submit" class="btn btn-primary">Submit</button>
             </div>
             <div class="form-group row">
-                <h5>Already have an account? <a href="{{ url_for('user.sign_in') }}">Sign In</a></h5>
+                <h5>Already have an account? <a href="{{ url_for_security('login') }}">Sign In</a></h5>
             </div>
         </form>
     </div>
@@ -64,7 +63,7 @@
     <!--Script for Invisible Captcha -->
     <script>
         function onSubmitCallback(token) {
-            document.getElementById("checkemail-form").submit();
+            document.getElementById("registration-form").submit();
         }
     </script>
 {% endblock %}
