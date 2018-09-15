@@ -33,7 +33,7 @@
                     {{ login_user_form.remember.label(class="form-check-label") }}
                 </div>
                 <div class="ml-auto">
-                    <a href="#">Forgot password?</a>
+                    <a href="{{ url_for_security('forgot_password') }}">Forgot password?</a>
                 </div>
             </div>
             <div class="form-group row">
