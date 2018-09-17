@@ -1,0 +1,57 @@
+{% extends "admin/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}School{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <div class="row justify-content-center">
+        {% if action == 'add' %}
+            <form method="POST" action="{{ url_for('admin.school_add') }}">
+            <div class="form-group row">
+                <h1>Add school</h1>
+            </div>
+        {% else %}
+            <form method="POST" action="{{ url_for('admin.school_edit', school_id=school.id) }}">
+            <div class="form-group row">
+                <h1>Edit school</h1>
+            </div>
+        {% endif %}
+        {{ form.csrf_token }}
+        <div class="form-group row">
+            {{ form.name(size=30, class="form-control", placeholder="School name") }}
+        </div>
+        <div class="form-group row">
+            {{ form.director_name(size=30, class="form-control", placeholder="Director name") }}
+        </div>
+        <div class="form-group row">
+            {{ form.note(size=30, class="form-control", placeholder="Note") }}
+        </div>
+        <div class="form-group row">
+            <div class="form-check mr-auto">
+                {{ form.current(class="form-check-input") }}
+                <label class="form-check-label" for="agreement">
+                    current school
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            {{ form.recaptcha }}
+        </div>
+        <div class="form-group row">
+            <button type="submit" id="recaptcha-submit" class="btn btn-primary">Submit</button>
+        </div>
+        </form>
+    </div>
+    </form>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}
