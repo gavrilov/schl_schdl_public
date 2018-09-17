@@ -4,45 +4,72 @@
 
 {% block head %}
     {{ super() }}
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.18/b-1.5.2/b-colvis-1.5.2/b-html5-1.5.2/b-print-1.5.2/r-2.2.2/sl-1.2.6/datatables.min.css"/>
 {% endblock %}
 
 
 {% block page_content %}
     {{ super() }}
     <div class="row">
-        <div class="col-md-3 offset-md-9">
+        <div class="col text-left">
+            <h1>School List</h1>
+        </div>
+        <div class="col text-right">
             {% if current_schools_only %}
-                <a class="btn btn-outline-primary" href="{{ url_for('school.school_list') }}" role="button">Show All
+                <a class="btn btn-outline-primary" href="{{ url_for('admin.school_all_list') }}" role="button">Show All
                     Schools</a>
             {% else %}
-                <a class="btn btn-outline-primary" href="{{ url_for('school.main') }}" role="button">Show Current
+                <a class="btn btn-outline-primary" href="{{ url_for('admin.school_list') }}" role="button">Show Current
                     Schools</a>
             {% endif %}
-            <a class="btn btn-outline-success" href="{{ url_for('school.add_schl') }}" role="button">Add New School</a>
+            <a class="btn btn-outline-success" href="{{ url_for('admin.school_add') }}" role="button">Add New School</a>
         </div>
 
     </div>
-    <div class="row">
-        <h1>List of schools</h1>
-        <table class="table table-hover table-bordered">
-            <caption>List of schools</caption>
-            <tbody>
-            <tr>
-                <th>School name</th>
-                <th>Edit</th>
+
+    <form method="POST" action="" id="theForm">
+        <table class="table table-hover table-bordered" id="maintable">
+            <thead>
+            <tr id="filterrow">
+                <th></th>
+                <th id="filtercol">School</th>
+                <th id="filtercol">Director</th>
+                <th id="filtercol">Note</th>
+                <th></th>
             </tr>
+            <tr>
+                <th class="text-center">#</th>
+                <th class="text-center">School</th>
+                <th class="text-center">Director</th>
+                <th class="text-center">Note</th>
+                <th class="text-center">Info</th>
+            </tr>
+            </thead>
+            <tbody>
             {% for school in schools %}
                 <tr>
-                    <td><a href="{{ url_for('school.info', schl_id=school.id) }}">{{ school.name }} </a></td>
-                    <td><a href="{{ url_for('school.edit_schl', schl_id=school.id) }}">Edit</a></td>
+                    <td><input type="hidden" name="schools" value="{{ school.id }}"></td>
+                    <td>{{ school.name }}</td>
+                    <td>{{ school.director_name }}</td>
+                    <td>{{ school.note }}</td>
+                    <td><a href="{{ url_for('admin.school_info', school_id=school.id) }}">Info</a></td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
-    </div>
+        <select name="actionselect" id="actionselect">
+            <option value="">with selection</option>
+            <option value="txt">Send txt</option>
+            <option value="email">Send email</option>
+            <option value="labels">Print Labels</option>
+        </select>
+        <button id="submit">Submit</button>
+    </form>
 {% endblock %}
 
 
 {% block scripts %}
     {{ super() }}
+    {% include 'admin/datatable.html' %}
 {% endblock %}
