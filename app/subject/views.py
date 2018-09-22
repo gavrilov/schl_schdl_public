@@ -20,7 +20,7 @@ def info(subject_id):
         return render_template('subject/subject_info.html', subject=current_subject)
     else:
         flash("Subject with id " + str(subject_id) + " did not find", "danger")
-        return redirect(url_for('subject.main'))
+        return redirect(url_for('subject.subject_list'))
 
 
 
@@ -34,7 +34,7 @@ def add_subject():
         db.session.add(new_subject)
         db.session.commit()
         flash(new_subject.name + " created", "success")
-        return redirect(url_for('subject.main'))
+        return redirect(url_for('subject.subject_list'))
     else:
         return render_template('subject/add.html', form=form)
 
@@ -48,11 +48,11 @@ def edit_subject(subject_id):
         #save to db
         db.session.commit()
         flash(current_subject.name + " edited", "success")
-        return redirect(url_for('subject.main'))
+        return redirect(url_for('subject.subject_list'))
     else:
         if current_subject:
             form = SubjectForm(obj=current_subject)
             return render_template('subject/edit.html', form=form, subject_id=subject_id)
         else:
             flash("Subject with id " + str(subject_id) + " did not find", "danger")
-            return redirect(url_for('subject.main'))
+            return redirect(url_for('subject.subject_list'))
