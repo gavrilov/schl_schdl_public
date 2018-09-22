@@ -7,6 +7,9 @@ db = SQLAlchemy()
 roles_users = db.Table('roles_users', db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
                        db.Column('role_id', db.Integer(), db.ForeignKey('roles.id')))
 
+schools_users = db.Table('schools_users', db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
+                         db.Column('school_id', db.Integer(), db.ForeignKey('schools.id')))
+
 
 class Schdl_Class(db.Model):
     __tablename__ = "classes"
@@ -22,7 +25,6 @@ class Schdl_Class(db.Model):
 class School(db.Model):
     __tablename__ = "schools"
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     name = db.Column('name', db.Unicode(2048))
     director_name = db.Column('director_name', db.Unicode(2048))
     note = db.Column('note', db.Unicode(2048))
@@ -67,12 +69,11 @@ class User(UserMixin, db.Model):
     active = db.Column('active', db.Boolean())
     confirmed_at = db.Column('confirmed_at', db.DateTime())
     students = db.relationship('Student', backref='user', lazy='dynamic')
-    schools = db.relationship('School', backref='user', lazy='dynamic')
+    schools = db.relationship('School', secondary=schools_users, backref='users', lazy='dynamic')
     teachers = db.relationship('Teacher', backref='user', lazy='dynamic')
     contacts = db.relationship('UserContacts', backref='user', lazy='dynamic')
     note = db.Column('note', db.Unicode(2048))
-    roles = db.relationship('Role', secondary=roles_users,
-                            backref=db.backref('users', lazy='dynamic'))
+    roles = db.relationship('Role', secondary=roles_users, backref='users', lazy='dynamic')
 
 
 class Role(db.Model, RoleMixin):
