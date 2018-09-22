@@ -3,7 +3,7 @@ import os
 from logging.handlers import RotatingFileHandler
 
 from SlackLogger import SlackHandler
-from flask import Flask, redirect, url_for, render_template
+from flask import Flask, redirect, url_for, render_template, abort
 from flask_bootstrap import Bootstrap
 from flask_mail import Mail
 from flask_migrate import Migrate
@@ -20,6 +20,7 @@ sentry = Sentry()
 bootstrap = Bootstrap()
 mail = Mail()
 
+
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
@@ -34,7 +35,7 @@ def create_app(config_class=Config):
 
     #====== BLUEPRINTS ========================================================
     from app.admin.views import admin
-    app.register_blueprint(admin, url_prefix='/admin')
+    app.register_blueprint(admin, url_prefix='/dashboard')
     from app.school.views import school
     app.register_blueprint(school, url_prefix='/school')
     from app.teacher.views import teacher
@@ -93,24 +94,25 @@ def create_app(config_class=Config):
     @app.route('/setup', methods=['GET', 'POST'])
     def setup():
         # run it once when move to new server - it creates roles and superadmin
-        user_datastore.find_or_create_role(name='superadmin', description='Super Administrator')
-        user_datastore.find_or_create_role(name='admin', description='Administrator')
-        user_datastore.find_or_create_role(name='school', description='School')
-        user_datastore.find_or_create_role(name='teacher', description='Teacher')
-
-        encrypted_password = utils.hash_password('password')
         if not user_datastore.get_user(app.config['SUPERADMIN']):
+            user_datastore.find_or_create_role(name='superadmin', description='Super Administrator')
+            user_datastore.find_or_create_role(name='admin', description='Administrator')
+            user_datastore.find_or_create_role(name='school', description='School')
+            user_datastore.find_or_create_role(name='teacher', description='Teacher')
+
+            encrypted_password = utils.hash_password('password')
             user_datastore.create_user(email=app.config['SUPERADMIN'], password=encrypted_password)
 
-        db.session.commit()
+            db.session.commit()
 
-        user_datastore.add_role_to_user(app.config['SUPERADMIN'], 'superadmin')
-        user_datastore.add_role_to_user(app.config['SUPERADMIN'], 'admin')
-        user_datastore.add_role_to_user(app.config['SUPERADMIN'], 'school')
-        user_datastore.add_role_to_user(app.config['SUPERADMIN'], 'teacher')
-        db.session.commit()
+            user_datastore.add_role_to_user(app.config['SUPERADMIN'], 'superadmin')
+            user_datastore.add_role_to_user(app.config['SUPERADMIN'], 'admin')
+            user_datastore.add_role_to_user(app.config['SUPERADMIN'], 'school')
+            user_datastore.add_role_to_user(app.config['SUPERADMIN'], 'teacher')
+            db.session.commit()
 
-        return redirect(url_for('user.main'))
+            return redirect(url_for('user.main'))
+        else:
+            return abort(404)
 
     return app
-
