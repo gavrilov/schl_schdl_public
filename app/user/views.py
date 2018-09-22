@@ -1,14 +1,133 @@
-from flask import render_template, Blueprint, flash, redirect, url_for, current_app
-from flask_security import current_user, login_required
+from flask import render_template, Blueprint, flash, redirect, url_for, current_app, request
+from flask_security import current_user, login_required, roles_required
 
-from app import db
-from app.models import User, UserContacts, Student
+from app import db, user_datastore
+from app.models import User, UserContacts, Student, Role, School
+from app.school.forms import SchoolListForm
 from app.user.forms import UserForm, UserContactForm
 
 user = Blueprint('user', __name__, template_folder='templates')
 
 
 @user.route('/', methods=['GET', 'POST'])
+@roles_required('admin')
+def user_list():
+    users = User.query.all()
+    return render_template('user/admin/list.html', users=users, current_users_only=True)
+
+
+@user.route('/all', methods=['GET', 'POST'])
+@roles_required('admin')
+def user_all_list():
+    users = User.query.all()
+    return render_template('user/admin/list.html', users=users, current_users_only=False)
+
+
+@user.route('/add', methods=['GET', 'POST'])
+@roles_required('admin')
+def user_add():
+    form = UserForm()
+    if form.validate_on_submit():
+        new_user = User()
+        form.populate_obj(new_user)
+        # save new school to db
+        db.session.add(new_user)
+        db.session.commit()
+        flash(new_user.first_name + " " + new_user.last_name + " created", "success")
+        return redirect(url_for('user.user_list'))
+    else:
+        return render_template('user/admin/add.html', form=form, action='add')
+
+
+@user.route('/<user_id>', methods=['GET', 'POST'])
+@roles_required('admin')
+def user_info(user_id):
+    thisuser = User.query.filter_by(id=user_id).first()
+    if thisuser:
+        return render_template('user/admin/info.html', user=thisuser)
+    else:
+        flash("User with id " + str(user_id) + " did not find", "danger")
+        return redirect(url_for('user.user_list'))
+
+
+@user.route('/role', methods=['POST'])
+@roles_required('admin')
+def user_role():
+    # TODO add token to this form
+    action = request.form['action']
+    role = request.form['role']
+    user_id = request.form['user_id']
+
+    thisuser = User.query.filter_by(id=user_id).first()
+    thisrole = Role.query.filter_by(name=role).first()
+    if thisuser and thisrole:
+        if action == 'add':
+            user_datastore.add_role_to_user(thisuser, thisrole)
+        elif action == 'remove':
+            user_datastore.remove_role_from_user(thisuser, thisrole)
+        db.session.commit()
+        flash("{} {} updated".format(thisuser.first_name, thisuser.last_name), "success")
+        return redirect(url_for('user.user_info', user_id=thisuser.id))
+    else:
+        flash("{} {} something wrong".format(thisuser.first_name, thisuser.last_name), "warning")
+        return redirect(url_for('user.user_info', user_id=thisuser.id))
+
+
+@user.route('/<user_id>/edit', methods=['GET', 'POST'])
+@roles_required('admin')
+def user_edit(user_id):
+    thisuser = User.query.filter_by(id=user_id).first()
+    form = UserForm()
+    if form.validate_on_submit():
+        form.populate_obj(thisuser)
+        # save to db
+        db.session.commit()
+        flash(thisuser.first_name + " " + thisuser.last_name + " edited", "success")
+        return redirect(url_for('user.user_list'))
+    else:
+        if thisuser:
+            form = UserForm(obj=thisuser)
+            return render_template('user/admin/add_edit.html', form=form, action='edit', user=thisuser)
+        else:
+            flash("User with id " + str(user_id) + " did not find", "danger")
+            return redirect(url_for('user.user_list'))
+
+
+@user.route('/<user_id>/school', methods=['GET', 'POST'])
+@roles_required('admin')
+def user_school(user_id):
+    thisuser = User.query.filter_by(id=user_id).first()
+    current_schools = School.query.filter_by(current=True).all()
+
+    form = SchoolListForm()
+    # Now forming the list of tuples for SelectField
+    school_list = [(i.id, i.name) for i in current_schools]
+    form.school_id.choices = school_list
+
+    if form.validate_on_submit():
+        thisschool = School.query.filter_by(id=form.school_id.data).first()
+        if thisschool:
+            if thisuser not in thisschool.users:
+                thisschool.users.append(thisuser)
+                # save to db
+                db.session.commit()
+                flash("{} {} added to {}".format(thisuser.first_name, thisuser.last_name, thisschool.name), "success")
+                return redirect(url_for('user.user_info', user_id=thisuser.id))
+            else:
+                flash("{} {} already connected to {}".format(thisuser.first_name, thisuser.last_name, thisschool.name),
+                      "warning")
+                return redirect(url_for('user.user_info', user_id=thisuser.id))
+        else:
+            flash("School with id {} does not find".format(form.school_id.data), 'danger')
+    else:
+        if thisuser:
+            return render_template('user/admin/school.html', form=form, user=thisuser)
+        else:
+            flash("User with id " + str(user_id) + " did not find", "danger")
+            return redirect(url_for('user.user_list'))
+
+
+@user.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def main():
     students = Student.query.filter_by(user_id=current_user.id).all()
@@ -111,34 +230,3 @@ def delete_contacts(contact_id):
     db.session.commit()
     flash("Contact has been deleted", "success")
     return redirect(url_for('user.main'))
-
-
-@user.route('/all', methods=['GET', 'POST'])
-def user_list():
-    users = User.query.all()
-    return render_template('user/user_list.html', users=users, current_users_only=False)
-
-
-@user.route('/<user_id>', methods=['GET', 'POST'])
-def info(user_id):
-    current_user = User.query.filter_by(id=user_id).first()
-    if current_user:
-        return render_template('user/user_info.html', user=current_user)
-    else:
-        flash("Parent with id " + str(user_id) + " did not find", "danger")
-        return redirect(url_for('user.main'))
-
-
-@user.route('/add', methods=['GET', 'POST'])
-def add_user():
-    form = UserForm()
-    if form.validate_on_submit():
-        new_user = User()
-        form.populate_obj(new_user)
-        # save new school to db
-        db.session.add(new_user)
-        db.session.commit()
-        flash(new_user.first_name + " " + new_user.last_name + " created", "success")
-        return redirect(url_for('user.main'))
-    else:
-        return render_template('user/add.html', form=form)

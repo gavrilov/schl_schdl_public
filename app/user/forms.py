@@ -20,6 +20,8 @@ class RegistrationForm(RegisterForm):
 class UserForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired("Please enter your First Name")])
     last_name = StringField('Last Name', validators=[DataRequired("Please enter your Last Name")])
+    email = StringField('Email', validators=[DataRequired("Please enter your Email")])
+    note = StringField('Note', validators=[Optional("Please enter your Note")])
     submit = SubmitField('Submit')
 
 
