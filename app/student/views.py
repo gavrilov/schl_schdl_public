@@ -9,14 +9,14 @@ student = Blueprint('student', __name__, template_folder='templates')
 
 
 @student.route('/', methods=['GET', 'POST'])
-def main():
+def student_list():
     # TODO filter current student by current students or so
     students = Student.query.filter_by().all()
     return render_template('student/student_list.html', students=students, current_students_only=False)
 
 
 @student.route('/all', methods=['GET', 'POST'])
-def student_list():
+def student_all_list():
     students = Student.query.all()
     return render_template('student/student_list.html', students=students, current_students_only=False)
 
@@ -28,7 +28,7 @@ def info(student_id):
         return render_template('student/student_info.html', student=current_student)
     else:
         flash("Student with id {} did not find".format(student_id), "danger")
-        return redirect(url_for('student.main'))
+        return redirect(url_for('student.student_list'))
 
 
 @student.route('/add', methods=['GET', 'POST'])

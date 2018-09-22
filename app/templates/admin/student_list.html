@@ -15,7 +15,8 @@
                 <a class="btn btn-outline-primary" href="{{ url_for('student.student_list') }}" role="button">Show All
                     Students</a>
             {% else %}
-                <a class="btn btn-outline-primary" href="{{ url_for('student.main') }}" role="button">Show Current
+                <a class="btn btn-outline-primary" href="{{ url_for('student.student_list') }}" role="button">Show
+                    Current
                     Students</a>
             {% endif %}
             <a class="btn btn-outline-success" href="{{ url_for('student.add_student') }}" role="button">Add New
