@@ -42,6 +42,7 @@ class Teacher(db.Model):
     __tablename__ = "teachers"
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    note = db.Column('note', db.Unicode(2048))
     current = db.Column('current', db.Boolean())
     classes = db.relationship('Schdl_Class', backref='teacher', lazy='dynamic')
     events = db.relationship('Event', backref='teacher', lazy='dynamic')
@@ -52,6 +53,7 @@ class Event(db.Model):
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
     class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
     teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'))
+    note = db.Column('note', db.Unicode(2048))
     # school_id = db.Column(db.Integer, db.ForeignKey('schools.id'))
 
 
@@ -65,7 +67,10 @@ class User(UserMixin, db.Model):
     active = db.Column('active', db.Boolean())
     confirmed_at = db.Column('confirmed_at', db.DateTime())
     students = db.relationship('Student', backref='user', lazy='dynamic')
+    schools = db.relationship('School', backref='user', lazy='dynamic')
+    teachers = db.relationship('Teacher', backref='user', lazy='dynamic')
     contacts = db.relationship('UserContacts', backref='user', lazy='dynamic')
+    note = db.Column('note', db.Unicode(2048))
     roles = db.relationship('Role', secondary=roles_users,
                             backref=db.backref('users', lazy='dynamic'))
 
@@ -81,6 +86,7 @@ class UserContacts(db.Model):
     __tablename__ = "usercontacts"
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    nickname = db.Column('nickname', db.Unicode(2048))
     note = db.Column('note', db.Unicode(2048))
     email = db.Column('email', db.Unicode(2048))
     phone = db.Column('phone', db.Unicode(2048), index=True)
@@ -101,6 +107,7 @@ class Student(db.Model):
     last_name = db.Column('last_name', db.Unicode(2048))
     gender = db.Column('gender', db.Boolean())  # 1 - for boy, 0 - for girl
     dob = db.Column('dob', db.DateTime)
+    note = db.Column('note', db.Unicode(2048))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     enrollments = db.relationship('Enrollment', backref='student', lazy='dynamic')
     # classes = db.relationship('Schdl_Class', backref='teacher', lazy='dynamic')
