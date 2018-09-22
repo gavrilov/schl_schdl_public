@@ -83,7 +83,7 @@
             console.log('serlialized inputs: ', selectedRowInputs.serialize());
             $.ajax({
                 type: "POST",
-                url: "{{ url_for('admin.school_list') }}",
+                url: "{{ url_for('school.school_list') }}",
                 data: selectedRowInputs.serialize() + "&action=" + actionselect
             });
         })
