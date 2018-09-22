@@ -43,7 +43,7 @@ class Subject(db.Model):
 class Teacher(db.Model):
     __tablename__ = "teachers"
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True)
     note = db.Column('note', db.Unicode(2048))
     current = db.Column('current', db.Boolean())
     classes = db.relationship('Schdl_Class', backref='teacher', lazy='dynamic')
