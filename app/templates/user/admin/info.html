@@ -1,0 +1,128 @@
+{% extends "admin/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}{{ user.first_name }} {{ user.last_name }} - Info{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <div class="row">
+        <div class="col">
+            <h1>{{ user.first_name }} {{ user.last_name }}
+                <small>
+                    <!--Current Role-->
+                    {% for role in user.roles %}
+                        @{{ role.description }}
+                    {% endfor %}
+                </small>
+            </h1>
+        </div>
+        <div class="col">
+            {% if user.has_role('school') %}
+                <a class="btn btn-outline-primary" href="{{ url_for('user.user_school', user_id=user.id) }}"
+                   role="button">Add School to this User</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        Note: {{ user.note }}<br>
+        Email: {{ user.email }}
+    </div>
+    <!--Role-->
+    Role:
+    <form method="POST" action="{{ url_for('user.user_role') }}" id="theForm">
+        <input type="hidden" id="user_id" name="user_id" value="{{ user.id }}">
+        <select name="role" id="role">
+            <option value="teacher">Teacher</option>
+            <option value="school">School</option>
+            <option value="admin">Admin</option>
+        </select>
+        <select name="action" id="action">
+            <option value="add">Add</option>
+            <option value="remove">Remove</option>
+        </select>
+        <button id="submit">Submit</button>
+    </form>
+
+
+    <!--Schools-->
+    <div class="row">
+        <h2>Schools</h2>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <tbody>
+            {% for school in user.schools %}
+                <tr>
+                    <td>{{ school.name }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--Contacts-->
+    <div class="row">
+        <h2>Contacts</h2>
+    </div>
+    <div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <tbody>
+        {% for contact in user.contacts %}
+            <tr>
+                <td>{{ contact.email }}
+                    {% if contact.contact_by_email == 1 %}
+                        <i class="fas fa-at" style="font-size: 1em; color: green;" data-toggle="tooltip"
+                           title="email is allowed"></i>
+                    {% else %}
+                        <i class="fas fa-at" style="font-size: 1em; color: red;" data-toggle="tooltip"
+                           title="email is prohibited"></i>
+                    {% endif %}
+                </td>
+                <td>{{ contact.phone }}
+                    {% if contact.contact_by_txt == 1 %}
+                        <i class="fas fa-mobile-alt" style="font-size: 1em; color: green;" data-toggle="tooltip"
+                           title="txt messages is allowed"></i>
+                    {% else %}
+                        <i class="fas fa-mobile-alt" style="font-size: 1em; color: red;" data-toggle="tooltip"
+                           title="txt messages is prohibited"></i>
+                    {% endif %}
+                </td>
+                <td>{{ contact.address1 }} {{ contact.address2 }}<br>{{ contact.city }} {{ contact.state }} {{ contact.zip }}
+                    {% if contact.contact_by_mail == 1 %}
+                        <i class="far fa-envelope" style="font-size: 1em; color: green;" data-toggle="tooltip"
+                           title="mail is allowed"></i>
+                    {% else %}
+                        <i class="far fa-envelope" style="font-size: 1em; color: red;" data-toggle="tooltip"
+                           title="mail is prohibited"></i>
+                    {% endif %}
+                </td>
+                <td>
+                    <a class="far fa-edit" href="{{ url_for('user.edit_contacts', contact_id=contact.id) }}"
+                       role="button" data-toggle="tooltip" title="edit" style="color: blue"></a>
+                </td>
+                <td>
+                    <a class="far fa-trash-alt" href="{{ url_for('user.delete_contacts', contact_id=contact.id) }}"
+                       role="button" data-toggle="tooltip" title="delete" style="color: red"></a>
+                </td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}

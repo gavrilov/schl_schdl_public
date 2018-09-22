@@ -1,0 +1,53 @@
+{% extends "admin/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}User{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <div class="row justify-content-center">
+        {% if action == 'add' %}
+            <form method="POST" action="{{ url_for('user.user_add') }}">
+            <div class="form-group row">
+                <h1>Add user</h1>
+            </div>
+        {% else %}
+            <form method="POST" action="{{ url_for('user.user_edit', user_id=user.id) }}">
+            <div class="form-group row">
+                <h1>Edit user</h1>
+            </div>
+        {% endif %}
+        {{ form.csrf_token }}
+        <div class="form-group row">
+            {{ form.first_name(size=30, class="form-control", placeholder="User First Name") }}
+        </div>
+        <div class="form-group row">
+            {{ form.last_name(size=30, class="form-control", placeholder="User Last Name") }}
+        </div>
+        <div class="form-group row">
+            {{ form.email(size=30, class="form-control", placeholder="Email") }}
+        </div>
+        <div class="form-group row">
+            {{ form.note(size=30, class="form-control", placeholder="Note") }}
+        </div>
+
+
+        <div class="form-group row">
+            {{ form.recaptcha }}
+        </div>
+        <div class="form-group row">
+            <button type="submit" id="recaptcha-submit" class="btn btn-primary">Submit</button>
+        </div>
+        </form>
+    </div>
+    </form>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}
