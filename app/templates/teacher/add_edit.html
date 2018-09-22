@@ -16,18 +16,12 @@
                 <h1>Add Teacher</h1>
             </div>
         {% else %}
-            <form method="POST" action="{{ url_for('teacher.teacher_edit', teacher_id=teacher.id) }}">
+            <form method="POST" action="{{ url_for('teacher.teacher_edit', teacher_id=teacher_id) }}">
             <div class="form-group row">
                 <h1>Edit Teacher</h1>
             </div>
         {% endif %}
         {{ form.csrf_token }}
-        <div class="form-group row">
-            {{ form.first_name(size=30, class="form-control", placeholder="Teacher First Name") }}
-        </div>
-        <div class="form-group row">
-            {{ form.last_name(size=30, class="form-control", placeholder="Teacher Last Name") }}
-        </div>
         <div class="form-group row">
             {{ form.note(size=30, class="form-control", placeholder="Note") }}
         </div>
@@ -35,7 +29,7 @@
             <div class="form-check mr-auto">
                 {{ form.current(class="form-check-input") }}
                 <label class="form-check-label" for="agreement">
-                    current school
+                    current teacher
                 </label>
             </div>
         </div>

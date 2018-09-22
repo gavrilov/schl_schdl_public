@@ -1,6 +1,6 @@
 {% extends "admin/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}{{ teacher.first_name }} {{ teacher.last_name }} - Info{% endblock %}
+{% block title %}{{ teacher.user.first_name }} {{ teacher.user.last_name }} - Info{% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -10,10 +10,10 @@
 {% block page_content %}
     {{ super() }}
     <div class="row">
-        <h1>{{ teacher.first_name }} {{ teacher.last_name }}</h1>
+        <h1>{{ teacher.user.first_name }} {{ teacher.user.last_name }} </h1>
     </div>
     <div class="row">
-        Director: {{ school.director_name }}
+        Director:
     </div>
     <table>
         <tbody>
@@ -22,8 +22,8 @@
             <td>Edit</td>
         </tr>
         <tr>
-            <td>{{ school.name }} </td>
-            <td><a href="{{ url_for('school.school_edit', school_id=school.id) }}">Edit</a>></td>
+            <td></td>
+            <td><a href="{{ url_for('teacher.teacher_edit', teacher_id=teacher.id) }}">Edit</a>></td>
         </tr>
         </tbody>
     </table>

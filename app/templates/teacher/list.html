@@ -52,11 +52,11 @@
             <tbody>
             {% for teacher in teachers %}
                 <tr>
-                    <td><input type="hidden" name="schools" value="{{ teacher.id }}"></td>
+                    <td><input type="hidden" name="teachers" value="{{ teacher.id }}"></td>
                     <td>{{ teacher.user.first_name }}</td>
                     <td>{{ teacher.user.last_name }}</td>
-                    <td>{{ school.note }}</td>
-                    <td><a href="{{ url_for('school.school_info', school_id=school.id) }}">Info</a></td>
+                    <td>{{ teacher.note }}</td>
+                    <td><a href="{{ url_for('teacher.teacher_info', teacher_id=teacher.id) }}">Info</a></td>
                 </tr>
             {% endfor %}
             </tbody>
