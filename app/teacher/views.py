@@ -39,7 +39,7 @@ def teacher_add():
 
 @teacher.route('/<teacher_id>', methods=['GET', 'POST'])
 @roles_required('admin')
-def info(teacher_id):
+def teacher_info(teacher_id):
     current_teacher = Teacher.query.filter_by(id=teacher_id).first()
     if current_teacher:
         return render_template('teacher/info.html', teacher=current_teacher)
@@ -56,7 +56,7 @@ def teacher_edit(teacher_id):
         form.populate_obj(current_teacher)
         #save to db
         db.session.commit()
-        flash(current_teacher.first_name + " " + current_teacher.last_name + " edited", "success")
+        flash(current_teacher.user.first_name + " " + current_teacher.user.last_name + " edited", "success")
         return redirect(url_for('teacher.teacher_list'))
     else:
         if current_teacher:
