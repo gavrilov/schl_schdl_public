@@ -1,16 +1,16 @@
-from flask import Flask, request, render_template, session, Blueprint, flash, redirect, url_for
+from flask import render_template, Blueprint, flash, redirect, url_for
+
 from app import db
-from .forms import EventForm
-from app.models import Schdl_Class
-from app.models import School
-from app.models import Teacher
 from app.models import Event
+from app.models import Schdl_Class
+from app.models import Teacher
+from .forms import EventForm
 
 event = Blueprint('event', __name__, template_folder='templates')
 
 
 @event.route('/', methods=['GET', 'POST'])
-def main():
+def event_list():
     events = Event.query.filter_by().all()
     # TODO current_events_only - by date or Schdl_Class.current = True. if today in range(start_date_of_class, end_date_of_class)
     return render_template('event/event_list.html', events=events, current_events_only=False)
@@ -25,7 +25,7 @@ def add_event():
 
     # Now forming the list of tuples for SelectField
     #school_list = [(i.id, i.name) for i in current_schools]
-    teacher_list = [(i.id, i.first_name + " " + i.last_name) for i in current_teachers]
+    teacher_list = [(i.id, i.user.first_name + " " + i.user.last_name) for i in current_teachers]
     class_list = [(i.id, i.school.name + " - " + i.subject.name) for i in current_classes]
 
     # passing group_list to the form
@@ -38,8 +38,10 @@ def add_event():
         # save new school to db
         db.session.add(new_event)
         db.session.commit()
-        flash("Event for " + new_event.teacher.first_name + " at " + new_event.schl_class.school.name + " created", "success")
-        return redirect(url_for('event.main'))
+        flash(
+            "Event for {} {} at {} created".format(new_event.teacher.user.first_name, new_event.teacher.user.last_name,
+                                                   new_event.schl_class.school.name), "success")
+        return redirect(url_for('event.event_list'))
     else:
         return render_template('event/add.html', form=form)
 
@@ -56,7 +58,7 @@ def edit_event(event_id):
 
         # Now forming the list of tuples for SelectField
         #school_list = [(i.id, i.name) for i in current_schools]
-        teacher_list = [(i.id, i.first_name + " " + i.last_name) for i in current_teachers]
+        teacher_list = [(i.id, i.user.first_name + " " + i.user.last_name) for i in current_teachers]
         class_list = [(i.id, i.school.name + " - " + i.subject.name) for i in current_classes]
 
         #form.school_id.choices = school_list
@@ -68,9 +70,9 @@ def edit_event(event_id):
             #save to db
             db.session.commit()
             flash(current_event.schl_class.school.name + " event edited", "success")
-            return redirect(url_for('event.main'))
+            return redirect(url_for('event.event_list'))
         else:
             return render_template('event/edit.html', form=form, event_id=event_id)
     else:
         flash("Event with id " + str(event_id) + " did not find", "danger")
-        return redirect(url_for('event.main'))
+        return redirect(url_for('event.event_list'))

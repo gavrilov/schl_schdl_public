@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "admin/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block title %}Event List{% endblock %}
 
@@ -14,7 +14,8 @@
                 {% if current_events_only %}
                     <a class="btn btn-outline-primary" href=" role="button">Show All Events</a>
                 {% else %}
-                    <a class="btn btn-outline-primary" href="{{ url_for('event.main') }}" role="button">Show Current Events</a>
+                    <a class="btn btn-outline-primary" href="{{ url_for('event.event_list') }}" role="button">Show
+                        Current Events</a>
                 {% endif %}
                 <a class="btn btn-outline-success" href="{{ url_for('event.add_event') }}" role="button">Add New Event</a>
         </div>
