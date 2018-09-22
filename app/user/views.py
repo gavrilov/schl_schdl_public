@@ -63,7 +63,7 @@ def user_role():
     if thisuser and thisrole:
         if action == 'add':
             user_datastore.add_role_to_user(thisuser, thisrole)
-            if thisrole.name == 'teacher':
+            if thisrole.name == 'teacher' and Teacher.query.filter_by(id=thisuser.id).first():
                 new_teacher = Teacher()
                 new_teacher.user_id = thisuser.id
                 db.session.add(new_teacher)
@@ -83,18 +83,19 @@ def user_role():
 @user.route('/<user_id>/edit', methods=['GET', 'POST'])
 @roles_required('admin')
 def user_edit(user_id):
-    thisuser = User.query.filter_by(id=user_id).first()
+    user = User.query.filter_by(id=user_id).first()
     form = UserForm()
+
     if form.validate_on_submit():
-        form.populate_obj(thisuser)
+        form.populate_obj(user)
         # save to db
         db.session.commit()
-        flash("User {} {} edited".format(thisuser.first_name, thisuser.last_name), "success")
-        return redirect(url_for('user.user_list'))
+        flash("User {} {} edited".format(user.first_name, user.last_name), "success")
+        return redirect(url_for('admin.user_list'))
     else:
-        if thisuser:
-            form = UserForm(obj=thisuser)
-            return render_template('user/admin/add_edit.html', form=form, action='edit', user=thisuser)
+        if user:
+            form = UserForm(obj=user)
+            return render_template('user/admin/user_edit.html', form=form, user_id=user_id)
         else:
             flash("User with id {} did not find".format(user_id), "danger")
             return redirect(url_for('user.user_list'))

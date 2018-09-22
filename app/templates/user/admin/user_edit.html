@@ -10,7 +10,7 @@
 {% block page_content %}
     {{ super() }}
     <h1>{{ form.email.data }}</h1>
-    <form method="POST" action="{{ url_for('admin.user_edit', user_id=user_id) }}">
+    <form method="POST" action="{{ url_for('user.user_edit', user_id=user_id) }}">
         {{ form.csrf_token }}
         {{ form.first_name.label }} {{ form.first_name(size=50) }}
         {{ form.last_name.label }} {{ form.last_name(size=50) }}
