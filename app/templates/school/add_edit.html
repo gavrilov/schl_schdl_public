@@ -11,12 +11,12 @@
     {{ super() }}
     <div class="row justify-content-center">
         {% if action == 'add' %}
-            <form method="POST" action="{{ url_for('admin.school_add') }}">
+            <form method="POST" action="{{ url_for('school.school_add') }}">
             <div class="form-group row">
                 <h1>Add school</h1>
             </div>
         {% else %}
-            <form method="POST" action="{{ url_for('admin.school_edit', school_id=school.id) }}">
+            <form method="POST" action="{{ url_for('school.school_edit', school_id=school.id) }}">
             <div class="form-group row">
                 <h1>Edit school</h1>
             </div>

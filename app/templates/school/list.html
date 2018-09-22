@@ -1,6 +1,6 @@
 {% extends "admin/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}School List{% endblock %}
+{% block title %}Teacher List{% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -13,17 +13,20 @@
     {{ super() }}
     <div class="row">
         <div class="col text-left">
-            <h1>School List</h1>
+            <h1>Teacher List</h1>
         </div>
         <div class="col text-right">
             {% if current_schools_only %}
-                <a class="btn btn-outline-primary" href="{{ url_for('admin.school_all_list') }}" role="button">Show All
+                <a class="btn btn-outline-primary" href="{{ url_for('teacher.teacher_all_list') }}" role="button">Show
+                    All
                     Schools</a>
             {% else %}
-                <a class="btn btn-outline-primary" href="{{ url_for('admin.school_list') }}" role="button">Show Current
+                <a class="btn btn-outline-primary" href="{{ url_for('teacher.teacher_list') }}" role="button">Show
+                    Current
                     Schools</a>
             {% endif %}
-            <a class="btn btn-outline-success" href="{{ url_for('admin.school_add') }}" role="button">Add New School</a>
+            <a class="btn btn-outline-success" href="{{ url_for('teacher.teacher_add') }}" role="button">Add New
+                School</a>
         </div>
 
     </div>
@@ -53,7 +56,7 @@
                     <td>{{ school.name }}</td>
                     <td>{{ school.director_name }}</td>
                     <td>{{ school.note }}</td>
-                    <td><a href="{{ url_for('admin.school_info', school_id=school.id) }}">Info</a></td>
+                    <td><a href="{{ url_for('school.school_info', school_id=school.id) }}">Info</a></td>
                 </tr>
             {% endfor %}
             </tbody>
