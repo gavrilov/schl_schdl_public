@@ -1,14 +1,14 @@
-from flask import Flask, request, render_template, session, Blueprint, flash, redirect, url_for
+from flask import render_template, Blueprint, flash, redirect, url_for
+
 from app import db
 from app.models import Subject
 from .forms import SubjectForm
-
 
 subject = Blueprint('subject', __name__, template_folder='templates')
 
 
 @subject.route('/', methods=['GET', 'POST'])
-def main():
+def subject_list():
     subjects = Subject.query.all()
     return render_template('subject/subject_list.html', subjects=subjects)
 
