@@ -1,6 +1,6 @@
 {% extends "admin/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}Teacher List{% endblock %}
+{% block title %}School List{% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -13,19 +13,19 @@
     {{ super() }}
     <div class="row">
         <div class="col text-left">
-            <h1>Teacher List</h1>
+            <h1>School List</h1>
         </div>
         <div class="col text-right">
             {% if current_schools_only %}
-                <a class="btn btn-outline-primary" href="{{ url_for('teacher.teacher_all_list') }}" role="button">Show
+                <a class="btn btn-outline-primary" href="{{ url_for('school.school_all_list') }}" role="button">Show
                     All
                     Schools</a>
             {% else %}
-                <a class="btn btn-outline-primary" href="{{ url_for('teacher.teacher_list') }}" role="button">Show
+                <a class="btn btn-outline-primary" href="{{ url_for('school.school_list') }}" role="button">Show
                     Current
                     Schools</a>
             {% endif %}
-            <a class="btn btn-outline-success" href="{{ url_for('teacher.teacher_add') }}" role="button">Add New
+            <a class="btn btn-outline-success" href="{{ url_for('school.school_add') }}" role="button">Add New
                 School</a>
         </div>
 
