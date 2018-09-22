@@ -1,0 +1,35 @@
+{% extends "admin/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}{{ teacher.first_name }} {{ teacher.last_name }} - Info{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <div class="row">
+        <h1>{{ teacher.first_name }} {{ teacher.last_name }}</h1>
+    </div>
+    <div class="row">
+        Director: {{ school.director_name }}
+    </div>
+    <table>
+        <tbody>
+        <tr>
+            <td>School name</td>
+            <td>Edit</td>
+        </tr>
+        <tr>
+            <td>{{ school.name }} </td>
+            <td><a href="{{ url_for('school.school_edit', school_id=school.id) }}">Edit</a>></td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}
