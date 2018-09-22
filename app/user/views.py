@@ -2,7 +2,7 @@ from flask import render_template, Blueprint, flash, redirect, url_for, current_
 from flask_security import current_user, login_required, roles_required
 
 from app import db, user_datastore
-from app.models import User, UserContacts, Student, Role, School
+from app.models import User, UserContacts, Student, Role, School, Teacher
 from app.school.forms import SchoolListForm
 from app.user.forms import UserForm, UserContactForm
 
@@ -63,6 +63,13 @@ def user_role():
     if thisuser and thisrole:
         if action == 'add':
             user_datastore.add_role_to_user(thisuser, thisrole)
+            if thisrole.name == 'teacher':
+                new_teacher = Teacher()
+                new_teacher.user_id = thisuser.id
+                db.session.add(new_teacher)
+                db.session.commit()
+
+
         elif action == 'remove':
             user_datastore.remove_role_from_user(thisuser, thisrole)
         db.session.commit()
