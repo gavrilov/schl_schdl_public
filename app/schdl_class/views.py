@@ -59,7 +59,7 @@ def add_class():
         # save new school to db
         db.session.add(new_class)
         db.session.commit()
-        flash(new_class.subject.name + " created", "success")
+        flash("Class {} created".fromat(new_class.subject.name), "success")
         return redirect(url_for('schdl_class.class_list'))
     else:
         return render_template('schdl_class/add.html', form=form)
@@ -88,7 +88,7 @@ def edit_class(class_id):
             form.populate_obj(current_class)
             # save to db
             db.session.commit()
-            flash(current_class.subject.name + " class edited", "success")
+            flash("{} class edited".format(current_class.subject.name), "success")
             return redirect(url_for('schdl_class.class_list'))
         else:
             return render_template('schdl_class/edit.html', form=form, class_id=class_id)

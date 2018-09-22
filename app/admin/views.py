@@ -25,14 +25,14 @@ def user_edit(user_id):
         form.populate_obj(user)
         # save to db
         db.session.commit()
-        flash(user.first_name + " " + user.last_name + " edited", "success")
+        flash("User {} {} edited".format(user.first_name, user.last_name), "success")
         return redirect(url_for('admin.user_list'))
     else:
         if user:
             form = UserForm(obj=user)
             return render_template('admin/user_edit.html', form=form, user_id=user_id)
         else:
-            flash("User with id " + str(user_id) + " did not find", "danger")
+            flash("User with id {} did not find".format(user_id), "danger")
             return redirect(url_for('admin.user_list'))
 
 

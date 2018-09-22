@@ -33,7 +33,7 @@ def user_add():
         # save new school to db
         db.session.add(new_user)
         db.session.commit()
-        flash(new_user.first_name + " " + new_user.last_name + " created", "success")
+        flash("User {} {} created".format(new_user.first_name, new_user.last_name), "success")
         return redirect(url_for('user.user_list'))
     else:
         return render_template('user/admin/add.html', form=form, action='add')
@@ -46,7 +46,7 @@ def user_info(user_id):
     if thisuser:
         return render_template('user/admin/info.html', user=thisuser)
     else:
-        flash("User with id " + str(user_id) + " did not find", "danger")
+        flash("User with id {} did not find".format(user_id), "danger")
         return redirect(url_for('user.user_list'))
 
 
@@ -89,14 +89,14 @@ def user_edit(user_id):
         form.populate_obj(thisuser)
         # save to db
         db.session.commit()
-        flash(thisuser.first_name + " " + thisuser.last_name + " edited", "success")
+        flash("User {} {} edited".format(thisuser.first_name, thisuser.last_name), "success")
         return redirect(url_for('user.user_list'))
     else:
         if thisuser:
             form = UserForm(obj=thisuser)
             return render_template('user/admin/add_edit.html', form=form, action='edit', user=thisuser)
         else:
-            flash("User with id " + str(user_id) + " did not find", "danger")
+            flash("User with id {} did not find".format(user_id), "danger")
             return redirect(url_for('user.user_list'))
 
 
@@ -130,7 +130,7 @@ def user_school(user_id):
         if thisuser:
             return render_template('user/admin/school.html', form=form, user=thisuser)
         else:
-            flash("User with id " + str(user_id) + " did not find", "danger")
+            flash("User with id {} did not find".format(user_id), "danger")
             return redirect(url_for('user.user_list'))
 
 
@@ -156,7 +156,7 @@ def edit():
         form.populate_obj(current_user)
         # save to db
         db.session.commit()
-        flash(current_user.first_name + " " + current_user.last_name + " edited", "success")
+        flash("User {} {} edited".format(current_user.first_name, current_user.last_name), "success")
         return redirect(url_for('user.main'))
     else:
         form = UserForm(obj=current_user)
@@ -229,7 +229,6 @@ def delete_contacts(contact_id):
         current_app.logger.warning(
             'User is trying to delete not his contact. user_id = {} contact_id = {}'.format(current_user.id,
                                                                                             contact_id))
-        flash("Contact does not find", "danger")
         flash("Contact does not find", "danger")
         return redirect(url_for('user.main'))
 

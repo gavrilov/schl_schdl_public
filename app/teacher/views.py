@@ -31,7 +31,7 @@ def teacher_add():
         # save new school to db
         db.session.add(new_teacher)
         db.session.commit()
-        flash(new_teacher.first_name + " " + new_teacher.last_name + " created", "success")
+        flash("Teacher {} {} created".format(new_teacher.first_name, new_teacher.last_name), "success")
         return redirect(url_for('teacher.teacher_list'))
     else:
         return render_template('teacher/add_edit.html', form=form, action='add')
@@ -44,7 +44,7 @@ def teacher_info(teacher_id):
     if current_teacher:
         return render_template('teacher/info.html', teacher=current_teacher)
     else:
-        flash("Teacher with id " + str(teacher_id) + " did not find", "danger")
+        flash("Teacher with id {} did not find".format(teacher_id), "danger")
         return redirect(url_for('teacher.teacher_list'))
 
 
@@ -56,12 +56,12 @@ def teacher_edit(teacher_id):
         form.populate_obj(current_teacher)
         #save to db
         db.session.commit()
-        flash(current_teacher.user.first_name + " " + current_teacher.user.last_name + " edited", "success")
+        flash("Teacher {} {} edited".format(current_teacher.user.first_name, current_teacher.user.last_name), "success")
         return redirect(url_for('teacher.teacher_list'))
     else:
         if current_teacher:
             form = TeacherForm(obj=current_teacher)
             return render_template('teacher/add_edit.html', form=form, teacher_id=teacher_id)
         else:
-            flash("Teacher with id " + str(teacher_id) + " did not find", "danger")
+            flash("Teacher with id {} did not find".format(teacher_id), "danger")
             return redirect(url_for('teacher.teacher_list'))

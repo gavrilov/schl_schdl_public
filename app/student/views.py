@@ -27,7 +27,7 @@ def info(student_id):
     if current_student:
         return render_template('student/student_info.html', student=current_student)
     else:
-        flash("Student with id " + str(student_id) + " did not find", "danger")
+        flash("Student with id {} did not find".format(student_id), "danger")
         return redirect(url_for('student.main'))
 
 
@@ -43,7 +43,7 @@ def add_student():
         # save new school to db
         db.session.add(new_student)
         db.session.commit()
-        flash(new_student.first_name + " " + new_student.last_name + " created", "success")
+        flash("Student {} {} created".format(new_student.first_name, new_student.last_name), "success")
         return redirect(url_for('user.main'))
 
     if form.errors:
@@ -71,7 +71,7 @@ def edit_student(student_id):
         form.populate_obj(current_student)
         # save to db
         db.session.commit()
-        flash(current_student.first_name + " " + current_student.last_name + " edited", "success")
+        flash("Student {} {} edited".format(current_student.first_name, current_student.last_name), "success")
         return redirect(url_for('user.main'))
 
     return render_template('student/edit.html', form=form, student_id=student_id)
@@ -95,7 +95,7 @@ def enroll_student(student_id):
         form.populate_obj(current_student)
         # save to db
         db.session.commit()
-        flash(current_student.first_name + " " + current_student.last_name + " edited", "success")
+        flash("Student {} {} edited".format(current_student.first_name, current_student.last_name), "success")
         return redirect(url_for('user.main'))
 
     return render_template('student/enroll.html', current_classes=current_classes, student=current_student)

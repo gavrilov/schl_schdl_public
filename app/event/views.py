@@ -69,10 +69,10 @@ def edit_event(event_id):
             form.populate_obj(current_event)
             #save to db
             db.session.commit()
-            flash(current_event.schl_class.school.name + " event edited", "success")
+            flash("Event of {} edited".format(current_event.schl_class.school.name), "success")
             return redirect(url_for('event.event_list'))
         else:
             return render_template('event/edit.html', form=form, event_id=event_id)
     else:
-        flash("Event with id " + str(event_id) + " did not find", "danger")
+        flash("Event with id {} did not find".format(event_id), "danger")
         return redirect(url_for('event.event_list'))
