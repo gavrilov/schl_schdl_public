@@ -26,13 +26,13 @@ def generate_popup_html(class_id):
 
 
 @schdl_class.route('/', methods=['GET', 'POST'])
-def main():
+def class_list():
     classes = Schdl_Class.query.filter_by(current=True).all()
     return render_template('schdl_class/class_list.html', classes=classes, current_classes_only=True)
 
 
 @schdl_class.route('/all', methods=['GET', 'POST'])
-def class_list():
+def class_all_list():
     classes = Schdl_Class.query.filter_by().all()
     return render_template('schdl_class/class_list.html', classes=classes, current_classes_only=False)
 
@@ -46,7 +46,7 @@ def add_class():
 
     # Now forming the list of tuples for SelectField
     school_list = [(i.id, i.name) for i in current_schools]
-    teacher_list = [(i.id, i.first_name) for i in current_teachers]
+    teacher_list = [(i.id, i.user.first_name + " " + i.user.last_name) for i in current_teachers]
     subject_list = [(i.id, i.name) for i in current_subjects]
 
     # passing group_list to the form
@@ -60,7 +60,7 @@ def add_class():
         db.session.add(new_class)
         db.session.commit()
         flash(new_class.subject.name + " created", "success")
-        return redirect(url_for('schdl_class.main'))
+        return redirect(url_for('schdl_class.class_list'))
     else:
         return render_template('schdl_class/add.html', form=form)
 
@@ -77,7 +77,7 @@ def edit_class(class_id):
 
         # Now forming the list of tuples for SelectField
         school_list = [(i.id, i.name) for i in current_schools]
-        teacher_list = [(i.id, i.first_name) for i in current_teachers]
+        teacher_list = [(i.id, i.user.first_name + " " + i.user.last_name) for i in current_teachers]
         subject_list = [(i.id, i.name) for i in current_subjects]
 
         form.school_id.choices = school_list
@@ -89,12 +89,12 @@ def edit_class(class_id):
             # save to db
             db.session.commit()
             flash(current_class.subject.name + " class edited", "success")
-            return redirect(url_for('schdl_class.main'))
+            return redirect(url_for('schdl_class.class_list'))
         else:
             return render_template('schdl_class/edit.html', form=form, class_id=class_id)
     else:
         flash("Class with id " + str(class_id) + " did not find", "danger")
-        return redirect(url_for('schdl_class.main'))
+        return redirect(url_for('schdl_class.class_list'))
 
 
 @schdl_class.route('/enroll/<class_id>/<student_id>', methods=['GET', 'POST'])
@@ -108,13 +108,13 @@ def enroll_class(class_id, student_id):
             'User is trying to enroll not existing class. user_id = {} class_id = {}'.format(current_user.id,
                                                                                              class_id))
         flash('Class does not find', 'danger')
-        return redirect(url_for('user.main'))
+        return redirect(url_for('user.class_list'))
     if not current_student or current_student.user_id != current_user.id:
         current_app.logger.warning(
             'User is trying to enroll not his student. user_id = {} student_id = {}'.format(current_user.id,
                                                                                             student_id))
         flash("Student does not find", "danger")
-        return redirect(url_for('user.main'))
+        return redirect(url_for('user.class_list'))
 
     return render_template('schdl_class/enroll.html', current_class=current_class, current_student=current_student)
 
@@ -131,13 +131,13 @@ def payment_class(class_id, student_id):
             'User is trying to enroll not existing class. user_id = {} class_id = {}'.format(current_user.id,
                                                                                              class_id))
         flash('Class does not find', 'danger')
-        return redirect(url_for('user.main'))
+        return redirect(url_for('user.class_list'))
     if not current_student or current_student.user_id != current_user.id:
         current_app.logger.warning(
             'User is trying to enroll not his student. user_id = {} student_id = {}'.format(current_user.id,
                                                                                             student_id))
         flash("Student does not find", "danger")
-        return redirect(url_for('user.main'))
+        return redirect(url_for('user.class_list'))
     new_enrollment = Enrollment()
     new_enrollment.class_id = current_class.id
     new_enrollment.student_id = current_student.id
@@ -145,4 +145,4 @@ def payment_class(class_id, student_id):
     db.session.commit()
     flash("{} has been added to student list of {} classes".format(current_student.first_name,
                                                                    current_class.subject.name), "success")
-    return redirect(url_for('user.main'))
+    return redirect(url_for('user.class_list'))

@@ -3,7 +3,7 @@ from flask_security import current_user, roles_required
 
 from app import db
 from app.admin.forms import UserForm
-from app.models import Schdl_Class, Event, User, Student
+from app.models import Event, User, Student
 
 admin = Blueprint('admin', __name__, template_folder='templates')
 
@@ -13,13 +13,6 @@ admin = Blueprint('admin', __name__, template_folder='templates')
 def main():
     current_app.logger.info("Admin {} has been signed in to admin console".format(current_user.email))
     return render_template('admin/dashboard.html')
-
-
-@admin.route('/class', methods=['GET', 'POST'])
-@roles_required('admin')
-def class_list():
-    classes = Schdl_Class.query.filter_by(current=True).all()
-    return render_template('admin/class_list.html', classes=classes, current_classes_only=True)
 
 
 @admin.route('/event', methods=['GET', 'POST'])
