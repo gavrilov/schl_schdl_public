@@ -12,17 +12,17 @@
 
             {% if current_user.has_role('admin') %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('admin.main') }}">Admin Dashboard</a>
+                    <a class="nav-link" href="{{ url_for('dashboard.main') }}">Admin Dashboard</a>
                 </li>
             {% endif %}
             {% if current_user.has_role('teacher') %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('admin.main') }}">Teacher Dashboard</a>
+                    <a class="nav-link" href="{{ url_for('dashboard.main') }}">Teacher Dashboard</a>
                 </li>
             {% endif %}
             {% if current_user.has_role('school') %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('admin.main') }}">School Dashboard</a>
+                    <a class="nav-link" href="{{ url_for('dashboard.main') }}">School Dashboard</a>
                 </li>
             {% endif %}
         </ul>

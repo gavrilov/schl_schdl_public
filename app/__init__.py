@@ -4,6 +4,7 @@ from logging.handlers import RotatingFileHandler
 
 from SlackLogger import SlackHandler
 from flask import Flask, redirect, url_for, render_template, abort
+from flask_admin import Admin
 from flask_bootstrap import Bootstrap
 from flask_mail import Mail
 from flask_migrate import Migrate
@@ -19,6 +20,7 @@ migrate = Migrate()
 sentry = Sentry()
 bootstrap = Bootstrap()
 mail = Mail()
+admin = Admin()
 
 
 def create_app(config_class=Config):
@@ -32,10 +34,10 @@ def create_app(config_class=Config):
     db.init_app(app)
     migrate.init_app(app, db)
     mail.init_app(app)
-
+    admin.init_app(app)
     #====== BLUEPRINTS ========================================================
-    from app.admin.views import admin
-    app.register_blueprint(admin, url_prefix='/dashboard')
+    from app.dashboard.views import dashboard
+    app.register_blueprint(dashboard, url_prefix='/dashboard')
     from app.school.views import school
     app.register_blueprint(school, url_prefix='/school')
     from app.teacher.views import teacher

@@ -8,7 +8,7 @@
 {% block content %}
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        {% include "admin/nav_bar_admin.html" %}
+        {% include "dashboard/nav_bar_admin.html" %}
     </nav>
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}

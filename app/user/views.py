@@ -91,7 +91,7 @@ def user_edit(user_id):
         # save to db
         db.session.commit()
         flash("User {} {} edited".format(user.first_name, user.last_name), "success")
-        return redirect(url_for('admin.user_list'))
+        return redirect(url_for('dashboard.user_list'))
     else:
         if user:
             form = UserForm(obj=user)
