@@ -13,14 +13,14 @@ user = Blueprint('user', __name__, template_folder='templates')
 @roles_required('admin')
 def user_list():
     users = User.query.all()
-    return render_template('user/admin/list.html', users=users, current_users_only=True)
+    return render_template('user/dashboard/list.html', users=users, current_users_only=True)
 
 
 @user.route('/all', methods=['GET', 'POST'])
 @roles_required('admin')
 def user_all_list():
     users = User.query.all()
-    return render_template('user/admin/list.html', users=users, current_users_only=False)
+    return render_template('user/dashboard/list.html', users=users, current_users_only=False)
 
 
 @user.route('/add', methods=['GET', 'POST'])
@@ -36,7 +36,7 @@ def user_add():
         flash("User {} {} created".format(new_user.first_name, new_user.last_name), "success")
         return redirect(url_for('user.user_list'))
     else:
-        return render_template('user/admin/add.html', form=form, action='add')
+        return render_template('user/dashboard/add.html', form=form, action='add')
 
 
 @user.route('/<user_id>', methods=['GET', 'POST'])
@@ -44,7 +44,7 @@ def user_add():
 def user_info(user_id):
     thisuser = User.query.filter_by(id=user_id).first()
     if thisuser:
-        return render_template('user/admin/info.html', user=thisuser)
+        return render_template('user/dashboard/info.html', user=thisuser)
     else:
         flash("User with id {} did not find".format(user_id), "danger")
         return redirect(url_for('user.user_list'))
@@ -95,7 +95,7 @@ def user_edit(user_id):
     else:
         if user:
             form = UserForm(obj=user)
-            return render_template('user/admin/user_edit.html', form=form, user_id=user_id)
+            return render_template('user/dashboard/user_edit.html', form=form, user_id=user_id)
         else:
             flash("User with id {} did not find".format(user_id), "danger")
             return redirect(url_for('user.user_list'))
@@ -129,7 +129,7 @@ def user_school(user_id):
             flash("School with id {} does not find".format(form.school_id.data), 'danger')
     else:
         if thisuser:
-            return render_template('user/admin/school.html', form=form, user=thisuser)
+            return render_template('user/dashboard/school.html', form=form, user=thisuser)
         else:
             flash("User with id {} did not find".format(user_id), "danger")
             return redirect(url_for('user.user_list'))
