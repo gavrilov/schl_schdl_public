@@ -42,6 +42,24 @@
         {% endfor %}
         </tbody>
     </table>
+    <!--Payments-->
+    <div class="row">
+        <div class="col text-left">
+            <h3>Payment Information</h3>
+        </div>
+        <div class="col text-center">
+            Current card: {{ cards_html|safe }}
+        </div>
+        <div class="col text-right">
+            <!--Update Card Button-->
+            {% include 'payment/add_card_button.html' %}
+        </div>
+    </div>
+    <table class="table table-striped table-hover">
+        <tbody>
+        {{ payments_html|safe }}
+        </tbody>
+    </table>
 
     <!--Contacts-->
     <div class="row">

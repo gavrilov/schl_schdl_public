@@ -3,6 +3,7 @@ from flask_security import current_user, login_required, roles_required
 
 from app import db, user_datastore
 from app.models import User, UserContacts, Student, Role, School, Teacher
+from app.payment import my_cards, my_payments
 from app.school.forms import SchoolListForm
 from app.user.forms import UserForm, UserContactForm
 
@@ -140,13 +141,17 @@ def user_school(user_id):
 def main():
     students = Student.query.filter_by(user_id=current_user.id).all()
     contacts = UserContacts.query.filter_by(user_id=current_user.id).all()
+    cards_html = my_cards()
+    payments_html = my_payments()
+
     if not contacts:
         flash("Please add your contact information", "danger")
         return redirect(url_for('user.add_contacts'))
     if not students:
         flash("Please add students", "danger")
         return redirect(url_for('student.add_student'))
-    return render_template('user/user_info.html', user=current_user, students=students, contacts=contacts)
+    return render_template('user/user_info.html', user=current_user, students=students, cards_html=cards_html,
+                           payments_html=payments_html, contacts=contacts)
 
 
 @user.route('/edit/', methods=['GET', 'POST'])

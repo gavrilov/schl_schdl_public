@@ -6,6 +6,7 @@ from app.models import Schdl_Class, Student, Enrollment
 from app.models import School
 from app.models import Subject
 from app.models import Teacher
+from app.payment import charge_customer
 from .forms import ClassForm
 
 schdl_class = Blueprint('schdl_class', __name__, template_folder='templates')
@@ -59,7 +60,7 @@ def add_class():
         # save new school to db
         db.session.add(new_class)
         db.session.commit()
-        flash("Class {} created".fromat(new_class.subject.name), "success")
+        flash("Class {} created".format(new_class.subject.name), "success")
         return redirect(url_for('schdl_class.class_list'))
     else:
         return render_template('schdl_class/add.html', form=form)
@@ -108,13 +109,13 @@ def enroll_class(class_id, student_id):
             'User is trying to enroll not existing class. user_id = {} class_id = {}'.format(current_user.id,
                                                                                              class_id))
         flash('Class does not find', 'danger')
-        return redirect(url_for('user.class_list'))
+        return redirect(url_for('user.main'))
     if not current_student or current_student.user_id != current_user.id:
         current_app.logger.warning(
             'User is trying to enroll not his student. user_id = {} student_id = {}'.format(current_user.id,
                                                                                             student_id))
         flash("Student does not find", "danger")
-        return redirect(url_for('user.class_list'))
+        return redirect(url_for('student.enroll_student'))
 
     return render_template('schdl_class/enroll.html', current_class=current_class, current_student=current_student)
 
@@ -122,27 +123,37 @@ def enroll_class(class_id, student_id):
 @schdl_class.route('/payment/<class_id>/<student_id>', methods=['GET', 'POST'])
 @login_required
 def payment_class(class_id, student_id):
-    # TODO get payment with Stripe. If payment successful add Student to enrollments
     current_class = Schdl_Class.query.filter_by(id=class_id).first()
     current_student = Student.query.filter_by(id=student_id).first()
+    current_enrollment = Enrollment.query.filter_by(student_id=student_id).filter_by(class_id=current_class.id).first()
+
+    if current_enrollment:
+        flash('Your child already enrolled, you do not need to pay second time', 'warning')
+        return redirect(url_for('user.main'))
 
     if not current_class:
         current_app.logger.warning(
             'User is trying to enroll not existing class. user_id = {} class_id = {}'.format(current_user.id,
                                                                                              class_id))
         flash('Class does not find', 'danger')
-        return redirect(url_for('user.class_list'))
+        return redirect(url_for('user.main'))
+
     if not current_student or current_student.user_id != current_user.id:
         current_app.logger.warning(
             'User is trying to enroll not his student. user_id = {} student_id = {}'.format(current_user.id,
                                                                                             student_id))
         flash("Student does not find", "danger")
-        return redirect(url_for('user.class_list'))
-    new_enrollment = Enrollment()
-    new_enrollment.class_id = current_class.id
-    new_enrollment.student_id = current_student.id
-    db.session.add(new_enrollment)
-    db.session.commit()
-    flash("{} has been added to student list of {} classes".format(current_student.first_name,
-                                                                   current_class.subject.name), "success")
-    return redirect(url_for('user.class_list'))
+        return redirect(url_for('user.main'))
+    description = "{} class at {} for {} {}".format(current_class.subject.name, current_class.school.name,
+                                                    current_student.first_name, current_student.last_name)
+    if charge_customer(300, description):  # TODO get price of class from current_class
+        new_enrollment = Enrollment()
+        new_enrollment.class_id = current_class.id
+        new_enrollment.student_id = current_student.id
+        db.session.add(new_enrollment)
+        db.session.commit()
+        flash("{} has been added to student list of {} classes".format(current_student.first_name,
+                                                                       current_class.subject.name), "success")
+    else:
+        flash("Something wrong with your payment", "danger")
+    return redirect(url_for('student.enroll_student', student_id=current_student.id))
