@@ -4,14 +4,13 @@ from logging.handlers import RotatingFileHandler
 
 from SlackLogger import SlackHandler
 from flask import Flask, redirect, url_for, render_template, abort
-from flask_admin import Admin
 from flask_bootstrap import Bootstrap
 from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_security import Security, utils
 from raven.contrib.flask import Sentry
 
-from app.models import db, user_datastore
+from app.models import db, user_datastore, Schdl_Class, User
 from app.user.forms import SignInForm, RegistrationForm
 from config import Config
 
@@ -20,7 +19,6 @@ migrate = Migrate()
 sentry = Sentry()
 bootstrap = Bootstrap()
 mail = Mail()
-admin = Admin()
 
 
 def create_app(config_class=Config):
@@ -34,7 +32,6 @@ def create_app(config_class=Config):
     db.init_app(app)
     migrate.init_app(app, db)
     mail.init_app(app)
-    admin.init_app(app)
     #====== BLUEPRINTS ========================================================
     from app.dashboard.views import dashboard
     app.register_blueprint(dashboard, url_prefix='/dashboard')
