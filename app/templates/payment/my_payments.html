@@ -1,6 +1,10 @@
 {% block my_payments %}
     {% for payment in payments %}
-        {{ payment.created }} {{ payment.amount/100 }}{{ payment.currency }} {{ payment.source.brand }}-
-        {{ payment.source.last4 }}  {{ payment.status }} <br>
+        <tr>
+            <td>{{ payment.created }}</td>
+            <td>{{ payment.amount/100 }} {{ payment.currency }}</td>
+            <td>{{ payment.source.brand }}-{{ payment.source.last4 }}</td>
+            <td>{{ payment.status }}</td>
+        </tr>
     {% endfor %}
 {% endblock %}
