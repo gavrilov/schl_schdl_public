@@ -12,6 +12,7 @@
 {% block page_content %}
     {{ super() }}
     <h1>{{ user.first_name }} {{ user.last_name }} </h1><h3 style="color: lightgrey">{{ user.email }}</h3>
+    <!--Students-->
     <div class="row">
         <div class="col text-left">
             <h3>Student List</h3>
@@ -20,7 +21,6 @@
             <a class="btn btn-outline-primary" href="{{ url_for('student.add_student') }}" role="button">Add Student</a>
         </div>
     </div>
-    <!--Students-->
     <table class="table table-striped table-hover">
         <tbody>
         {% for student in students %}
@@ -43,6 +43,7 @@
         </tbody>
     </table>
 
+    <!--Contacts-->
     <div class="row">
         <div class="col text-left">
             <h3>Contacts</h3>
@@ -51,7 +52,6 @@
             <a class="btn btn-outline-primary" href="{{ url_for('user.add_contacts') }}" role="button">Add Contact</a>
         </div>
     </div>
-    <!--Contacts-->
     <div class="table-responsive">
         <table class="table table-striped table-hover">
             <tbody>

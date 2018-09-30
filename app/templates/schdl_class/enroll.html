@@ -10,7 +10,6 @@
 {% block page_content %}
     {{ super() }}
     <div class="row">
-
     </div>
     <div class="row">
         <h1>Class information</h1>
@@ -23,7 +22,6 @@
                 <th>Teacher</th>
                 <th>Pay</th>
             </tr>
-
             <tr>
                 <td>{{ current_class.subject.name }}</td>
                 <td>{{ current_class.school.name }}</td>
@@ -32,7 +30,6 @@
                                           href="{{ url_for('schdl_class.payment_class', class_id=current_class.id, student_id=current_student.id) }}"
                                           role="button">Pay With Stripe</a></td>
             </tr>
-
             </tbody>
         </table>
     </div>
