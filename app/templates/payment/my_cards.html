@@ -1,0 +1,5 @@
+{% block my_cards %}
+    {% for card in cards %}
+        {{ card.brand }}-{{ card.last4 }}<br>
+    {% endfor %}
+{% endblock %}

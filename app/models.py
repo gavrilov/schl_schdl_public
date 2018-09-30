@@ -62,6 +62,7 @@ class Event(db.Model):
 class User(UserMixin, db.Model):
     __tablename__ = "users"
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
+    stripe_id = db.Column('stripe_id', db.Unicode(2048))
     email = db.Column('email', db.Unicode(2048), unique=True, index=True)
     first_name = db.Column('first_name', db.Unicode(2048))
     last_name = db.Column('last_name', db.Unicode(2048))
