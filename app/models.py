@@ -3,12 +3,17 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-# table many-to-many conects users and roles secondary=roles_users
+# table many-to-many connects users and roles secondary=roles_users
 roles_users = db.Table('roles_users', db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
                        db.Column('role_id', db.Integer(), db.ForeignKey('roles.id')))
 
+# table many-to-many connects users and schools (one school has few user accounts. one user may have few schools)
 schools_users = db.Table('schools_users', db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
                          db.Column('school_id', db.Integer(), db.ForeignKey('schools.id')))
+
+# table many-to-many connects students and classes (it is table for enrollments)
+enrollments = db.Table('enrollments', db.Column('student_id', db.Integer(), db.ForeignKey('students.id')),
+                       db.Column('class_id', db.Integer(), db.ForeignKey('classes.id')))
 
 
 class Schdl_Class(db.Model):
@@ -18,8 +23,9 @@ class Schdl_Class(db.Model):
     teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'))
     subject_id = db.Column(db.Integer, db.ForeignKey('subjects.id'))
     current = db.Column('current', db.Boolean())
+    info = db.Column('info', db.Unicode(10240))
+    price = db.Column('price', db.Numeric(scale=2))
     events = db.relationship('Event', backref='schdl_class', lazy='dynamic')
-    enrollments = db.relationship('Enrollment', backref='schdl_class', lazy='dynamic')
 
 
 class School(db.Model):
@@ -111,15 +117,7 @@ class Student(db.Model):
     dob = db.Column('dob', db.DateTime)
     note = db.Column('note', db.Unicode(2048))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    enrollments = db.relationship('Enrollment', backref='student', lazy='dynamic')
-    # classes = db.relationship('Schdl_Class', backref='teacher', lazy='dynamic')
-
-
-class Enrollment(db.Model):
-    __tablename__ = "enrollments"
-    id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
-    class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
-    student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
+    classes = db.relationship('Schdl_Class', secondary=enrollments, backref='students', lazy='dynamic')
 
 
 # for Flask-Security
