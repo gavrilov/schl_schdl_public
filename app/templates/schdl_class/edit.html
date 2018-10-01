@@ -4,6 +4,7 @@
 
 {% block head %}
     {{ super() }}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/summernote.css" rel="stylesheet">
 {% endblock %}
 
 
@@ -15,11 +16,23 @@
         {{ form.teacher_id.label }} {{ form.teacher_id }}
         {{ form.subject_id.label }} {{ form.subject_id }}
         {{ form.current.label }} {{ form.current }}
+        {{ form.price.label }} {{ form.price }}
+        {{ form.info.label }} {{ form.info }}
+
         <input type="submit" value="Save">
     </form>
+    <div id="summernote"></div>
 {% endblock %}
 
 
 {% block scripts %}
     {{ super() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/summernote.js"></script>
+    <script>
+        $('#info').summernote({
+            placeholder: 'Hello bootstrap 4',
+            tabsize: 2,
+            height: 400
+        });
+    </script>
 {% endblock %}

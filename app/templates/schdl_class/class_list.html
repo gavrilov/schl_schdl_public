@@ -31,13 +31,15 @@
                 <th>Subject</th>
                 <th>School</th>
                 <th>Teacher</th>
+                <th>Price</th>
                 <th>Edit</th>
             </tr>
             {% for current_class in classes %}
                 <tr>
                     <td>{{ current_class.subject.name }}</td>
                     <td>{{ current_class.school.name }}</td>
-                    <td>{{ current_class.teacher.first_name }}</td>
+                    <td>{{ current_class.teacher.user.first_name }} {{ current_class.teacher.user.last_name }}</td>
+                    <td>${{ current_class.price }}</td>
                     <td><a href="{{ url_for('schdl_class.edit_class', class_id=current_class.id) }}">Edit</a></td>
                 </tr>
             {% endfor %}
