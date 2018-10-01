@@ -2,7 +2,7 @@ from flask import render_template, Blueprint, flash, redirect, url_for, current_
 from flask_security import current_user, login_required
 
 from app import db
-from app.models import Schdl_Class, Student, Enrollment
+from app.models import Schdl_Class, Student
 from app.models import School
 from app.models import Subject
 from app.models import Teacher
@@ -125,9 +125,8 @@ def enroll_class(class_id, student_id):
 def payment_class(class_id, student_id):
     current_class = Schdl_Class.query.filter_by(id=class_id).first()
     current_student = Student.query.filter_by(id=student_id).first()
-    current_enrollment = Enrollment.query.filter_by(student_id=student_id).filter_by(class_id=current_class.id).first()
 
-    if current_enrollment:
+    if current_class in current_student.classes:
         flash('Your child already enrolled, you do not need to pay second time', 'warning')
         return redirect(url_for('user.main'))
 
@@ -146,11 +145,8 @@ def payment_class(class_id, student_id):
         return redirect(url_for('user.main'))
     description = "{} class at {} for {} {}".format(current_class.subject.name, current_class.school.name,
                                                     current_student.first_name, current_student.last_name)
-    if charge_customer(300, description):  # TODO get price of class from current_class
-        new_enrollment = Enrollment()
-        new_enrollment.class_id = current_class.id
-        new_enrollment.student_id = current_student.id
-        db.session.add(new_enrollment)
+    if charge_customer(current_user, int(current_class.price * 100), description):
+        current_student.classes.append(current_class)  # if payment successful then enroll student
         db.session.commit()
         flash("{} has been added to student list of {} classes".format(current_student.first_name,
                                                                        current_class.subject.name), "success")

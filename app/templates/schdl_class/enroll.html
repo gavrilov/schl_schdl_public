@@ -10,11 +10,15 @@
 {% block page_content %}
     {{ super() }}
     <div class="row">
+        <h1> Class information </h1>
     </div>
     <div class="row">
-        <h1>Class information</h1>
+        <div class="col">
+            {{ current_class.info|safe }}
+        </div>
+    </div>
+    <div class="row">
         <table class="table table-hover table-bordered">
-            <caption>List of classes</caption>
             <tbody>
             <tr>
                 <th>Subject</th>
@@ -25,10 +29,22 @@
             <tr>
                 <td>{{ current_class.subject.name }}</td>
                 <td>{{ current_class.school.name }}</td>
-                <td>{{ current_class.teacher.first_name }} {{ current_class.teacher.last_name }}</td>
-                <td class="text-right"><a class="btn btn-info"
-                                          href="{{ url_for('schdl_class.payment_class', class_id=current_class.id, student_id=current_student.id) }}"
-                                          role="button">Pay With Stripe</a></td>
+                <td>{{ current_class.teacher.user.first_name }} {{ current_class.teacher.user.last_name }}</td>
+                {% if current_class in current_student.classes %}
+                    <td><a class="btn btn-success"
+                           href="#"
+                           role="button">{{ current_student.first_name }} {{ current_student.last_name }} already
+                        enrolled for that class</a></td>
+                {% elif current_user.stripe_id %}
+                    <td>{{ current_student.first_name }} {{ current_student.last_name }} - <a class="btn btn-info"
+                                                                                              href="{{ url_for('schdl_class.payment_class', class_id=current_class.id, student_id=current_student.id) }}"
+                                                                                              role="button">Pay With
+                        Stripe ${{ current_class.price }}</a></td>
+
+                {% else %}
+                    <td> To enroll {{ current_student.first_name }} {{ current_student.last_name }} - first add credit
+                        card information <a href="{{ url_for('user.main') }}"> in your account</a></td>
+                {% endif %}
             </tr>
             </tbody>
         </table>
