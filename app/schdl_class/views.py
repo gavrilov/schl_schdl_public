@@ -61,7 +61,7 @@ def add_class():
         db.session.add(new_class)
         db.session.commit()
         flash("Class {} created".format(new_class.subject.name), "success")
-        return redirect(url_for('schdl_class.class_list'))
+        return redirect(url_for('schdl_class.edit_class', class_id=new_class.id))
     else:
         return render_template('schdl_class/add.html', form=form)
 
