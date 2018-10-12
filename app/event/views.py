@@ -40,7 +40,7 @@ def add_event():
         db.session.commit()
         flash(
             "Event for {} {} at {} created".format(new_event.teacher.user.first_name, new_event.teacher.user.last_name,
-                                                   new_event.schl_class.school.name), "success")
+                                                   new_event.schdl_class.school.name), "success")
         return redirect(url_for('event.event_list'))
     else:
         return render_template('event/add.html', form=form)
@@ -69,7 +69,7 @@ def edit_event(event_id):
             form.populate_obj(current_event)
             #save to db
             db.session.commit()
-            flash("Event of {} edited".format(current_event.schl_class.school.name), "success")
+            flash("Event of {} edited".format(current_event.schdl_class.school.name), "success")
             return redirect(url_for('event.event_list'))
         else:
             return render_template('event/edit.html', form=form, event_id=event_id)

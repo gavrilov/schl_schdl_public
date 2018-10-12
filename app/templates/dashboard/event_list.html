@@ -34,8 +34,8 @@
             </tr>
             {% for current_event in events %}
                 <tr>
-                    <td>{{ current_event.schl_class.school.name }}</td>
-                    <td>{{ current_event.schl_class.subject.name }}</td>
+                    <td>{{ current_event.schdl_class.school.name }}</td>
+                    <td>{{ current_event.schdl_class.subject.name }}</td>
                     <td>{{ current_event.teacher.first_name }} {{ current_event.teacher.last_name }}</td>
                     <td><a href="{{ url_for('event.edit_event', event_id=current_event.id) }}">Edit</a></td>
                 </tr>
