@@ -92,7 +92,7 @@ def edit_class(class_id):
             flash("{} class edited".format(current_class.subject.name), "success")
             return redirect(url_for('schdl_class.class_list'))
         else:
-            return render_template('schdl_class/edit.html', form=form, class_id=class_id)
+            return render_template('schdl_class/edit.html', form=form, current_class=current_class)
     else:
         flash("Class with id " + str(class_id) + " did not find", "danger")
         return redirect(url_for('schdl_class.class_list'))
