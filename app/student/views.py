@@ -71,7 +71,7 @@ def edit_student(student_id):
         form.populate_obj(current_student)
         # save to db
         db.session.commit()
-        flash("Student {} {} edited".format(current_student.first_name, current_student.last_name), "success")
+        flash("Student {} {} has been updated".format(current_student.first_name, current_student.last_name), "success")
         return redirect(url_for('user.main'))
 
     return render_template('student/edit.html', form=form, student_id=student_id)
