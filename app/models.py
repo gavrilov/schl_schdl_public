@@ -36,6 +36,8 @@ class Schdl_Class(db.Model):
     payrate = db.Column('payrate', db.Numeric(scale=2))
     class_start = db.Column('class_start', db.DateTime)
     class_end = db.Column('class_end', db.DateTime)
+    class_time_start = db.Column('class_time_start', db.Time)
+    class_time_end = db.Column('class_time_end', db.Time)
     # day_of_week
 
 
