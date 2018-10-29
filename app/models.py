@@ -26,6 +26,17 @@ class Schdl_Class(db.Model):
     info = db.Column('info', db.Unicode(10240))
     price = db.Column('price', db.Numeric(scale=2))
     events = db.relationship('Event', backref='schdl_class', lazy='dynamic')
+    registration_start = db.Column('registration_start', db.DateTime)
+    registration_end = db.Column('registration_end', db.DateTime)
+    grade_limit_from = db.Column('grade_limit_from', db.Integer)
+    grade_limit_to = db.Column('grade_limit_to', db.Integer)
+    age_limit_from = db.Column('age_limit_from', db.Integer)
+    age_limit_to = db.Column('age_limit_to', db.Integer)
+    billing_rate = db.Column('billing_rate', db.Numeric(scale=2))
+    payrate = db.Column('payrate', db.Numeric(scale=2))
+    class_start = db.Column('class_start', db.DateTime)
+    class_end = db.Column('class_end', db.DateTime)
+    # day_of_week
 
 
 class School(db.Model):
