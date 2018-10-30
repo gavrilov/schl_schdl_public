@@ -25,6 +25,7 @@
               method="POST"
               name="edit_class_form">
             {{ form.csrf_token }}
+
             <div class="form-group row">
                 <div class="col">
                     {{ form.school_id.label(class="form-control-label") }}
@@ -39,6 +40,7 @@
                     {{ form.subject_id(class="form-control") }}
                 </div>
             </div>
+
             <div class="form-group row">
                 <div class="form-group col">
                     {{ form.price.label(class="form-control-label") }}
@@ -53,33 +55,6 @@
                     {{ form.billing_rate(class="form-control") }}
                 </div>
             </div>
-            <div class="form-group row">
-                <div class="form-group col">
-                    {{ form.registration_start.label(class="form-control-label") }}
-                    {{ form.registration_start(class="form-control") }}
-                </div>
-                <div class="form-group col">
-                    {{ form.registration_end.label(class="form-control-label") }}
-                    {{ form.registration_end(class="form-control") }}
-                </div>
-                <div class="form-group col">
-                    {{ form.class_start.label(class="form-control-label") }}
-                    {{ form.class_start(class="form-control") }}
-                </div>
-                <div class="form-group col">
-                    {{ form.class_end.label(class="form-control-label") }}
-                    {{ form.class_end(class="form-control") }}
-                </div>
-                <div class="form-group col">
-                    {{ form.class_time_start.label(class="form-control-label") }}
-                    {{ form.class_time_start(class="form-control") }}
-                </div>
-                <div class="form-group col">
-                    {{ form.class_time_end.label(class="form-control-label") }}
-                    {{ form.class_time_end(class="form-control") }}
-                </div>
-            </div>
-
 
             <div class="form-group row">
                 <div class="form-group col">
@@ -108,6 +83,24 @@
                 </div>
             </div>
 
+            <div class="form-group row">
+                <div class="form-group col">
+                    {{ form.grade_limit_from.label(class="form-control-label") }}
+                    {{ form.grade_limit_from(class="form-control") }}
+                </div>
+                <div class="form-group col">
+                    {{ form.grade_limit_to.label(class="form-control-label") }}
+                    {{ form.grade_limit_to(class="form-control") }}
+                </div>
+                <div class="form-group col">
+                    {{ form.age_limit_from.label(class="form-control-label") }}
+                    {{ form.age_limit_from(class="form-control") }}
+                </div>
+                <div class="form-group col">
+                    {{ form.age_limit_to.label(class="form-control-label") }}
+                    {{ form.age_limit_to(class="form-control") }}
+                </div>
+            </div>
 
             <div class="row">
                 <div class="form-check mr-auto">
@@ -115,14 +108,22 @@
                     {{ form.current.label (class="form-check-label") }}
                 </div>
             </div>
+
             <div class="form-group row">
                 {{ form.info.label(class="form-control-label") }}
             </div>
+
             <div class="form-group row">
                 {{ form.info(class="form-control") }}
             </div>
+
             <div class="form-group row">
-                <button id="recaptcha-submit" class="btn btn-primary">Submit</button>
+                <div class="col">
+                    <button id="recaptcha-submit" class="btn btn-primary">Save</button>
+                </div>
+                <div class="col">
+                    <button id="recaptcha-submit" class="btn btn-warning">Create Events</button>
+                </div>
             </div>
         </form>
     </div>
@@ -135,7 +136,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/summernote.js"></script>
     <script>
         $('#info').summernote({
-            placeholder: 'Users see that class description before ',
+            placeholder: 'Users see that class description',
             height: 400,
             toolbar: [
                 ['style', ['bold', 'italic', 'underline', 'clear']],
