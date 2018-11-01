@@ -64,7 +64,7 @@ def user_role():
     if thisuser and thisrole:
         if action == 'add':
             user_datastore.add_role_to_user(thisuser, thisrole)
-            if thisrole.name == 'teacher' and Teacher.query.filter_by(id=thisuser.id).first():
+            if thisrole.name == 'teacher' and not Teacher.query.filter_by(id=thisuser.id).first():
                 new_teacher = Teacher()
                 new_teacher.user_id = thisuser.id
                 db.session.add(new_teacher)
