@@ -1,7 +1,7 @@
 {% block my_payments %}
     {% for payment in payments %}
         <tr>
-            <td>{{ payment.created | ctime }}</td>
+            <td>{{ moment(payment.created | ctime, local=True).format('L LT') }}</td>
             <td>{{ payment.amount/100 }} {{ payment.currency }}</td>
             <td>{{ payment.source.brand }}-{{ payment.source.last4 }}</td>
             <td>{{ payment.status }}</td>
