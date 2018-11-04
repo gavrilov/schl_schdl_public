@@ -5,7 +5,7 @@ from app import db, user_datastore
 from app.models import User, UserContacts, Student, Role, School, Teacher
 from app.payment import my_cards, my_payments
 from app.school.forms import SchoolListForm
-from app.user.forms import UserForm, UserContactForm
+from app.user.forms import UserForm, UserContactForm, UserSettingsForm
 
 user = Blueprint('user', __name__, template_folder='templates')
 
@@ -151,13 +151,14 @@ def main():
         flash("Please add students", "danger")
         return redirect(url_for('student.add_student'))
     return render_template('user/user_info.html', user=current_user, students=students, cards_html=cards_html,
-                           payments_html=payments_html, contacts=contacts)
+                           payments_html=payments_html)
 
 
-@user.route('/edit/', methods=['GET', 'POST'])
+@user.route('/edit', methods=['GET', 'POST'])
 @login_required
 def edit():
-    form = UserForm()
+    form = UserSettingsForm()
+    contacts = UserContacts.query.filter_by(user_id=current_user.id).all()
     if form.validate_on_submit():
         form.populate_obj(current_user)
         # save to db
@@ -166,10 +167,10 @@ def edit():
         return redirect(url_for('user.main'))
     else:
         form = UserForm(obj=current_user)
-        return render_template('user/edit.html', form=form, user_id=current_user.id)
+        return render_template('user/edit.html', form=form, user_id=current_user.id, contacts=contacts)
 
 
-@user.route('/contacts/add/', methods=['GET', 'POST'])
+@user.route('/contacts/add', methods=['GET', 'POST'])
 @login_required
 def add_contacts():
     form = UserContactForm()

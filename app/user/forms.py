@@ -25,6 +25,12 @@ class UserForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
+class UserSettingsForm(FlaskForm):
+    first_name = StringField('First Name', validators=[DataRequired("Please enter your First Name")])
+    last_name = StringField('Last Name', validators=[DataRequired("Please enter your Last Name")])
+    submit = SubmitField('Submit')
+
+
 class UserContactForm(FlaskForm):
     # TODO validate: email? address info with USPS, phone number
     email = EmailField("Email", validators=[InputRequired("Please enter your email address")])
