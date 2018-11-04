@@ -1,6 +1,6 @@
+import datetime
 import logging
 import os
-import time
 from logging.handlers import RotatingFileHandler
 
 from SlackLogger import SlackHandler
@@ -122,6 +122,6 @@ def create_app(config_class=Config):
 
     @app.template_filter('ctime')
     def timectime(s):
-        return time.ctime(s)  # datetime.datetime.fromtimestamp(s)
+        return datetime.datetime.fromtimestamp(s)
 
     return app
