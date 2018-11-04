@@ -9,7 +9,6 @@ from flask_bootstrap import Bootstrap
 from flask_mail import Mail
 from flask_moment import Moment
 
-()
 from flask_migrate import Migrate
 from flask_security import Security, utils
 from raven.contrib.flask import Sentry
@@ -124,5 +123,4 @@ def create_app(config_class=Config):
     def timectime(s):
         # jinja2 template to convert unix timestamp to datetime object as required by flask-moment
         return datetime.datetime.fromtimestamp(s)
-
     return app
