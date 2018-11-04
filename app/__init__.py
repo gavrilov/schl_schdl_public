@@ -7,9 +7,8 @@ from SlackLogger import SlackHandler
 from flask import Flask, redirect, url_for, render_template, abort
 from flask_bootstrap import Bootstrap
 from flask_mail import Mail
-from flask_moment import Moment
-
 from flask_migrate import Migrate
+from flask_moment import Moment
 from flask_security import Security, utils
 from raven.contrib.flask import Sentry
 
@@ -24,6 +23,7 @@ bootstrap = Bootstrap()
 mail = Mail()
 moment = Moment()
 
+
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
@@ -35,7 +35,7 @@ def create_app(config_class=Config):
     db.init_app(app)
     migrate.init_app(app, db)
     mail.init_app(app)
-    #====== BLUEPRINTS ========================================================
+    # ====== BLUEPRINTS ========================================================
     from app.dashboard.views import dashboard
     app.register_blueprint(dashboard, url_prefix='/dashboard')
     from app.school.views import school
@@ -123,4 +123,5 @@ def create_app(config_class=Config):
     def timectime(s):
         # jinja2 template to convert unix timestamp to datetime object as required by flask-moment
         return datetime.datetime.fromtimestamp(s)
+
     return app
