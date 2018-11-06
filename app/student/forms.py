@@ -10,5 +10,6 @@ class StudentForm(FlaskForm):
     gender = SelectField('Gender', choices=[('1', 'Boy'), ('2', 'Girl')],
                          validators=[Optional("Please select Gender of Student")])
     dob = DateField('Date of Birth', validators=[InputRequired("Please enter Day of Birth")])
+    default_school_id = SelectField('School', coerce=int, validators=[Optional()])
     # current = BooleanField('Current Teacher')
     submit = SubmitField('Submit')

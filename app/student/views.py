@@ -1,8 +1,9 @@
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app
 from flask_security import current_user, login_required, roles_required
+from sqlalchemy import and_
 
 from app import db
-from app.models import Student, Schdl_Class
+from app.models import Student, Schdl_Class, School
 from .forms import StudentForm
 
 student = Blueprint('student', __name__, template_folder='templates')
@@ -35,8 +36,12 @@ def info(student_id):
 @student.route('/add', methods=['GET', 'POST'])
 @login_required
 def add_student():
-    form = StudentForm()
+    current_schools = School.query.filter_by(current=True).all()
+    # Now forming the list of tuples for SelectField
+    school_list = [(i.id, i.name) for i in current_schools]
 
+    form = StudentForm()
+    form.default_school_id.choices = school_list
     if form.validate_on_submit():
         new_student = Student()
         form.populate_obj(new_student)
@@ -64,9 +69,11 @@ def edit_student(student_id):
             'User is trying to edit not his student. user_id = {} student_id = {}'.format(current_user.id, student_id))
         flash("Student does not find", "danger")
         return redirect(url_for('user.main'))
-
+    current_schools = School.query.filter_by(current=True).all()
+    # Now forming the list of tuples for SelectField
+    school_list = [(i.id, i.name) for i in current_schools]
     form = StudentForm(obj=current_student)
-
+    form.default_school_id.choices = school_list
     if form.validate_on_submit():
         print(form.gender.data == 1)
         form.populate_obj(current_student)
@@ -88,7 +95,9 @@ def enroll_student(student_id):
                                                                                             student_id))
         flash("Student does not find", "danger")
         return redirect(url_for('user.main'))
-    current_classes = Schdl_Class.query.filter_by(current=True).all()
+    current_classes = Schdl_Class.query.filter(
+        and_(Schdl_Class.current == True, Schdl_Class.school_id == current_student.default_school_id)).all()
+    # current_classes = Schdl_Class.query.filter_by(current=True, school.id=current_student.default_school_id).all()
     form = StudentForm(obj=current_student)
 
     if form.validate_on_submit():
