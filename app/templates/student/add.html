@@ -24,11 +24,8 @@
                 {{ form.last_name(size=30, class="form-control", placeholder="Enter Last Name of Student") }}
             </div>
             <div class="form-group row">
-                <div class="form-check mr-auto">
-                    {{ form.gender(class="form-check-input") }}
-                    {{ form.gender.label(class="form-check-label") }}
-
-                </div>
+                {{ form.gender.label }}
+                {{ form.gender(class="form-control") }}
             </div>
             <div class="form-group row">
                 {{ form.dob.label }}
