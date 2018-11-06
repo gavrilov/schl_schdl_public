@@ -9,9 +9,13 @@
 
 {% block page_content %}
     {{ super() }}
-    <div class="row justify-content-center">
-        <h1>Privacy</h1>
+
+    <div class="jumbotron">
+        <h1 class="display-4">Agreement</h1>
+        <hr class="my-4">
+        <p> {{ config.AGREEMENT }} </p>
     </div>
+
 {% endblock %}
 
 
