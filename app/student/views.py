@@ -1,5 +1,5 @@
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app
-from flask_security import current_user, login_required
+from flask_security import current_user, login_required, roles_required
 
 from app import db
 from app.models import Student, Schdl_Class
@@ -9,6 +9,7 @@ student = Blueprint('student', __name__, template_folder='templates')
 
 
 @student.route('/', methods=['GET', 'POST'])
+@roles_required('admin')
 def student_list():
     # TODO filter current student by current students or so
     students = Student.query.filter_by().all()
