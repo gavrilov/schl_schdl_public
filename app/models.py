@@ -38,6 +38,7 @@ class Schdl_Class(db.Model):
     class_end = db.Column('class_end', db.DateTime)
     class_time_start = db.Column('class_time_start', db.Time)
     class_time_end = db.Column('class_time_end', db.Time)
+    # default_students = db.relationship('Student', backref='default_school', lazy='dynamic')
     # day_of_week
 
 
@@ -126,10 +127,11 @@ class Student(db.Model):
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
     first_name = db.Column('first_name', db.Unicode(2048))
     last_name = db.Column('last_name', db.Unicode(2048))
-    gender = db.Column('gender', db.Boolean())  # 1 - for boy, 0 - for girl
+    gender = db.Column('gender', db.Integer())  # 1 - for boy, 2 - for girl
     dob = db.Column('dob', db.DateTime)
     note = db.Column('note', db.Unicode(2048))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    default_school_id = db.Column(db.Integer, db.ForeignKey('schools.id'))
     classes = db.relationship('Schdl_Class', secondary=enrollments, backref='students', lazy='dynamic')
 
 
