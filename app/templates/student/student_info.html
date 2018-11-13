@@ -9,21 +9,35 @@
 
 {% block page_content %}
     {{ super() }}
-    <a href="{{ url_for('student.add_student') }}"> Add Student</a>>
-    <table>
-        <tbody>
-        <tr>
-            <td>Student First Name</td>
-            <td>Student Last Name</td>
-            <td>Edit</td>
-        </tr>
-        <tr>
-            <td>{{ student.first_name }} </td>
-            <td>{{ student.last_name }} </td>
-            <td><a href="{{ url_for('student.edit_student', student_id=student.id) }}">Edit</a>></td>
-        </tr>
-        </tbody>
-    </table>
+    <h1>{{ student.first_name }} {{ student.last_name }}</h1>
+    <h3>Student Info</h3>
+    DOB: {{ student.dob }} <br>
+    {% if student.gender == 1 %}
+        Gender: Boy <br>
+    {% else %}
+        Gender: Girl <br>
+    {% endif %}
+    Note about student: {{ student.note }}<br>
+    <h3>Parent Info</h3>
+    Parent: {{ student.user.first_name }} {{ student.user.last_name }}<br>
+    Note about Parent: {{ student.user.note }}<br>
+    {% for contact in student.user.contacts %}
+        Email: {{ contact.email }}<br>
+        Phone: {{ contact.phone }}<br>
+        Address: {{ contact.address1 }} {{ contact.address2 }} {{ contact.city }} {{ contact.state }} {{ contact.zip }}
+        <br>
+    {% endfor %}
+    <h3>Classes Info</h3>
+    {% for current_class in student.classes %}
+        <a href="{{ url_for('schdl_class.edit_class', class_id=current_class.id) }}">{{ current_class.subject.name }}
+            @ {{ current_class.school.name }}</a><br>
+    {% endfor %}
+
+    <h3>Payment Info</h3>
+    {% for current_class in student.classes %}
+        <a href="{{ url_for('schdl_class.edit_class', class_id=current_class.id) }}">{{ current_class.subject.name }}
+            @ {{ current_class.school.name }}</a><br>
+    {% endfor %}
 {% endblock %}
 
 
