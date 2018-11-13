@@ -1,0 +1,10 @@
+{% for student in current_class.students %}
+    <tr>
+        <td><input type="hidden" name="students" value="{{ student.id }}"></td>
+        <td>{{ student.first_name }} {{ student.last_name }}</td>
+        <td>{{ current_class.school.name }}</td>
+        <td>{{ current_class.subject.name }}</td>
+        <td>{{ student.dob }}</td>
+        <td><a href="{{ url_for('student.edit_student', student_id=student.id) }}">Edit</a></td>
+    </tr>
+{% endfor %}

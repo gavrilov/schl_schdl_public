@@ -4,6 +4,8 @@
 
 {% block head %}
     {{ super() }}
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.18/b-1.5.2/b-colvis-1.5.2/b-html5-1.5.2/b-print-1.5.2/r-2.2.2/sl-1.2.6/datatables.min.css"/>
 {% endblock %}
 
 
@@ -24,29 +26,51 @@
         </div>
 
     </div>
-    <div class="row">
-        <h1>List of students</h1>
-        <table class="table table-hover table-bordered">
+
+    <h1>List of students</h1>
+    <form method="POST" action="" id="theForm">
+        <table class="table table-hover table-bordered" id="maintable">
             <caption>List of students</caption>
-            <tbody>
-            <tr>
-                <th>Student First Name</th>
-                <th>Student Last Name</th>
-                <th>Edit</th>
+            <thead>
+            <tr id="filterrow">
+                <th></th>
+                <th id="filtercol">Student Name</th>
+                <th id="filtercol">School</th>
+                <th id="filtercol">Class</th>
+                <th id="filtercol">Student DOB</th>
+                <th></th>
             </tr>
-            {% for student in students %}
-                <tr>
-                    <td><a href="{{ url_for('student.info', student_id=student.id) }}">{{ student.first_name }}</a></td>
-                    <td><a href="{{ url_for('student.info', student_id=student.id) }}">{{ student.last_name }}</a></td>
-                    <td><a href="{{ url_for('student.edit_student', student_id=student.id) }}">Edit</a></td>
-                </tr>
-            {% endfor %}
+            <tr>
+                <th class="text-center">#</th>
+                <th class="text-center">Student Name</th>
+                <th class="text-center">School</th>
+                <th class="text-center">Class</th>
+                <th class="text-center">Student DOB</th>
+                <th class="text-center">Edit</th>
+            </tr>
+            </thead>
+            <tbody>
+            {# student/student_list_rows.html generates all rows for that table #}
+            {{ students_html|safe }}
             </tbody>
         </table>
-    </div>
+        <select name="actionselect" id="actionselect">
+            <option value="">with selection</option>
+            <option value="call">Robo Call</option>
+            <option value="txt">Send txt</option>
+            <option value="email">Send email</option>
+            <option value="labels">Print Labels</option>
+        </select>
+        <button id="submit">Submit</button>
+    </form>
+
+
+
+
 {% endblock %}
 
 
 {% block scripts %}
     {{ super() }}
+    {% include 'dashboard/datatable.html' %}
 {% endblock %}

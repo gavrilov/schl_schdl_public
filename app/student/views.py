@@ -12,9 +12,12 @@ student = Blueprint('student', __name__, template_folder='templates')
 @student.route('/', methods=['GET', 'POST'])
 @roles_required('admin')
 def student_list():
-    # TODO filter current student by current students or so
-    students = Student.query.filter_by().all()
-    return render_template('student/student_list.html', students=students, current_students_only=False)
+    students_html = ""
+    current_classes = Schdl_Class.query.filter_by(current=True).all()
+    for current_class in current_classes:
+        # generate rows for table for each class
+        students_html += render_template('student/student_list_rows.html', current_class=current_class)
+    return render_template('student/student_list.html', students_html=students_html, current_students_only=False)
 
 
 @student.route('/all', methods=['GET', 'POST'])
