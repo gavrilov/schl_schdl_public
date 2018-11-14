@@ -4,51 +4,91 @@
 
 {% block head %}
     {{ super() }}
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.18/b-1.5.2/b-colvis-1.5.2/b-html5-1.5.2/b-print-1.5.2/r-2.2.2/sl-1.2.6/datatables.min.css"/>
 {% endblock %}
 
 
 {% block page_content %}
     {{ super() }}
     <div class="row">
-            <div class="col-md-3 offset-md-9">
-                {% if current_classes_only %}
-                    <a class="btn btn-outline-primary" href="{{ url_for('schdl_class.class_all_list') }}" role="button">Show
-                        All Classes</a>
-                {% else %}
-                    <a class="btn btn-outline-primary" href="{{ url_for('schdl_class.class_list') }}" role="button">Show
-                        Current Classes</a>
-                {% endif %}
-                <a class="btn btn-outline-success" href="{{ url_for('schdl_class.add_class') }}" role="button">Add New Class</a>
+        <div class="col-md-3 offset-md-9">
+            {% if current_classes_only %}
+                <a class="btn btn-outline-primary" href="{{ url_for('schdl_class.class_all_list') }}" role="button">Show
+                    All Classes</a>
+            {% else %}
+                <a class="btn btn-outline-primary" href="{{ url_for('schdl_class.class_list') }}" role="button">Show
+                    Current Classes</a>
+            {% endif %}
+            <a class="btn btn-outline-success" href="{{ url_for('schdl_class.add_class') }}" role="button">Add New
+                Class</a>
         </div>
 
     </div>
     <div class="row">
         <h1>List of classes</h1>
-        <table class="table table-hover table-bordered">
-            <caption>List of classes</caption>
-            <tbody>
-            <tr>
-                <th>Subject</th>
-                <th>School</th>
-                <th>Teacher</th>
-                <th>Price</th>
-                <th>Edit</th>
-            </tr>
-            {% for current_class in classes %}
-                <tr>
-                    <td>{{ current_class.subject.name }}</td>
-                    <td>{{ current_class.school.name }}</td>
-                    <td>{{ current_class.teacher.user.first_name }} {{ current_class.teacher.user.last_name }}</td>
-                    <td>${{ current_class.price }}</td>
-                    <td><a href="{{ url_for('schdl_class.edit_class', class_id=current_class.id) }}">Edit</a></td>
+        <form method="POST" action="" id="theForm">
+            <table class="table table-hover table-bordered" id="maintable">
+                <caption>List of classes</caption>
+                <thead>
+                <tr id="filterrow">
+                    <th></th>
+                    <th id="filtercol">School</th>
+                    <th id="filtercol">Subject</th>
+                    <th id="filtercol">Day</th>
+                    <th id="filtercol">Time</th>
+                    <th id="filtercol">Start date</th>
+                    <th id="filtercol">End date</th>
+                    <th id="filtercol">Teacher</th>
+                    <th id="filtercol">Price</th>
+                    <th></th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">School</th>
+                    <th class="text-center">Subject</th>
+                    <th class="text-center"> Day</th>
+                    <th class="text-center">Time</th>
+                    <th class="text-center">Start date</th>
+                    <th class="text-center">End date</th>
+                    <th class="text-center">Teacher</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Edit</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for current_class in classes %}
+                    <tr>
+                        <td><input type="hidden" name="schdl_classes" value="{{ current_class.id }}"></td>
+                        <td>{{ current_class.school.name }}</td>
+                        <td>{{ current_class.subject.name }}</td>
+                        <td></td>
+                        <td>{{ current_class.class_time_start }} - {{ current_class.class_time_end }}</td>
+                        <td>{{ current_class.class_start }}</td>
+                        <td>{{ current_class.class_end }}</td>
+                        <td>{{ current_class.teacher.user.first_name }} {{ current_class.teacher.user.last_name }}</td>
+                        <td>${{ current_class.price }}</td>
+                        <td><a href="{{ url_for('schdl_class.edit_class', class_id=current_class.id) }}">Edit</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <select name="actionselect" id="actionselect">
+                <option value="">with selection</option>
+                <option value="call">Robo Call</option>
+                <option value="txt">Send txt</option>
+                <option value="email">Send email</option>
+                <option value="labels">Print Labels</option>
+            </select>
+            <button id="submit">Submit</button>
+        </form>
+
     </div>
 {% endblock %}
 
 
 {% block scripts %}
     {{ super() }}
+    {% include 'dashboard/datatable.html' %}
 {% endblock %}
