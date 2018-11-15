@@ -145,11 +145,15 @@ def payment_class(class_id, student_id):
         return redirect(url_for('user.main'))
     description = "{} class at {} for {} {}".format(current_class.subject.name, current_class.school.name,
                                                     current_student.first_name, current_student.last_name)
-    if charge_customer(current_user, int(current_class.price * 100), description):
+    charge = charge_customer(current_user, int(current_class.price * 100), description)
+    if charge.status == 'succeeded':
         current_student.classes.append(current_class)  # if payment successful then enroll student
         db.session.commit()
         flash("{} has been added to student list of {} classes".format(current_student.first_name,
                                                                        current_class.subject.name), "success")
+        return render_template('payment/successful.html', charge=charge)
     else:
+        flash(charge.failure_message, 'danger')
         flash("Something wrong with your payment", "danger")
-    return redirect(url_for('student.enroll_student', student_id=current_student.id))
+        return render_template('payment/failed.html', charge=charge)
+    # return redirect(url_for('student.enroll_student', student_id=current_student.id))

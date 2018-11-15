@@ -1,0 +1,22 @@
+{% extends "dashboard/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Payment failed{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <h1>Payment failed</h1>
+    {{ charge.failure_message }}
+    Please try different card.
+    <!--Update Card Button-->
+    {% include 'payment/add_card_button.html' %}
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}
