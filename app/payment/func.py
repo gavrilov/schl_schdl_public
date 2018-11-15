@@ -38,7 +38,4 @@ def charge_customer(current_user, amount, description):
         customer=current_user.stripe_id,
         receipt_email=current_user.email
     )
-    if charge.status == 'succeeded':
-        return True
-    else:
-        return False
+    return charge
