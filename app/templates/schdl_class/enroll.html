@@ -32,8 +32,17 @@
                 <td>{{ current_class.school.name }}</td>
                 <td>{{ current_class.subject.name }}</td>
                 <td>{{ current_class.subject.day_of_week }}</td>
-                <td>{{ current_class.class_time_start }} - {{ current_class.class_time_end }}</td>
-                <td>{{ current_class.class_start }} - {{ current_class.class_end }}</td>
+                {% if current_class.class_time_start and current_class.class_time_end %}
+                    <td>{{ current_class.class_time_start | ctimeformat }}
+                        - {{ current_class.class_time_end | ctimeformat }}</td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+                {% if current_class.class_start and current_class.class_end %}
+                    <td>{{ current_class.class_start | cdateformat }} - {{ current_class.class_end | cdateformat }}</td>
+                {% else %}
+                    <td></td>
+                {% endif %}
                 {% if current_class in current_student.classes %}
                     <td><a class="btn btn-success"
                            href="#"
