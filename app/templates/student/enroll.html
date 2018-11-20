@@ -38,7 +38,7 @@
         {% for current_class in current_classes %}
             <tr>
                 <td>{{ current_class.school.name }}</td>
-                <td>{{ current_class.subject.name }}</td>
+                <td><p style="color:{{ current_class.subject.color }}">{{ current_class.subject.name }}</p></td>
                 <td></td>
                 <td>{{ current_class.class_time_start }} - {{ current_class.class_time_end }}</td>
                 <td>${{ current_class.price }}</td>
