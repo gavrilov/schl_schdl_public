@@ -124,4 +124,18 @@ def create_app(config_class=Config):
         # jinja2 template to convert unix timestamp to datetime object as required by flask-moment
         return datetime.datetime.fromtimestamp(s)
 
+    @app.template_filter('ctimeformat')
+    def timeformat(s):
+        m = '{:%I:%M %p}'.format(s)
+        # m = datetime.datetime.strptime(s, '%H:%M:%S').strftime('%h:%M %p')
+        # jinja2 template to convert unix timestamp to datetime object as required by flask-moment
+        return m
+
+    @app.template_filter('cdateformat')
+    def dateformat(s):
+        m = '{:%m/%d/%Y}'.format(s)
+        # m = datetime.datetime.strptime(s, '%Y-%m-%d %H:%M:%S').strftime('%m/%d/%Y')
+        # jinja2 template to convert unix timestamp to datetime object as required by flask-moment
+        return m
+
     return app

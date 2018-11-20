@@ -64,9 +64,19 @@
                         <td>{{ current_class.school.name }}</td>
                         <td bgcolor="{{ current_class.subject.color }}">{{ current_class.subject.name }}</td>
                         <td>{{ current_class.day_of_week }}</td>
-                        <td>{{ current_class.class_time_start }} - {{ current_class.class_time_end }}</td>
-                        <td>{{ current_class.class_start }}</td>
-                        <td>{{ current_class.class_end }}</td>
+                        {% if current_class.class_time_start and current_class.class_time_end %}
+                            <td>{{ current_class.class_time_start | ctimeformat }}
+                                - {{ current_class.class_time_end | ctimeformat }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                        {% if current_class.class_start and current_class.class_end %}
+                            <td>{{ current_class.class_start | cdateformat }}</td>
+                            <td>{{ current_class.class_end | cdateformat }}</td>
+                        {% else %}
+                            <td></td>
+                            <td></td>
+                        {% endif %}
                         <td>{{ current_class.teacher.user.first_name }} {{ current_class.teacher.user.last_name }}</td>
                         <td>${{ current_class.price }}</td>
                         <td><a href="{{ url_for('schdl_class.edit_class', class_id=current_class.id) }}">Edit</a></td>
