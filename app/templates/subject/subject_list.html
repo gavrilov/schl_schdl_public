@@ -26,7 +26,8 @@
             </tr>
             {% for subject in subjects %}
                 <tr>
-                    <td><a href="{{ url_for('subject.info', subject_id=subject.id) }}">{{ subject.name }}</a></td>
+                    <td bgcolor="{{ subject.color }}"><a
+                            href="{{ url_for('subject.info', subject_id=subject.id) }}">{{ subject.name }}</a></td>
                     <td><a href="{{ url_for('subject.edit_subject', subject_id=subject.id) }}">Edit</a></td>
                 </tr>
             {% endfor %}

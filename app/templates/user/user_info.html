@@ -33,7 +33,7 @@
                            role="button">{{ current_class.subject.name }}</a>
                     {% endfor %}
                     <a class="btn btn-success" href="{{ url_for('student.enroll_student', student_id=student.id) }}"
-                       role="button">Enroll Classes</a>
+                       role="button">Register for Classes</a>
                 </td>
                 <td class="text-right">
                     <a class="far fa-edit" href="{{ url_for('student.edit_student', student_id=student.id) }}"

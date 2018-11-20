@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, SelectField, DecimalField, BooleanField, TextAreaField, IntegerField
+from wtforms import SubmitField, SelectField, DecimalField, BooleanField, TextAreaField, IntegerField, StringField
 from wtforms.fields.html5 import DateField, TimeField
 from wtforms.validators import Optional
 
@@ -22,5 +22,6 @@ class ClassForm(FlaskForm):
     age_limit_from = IntegerField('Age Limit From', validators=[Optional()])
     age_limit_to = IntegerField('Age Limit To', validators=[Optional()])
     info = TextAreaField('Class Description', validators=[Optional()])
+    day_of_week = StringField('Day of Week', validators=[Optional()])
     current = BooleanField('Current Class', validators=[Optional()])
     submit = SubmitField('Update')

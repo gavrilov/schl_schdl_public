@@ -23,7 +23,8 @@ class Schdl_Class(db.Model):
     teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'))
     subject_id = db.Column(db.Integer, db.ForeignKey('subjects.id'))
     current = db.Column('current', db.Boolean())
-    info = db.Column('info', db.Unicode(10240))
+    info = db.Column('info', db.UnicodeText())
+    day_of_week = db.Column('day_of_week', db.Unicode(2048))
     price = db.Column('price', db.Numeric(scale=2))
     events = db.relationship('Event', backref='schdl_class', lazy='dynamic')
     registration_start = db.Column('registration_start', db.DateTime)
@@ -39,7 +40,6 @@ class Schdl_Class(db.Model):
     class_time_start = db.Column('class_time_start', db.Time)
     class_time_end = db.Column('class_time_end', db.Time)
     # default_students = db.relationship('Student', backref='default_school', lazy='dynamic')
-    # day_of_week
 
 
 class School(db.Model):
@@ -56,6 +56,7 @@ class Subject(db.Model):
     __tablename__ = "subjects"
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
     name = db.Column('name', db.Unicode(2048))
+    color = db.Column('color', db.Unicode(32))
     current = db.Column('current', db.Boolean())
     classes = db.relationship('Schdl_Class', backref='subject', lazy='dynamic')
 

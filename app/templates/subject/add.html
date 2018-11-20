@@ -12,6 +12,8 @@
     <form method="POST" action="{{ url_for('subject.add_subject') }}">
         {{ form.csrf_token }}
         {{ form.name.label }} {{ form.name(size=50) }}
+        {{ form.color.label }} {{ form.color(size=50) }}
+        {{ form.current.label }} {{ form.current }}
         <input type="submit" value="Save">
     </form>
 {% endblock %}

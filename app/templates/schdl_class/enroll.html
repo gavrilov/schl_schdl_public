@@ -25,13 +25,15 @@
                 <th>Subject</th>
                 <th>Day</th>
                 <th>Time</th>
+                <th>Start/End Dates</th>
                 <th>Pay</th>
             </tr>
             <tr>
                 <td>{{ current_class.school.name }}</td>
                 <td>{{ current_class.subject.name }}</td>
-                <td></td>
+                <td>{{ current_class.subject.day_of_week }}</td>
                 <td>{{ current_class.class_time_start }} - {{ current_class.class_time_end }}</td>
+                <td>{{ current_class.class_start }} - {{ current_class.class_end }}</td>
                 {% if current_class in current_student.classes %}
                     <td><a class="btn btn-success"
                            href="#"
@@ -45,7 +47,9 @@
 
                 {% else %}
                     <td> To enroll {{ current_student.first_name }} {{ current_student.last_name }} - first add credit
-                        card information <a href="{{ url_for('user.main') }}"> in your account</a></td>
+                        card information
+                        <!--Update Card Button-->
+                        {% include 'payment/add_card_button.html' %}</td>
                 {% endif %}
             </tr>
             </tbody>

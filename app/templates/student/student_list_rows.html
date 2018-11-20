@@ -5,6 +5,7 @@
         <td>{{ current_class.school.name }}</td>
         <td>{{ current_class.subject.name }}</td>
         <td>{{ student.dob }}</td>
+        <td>{{ student.note }}</td>
         <td><a href="{{ url_for('student.edit_student', student_id=student.id) }}">Edit</a></td>
     </tr>
 {% endfor %}

@@ -75,6 +75,8 @@ def run_migrations_online():
     context.configure(connection=connection,
                       target_metadata=target_metadata,
                       process_revision_directives=process_revision_directives,
+                      render_as_batch=True,  # for drop columns
+                      compare_type=True,  # for change length
                       **current_app.extensions['migrate'].configure_args)
 
     try:
