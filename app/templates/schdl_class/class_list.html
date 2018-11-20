@@ -62,7 +62,7 @@
                     <tr>
                         <td><input type="hidden" name="schdl_classes" value="{{ current_class.id }}"></td>
                         <td>{{ current_class.school.name }}</td>
-                        <td>{{ current_class.subject.name }}</td>
+                        <td bgcolor="{{ current_class.subject.color }}">{{ current_class.subject.name }}</td>
                         <td>{{ current_class.day_of_week }}</td>
                         <td>{{ current_class.class_time_start }} - {{ current_class.class_time_end }}</td>
                         <td>{{ current_class.class_start }}</td>
