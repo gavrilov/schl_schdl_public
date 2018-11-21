@@ -1,5 +1,5 @@
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app
-from flask_security import current_user, login_required
+from flask_security import current_user, login_required, roles_required
 
 from app import db
 from app.models import Schdl_Class, Student
@@ -12,13 +12,13 @@ from .forms import ClassForm
 schdl_class = Blueprint('schdl_class', __name__, template_folder='templates')
 
 
-@schdl_class.route('popup', methods=['GET', 'POST'])
+@schdl_class.route('/popup', methods=['GET', 'POST'])
 def generate_popup_url():
     # We need it to generate a base of dynamic url for popups
     return False
 
 
-@schdl_class.route('popup/<class_id>/', methods=['GET', 'POST'])
+@schdl_class.route('/popup/<class_id>/', methods=['GET', 'POST'])
 def generate_popup_html(class_id):
     print('I GOT IT!', class_id)
     form = ClassForm()
@@ -27,18 +27,21 @@ def generate_popup_html(class_id):
 
 
 @schdl_class.route('/', methods=['GET', 'POST'])
+@roles_required('admin')
 def class_list():
     classes = Schdl_Class.query.filter_by(current=True).all()
     return render_template('schdl_class/class_list.html', classes=classes, current_classes_only=True)
 
 
 @schdl_class.route('/all', methods=['GET', 'POST'])
+@roles_required('admin')
 def class_all_list():
     classes = Schdl_Class.query.filter_by().all()
     return render_template('schdl_class/class_list.html', classes=classes, current_classes_only=False)
 
 
 @schdl_class.route('/add', methods=['GET', 'POST'])
+@roles_required('admin')
 def add_class():
     current_schools = School.query.filter_by(current=True).all()
     current_teachers = Teacher.query.filter_by(current=True).all()
@@ -66,7 +69,8 @@ def add_class():
         return render_template('schdl_class/add.html', form=form)
 
 
-@schdl_class.route('/edit/<class_id>', methods=['GET', 'POST'])
+@schdl_class.route('/<class_id>/edit', methods=['GET', 'POST'])
+@roles_required('admin')
 def edit_class(class_id):
     current_class = Schdl_Class.query.filter_by(id=class_id).first()
     if current_class:
@@ -89,7 +93,8 @@ def edit_class(class_id):
             form.populate_obj(current_class)
             # save to db
             db.session.commit()
-            flash("{} class edited".format(current_class.subject.name), "success")
+            flash("{} class at {} has been updated".format(current_class.subject.name, current_class.school.name),
+                  "success")
             return redirect(url_for('schdl_class.class_list'))
         else:
             return render_template('schdl_class/edit.html', form=form, current_class=current_class)
@@ -98,7 +103,7 @@ def edit_class(class_id):
         return redirect(url_for('schdl_class.class_list'))
 
 
-@schdl_class.route('/enroll/<class_id>/<student_id>', methods=['GET', 'POST'])
+@schdl_class.route('/<class_id>/enroll/<student_id>', methods=['GET', 'POST'])
 @login_required
 def enroll_class(class_id, student_id):
     current_class = Schdl_Class.query.filter_by(id=class_id).first()
@@ -120,7 +125,7 @@ def enroll_class(class_id, student_id):
     return render_template('schdl_class/enroll.html', current_class=current_class, current_student=current_student)
 
 
-@schdl_class.route('/payment/<class_id>/<student_id>', methods=['GET', 'POST'])
+@schdl_class.route('/<class_id>/payment/<student_id>', methods=['GET', 'POST'])
 @login_required
 def payment_class(class_id, student_id):
     current_class = Schdl_Class.query.filter_by(id=class_id).first()

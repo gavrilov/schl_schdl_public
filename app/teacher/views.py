@@ -16,6 +16,7 @@ def teacher_list():
 
 
 @teacher.route('/all', methods=['GET', 'POST'])
+@roles_required('admin')
 def teacher_all_list():
     teachers = Teacher.query.all()
     return render_template('teacher/list.html', teachers=teachers, current_teachers_only=False)
@@ -48,7 +49,8 @@ def teacher_info(teacher_id):
         return redirect(url_for('teacher.teacher_list'))
 
 
-@teacher.route('/edit/<teacher_id>', methods=['GET', 'POST'])
+@teacher.route('/<teacher_id>/edit', methods=['GET', 'POST'])
+@roles_required('admin')
 def teacher_edit(teacher_id):
     current_teacher = Teacher.query.filter_by(id=teacher_id).first()
     form = TeacherForm()

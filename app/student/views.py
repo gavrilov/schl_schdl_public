@@ -27,6 +27,7 @@ def student_all_list():
 
 
 @student.route('/<student_id>', methods=['GET', 'POST'])
+@roles_required('admin')
 def info(student_id):
     current_student = Student.query.filter_by(id=student_id).first()
     if current_student:
@@ -48,7 +49,7 @@ def add_student():
     if form.validate_on_submit():
         new_student = Student()
         form.populate_obj(new_student)
-        new_student.user_id = current_user.id
+        new_student.user_id = current_user.id  # TODO current_user.students.append(new_student)
         # save new school to db
         db.session.add(new_student)
         db.session.commit()
@@ -63,11 +64,11 @@ def add_student():
     return render_template('student/add.html', form=form)
 
 
-@student.route('/edit/<student_id>', methods=['GET', 'POST'])
+@student.route('/<student_id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_student(student_id):
     current_student = Student.query.filter_by(id=student_id).first()
-    if not current_student or current_student.user_id != current_user.id:
+    if not current_student or current_student.user_id != current_user.id:  # TODO or current_student not in current_user.students
         current_app.logger.warning(
             'User is trying to edit not his student. user_id = {} student_id = {}'.format(current_user.id, student_id))
         flash("Student does not find", "danger")
@@ -88,11 +89,11 @@ def edit_student(student_id):
     return render_template('student/edit.html', form=form, student_id=student_id)
 
 
-@student.route('/enroll/<student_id>', methods=['GET', 'POST'])
+@student.route('/<student_id>/enroll', methods=['GET', 'POST'])
 @login_required
 def enroll_student(student_id):
     current_student = Student.query.filter_by(id=student_id).first()
-    if not current_student or current_student.user_id != current_user.id:
+    if not current_student or current_student.user_id != current_user.id:  # TODO or current_student not in current_user.students
         current_app.logger.warning(
             'User is trying to enroll not his student. user_id = {} student_id = {}'.format(current_user.id,
                                                                                             student_id))
@@ -104,7 +105,7 @@ def enroll_student(student_id):
     form = StudentForm(obj=current_student)
 
     if form.validate_on_submit():
-        print(form.gender.data == 1)
+        print(form.gender.data == 1)  # TODO what is that?
         form.populate_obj(current_student)
         # save to db
         db.session.commit()

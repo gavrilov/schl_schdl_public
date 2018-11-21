@@ -198,7 +198,7 @@ def add_contacts():
     return render_template('user/contact_info.html', form=form)
 
 
-@user.route('/contacts/edit/<contact_id>', methods=['GET', 'POST'])
+@user.route('/contacts/<contact_id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_contacts(contact_id):
     contact_info = UserContacts.query.filter_by(id=contact_id).first()
@@ -227,7 +227,7 @@ def edit_contacts(contact_id):
     return render_template('user/contact_info.html', form=form, editing_existing_contact=True, contact_id=contact_id)
 
 
-@user.route('/contacts/delete/<contact_id>', methods=['GET', 'POST'])
+@user.route('/contacts/<contact_id>/delete', methods=['GET', 'POST'])
 @login_required
 def delete_contacts(contact_id):
     contact_info = UserContacts.query.filter_by(id=contact_id).first()
