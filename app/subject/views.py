@@ -1,4 +1,5 @@
 from flask import render_template, Blueprint, flash, redirect, url_for
+from flask_security import roles_required
 
 from app import db
 from app.models import Subject
@@ -8,12 +9,14 @@ subject = Blueprint('subject', __name__, template_folder='templates')
 
 
 @subject.route('/', methods=['GET', 'POST'])
+@roles_required('admin')
 def subject_list():
     subjects = Subject.query.all()
     return render_template('subject/subject_list.html', subjects=subjects)
 
 
 @subject.route('/<subject_id>', methods=['GET', 'POST'])
+@roles_required('admin')
 def info(subject_id):
     current_subject = Subject.query.filter_by(id=subject_id).first()
     if current_subject:
@@ -25,6 +28,7 @@ def info(subject_id):
 
 
 @subject.route('/add', methods=['GET', 'POST'])
+@roles_required('admin')
 def add_subject():
     form = SubjectForm()
     if form.validate_on_submit():
@@ -40,6 +44,7 @@ def add_subject():
 
 
 @subject.route('/edit/<subject_id>', methods=['GET', 'POST'])
+@roles_required('admin')
 def edit_subject(subject_id):
     current_subject = Subject.query.filter_by(id=subject_id).first()
     form = SubjectForm()

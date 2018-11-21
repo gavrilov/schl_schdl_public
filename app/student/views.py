@@ -27,6 +27,7 @@ def student_all_list():
 
 
 @student.route('/<student_id>', methods=['GET', 'POST'])
+@roles_required('admin')
 def info(student_id):
     current_student = Student.query.filter_by(id=student_id).first()
     if current_student:
