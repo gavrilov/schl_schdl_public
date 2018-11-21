@@ -64,7 +64,7 @@ def add_student():
     return render_template('student/add.html', form=form)
 
 
-@student.route('/edit/<student_id>', methods=['GET', 'POST'])
+@student.route('/<student_id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_student(student_id):
     current_student = Student.query.filter_by(id=student_id).first()
@@ -89,7 +89,7 @@ def edit_student(student_id):
     return render_template('student/edit.html', form=form, student_id=student_id)
 
 
-@student.route('/enroll/<student_id>', methods=['GET', 'POST'])
+@student.route('/<student_id>/enroll', methods=['GET', 'POST'])
 @login_required
 def enroll_student(student_id):
     current_student = Student.query.filter_by(id=student_id).first()

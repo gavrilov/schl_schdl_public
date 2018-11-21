@@ -43,7 +43,7 @@ def add_subject():
         return render_template('subject/add.html', form=form)
 
 
-@subject.route('/edit/<subject_id>', methods=['GET', 'POST'])
+@subject.route('/<subject_id>/edit', methods=['GET', 'POST'])
 @roles_required('admin')
 def edit_subject(subject_id):
     current_subject = Subject.query.filter_by(id=subject_id).first()

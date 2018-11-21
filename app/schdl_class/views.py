@@ -69,7 +69,7 @@ def add_class():
         return render_template('schdl_class/add.html', form=form)
 
 
-@schdl_class.route('/edit/<class_id>', methods=['GET', 'POST'])
+@schdl_class.route('/<class_id>/edit', methods=['GET', 'POST'])
 @roles_required('admin')
 def edit_class(class_id):
     current_class = Schdl_Class.query.filter_by(id=class_id).first()
@@ -103,7 +103,7 @@ def edit_class(class_id):
         return redirect(url_for('schdl_class.class_list'))
 
 
-@schdl_class.route('/enroll/<class_id>/<student_id>', methods=['GET', 'POST'])
+@schdl_class.route('/<class_id>/enroll/<student_id>', methods=['GET', 'POST'])
 @login_required
 def enroll_class(class_id, student_id):
     current_class = Schdl_Class.query.filter_by(id=class_id).first()
@@ -125,7 +125,7 @@ def enroll_class(class_id, student_id):
     return render_template('schdl_class/enroll.html', current_class=current_class, current_student=current_student)
 
 
-@schdl_class.route('/payment/<class_id>/<student_id>', methods=['GET', 'POST'])
+@schdl_class.route('/<class_id>/payment/<student_id>', methods=['GET', 'POST'])
 @login_required
 def payment_class(class_id, student_id):
     current_class = Schdl_Class.query.filter_by(id=class_id).first()

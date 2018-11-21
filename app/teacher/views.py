@@ -49,7 +49,7 @@ def teacher_info(teacher_id):
         return redirect(url_for('teacher.teacher_list'))
 
 
-@teacher.route('/edit/<teacher_id>', methods=['GET', 'POST'])
+@teacher.route('/<teacher_id>/edit', methods=['GET', 'POST'])
 @roles_required('admin')
 def teacher_edit(teacher_id):
     current_teacher = Teacher.query.filter_by(id=teacher_id).first()
