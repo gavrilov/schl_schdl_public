@@ -89,7 +89,8 @@ def edit_class(class_id):
             form.populate_obj(current_class)
             # save to db
             db.session.commit()
-            flash("{} class edited".format(current_class.subject.name), "success")
+            flash("{} class at {} has been updated".format(current_class.subject.name, current_class.school.name),
+                  "success")
             return redirect(url_for('schdl_class.class_list'))
         else:
             return render_template('schdl_class/edit.html', form=form, current_class=current_class)
