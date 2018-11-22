@@ -64,11 +64,9 @@
             {% include 'payment/add_card_button.html' %}
         </div>
     </div>
-    <table class="table table-striped table-hover">
-        <tbody>
-        {{ payments_html|safe }}
-        </tbody>
-    </table>
+    {# Table of User's payments #}
+    {{ payments_html|safe }}
+
 
 {% endblock %}
 
