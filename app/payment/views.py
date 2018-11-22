@@ -28,4 +28,10 @@ def update_card():
         customer.source = token
         customer.save()
     flash('Your card has been added', 'success')
-    return redirect(url_for('user.main'))
+    return redirect(redirect_url())
+
+
+def redirect_url(default='user.main'):
+    return request.args.get('next') or \
+           request.referrer or \
+           url_for(default)
