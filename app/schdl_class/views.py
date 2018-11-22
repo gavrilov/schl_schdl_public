@@ -63,7 +63,9 @@ def add_class():
         # save new school to db
         db.session.add(new_class)
         db.session.commit()
-        flash("Class {} created".format(new_class.subject.name), "success")
+        new_class.info = new_class.subject.default_info  # add default description from subject to class
+        db.session.commit()
+        flash("{} class at {} has been created".format(new_class.subject.name, new_class.school.name), "success")
         return redirect(url_for('schdl_class.edit_class', class_id=new_class.id))
     else:
         return render_template('schdl_class/add.html', form=form)
