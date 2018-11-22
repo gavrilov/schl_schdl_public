@@ -59,8 +59,7 @@
                     {% elif current_user.stripe_id %}
                         <a class="btn btn btn-outline-success"
                            href="{{ url_for('schdl_class.payment_class', class_id=current_class.id, student_id=student.id) }}"
-                           role="button">Pay With
-                            Stripe ${{ current_class.price }}</a>
+                           role="button">Pay with your card ${{ current_class.price }}</a>
                     {% endif %}
                     <a class="btn btn-info"
                        href="{{ url_for('schdl_class.enroll_class', student_id=student.id, class_id=current_class.id) }}"

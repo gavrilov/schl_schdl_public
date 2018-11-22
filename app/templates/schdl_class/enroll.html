@@ -26,7 +26,7 @@
                 <th>Day</th>
                 <th>Time</th>
                 <th>Start/End Dates</th>
-                <th>Pay</th>
+                <th>Click Pay button to Register</th>
             </tr>
             <tr>
                 <td>{{ current_class.school.name }}</td>
@@ -49,10 +49,10 @@
                            role="button">{{ current_student.first_name }} {{ current_student.last_name }} already
                         enrolled for that class</a></td>
                 {% elif current_user.stripe_id %}
-                    <td>{{ current_student.first_name }} {{ current_student.last_name }} - <a class="btn btn-info"
+                    <td>{{ current_student.first_name }} {{ current_student.last_name }} - <a class="btn btn-success"
                                                                                               href="{{ url_for('schdl_class.payment_class', class_id=current_class.id, student_id=current_student.id) }}"
-                                                                                              role="button">Pay With
-                        Stripe ${{ current_class.price }}</a></td>
+                                                                                              role="button">Pay with
+                        your card ${{ current_class.price }}</a></td>
 
                 {% else %}
                     <td> To enroll {{ current_student.first_name }} {{ current_student.last_name }} - first add credit
