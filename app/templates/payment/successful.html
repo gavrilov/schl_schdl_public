@@ -9,8 +9,14 @@
 
 {% block page_content %}
     {{ super() }}
-    <h1>Thank you for your payment</h1>
-    Student has been added to our student list
+    <div class="jumbotron">
+        <h1 class="display-4">Thank you for your payment</h1>
+        <p class="lead">{{ current_student.first_name }} {{ current_student.last_name }} has been added to student list
+            of {{ current_class.subject.name }} class at {{ current_class.school.name }}</p>
+        <hr class="my-4">
+        <p>Your {{ charge.source.brand }}-{{ charge.source.last4 }} has been charged
+            for {{ charge.amount/100 }} {{ charge.currency }}. Your receipt has been sent by email.</p>
+    </div>
 {% endblock %}
 
 

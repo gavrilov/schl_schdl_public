@@ -158,7 +158,8 @@ def payment_class(class_id, student_id):
         db.session.commit()
         flash("{} has been added to student list of {} classes".format(current_student.first_name,
                                                                        current_class.subject.name), "success")
-        return render_template('payment/successful.html', charge=charge)
+        return render_template('payment/successful.html', charge=charge, current_class=current_class,
+                               current_student=current_student)
     else:
         flash(charge.failure_message, 'danger')
         flash("Something wrong with your payment", "danger")
