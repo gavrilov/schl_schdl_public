@@ -63,7 +63,9 @@ def add_class():
         # save new school to db
         db.session.add(new_class)
         db.session.commit()
-        flash("Class {} created".format(new_class.subject.name), "success")
+        new_class.info = new_class.subject.default_info  # add default description from subject to class
+        db.session.commit()
+        flash("{} class at {} has been created".format(new_class.subject.name, new_class.school.name), "success")
         return redirect(url_for('schdl_class.edit_class', class_id=new_class.id))
     else:
         return render_template('schdl_class/add.html', form=form)
@@ -150,13 +152,14 @@ def payment_class(class_id, student_id):
         return redirect(url_for('user.main'))
     description = "{} class at {} for {} {}".format(current_class.subject.name, current_class.school.name,
                                                     current_student.first_name, current_student.last_name)
-    charge = charge_customer(current_user, int(current_class.price * 100), description)
+    charge = charge_customer(int(current_class.price * 100), description)
     if charge.status == 'succeeded':
         current_student.classes.append(current_class)  # if payment successful then enroll student
         db.session.commit()
         flash("{} has been added to student list of {} classes".format(current_student.first_name,
                                                                        current_class.subject.name), "success")
-        return render_template('payment/successful.html', charge=charge)
+        return render_template('payment/successful.html', charge=charge, current_class=current_class,
+                               current_student=current_student)
     else:
         flash(charge.failure_message, 'danger')
         flash("Something wrong with your payment", "danger")

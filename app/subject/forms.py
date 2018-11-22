@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, BooleanField
+from wtforms import StringField, SubmitField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, Optional
 
 
@@ -7,6 +7,7 @@ class SubjectForm(FlaskForm):
     name = StringField('Name of Subject', validators=[DataRequired()])
     current = BooleanField('Current Subject')
     color = StringField('Color', validators=[Optional()])
+    default_info = TextAreaField('Default Class Description', validators=[Optional()])
     # password = StringField('Password', validators=[DataRequired()])
     #email = StringField('Email', validators=[DataRequired()])
     #easypost_api_key = StringField('EasyPost API Key', validators=[DataRequired()])

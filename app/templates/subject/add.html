@@ -4,6 +4,7 @@
 
 {% block head %}
     {{ super() }}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/summernote.css" rel="stylesheet">
 {% endblock %}
 
 
@@ -14,6 +15,13 @@
         {{ form.name.label }} {{ form.name(size=50) }}
         {{ form.color.label }} {{ form.color(size=50) }}
         {{ form.current.label }} {{ form.current }}
+        <div class="form-group row">
+            {{ form.default_info.label(class="form-control-label") }}
+        </div>
+
+        <div class="form-group row">
+            {{ form.default_info(class="form-control") }}
+        </div>
         <input type="submit" value="Save">
     </form>
 {% endblock %}
@@ -21,4 +29,21 @@
 
 {% block scripts %}
     {{ super() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/summernote.js"></script>
+    <script>
+        $('#default_info').summernote({
+            placeholder: 'Users see that class description',
+            height: 400,
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['height', ['height']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link', 'hr']],
+                ['misc', ['codeview', 'help']]
+            ]
+        });
+    </script>
 {% endblock %}
