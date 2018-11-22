@@ -58,6 +58,7 @@ class Subject(db.Model):
     name = db.Column('name', db.Unicode(2048))
     color = db.Column('color', db.Unicode(32))
     current = db.Column('current', db.Boolean())
+    default_info = db.Column('default_info', db.UnicodeText())  # default description will insert to Schdl_Class.info
     classes = db.relationship('Schdl_Class', backref='subject', lazy='dynamic')
 
 
