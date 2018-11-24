@@ -33,11 +33,51 @@ def charge_customer(amount, description):
 
     # When it's time to charge the customer again, retrieve the customer ID.
     stripe.api_key = current_app.config['STRIPE_SECRET_KEY']
-    charge = stripe.Charge.create(
-        amount=amount,  # in cents
-        currency='usd',
-        description=description,
-        customer=current_user.stripe_id,
-        receipt_email=current_user.email
-    )
-    return charge
+    try:
+        charge = stripe.Charge.create(
+            amount=amount,  # in cents
+            currency='usd',
+            description=description,
+            customer=current_user.stripe_id,
+            receipt_email=current_user.email
+        )
+    except stripe.error.CardError as e:
+        # Since it's a decline, stripe.error.CardError will be caught
+        body = e.json_body
+        # get that decilned charge with error message
+        charge = stripe.Charge.retrieve(body['error']['charge'])
+        return charge
+    except stripe.error.RateLimitError as e:
+        # Too many requests made to the API too quickly
+        body = e.json_body
+        current_app.logger.error('Too many requests made to the Stripe API too quickly. {}'.format(body))
+        pass
+    except stripe.error.InvalidRequestError as e:
+        # Invalid parameters were supplied to Stripe's API
+        body = e.json_body
+        current_app.logger.error('Invalid parameters were supplied to Stripe API. {}'.format(body))
+        pass
+    except stripe.error.AuthenticationError as e:
+        # Authentication with Stripe's API failed
+        # (maybe you changed API keys recently)
+        body = e.json_body
+        current_app.logger.error('Authentication with Stripe API failed. Check API keys. {}'.format(body))
+        pass
+    except stripe.error.APIConnectionError as e:
+        # Network communication with Stripe failed
+        body = e.json_body
+        current_app.logger.error('Network communication with Stripe failed. {}'.format(body))
+        pass
+    except stripe.error.StripeError as e:
+        # Display a very generic error to the user, and maybe send
+        # yourself an email
+        body = e.json_body
+        current_app.logger.error('Network communication with Stripe failed. {}'.format(body))
+        pass
+    except Exception as e:
+        # Something else happened, completely unrelated to Stripe
+        current_app.logger.error('Something else happened, completely unrelated to Stripe')
+        pass
+    else:
+        # return charge if we dont have errors
+        return charge
