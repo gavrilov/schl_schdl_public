@@ -136,7 +136,7 @@ def user_school(user_id):
             return redirect(url_for('user.user_list'))
 
 
-@user.route('/dashboard', methods=['GET', 'POST'])
+@user.route('/account', methods=['GET', 'POST'])
 @login_required
 def main():
     students = Student.query.filter_by(user_id=current_user.id).all()
