@@ -15,7 +15,7 @@
     <div class="row justify-content-center">
         <img src="{{ url_for('static', filename='company_logo.png') }}"
              class="img-fluid mx-auto d-block">
-        <h5 class="text-center"><i>{{ config.COMPANY_SLOGAN | safe }}</i></h5>
+        <h5 class="text-center">{{ config.COMPANY_SLOGAN | safe }}</h5>
     </div>
     <div class="row justify-content-center">
         <form id="checkemail-form" action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
