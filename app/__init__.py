@@ -11,6 +11,8 @@ from flask_migrate import Migrate
 from flask_moment import Moment
 from flask_security import Security, utils
 from raven.contrib.flask import Sentry
+from sparkpost import SparkPost
+from sparkpost.exceptions import SparkPostAPIException
 
 from app.models import db, user_datastore, Schdl_Class, User
 from app.user.forms import SignInForm, RegistrationForm
@@ -22,13 +24,13 @@ sentry = Sentry()
 bootstrap = Bootstrap()
 mail = Mail()
 moment = Moment()
-
+sp = SparkPost()
 
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
     app.secret_key = app.config['SECRET_KEY']
-
+    sp.api_key = app.config['SPARKPOST_API_KEY']
     bootstrap.init_app(app)
     security.init_app(app, user_datastore, login_form=SignInForm, register_form=RegistrationForm)
     moment.init_app(app)
