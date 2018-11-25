@@ -24,15 +24,15 @@ sentry = Sentry()
 bootstrap = Bootstrap()
 mail = Mail()
 moment = Moment()
-sp = SparkPost()
+
 
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
     app.secret_key = app.config['SECRET_KEY']
-    sp.api_key = app.config['SPARKPOST_API_KEY']
+    sp = SparkPost(app.config['SPARKPOST_API_KEY'])
     bootstrap.init_app(app)
-    security.init_app(app, user_datastore, login_form=SignInForm, register_form=RegistrationForm)
+    security_ctx = security.init_app(app, user_datastore, login_form=SignInForm, register_form=RegistrationForm)
     moment.init_app(app)
     db.init_app(app)
     migrate.init_app(app, db)
@@ -139,5 +139,19 @@ def create_app(config_class=Config):
         # m = datetime.datetime.strptime(s, '%Y-%m-%d %H:%M:%S').strftime('%m/%d/%Y')
         # jinja2 template to convert unix timestamp to datetime object as required by flask-moment
         return m
+
+    # Flexible way for defining custom mail sending task.
+    @security_ctx.send_mail_task
+    def send_email(msg):
+        try:
+            sp.transmissions.send(
+                from_email=msg.sender,
+                recipients=list(map(lambda recipient: recipient, msg.recipients)),
+                subject=msg.subject,
+                html=msg.html
+            )
+            return "Message sent successfully"
+        except SparkPostAPIException as err:
+            return "<br>".join(err.errors)
 
     return app
