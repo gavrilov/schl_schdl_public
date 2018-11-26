@@ -36,7 +36,7 @@
             <tr>
                 <td>{{ current_class.school.name }}</td>
                 <td>{{ current_class.subject.name }}</td>
-                <td>{{ current_class.subject.day_of_week }}</td>
+                <td>{{ current_class.day_of_week }}</td>
                 {% if current_class.class_time_start and current_class.class_time_end %}
                     <td>{{ current_class.class_time_start | ctimeformat }}
                         - {{ current_class.class_time_end | ctimeformat }}</td>
