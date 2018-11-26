@@ -50,6 +50,7 @@ class School(db.Model):
     director_name = db.Column('director_name', db.Unicode(2048))
     note = db.Column('note', db.Unicode(2048))
     current = db.Column('current', db.Boolean())
+    agreement = db.Column('agreement', db.UnicodeText())
     classes = db.relationship('Schdl_Class', backref='school', lazy='dynamic')
 
 
