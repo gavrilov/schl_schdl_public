@@ -77,7 +77,7 @@ def edit_student(student_id):
     # Now forming the list of tuples for SelectField
     school_list = [(i.id, i.name) for i in current_schools]
     form = StudentForm(obj=current_student)
-    form.default_school_id.choices = school_list
+    form.default_school_id.choices = [(0, "---")] + school_list
     if form.validate_on_submit():
         print(form.gender.data == 1)
         form.populate_obj(current_student)
