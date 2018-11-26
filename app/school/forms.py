@@ -14,6 +14,7 @@ class SchoolForm(FlaskForm):
     name = StringField('School Name', validators=[DataRequired()])
     director_name = StringField('Director Name', validators=[Optional()])
     note = StringField('Note', validators=[Optional()])
+    agreement = StringField('Additional Agreement for Parents', validators=[Optional()])
     type = SelectField('Type',
                         choices=[('0', '---'), ('PP/CC', 'PP/CC'), ('PP/EC', 'PP/EC')],
                         validators=[selection_validator])
