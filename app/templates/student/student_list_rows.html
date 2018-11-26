@@ -16,6 +16,21 @@
         {% else %}
             <td></td>
         {% endif %}
+
+        {# if user has contacts - show emails and phones #}
+        {% if student.user.contacts %}
+            <td>{% for contact in student.user.contacts %}
+                {{ contact.phone }}
+            {% endfor %}
+            </td>
+            <td>{% for contact in student.user.contacts %}
+                {{ contact.email }}
+            {% endfor %}</td>
+        {% else %}
+            <td></td>
+            <td></td>
+        {% endif %}
+
         <td>{{ student.note }}</td>
         <td><a href="{{ url_for('student.edit_student', student_id=student.id) }}">Edit</a></td>
     </tr>

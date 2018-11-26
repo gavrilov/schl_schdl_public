@@ -39,8 +39,10 @@
         {% for current_class in current_classes %}
             <tr>
                 <td>{{ current_class.school.name }}</td>
-                <td><p style="color:{{ current_class.subject.color }} "
-                       class="font-weight-bold">{{ current_class.subject.name }}</p></td>
+                <td>
+                    <a href="{{ url_for('schdl_class.enroll_class', student_id=student.id, class_id=current_class.id) }}">
+                        <p style="color:{{ current_class.subject.color }} "
+                           class="font-weight-bold">{{ current_class.subject.name }}</p></a></td>
                 <td>{{ current_class.day_of_week }}</td>
                 {% if current_class.class_time_start and current_class.class_time_end %}
                     <td>{{ current_class.class_time_start | ctimeformat }}
@@ -57,8 +59,7 @@
                     {% elif current_user.stripe_id %}
                         <a class="btn btn btn-outline-success"
                            href="{{ url_for('schdl_class.payment_class', class_id=current_class.id, student_id=student.id) }}"
-                           role="button">Pay With
-                            Stripe ${{ current_class.price }}</a>
+                           role="button">Pay with your card ${{ current_class.price }}</a>
                     {% endif %}
                     <a class="btn btn-info"
                        href="{{ url_for('schdl_class.enroll_class', student_id=student.id, class_id=current_class.id) }}"
