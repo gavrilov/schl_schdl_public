@@ -33,7 +33,8 @@ class UserSettingsForm(FlaskForm):
 
 class UserContactForm(FlaskForm):
     # TODO validate: email? address info with USPS, phone number
-    email = EmailField("Email", validators=[InputRequired("Please enter your email address")])
+    # TODO Do we need email here? Delete it!
+    email = EmailField("Email", validators=[Optional("Please enter your email address")])
     phone = StringField('Cellphone #', validators=[DataRequired("Please enter your phone number"),
                                                    Regexp("^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$",
                                                           message="Please enter 10 digits of your Cellphone number i.e. 83212345678")])
