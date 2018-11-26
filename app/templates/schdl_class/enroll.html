@@ -18,6 +18,11 @@
         </div>
     </div>
     <div class="row">
+        {% if current_class.school.agreement %}
+            <div class="alert alert-danger" role="alert">
+                {{ current_school.agreement | safe }}
+            </div>
+        {% endif %}
         <table class="table table-hover table-bordered">
             <tbody>
             <tr>
