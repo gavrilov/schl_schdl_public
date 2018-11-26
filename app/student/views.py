@@ -53,8 +53,8 @@ def add_student():
         # save new school to db
         db.session.add(new_student)
         db.session.commit()
-        flash("Student {} {} created".format(new_student.first_name, new_student.last_name), "success")
-        return redirect(url_for('user.main'))
+        flash("Student {} {} has been created".format(new_student.first_name, new_student.last_name), "success")
+        return redirect(url_for('student.enroll_student', student_id=new_student.id))
 
     if form.errors:
         print(form.errors)
