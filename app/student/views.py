@@ -45,7 +45,7 @@ def add_student():
     school_list = [(i.id, i.name) for i in current_schools]
 
     form = StudentForm()
-    form.default_school_id.choices = school_list
+    form.default_school_id.choices = [(0, "---")]+school_list
     if form.validate_on_submit():
         new_student = Student()
         form.populate_obj(new_student)
