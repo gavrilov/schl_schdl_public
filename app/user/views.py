@@ -147,7 +147,7 @@ def main():
     if not contacts:
         flash("Please add your contact information", "danger")
         return redirect(url_for('user.add_contacts'))
-    if not students:
+    if not students:  # TODO filter for admins and parents and not (current_user.has_role('admin') or current_user.has_role('teacher')):
         flash("Please add student information", "danger")
         return redirect(url_for('student.add_student'))
     return render_template('user/user_info.html', user=current_user, students=students, cards_html=cards_html,
