@@ -9,12 +9,13 @@
 
 {% block page_content %}
     {{ super() }}
-
-    <div class="jumbotron">
-        <h1 class="display-4">Agreement</h1>
-        <hr class="my-4">
-        <p> {{ config.AGREEMENT }} </p>
-    </div>
+    <main class="col-10 offset-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2">
+        <div class="jumbotron">
+            <h1 class="display-4">Agreement</h1>
+            <hr class="my-4">
+            <p> {{ config.AGREEMENT | safe }} </p>
+        </div>
+    </main>
 
 {% endblock %}
 
