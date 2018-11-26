@@ -8,7 +8,7 @@ from flask import flash
 def selection_validator(form, field):
     if field.data == 0 or field.data == '0':
         flash('You have not selected {} '.format(field.label.text), 'danger')
-        raise ValidationError("You have not selected school or grade")
+        raise ValidationError('You have not selected {} '.format(field.label.text))
 
 
 class StudentForm(FlaskForm):
