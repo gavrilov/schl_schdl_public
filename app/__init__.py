@@ -4,15 +4,13 @@ import os
 from logging.handlers import RotatingFileHandler
 
 from SlackLogger import SlackHandler
-from flask import Flask, redirect, url_for, render_template, abort
+from flask import Flask, redirect, url_for, render_template, abort, flash
 from flask_bootstrap import Bootstrap
 from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_moment import Moment
 from flask_security import Security, utils
 from raven.contrib.flask import Sentry
-from sparkpost import SparkPost
-from sparkpost.exceptions import SparkPostAPIException
 
 from app.models import db, user_datastore, Schdl_Class, User
 from app.user.forms import SignInForm, RegistrationForm
@@ -141,17 +139,30 @@ def create_app(config_class=Config):
         return m
 
     # Flexible way for defining custom mail sending task.
+    # TODO try to switch to original SparkPost python lib
     @security_ctx.send_mail_task
     def send_email(msg):
-        try:
-            sp.transmissions.send(
-                from_email=msg.sender,
-                recipients=list(map(lambda recipient: recipient, msg.recipients)),
-                subject=msg.subject,
-                html=msg.html
-            )
-            return "Message sent successfully"
-        except SparkPostAPIException as err:
-            return "<br>".join(err.errors)
-
+        import requests
+        msg_sender = str(msg.sender)
+        msg_subject = str(msg.subject)
+        msg_html = str(msg.html)
+        msg_recipients = []
+        for email in msg.recipients:
+            msg_recipients.append(dict(address=dict(email=email)))
+        url = 'https://api.sparkpost.com/api/v1/transmissions'
+        spark_api_key = app.config['SPARKPOST_API_KEY']
+        payload = {
+            'recipients': msg_recipients,
+            'content': {
+                'from': msg_sender,
+                'subject': msg_subject,
+                'html': msg_html
+            }
+        }
+        response = requests.post(url, headers={'Authorization': spark_api_key}, json=payload)
+        r = response.json()
+        if 'errors' in r:
+            for error in r['errors']:
+                flash("".format(error['message']), 'danger')
+                app.logger.error('SparkPost {} error: {}'.format(error['code'], error['message']))
     return app
