@@ -28,7 +28,6 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
     app.secret_key = app.config['SECRET_KEY']
-    sp = SparkPost(app.config['SPARKPOST_API_KEY'])
     bootstrap.init_app(app)
     security_ctx = security.init_app(app, user_datastore, login_form=SignInForm, register_form=RegistrationForm)
     moment.init_app(app)
