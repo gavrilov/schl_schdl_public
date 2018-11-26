@@ -27,7 +27,7 @@
             <tr>
                 <td>{{ student.first_name }} {{ student.last_name }}</td>
                 {# Show buttons for all enrolled classes #}
-                <td> {% if student.classes %}
+                <td> {% if student.classes.count() > 0 %}
                     Enrolled in
                     {% for current_class in student.classes %}
                         <a class="btn btn-outline-primary"

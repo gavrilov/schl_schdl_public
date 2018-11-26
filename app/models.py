@@ -46,9 +46,11 @@ class School(db.Model):
     __tablename__ = "schools"
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
     name = db.Column('name', db.Unicode(2048))
+    type = db.Column('type', db.Unicode(2048))
     director_name = db.Column('director_name', db.Unicode(2048))
     note = db.Column('note', db.Unicode(2048))
     current = db.Column('current', db.Boolean())
+    agreement = db.Column('agreement', db.UnicodeText())
     classes = db.relationship('Schdl_Class', backref='school', lazy='dynamic')
 
 
@@ -130,6 +132,7 @@ class Student(db.Model):
     first_name = db.Column('first_name', db.Unicode(2048))
     last_name = db.Column('last_name', db.Unicode(2048))
     gender = db.Column('gender', db.Integer())  # 1 - for boy, 2 - for girl
+    grade = db.Column('grade', db.Integer())  # -3 for preschools, -2 for PreK, -1 for K, 1-12 regular
     dob = db.Column('dob', db.DateTime)
     note = db.Column('note', db.Unicode(2048))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
