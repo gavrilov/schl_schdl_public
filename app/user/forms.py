@@ -57,7 +57,7 @@ class UserContactForm(FlaskForm):
                                  ("RI", "Rhode Island"), ("SC", "South Carolina"), ("SD", "South Dakota"),
                                  ("TN", "Tennessee"), ("TX", "Texas"), ("UT", "Utah"), ("VT", "Vermont"),
                                  ("VI", "Virgin Islands"), ("VA", "Virginia"), ("WA", "Washington"),
-                                 ("WV", "West Virginia"), ("WI", "Wisconsin"), ("WY", "Wyoming")])
+                                 ("WV", "West Virginia"), ("WI", "Wisconsin"), ("WY", "Wyoming")], default='TX')
     zip = StringField('ZIP', validators=[DataRequired("Please enter your ZIP code"), Regexp("^\d{5}(?:[-\s]\d{4})?$",
                                                                                             message="Please enter 5 digit of your ZIP code i.e 77001")])
     contact_by_email = BooleanField('email', validators=[Optional()])
