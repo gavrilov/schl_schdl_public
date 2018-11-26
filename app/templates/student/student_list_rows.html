@@ -3,6 +3,7 @@
         <td><input type="hidden" name="students" value="{{ student.id }}"></td>
         <td>{{ student.first_name }} {{ student.last_name }}</td>
         <td>{{ current_class.school.name }}</td>
+        <td>{{ current_class.school.type }}</td>
         <td bgcolor="{{ current_class.subject.color }}">{{ current_class.subject.name }}</td>
         <td>{{ current_class.day_of_week }}</td>
         {% if current_class.class_time_start and current_class.class_time_end %}
