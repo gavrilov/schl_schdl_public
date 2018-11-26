@@ -99,17 +99,15 @@ def enroll_student(student_id):
                                                                                             student_id))
         flash("Student does not find", "danger")
         return redirect(url_for('user.main'))
-    current_classes = Schdl_Class.query.filter(
-        and_(Schdl_Class.current == True, Schdl_Class.school_id == current_student.default_school_id)).all()
-    # current_classes = Schdl_Class.query.filter_by(current=True, school.id=current_student.default_school_id).all()
+    current_school = School.query.filter_by(id=current_student.default_school_id).first()
+    current_classes = current_school.classes.filter_by(current=True).all()
     form = StudentForm(obj=current_student)
 
     if form.validate_on_submit():
-        print(form.gender.data == 1)  # TODO what is that?
         form.populate_obj(current_student)
         # save to db
         db.session.commit()
         flash("Student {} {} edited".format(current_student.first_name, current_student.last_name), "success")
         return redirect(url_for('user.main'))
 
-    return render_template('student/enroll.html', current_classes=current_classes, student=current_student)
+    return render_template('student/enroll.html', current_classes=current_classes, student=current_student, current_school=current_school)
