@@ -11,11 +11,6 @@
         {% else %}
             <td></td>
         {% endif %}
-        {% if student.dob %}
-            <td>{{ student.dob | cdateformat }}</td>
-        {% else %}
-            <td></td>
-        {% endif %}
 
         {# if user has contacts - show emails and phones #}
         {% if student.user.contacts %}
