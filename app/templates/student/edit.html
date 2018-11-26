@@ -36,6 +36,10 @@
                 {{ form.default_school_id(class="form-control") }}
             </div>
             <div class="form-group row">
+                {{ form.grade.label(class="form-control-label") }}
+                {{ form.grade(class="form-control") }}
+            </div>
+            <div class="form-group row">
                 <button id="recaptcha-submit" class="btn btn-primary">Submit</button>
             </div>
         </form>

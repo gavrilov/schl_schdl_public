@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired, InputRequired, Optional, Validation
 
 
 def selection_validator(form, field):
-    if field.data == 0:
+    if field.data == 0 or field.data == '0':
         raise ValidationError("You have not selected school or grade")
 
 
@@ -16,5 +16,6 @@ class StudentForm(FlaskForm):
                          validators=[Optional("Please select Gender of Student")])
     dob = DateField('Date of Birth', validators=[InputRequired("Please enter Day of Birth")])
     default_school_id = SelectField('School', coerce=int, validators=[selection_validator])
-    # current = BooleanField('Current Teacher')
+    grade = SelectField('Grade', choices=[('0', '---'), ('-3', 'Preschool'), ('-2', 'Pre-Kindergarten'), ('-1', 'Kindergarten'), ('1', '1st'), ('2', '2nd'), ('3', '3rd'), ('4', '4th'), ('5', '5th')],
+                         validators=[selection_validator])
     submit = SubmitField('Submit')
