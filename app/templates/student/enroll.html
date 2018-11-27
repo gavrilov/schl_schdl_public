@@ -13,15 +13,6 @@
         <div class="col">
             <h1>{{ student.first_name }} {{ student.last_name }}</h1>
         </div>
-        {% if not current_user.stripe_id %}
-            <div class="col">
-                <div class="alert alert-danger" role="alert">
-                    To enroll, add your credit card first
-                    <!--Update Card Button-->
-                    {% include 'payment/add_card_button.html' %}
-                </div>
-            </div>
-        {% endif %}
     </div>
     {% if current_school.agreement %}
         <div class="row">
