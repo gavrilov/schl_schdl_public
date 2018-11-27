@@ -34,6 +34,8 @@
                            href="{{ url_for('schdl_class.enroll_class', student_id=student.id, class_id=current_class.id) }}"
                            role="button">{{ current_class.subject.name }}</a>
                     {% endfor %}
+                    {% else %}
+                    not enrolled yet
                 {% endif %}
                 </td>
                 {# Show button to Register for new classes #}
