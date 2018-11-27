@@ -14,13 +14,6 @@
             <h1>{{ student.first_name }} {{ student.last_name }}</h1>
         </div>
     </div>
-    {% if current_school.agreement %}
-        <div class="row">
-            <div class="alert alert-danger" role="alert">
-                {{ current_school.agreement | safe }}
-            </div>
-        </div>
-    {% endif %}
     <table class="table table-striped table-hover">
         <thead>
         <tr>
@@ -66,7 +59,13 @@
         {% endfor %}
         </tbody>
     </table>
-
+    {% if current_school.agreement %}
+        <div class="row">
+            <div class="alert alert-danger" role="alert">
+                {{ current_school.agreement | safe }}
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
 
 
