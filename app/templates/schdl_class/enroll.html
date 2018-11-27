@@ -13,61 +13,24 @@
         <h1> Class information </h1>
     </div>
     <div class="row">
+    {% if current_class.school.agreement %}
+        <div class="alert alert-danger" role="alert">
+            {{ current_class.school.agreement | safe }}
+        </div>
+    {% endif %}
+    </div>
+    <!-- Enroll Info Table -->
+    <div class="row">
+        {% include 'schdl_class/enroll_info_table.html' %}
+    </div>
+    <div class="row">
         <div class="col">
             {{ current_class.info|safe }}
         </div>
     </div>
+    <!-- Enroll Info Table -->
     <div class="row">
-        {% if current_class.school.agreement %}
-            <div class="alert alert-danger" role="alert">
-                {{ current_class.school.agreement | safe }}
-            </div>
-        {% endif %}
-        <table class="table table-hover table-bordered">
-            <tbody>
-            <tr>
-                <th>School</th>
-                <th>Subject</th>
-                <th>Day</th>
-                <th>Time</th>
-                <th>Start/End Dates</th>
-                <th>Click Pay button to Register</th>
-            </tr>
-            <tr>
-                <td>{{ current_class.school.name }}</td>
-                <td>{{ current_class.subject.name }}</td>
-                <td>{{ current_class.day_of_week }}</td>
-                {% if current_class.class_time_start and current_class.class_time_end %}
-                    <td>{{ current_class.class_time_start | ctimeformat }}
-                        - {{ current_class.class_time_end | ctimeformat }}</td>
-                {% else %}
-                    <td></td>
-                {% endif %}
-                {% if current_class.class_start and current_class.class_end %}
-                    <td>{{ current_class.class_start | cdateformat }} - {{ current_class.class_end | cdateformat }}</td>
-                {% else %}
-                    <td></td>
-                {% endif %}
-                {% if current_class in current_student.classes %}
-                    <td><a class="btn btn-success"
-                           href="#"
-                           role="button">{{ current_student.first_name }} {{ current_student.last_name }} already
-                        enrolled for that class</a></td>
-                {% elif current_user.stripe_id %}
-                    <td>{{ current_student.first_name }} {{ current_student.last_name }} - <a class="btn btn-success"
-                                                                                              href="{{ url_for('schdl_class.payment_class', class_id=current_class.id, student_id=current_student.id) }}"
-                                                                                              role="button">Pay with
-                        your card ${{ current_class.price }}</a></td>
-
-                {% else %}
-                    <td> To enroll {{ current_student.first_name }} {{ current_student.last_name }} - first add credit
-                        card information
-                        <!--Update Card Button-->
-                        {% include 'payment/add_card_button.html' %}</td>
-                {% endif %}
-            </tr>
-            </tbody>
-        </table>
+        {% include 'schdl_class/enroll_info_table.html' %}
     </div>
 {% endblock %}
 
