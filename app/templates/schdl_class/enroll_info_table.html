@@ -32,11 +32,11 @@
             {% elif current_user.stripe_id %}
                 <td>{{ current_student.first_name }} {{ current_student.last_name }} - <a class="btn btn-success"
                                                                                           href="{{ url_for('schdl_class.payment_class', class_id=current_class.id, student_id=current_student.id) }}"
-                                                                                          role="button">Pay with
+                                                                                          role="button">Complete Registration<br>Pay with
                     your card ${{ current_class.price }}</a></td>
 
             {% else %}
-                <td> To enroll {{ current_student.first_name }} {{ current_student.last_name }} - first add credit
+                <td> To enroll {{ current_student.first_name }} {{ current_student.last_name }} - First add credit
                     card information
                     <!--Update Card Button-->
                     {% include 'payment/add_card_button.html' %}</td>
