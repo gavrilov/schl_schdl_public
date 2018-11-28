@@ -11,6 +11,8 @@
     {{ super() }}
     <h1>{{ current_user.first_name }} {{ current_user.last_name }} </h1>
     <h3 style="color: lightgrey">{{ current_user.email }}</h3>
+    <p>Total users: {{ users }}</p>
+    <p>Total students: {{ students }}</p>
 {% endblock %}
 
 
