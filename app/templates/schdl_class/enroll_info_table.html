@@ -1,19 +1,7 @@
 <div class="row">
     <div class="col">
         <div class="jumbotron">
-            <h1 class="display-4">{{ current_class.subject.name }} at {{ current_class.school.name }}!</h1>
-            <p class="lead"> Day: {{ current_class.day_of_week }}<br>
-                {% if current_class.class_time_start and current_class.class_time_end %}
-                    Time: {{ current_class.class_time_start | ctimeformat }}
-                    - {{ current_class.class_time_end | ctimeformat }}<br>
-                {% endif %}
-                {% if current_class.class_start and current_class.class_end %}
-                    Dates: {{ current_class.class_start | cdateformat }}
-                    - {{ current_class.class_end | cdateformat }}<br>
-                {% endif %}
-            </p>
-            <hr class="my-4">
-            <div class="col text-center text-md-left">
+        <div class="col text-center text-md-left">
             {% if current_class in current_student.classes %}
                 <a class="btn btn-success"
                    href="#"
@@ -26,12 +14,27 @@
                    role="button">
                     Complete Registration<br>Pay with your card ${{ current_class.price }}</a>
             {% else %}
+                <!--Update Card and Pay Button-->
+                <div class="col">
+                {% include 'payment/add_card_and_pay_button.html' %}
+                </div>
+                <div class="col">
                 To enroll {{ current_student.first_name }} {{ current_student.last_name }} -
-                First add credit card information
-                <!--Update Card Button-->
-                {% include 'payment/add_card_button.html' %}
+                    click and pay with your card
+                </div>
             {% endif %}
             </div>
+            <h1 class="display-4">{{ current_class.subject.name }} at {{ current_class.school.name }}!</h1>
+            <p class="lead"> Day: {{ current_class.day_of_week }}<br>
+                {% if current_class.class_time_start and current_class.class_time_end %}
+                    Time: {{ current_class.class_time_start | ctimeformat }}
+                    - {{ current_class.class_time_end | ctimeformat }}<br>
+                {% endif %}
+                {% if current_class.class_start and current_class.class_end %}
+                    Dates: {{ current_class.class_start | cdateformat }}
+                    - {{ current_class.class_end | cdateformat }}<br>
+                {% endif %}
+            </p>
 
         </div>
     </div>
