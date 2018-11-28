@@ -9,8 +9,18 @@
 
 {% block page_content %}
     {{ super() }}
-    <h1>{{ current_user.first_name }} {{ current_user.last_name }} </h1><h3 style="color: lightgrey">Settings</h3>
-    <div class="row">
+    <div class="col-10 offset-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 justify-content-center">
+        <div class="row">
+            <div class="col">
+                <h1>{{ current_user.first_name }} {{ current_user.last_name }} </h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h3 style="color: lightgrey">Settings</h3>
+            </div>
+        </div>
+
         <form method="POST" action="{{ url_for('user.edit') }}">
             {{ form.csrf_token }}
             <div class="form-group row">
@@ -22,45 +32,47 @@
                 {{ form.last_name(size=30, class="form-control", placeholder="Enter your Last Name") }}
             </div>
             <div class="form-group row">
-                <button id="recaptcha-submit" class="btn btn-success">Update</button>
+                <div class="col text-left">
+                    <button id="recaptcha-submit" class="btn btn-success">Update</button>
+                </div>
+                <div class="col text-right"><a class="btn btn-outline-primary"
+                                               href="{{ url_for_security('change_password') }}" role="button">Change
+                    Password</a></div>
             </div>
         </form>
-    </div>
-    <div class="row">
-        <a class="btn btn-outline-primary" href="{{ url_for_security('change_password') }}" role="button">Change
-            Password</a>
-    </div>
 
-    <!--Contacts-->
 
-    <div class="row">
-        <div class="col text-left">
-            <h3 style="color: lightgrey">Contacts</h3>
-        </div>
-        <div class="col text-right">
-            <a class="btn btn-outline-primary" href="{{ url_for('user.add_contacts') }}" role="button">Add Contact</a>
-        </div>
-    </div>
+        <!--Contacts-->
 
-    {% for contact in contacts %}
-        <div class="d-inline-block">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Contact Info</h5>
-                    <p class="card-text">
-                    <address>
-                        {{ contact.address1 }} {{ contact.address2 }}<br>
-                        {{ contact.city }} {{ contact.state }} {{ contact.zip }}<br>
-                        {{ contact.email }}<br>
-                        {{ contact.phone }}
-                    </address>
-                    <a class="far fa-edit" href="{{ url_for('user.edit_contacts', contact_id=contact.id) }}"
-                       role="button" data-toggle="tooltip" title="edit" style="color: blue"></a>
-                </div>
+        <div class="row mt-5">
+            <div class="col text-left">
+                <h3 style="color: lightgrey">Contacts</h3>
+            </div>
+            <div class="col text-right">
+                <a class="btn btn-outline-primary" href="{{ url_for('user.add_contacts') }}" role="button">Add
+                    Contact</a>
             </div>
         </div>
-    {% endfor %}
 
+        {% for contact in contacts %}
+            <div class="d-inline-block">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Contact Info</h5>
+                        <p class="card-text">
+                        <address>
+                            {{ contact.address1 }} {{ contact.address2 }}<br>
+                            {{ contact.city }} {{ contact.state }} {{ contact.zip }}<br>
+                            {{ contact.email }}<br>
+                            {{ contact.phone }}
+                        </address>
+                        <a class="far fa-edit" href="{{ url_for('user.edit_contacts', contact_id=contact.id) }}"
+                           role="button" data-toggle="tooltip" title="edit" style="color: blue"></a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 
 {% endblock %}
 

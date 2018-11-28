@@ -22,8 +22,10 @@ def student_list():
 
 @student.route('/all', methods=['GET', 'POST'])
 def student_all_list():
-    students = Student.query.all()
-    return render_template('student/student_list.html', students=students, current_students_only=False)
+    # show students who are not enrolled in any classes
+    q = db.session.query(Student)
+    students = q.filter(~Student.classes.any()) # ~ means not
+    return render_template('student/student_list_not_current.html', students=students)
 
 
 @student.route('/<student_id>', methods=['GET', 'POST'])
@@ -68,7 +70,7 @@ def add_student():
 @login_required
 def edit_student(student_id):
     current_student = Student.query.filter_by(id=student_id).first()
-    if not current_student or current_student.user_id != current_user.id:  # TODO or current_student not in current_user.students
+    if not current_student or (current_student.user_id != current_user.id and not current_user.has_role('admin')):  # TODO or current_student not in current_user.students
         current_app.logger.warning(
             'User is trying to edit not his student. user_id = {} student_id = {}'.format(current_user.id, student_id))
         flash("Student does not find", "danger")
@@ -93,7 +95,7 @@ def edit_student(student_id):
 @login_required
 def enroll_student(student_id):
     current_student = Student.query.filter_by(id=student_id).first()
-    if not current_student or current_student.user_id != current_user.id:  # TODO or current_student not in current_user.students
+    if not current_student or (current_student.user_id != current_user.id and not current_user.has_role('admin')):  # TODO or current_student not in current_user.students
         current_app.logger.warning(
             'User is trying to enroll not his student. user_id = {} student_id = {}'.format(current_user.id,
                                                                                             student_id))

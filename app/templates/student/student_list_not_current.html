@@ -13,15 +13,14 @@
     {{ super() }}
     <div class="row">
         <div class="col-md-3 offset-md-9">
-                <a class="btn btn-outline-primary" href="{{ url_for('student.student_all_list') }}" role="button">Show Not Enrolled
+                <a class="btn btn-outline-primary" href="{{ url_for('student.student_list') }}" role="button">Show
+                    Current
                     Students</a>
-            {#  <a class="btn btn-outline-success" href="{{ url_for('student.add_student') }}" role="button">Add New
-                Student</a> #}
         </div>
 
     </div>
 
-    <h1>List of students</h1>
+    <h1>List of not enrolled students</h1>
     <form method="POST" action="" id="theForm">
         <table class="table table-hover table-bordered" id="maintable">
             <caption>List of students</caption>
@@ -29,11 +28,6 @@
             <tr id="filterrow">
                 <th></th>
                 <th id="filtercol">Student Name</th>
-                <th id="filtercol">School</th>
-                <th id="filtercol">Type</th>
-                <th id="filtercol">Class</th>
-                <th id="filtercol">Day</th>
-                <th id="filtercol">Time</th>
                 <th id="filtercol">Phone</th>
                 <th id="filtercol">Email</th>
                 <th id="filtercol">Note</th>
@@ -42,11 +36,6 @@
             <tr>
                 <th class="text-center">#</th>
                 <th class="text-center">Student Name</th>
-                <th class="text-center">School</th>
-                <th class="text-center">Type</th>
-                <th class="text-center">Class</th>
-                <th class="text-center">Day</th>
-                <th class="text-center">Time</th>
                 <th class="text-center">Phone</th>
                 <th class="text-center">Email</th>
                 <th class="text-center">Note</th>
@@ -54,8 +43,30 @@
             </tr>
             </thead>
             <tbody>
-            {# student/student_list_rows.html generates all rows for that table #}
-            {{ students_html|safe }}
+{% for student in students %}
+    <tr>
+        <td><input type="hidden" name="students" value="{{ student.id }}"></td>
+        <td><a href="{{ url_for('student.info', student_id=student.id) }}">{{ student.first_name }} {{ student.last_name }}</a></td>
+
+        {# if user has contacts - show emails and phones #}
+        {% if student.user.contacts %}
+            <td>{% for contact in student.user.contacts %}
+                {{ contact.phone }}
+            {% endfor %}
+            </td>
+            <td>{% for contact in student.user.contacts %}
+                {{ contact.email }}
+            {% endfor %}</td>
+        {% else %}
+            <td></td>
+            <td></td>
+        {% endif %}
+
+        <td>{{ student.note }}</td>
+        <td><a href="{{ url_for('student.edit_student', student_id=student.id) }}">Edit</a></td>
+    </tr>
+{% endfor %}
+
             </tbody>
         </table>
         <!-- <select name="actionselect" id="actionselect">

@@ -11,65 +11,73 @@
 
 {% block page_content %}
     {{ super() }}
-    <h1>{{ user.first_name }} {{ user.last_name }} </h1><h3 style="color: lightgrey">{{ user.email }}</h3>
-    <!--Students table-->
-    <div class="row">
-        <div class="col text-left">
-            <h3>Students</h3>
+    <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
+        <div class="row">
+            <div class="col text-left">
+                <h1>{{ user.first_name }} {{ user.last_name }} </h1>
+            </div>
         </div>
-        <div class="col text-right">
-            <a class="btn btn-outline-primary" href="{{ url_for('student.add_student') }}" role="button">Add Student</a>
+        <div class="row">
+            <div class="col">
+                <h3 style="color: lightgrey">{{ user.email }}</h3>
+            </div>
         </div>
-    </div>
-    <table class="table table-striped table-hover">
-        <tbody>
+        <!--Students table-->
+        <div class="row mt-4">
+            <div class="col">
+                <h2>Students</h2>
+            </div>
+            <div class="col offset-sm-0 offset-md-3 text-right">
+                <a class="btn btn-outline-primary" href="{{ url_for('student.add_student') }}" role="button">Add
+                    Student</a>
+            </div>
+        </div>
+
         {% for student in students %}
-            <tr>
-                <td>{{ student.first_name }} {{ student.last_name }}</td>
+            <div class="row border-bottom border-top mt-1">
+                <div class="col-sm-3 text-center text-md-left align-self-center">
+                    <h4>{{ student.first_name }} {{ student.last_name }}</h4>
+                </div>
                 {# Show buttons for all enrolled classes #}
-                <td> {% if student.classes.count() > 0 %}
-                    Enrolled in
-                    {% for current_class in student.classes %}
-                        <a class="btn btn-outline-primary"
-                           href="{{ url_for('schdl_class.enroll_class', student_id=student.id, class_id=current_class.id) }}"
-                           role="button">{{ current_class.subject.name }}</a>
-                    {% endfor %}
+                <div class="col-sm-5 text-center align-self-center">
+                    {% if student.classes.count() > 0 %}Enrolled in
+                        {% for current_class in student.classes %}
+                            <a class="btn btn-outline-primary"
+                               href="{{ url_for('schdl_class.enroll_class', student_id=student.id, class_id=current_class.id) }}"
+                               role="button">{{ current_class.subject.name }}</a>
+                        {% endfor %}
                     {% else %}
-                    not enrolled yet
-                {% endif %}
-                </td>
-                {# Show button to Register for new classes #}
-                <td class="text-right">
+                        not enrolled yet
+                    {% endif %}
+                </div>
+                <div class="col-sm-4 text-center text-md-right align-self-center">
+                    {# Show button to Register for new classes #}
                     <a class="btn btn-success" href="{{ url_for('student.enroll_student', student_id=student.id) }}"
                        role="button">Register for Classes</a>
-                </td>
-                {# Edit Student Button  #}
-                <td class="text-right">
+                    {# Edit Student Button  #}
                     <a class="far fa-edit" href="{{ url_for('student.edit_student', student_id=student.id) }}"
                        role="button" data-toggle="tooltip" title="edit" style="color: blue"></a>
-                </td>
-            </tr>
+                </div>
+                <br><br>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
 
-    <!--Payments table-->
-    <div class="row">
-        <div class="col text-left">
-            <h3>Payment Information</h3>
+        <!--Payments table-->
+        <div class="row mt-4">
+            <div class="col text-left align-self-center">
+                <h2>Payment Information</h2>
+            </div>
+            <div class="col text-center align-self-center">
+                Current card: {{ cards_html|safe }}
+            </div>
+            <div class="col text-right align-self-center">
+                <!--Update Card Button-->
+                {% include 'payment/add_card_button.html' %}
+            </div>
         </div>
-        <div class="col text-center">
-            Current card: {{ cards_html|safe }}
-        </div>
-        <div class="col text-right">
-            <!--Update Card Button-->
-            {% include 'payment/add_card_button.html' %}
-        </div>
+        {# Table of User's payments #}
+        {{ payments_html|safe }}
     </div>
-    {# Table of User's payments #}
-    {{ payments_html|safe }}
-
-
 {% endblock %}
 
 

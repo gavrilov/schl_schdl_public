@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "dashboard/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block title %}{{ student.first_name }} {{ student.last_name }} - Info{% endblock %}
 
@@ -9,35 +9,78 @@
 
 {% block page_content %}
     {{ super() }}
-    <h1>{{ student.first_name }} {{ student.last_name }}</h1>
+    <div class="row">
+    <div class="col">
+        <h1>{{ student.first_name }} {{ student.last_name }}</h1>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col">
     <h3>Student Info</h3>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col">
     DOB: {{ student.dob }} <br>
     {% if student.gender == 1 %}
         Gender: Boy <br>
     {% else %}
         Gender: Girl <br>
     {% endif %}
+        </div>
+    </div>
+    <div class="row">
+    <div class="col">
     Note about student: {{ student.note }}<br>
+        </div>
+    </div>
+    <div class="row">
+    <div class="col">
     <h3>Parent Info</h3>
+        </div>
+    </div>
+    <div class="row">
+    <div class="col">
     Parent: {{ student.user.first_name }} {{ student.user.last_name }}<br>
+        </div>
+    </div>
+    <div class="row">
+    <div class="col">
     Note about Parent: {{ student.user.note }}<br>
+        </div>
+    </div>
+    <div class="row">
+    <div class="col">
     {% for contact in student.user.contacts %}
         Email: {{ contact.email }}<br>
         Phone: {{ contact.phone }}<br>
         Address: {{ contact.address1 }} {{ contact.address2 }} {{ contact.city }} {{ contact.state }} {{ contact.zip }}
         <br>
     {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+    <div class="col">
     <h3>Classes Info</h3>
+        </div>
+    </div>
+    <div class="row">
+    <div class="col">
     {% for current_class in student.classes %}
         <a href="{{ url_for('schdl_class.edit_class', class_id=current_class.id) }}">{{ current_class.subject.name }}
             @ {{ current_class.school.name }}</a><br>
     {% endfor %}
-
+    </div>
+    </div>
+    <div class="row">
+    <div class="col">
     <h3>Payment Info</h3>
     {% for current_class in student.classes %}
         <a href="{{ url_for('schdl_class.edit_class', class_id=current_class.id) }}">{{ current_class.subject.name }}
             @ {{ current_class.school.name }}</a><br>
     {% endfor %}
+    </div>
+    </div>
 {% endblock %}
 
 
