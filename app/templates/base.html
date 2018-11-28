@@ -25,17 +25,17 @@
     {% endwith %}
 
     <div class="container-fluid">
-        <div class="row mt-5">
-            <!-- SLIDENAV -->
-            <!-- <nav class="col-md-2 d-none d-md-block sidebar">
-                {# include "side_bar.html" #}
-            </nav>            -->
-            <main class="col-10 offset-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2">
-                <!-- PAGE CONTENT -->
-                {% block page_content %}{% endblock %}
-            </main>
-            {% include "return_main_page.html" %}
+        <div class="row mt-3">
+            <div class="col text-right">
+                {% include "return_main_page.html" %}
+            </div>
         </div>
+
+        <main class="row">
+            <!-- PAGE CONTENT -->
+            {% block page_content %}{% endblock %}
+        </main>
+
     </div>
 
 {% endblock %}

@@ -9,6 +9,7 @@
 
 {% block page_content %}
     {{ super() }}
+    <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
     <div class="jumbotron">
         <h1 class="display-4">Thank you for your payment</h1>
         <p class="lead">{{ current_student.first_name }} {{ current_student.last_name }} has been added to student list
@@ -16,6 +17,7 @@
         <hr class="my-4">
         <p>Your {{ charge.source.brand }}-{{ charge.source.last4 }} has been charged
             for {{ charge.amount/100 }} {{ charge.currency }}. Your receipt has been sent by email.</p>
+    </div>
     </div>
 {% endblock %}
 
