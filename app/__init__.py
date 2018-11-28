@@ -1,4 +1,3 @@
-import datetime
 import logging
 import os
 from logging.handlers import RotatingFileHandler
@@ -22,6 +21,9 @@ sentry = Sentry()
 bootstrap = Bootstrap()
 mail = Mail()
 moment = Moment()
+
+from flask_security import current_user
+import datetime
 
 
 def create_app(config_class=Config):
@@ -136,6 +138,13 @@ def create_app(config_class=Config):
         # m = datetime.datetime.strptime(s, '%Y-%m-%d %H:%M:%S').strftime('%m/%d/%Y')
         # jinja2 template to convert unix timestamp to datetime object as required by flask-moment
         return m
+
+    # To know when user visited web site last time
+    @app.before_request
+    def before_request():
+        if current_user.is_authenticated:
+            current_user.last_seen = datetime.datetime.utcnow()
+            db.session.commit()
 
     # Flexible way for defining custom mail sending task.
     # TODO try to switch to original SparkPost python lib
