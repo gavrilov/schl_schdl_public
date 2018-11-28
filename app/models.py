@@ -1,3 +1,5 @@
+import datetime
+
 from flask_security import UserMixin, RoleMixin, SQLAlchemyUserDatastore
 from flask_sqlalchemy import SQLAlchemy
 
@@ -99,7 +101,8 @@ class User(UserMixin, db.Model):
     contacts = db.relationship('UserContacts', backref='user', lazy='dynamic')
     note = db.Column('note', db.Unicode(2048))
     roles = db.relationship('Role', secondary=roles_users, backref='users', lazy='dynamic')
-
+    timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    last_seen = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
 class Role(db.Model, RoleMixin):
     __tablename__ = "roles"
@@ -138,7 +141,7 @@ class Student(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     default_school_id = db.Column(db.Integer, db.ForeignKey('schools.id'))
     classes = db.relationship('Schdl_Class', secondary=enrollments, backref='students', lazy='dynamic')
-
+    timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
 # for Flask-Security
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
