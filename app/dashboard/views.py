@@ -1,5 +1,8 @@
-from flask import render_template, Blueprint, current_app
-from flask_security import current_user, roles_required
+from flask import render_template, Blueprint
+from flask_security import roles_required
+
+from app import db
+from app.models import User, Student
 
 dashboard = Blueprint('dashboard', __name__, template_folder='templates')
 
@@ -7,5 +10,6 @@ dashboard = Blueprint('dashboard', __name__, template_folder='templates')
 @dashboard.route('/', methods=['GET', 'POST'])
 @roles_required('admin')
 def main():
-    current_app.logger.info("Admin {} has been signed in to admin console".format(current_user.email))
-    return render_template('dashboard/dashboard.html')
+    users = db.session.query(User).count()
+    students = db.session.query(Student).count()
+    return render_template('dashboard/dashboard.html', users=users, students=students)
