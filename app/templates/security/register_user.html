@@ -12,10 +12,10 @@
 {% block page_content %}
     {{ super() }}
     {% include "security/_messages.html" %}
-    <div class="row justify-content-center">
-        <img src="{{ url_for('static', filename='company_logo.png') }}"
-             class="img-fluid mx-auto d-block">
-        <h5 class="text-center"><i>{{ config.COMPANY_SLOGAN | safe }}</i></h5>
+    <div class="row">
+    <div class="col text-center text-primary">
+        <h1>Welcome to our New and improved Registration System!</h1>
+    </div>
     </div>
     <div class="row justify-content-center">
         <form id="registration-form" method="POST" action="{{ url_for_security('register') }}">
@@ -57,6 +57,11 @@
                 <h5>Already have an account? <a href="{{ url_for_security('login') }}">Sign In</a></h5>
             </div>
         </form>
+    </div>
+    <div class="row justify-content-center">
+        <img src="{{ url_for('static', filename='company_logo.png') }}"
+             class="img-fluid mx-auto d-block">
+        <h5 class="text-center"><i>{{ config.COMPANY_SLOGAN | safe }}</i></h5>
     </div>
 {% endblock %}
 
