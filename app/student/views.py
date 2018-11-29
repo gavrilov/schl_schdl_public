@@ -1,7 +1,7 @@
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app
 from flask_security import current_user, login_required, roles_required
 from sqlalchemy import and_
-
+from datetime import datetime
 from app import db
 from app.models import Student, Schdl_Class, School
 from .forms import StudentForm
@@ -50,6 +50,8 @@ def add_student():
     form.default_school_id.choices = [(0, "---")]+school_list
     if form.validate_on_submit():
         new_student = Student()
+        form.dob.data = datetime.strptime('{}/{}/{}'.format(form.dob_month.data, form.dob_day.data, form.dob_year.data),
+                                          '%m/%d/%Y')
         form.populate_obj(new_student)
         new_student.user_id = current_user.id  # TODO current_user.students.append(new_student)
         # save new school to db
@@ -80,13 +82,21 @@ def edit_student(student_id):
     school_list = [(i.id, i.name) for i in current_schools]
     form = StudentForm(obj=current_student)
     form.default_school_id.choices = [(0, "---")] + school_list
+
     if form.validate_on_submit():
-        print(form.gender.data == 1)
+        print(form.dob_year.data)
+        form.dob.data = datetime.strptime('{}/{}/{}'.format(form.dob_month.data, form.dob_day.data, form.dob_year.data),
+                                          '%m/%d/%Y')
         form.populate_obj(current_student)
         # save to db
         db.session.commit()
         flash("Student {} {} has been updated".format(current_student.first_name, current_student.last_name), "success")
         return redirect(url_for('user.main'))
+
+    form.dob_month.data = form.dob.data.strftime("%m")
+    form.dob_day.data = form.dob.data.strftime("%d")
+    form.dob_year.data = form.dob.data.strftime("%Y")
+
 
     return render_template('student/edit.html', form=form, student_id=student_id)
 
