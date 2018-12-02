@@ -43,9 +43,10 @@ def user_add():
 @user.route('/<user_id>', methods=['GET', 'POST'])
 @roles_required('admin')
 def user_info(user_id):
+    payments_html = my_payments(user_id)
     thisuser = User.query.filter_by(id=user_id).first()
     if thisuser:
-        return render_template('user/dashboard/info.html', user=thisuser)
+        return render_template('user/dashboard/info.html', user=thisuser, payments_html=payments_html)
     else:
         flash("User with id {} did not find".format(user_id), "danger")
         return redirect(url_for('user.user_list'))

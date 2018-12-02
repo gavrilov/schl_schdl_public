@@ -140,10 +140,17 @@
         </tbody>
     </table>
 
+    <!--Payments-->
+    <div class="row">
+        <h2>Payments</h2>
+    </div>
+    {# Table of User's payments #}
+    {{ payments_html|safe }}
 
 {% endblock %}
 
 
 {% block scripts %}
     {{ super() }}
+    {{ moment.include_moment() }}
 {% endblock %}
