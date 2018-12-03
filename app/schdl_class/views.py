@@ -117,12 +117,12 @@ def enroll_class(class_id, student_id):
                                                                                              class_id))
         flash('Class does not find', 'danger')
         return redirect(url_for('user.main'))
-    if not current_student or current_student.user_id != current_user.id:
+    if not current_student or (current_student.user_id != current_user.id and not current_user.has_role('admin')):
         current_app.logger.warning(
             'User is trying to enroll not his student. user_id = {} student_id = {}'.format(current_user.id,
                                                                                             student_id))
         flash("Student does not find", "danger")
-        return redirect(url_for('student.enroll_student'))
+        return redirect(url_for('user.main'))
 
     return render_template('schdl_class/enroll.html', current_class=current_class, current_student=current_student)
 
