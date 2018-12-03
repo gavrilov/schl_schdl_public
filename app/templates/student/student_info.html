@@ -41,7 +41,8 @@
     </div>
     <div class="row">
     <div class="col">
-    Parent: {{ student.user.first_name }} {{ student.user.last_name }}<br>
+        Parent: <a
+            href="{{ url_for('user.user_info', user_id=student.user.id) }}">{{ student.user.first_name }} {{ student.user.last_name }}</a><br>
         </div>
     </div>
     <div class="row">
@@ -66,15 +67,6 @@
     </div>
     <div class="row">
     <div class="col">
-    {% for current_class in student.classes %}
-        <a href="{{ url_for('schdl_class.edit_class', class_id=current_class.id) }}">{{ current_class.subject.name }}
-            @ {{ current_class.school.name }}</a><br>
-    {% endfor %}
-    </div>
-    </div>
-    <div class="row">
-    <div class="col">
-    <h3>Payment Info</h3>
     {% for current_class in student.classes %}
         <a href="{{ url_for('schdl_class.edit_class', class_id=current_class.id) }}">{{ current_class.subject.name }}
             @ {{ current_class.school.name }}</a><br>
