@@ -1,31 +1,24 @@
 import stripe
-from flask import render_template, current_app, flash
+from flask import render_template, current_app
 from flask_security import current_user
-
-from app.models import User
 
 
 def add_card_button():
     return render_template('payment/add_card_button.html')
 
 
-def my_cards():
+def my_cards(user=current_user):
+    # get User object and return html code
     stripe.api_key = current_app.config['STRIPE_SECRET_KEY']
-    if not current_user.stripe_id:
+    if not user.stripe_id:
         return "You do not have any cards"
-    customer = stripe.Customer.retrieve(current_user.stripe_id)
+    customer = stripe.Customer.retrieve(user.stripe_id)
     cards = customer.sources.data
     return render_template('payment/my_cards.html', cards=cards)
 
 
-def my_payments(user_id=None):
-    if not user_id:
-        user = current_user
-    else:
-        user = User.query.filter_by(id=user_id).first()
-        if not user:
-            flash('User with id={} did not find'.format(user_id), 'danger')
-            return 'User with id={} did not find'.format(user_id)
+def my_payments(user=current_user):
+    # get User object and return html code
     # Show all payments to customer
     stripe.api_key = current_app.config['STRIPE_SECRET_KEY']
     if not user.stripe_id:
