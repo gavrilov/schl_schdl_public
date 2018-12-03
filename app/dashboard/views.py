@@ -10,6 +10,7 @@ dashboard = Blueprint('dashboard', __name__, template_folder='templates')
 @dashboard.route('/', methods=['GET', 'POST'])
 @roles_required('admin')
 def main():
+    # Dashboard for Admins
     users = db.session.query(User).count()
     students = db.session.query(Student).count()
     return render_template('dashboard/dashboard.html', users=users, students=students)
@@ -18,6 +19,7 @@ def main():
 @dashboard.route('/teacher', methods=['GET', 'POST'])
 @roles_required('teacher')
 def teacher_dashboard():
+    # Dashboard for teachers
     teacher = Teacher.query.filter_by(user_id=current_user.id).first()
     if not teacher or not teacher.current:
         flash('Teacher does not find. Please contact administration')
