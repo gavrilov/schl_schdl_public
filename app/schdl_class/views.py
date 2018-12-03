@@ -1,5 +1,5 @@
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app
-from flask_security import current_user, login_required, roles_required
+from flask_security import current_user, login_required, roles_required, roles_accepted
 
 from app import db
 from app.models import Schdl_Class, Student
@@ -71,6 +71,16 @@ def add_class():
         return render_template('schdl_class/add.html', form=form)
 
 
+@schdl_class.route('/<class_id>', methods=['GET', 'POST'])
+@roles_accepted('admin', 'teacher')
+def info_class(class_id):
+    current_class = Schdl_Class.query.filter_by(id=class_id).first()
+    if not current_class:
+        flash('Class with id = {} did not find'.format(class_id), 'danger')
+        redirect('schdl_class.class_list')
+    return render_template('dashboard/class_info.html', current_class=current_class)
+
+
 @schdl_class.route('/<class_id>/edit', methods=['GET', 'POST'])
 @roles_required('admin')
 def edit_class(class_id):
@@ -117,12 +127,12 @@ def enroll_class(class_id, student_id):
                                                                                              class_id))
         flash('Class does not find', 'danger')
         return redirect(url_for('user.main'))
-    if not current_student or current_student.user_id != current_user.id:
+    if not current_student or (current_student.user_id != current_user.id and not current_user.has_role('admin')):
         current_app.logger.warning(
             'User is trying to enroll not his student. user_id = {} student_id = {}'.format(current_user.id,
                                                                                             student_id))
         flash("Student does not find", "danger")
-        return redirect(url_for('student.enroll_student'))
+        return redirect(url_for('user.main'))
 
     return render_template('schdl_class/enroll.html', current_class=current_class, current_student=current_student)
 

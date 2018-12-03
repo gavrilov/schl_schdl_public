@@ -62,7 +62,9 @@
                     <tr>
                         <td><input type="hidden" name="schdl_classes" value="{{ current_class.id }}"></td>
                         <td>{{ current_class.school.name }}</td>
-                        <td bgcolor="{{ current_class.subject.color }}">{{ current_class.subject.name }}</td>
+                        <td bgcolor="{{ current_class.subject.color }}"><a
+                                href="{{ url_for('schdl_class.info_class', class_id=current_class.id) }}">{{ current_class.subject.name }}</a>
+                        </td>
                         <td>{{ current_class.day_of_week }}</td>
                         {% if current_class.class_time_start and current_class.class_time_end %}
                             <td>{{ current_class.class_time_start | ctimeformat }}

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Info{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
+        <div class="row">
+            <div class="col text-left">
+                <h1>{{ current_class.subject.name }} @ {{ current_class.school.name }}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h3 style="color: lightgrey"></h3>
+            </div>
+        </div>
+        <!--Students table-->
+        <div class="row mt-4">
+            <div class="col">
+                <h2>Students</h2>
+            </div>
+            <div class="col offset-sm-0 offset-md-3 text-right">
+                <a class="btn btn-outline-primary" href="{{ url_for('student.add_student') }}" role="button">Add
+                    Student</a>
+            </div>
+        </div>
+
+        {% for student in current_class.students %}
+            <div class="row border-bottom border-top mt-1">
+                <div class="col-sm-3 text-center text-md-left align-self-center">
+                    <h4>
+                        <a href="{{ url_for('student.info', student_id=student.id) }}">{{ student.first_name }} {{ student.last_name }}
+                    </h4>
+                </div>
+                {# Show buttons for all enrolled classes #}
+                <div class="col-sm-5 text-center align-self-center">
+                    {% if student.classes.count() > 0 %}Enrolled in
+                        {% for current_class in student.classes %}
+                            <a class="btn btn-outline-primary"
+                               href="{{ url_for('schdl_class.enroll_class', student_id=student.id, class_id=current_class.id) }}"
+                               role="button">{{ current_class.subject.name }}</a>
+                        {% endfor %}
+                    {% else %}
+                        not enrolled yet
+                    {% endif %}
+                </div>
+                <div class="col-sm-4 text-center text-md-right align-self-center">
+                    {# Show button to Register for new classes #}
+                    <a class="btn btn-success" href="{{ url_for('student.enroll_student', student_id=student.id) }}"
+                       role="button">Register for Classes</a>
+                    {# Edit Student Button  #}
+                    <a class="far fa-edit" href="{{ url_for('student.edit_student', student_id=student.id) }}"
+                       role="button" data-toggle="tooltip" title="edit" style="color: blue"></a>
+                </div>
+                <br><br>
+            </div>
+        {% endfor %}
+        <div class="row border-top mt-5">
+            <div class="col">
+                {{ current_class.info | safe }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+{% endblock %}

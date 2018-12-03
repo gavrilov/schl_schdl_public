@@ -12,6 +12,9 @@
     <div class="row">
     <div class="col">
         <h1>{{ student.first_name }} {{ student.last_name }}</h1>
+        <small>
+            Created: {{ moment(student.timestamp).format('L LT') }}
+        </small>
     </div>
     </div>
     <div class="row">
@@ -21,7 +24,7 @@
     </div>
     <div class="row">
     <div class="col">
-    DOB: {{ student.dob }} <br>
+        DOB: {{ student.dob | cdateformat }} <br>
     {% if student.gender == 1 %}
         Gender: Boy <br>
     {% else %}
@@ -41,7 +44,8 @@
     </div>
     <div class="row">
     <div class="col">
-    Parent: {{ student.user.first_name }} {{ student.user.last_name }}<br>
+        Parent: <a
+            href="{{ url_for('user.user_info', user_id=student.user.id) }}">{{ student.user.first_name }} {{ student.user.last_name }}</a><br>
         </div>
     </div>
     <div class="row">
@@ -72,18 +76,10 @@
     {% endfor %}
     </div>
     </div>
-    <div class="row">
-    <div class="col">
-    <h3>Payment Info</h3>
-    {% for current_class in student.classes %}
-        <a href="{{ url_for('schdl_class.edit_class', class_id=current_class.id) }}">{{ current_class.subject.name }}
-            @ {{ current_class.school.name }}</a><br>
-    {% endfor %}
-    </div>
-    </div>
 {% endblock %}
 
 
 {% block scripts %}
     {{ super() }}
+    {{ moment.include_moment() }}
 {% endblock %}

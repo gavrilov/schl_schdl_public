@@ -7,21 +7,23 @@ def add_card_button():
     return render_template('payment/add_card_button.html')
 
 
-def my_cards():
+def my_cards(user=current_user):
+    # get User object and return html code
     stripe.api_key = current_app.config['STRIPE_SECRET_KEY']
-    if not current_user.stripe_id:
+    if not user.stripe_id:
         return "You do not have any cards"
-    customer = stripe.Customer.retrieve(current_user.stripe_id)
+    customer = stripe.Customer.retrieve(user.stripe_id)
     cards = customer.sources.data
     return render_template('payment/my_cards.html', cards=cards)
 
 
-def my_payments():
+def my_payments(user=current_user):
+    # get User object and return html code
     # Show all payments to customer
     stripe.api_key = current_app.config['STRIPE_SECRET_KEY']
-    if not current_user.stripe_id:
+    if not user.stripe_id:
         return "You do not have any payments"
-    payments = stripe.Charge.list(customer=current_user.stripe_id)['data']
+    payments = stripe.Charge.list(customer=user.stripe_id)['data']
     if not payments:
         return "You do not have any payments"
     return render_template('payment/my_payments.html', payments=payments)

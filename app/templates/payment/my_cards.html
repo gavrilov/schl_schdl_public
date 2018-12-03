@@ -1,5 +1,6 @@
 {% block my_cards %}
+    {# link to stripe api https://stripe.com/docs/api/sources?lang=python #}
     {% for card in cards %}
-        {{ card.brand }}-{{ card.last4 }}
+        {{ card.brand }}-{{ card.last4 }} [expires {{ card.exp_month }}/{{ card.exp_year }}]
     {% endfor %}
 {% endblock %}

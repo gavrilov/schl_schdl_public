@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
+        <div class="row">
+            <div class="col">
+                <h1>{{ teacher.user.first_name }} {{ teacher.user.last_name }} </h1>
+                <h3 style="color: lightgrey">{{ teacher.user.email }}</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {% for current_class in teacher.classes %}
+                    <div class="row border-bottom mt-3">
+                        <div class="col">
+                            <a href="{{ url_for('schdl_class.info_class', class_id=current_class.id) }}">{{ current_class.subject.name }}</a>
+                        </div>
+                        <div class="col">
+                            {{ current_class.school.name }}
+                        </div>
+                        <div class="col">
+                            {{ current_class.day_of_week }}
+                        </div>
+                        <div class="col">
+                            {% if current_class.class_time_start and current_class.class_time_end %}
+                                {{ current_class.class_time_start | ctimeformat }} -
+                                {{ current_class.class_time_end | ctimeformat }}
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    <!--Script for Tooltip-->
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+{% endblock %}

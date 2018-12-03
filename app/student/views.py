@@ -1,7 +1,8 @@
+from datetime import datetime
+
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app
 from flask_security import current_user, login_required, roles_required
-from sqlalchemy import and_
-from datetime import datetime
+
 from app import db
 from app.models import Student, Schdl_Class, School
 from .forms import StudentForm
@@ -61,7 +62,6 @@ def add_student():
         return redirect(url_for('student.enroll_student', student_id=new_student.id))
 
     if form.errors:
-        print(form.errors)
         for error in form.errors.values():
             flash(error, 'danger')
 
@@ -84,7 +84,6 @@ def edit_student(student_id):
     form.default_school_id.choices = [(0, "---")] + school_list
 
     if form.validate_on_submit():
-        print(form.dob_year.data)
         form.dob.data = datetime.strptime('{}/{}/{}'.format(form.dob_month.data, form.dob_day.data, form.dob_year.data),
                                           '%m/%d/%Y')
         form.populate_obj(current_student)
