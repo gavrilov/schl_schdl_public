@@ -63,7 +63,11 @@
                 <br><br>
             </div>
         {% endfor %}
-
+        <div class="row border-top mt-5">
+            <div class="col">
+                {{ current_class.info | safe }}
+            </div>
+        </div>
     </div>
 {% endblock %}
 
