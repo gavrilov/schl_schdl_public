@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint, flash, redirect
+from flask import render_template, Blueprint, flash, redirect, url_for
 from flask_security import roles_required, current_user
 
 from app import db
@@ -21,5 +21,5 @@ def teacher_dashboard():
     teacher = Teacher.query.filter_by(user_id=current_user.id).first()
     if not teacher or not teacher.current:
         flash('Teacher does not find. Please contact administration')
-        return redirect('hello_world')
+        return redirect(url_for('hello_world'))
     return render_template('dashboard/dashboard_teacher.html', teacher=teacher)
