@@ -28,6 +28,10 @@
         </div>
     </div>
     <div class="row">
+        Registration: {{ moment(user.timestamp).format('L LT') }},
+        Last Seen: {{ moment(user.last_seen).format('L LT') }}
+    </div>
+    <div class="row">
         Note: {{ user.note }}<br>
         Email: {{ user.email }}
     </div>
