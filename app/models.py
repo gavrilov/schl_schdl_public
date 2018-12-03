@@ -13,9 +13,15 @@ roles_users = db.Table('roles_users', db.Column('user_id', db.Integer(), db.Fore
 schools_users = db.Table('schools_users', db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
                          db.Column('school_id', db.Integer(), db.ForeignKey('schools.id')))
 
-# table many-to-many connects students and classes (it is table for enrollments)
-enrollments = db.Table('enrollments', db.Column('student_id', db.Integer(), db.ForeignKey('students.id')),
-                       db.Column('class_id', db.Integer(), db.ForeignKey('classes.id')))
+
+class Enrollment(db.Model):
+    __tablename__ = "enrollments"
+    id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
+    student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
+    class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
+    timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    note = db.Column('note', db.Unicode(2048))
+    current = db.Column('current', db.Boolean())
 
 
 class Schdl_Class(db.Model):
@@ -41,6 +47,7 @@ class Schdl_Class(db.Model):
     class_end = db.Column('class_end', db.DateTime)
     class_time_start = db.Column('class_time_start', db.Time)
     class_time_end = db.Column('class_time_end', db.Time)
+    enrollments = db.relationship('Enrollment', backref='schdl_class', lazy='dynamic')
     # default_students = db.relationship('Student', backref='default_school', lazy='dynamic')
 
 
@@ -104,6 +111,7 @@ class User(UserMixin, db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     last_seen = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
+
 class Role(db.Model, RoleMixin):
     __tablename__ = "roles"
     id = db.Column('id', db.Integer(), primary_key=True)
@@ -140,8 +148,9 @@ class Student(db.Model):
     note = db.Column('note', db.Unicode(2048))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     default_school_id = db.Column(db.Integer, db.ForeignKey('schools.id'))
-    classes = db.relationship('Schdl_Class', secondary=enrollments, backref='students', lazy='dynamic')
+    enrollments = db.relationship('Enrollment', backref='student', lazy='dynamic')
     timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+
 
 # for Flask-Security
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
