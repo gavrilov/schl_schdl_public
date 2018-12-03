@@ -83,6 +83,9 @@
     <div class="row">
         <h2>Payments</h2>
     </div>
+    <div class="col text-center align-self-center">
+        Current card: {{ cards_html|safe }}
+    </div>
     {# Table of User's payments #}
     {{ payments_html|safe }}
 
