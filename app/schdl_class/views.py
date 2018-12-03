@@ -1,5 +1,5 @@
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app
-from flask_security import current_user, login_required, roles_required
+from flask_security import current_user, login_required, roles_required, roles_accepted
 
 from app import db
 from app.models import Schdl_Class, Student
@@ -69,6 +69,16 @@ def add_class():
         return redirect(url_for('schdl_class.edit_class', class_id=new_class.id))
     else:
         return render_template('schdl_class/add.html', form=form)
+
+
+@schdl_class.route('/<class_id>', methods=['GET', 'POST'])
+@roles_accepted('admin', 'teacher')
+def info_class(class_id):
+    current_class = Schdl_Class.query.filter_by(id=class_id).first()
+    if not current_class:
+        flash('Class with id = {} did not find'.format(class_id), 'danger')
+        redirect('schdl_class.class_list')
+    return render_template('dashboard/class_info.html', current_class=current_class)
 
 
 @schdl_class.route('/<class_id>/edit', methods=['GET', 'POST'])
