@@ -1,7 +1,15 @@
-{% for student in current_class.students %}
+{% for enrollment in current_class.enrollments %}
+
+    {% set student = enrollment.student %}
     <tr>
         <td><input type="hidden" name="students" value="{{ student.id }}"></td>
-        <td><a href="{{ url_for('student.info', student_id=student.id) }}">{{ student.first_name }} {{ student.last_name }}</a></td>
+        <td>
+            <a href="{{ url_for('student.info', student_id=student.id) }}">
+                {% if not enrollment.current %}
+                    [DROPPED]
+                {% endif %}
+                {{ student.first_name }} {{ student.last_name }}</a>
+        </td>
         <td>{{ current_class.school.name }}</td>
         <td>{{ current_class.school.type }}</td>
         <td bgcolor="{{ current_class.subject.color }}">{{ current_class.subject.name }}</td>
