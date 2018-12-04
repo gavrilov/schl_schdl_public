@@ -33,6 +33,7 @@
                 {% if current_class.class_start and current_class.class_end %}
                     Dates: {{ current_class.class_start | cdateformat }}
                     - {{ current_class.class_end | cdateformat }}<br>
+                Price: {{ current_class.price }}<br>
                 {% endif %}
             </p>
 
