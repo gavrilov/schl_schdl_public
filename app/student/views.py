@@ -2,6 +2,7 @@ from datetime import datetime
 
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app
 from flask_security import current_user, login_required, roles_required
+from sqlalchemy import and_
 
 from app import db
 from app.models import Student, Schdl_Class, School
@@ -114,13 +115,8 @@ def enroll_student(student_id):
         return redirect(url_for('user.main'))
     current_school = School.query.filter_by(id=current_student.default_school_id).first()
     current_classes = current_school.classes.filter_by(current=True).all()
-    form = StudentForm(obj=current_student)
+    enrolled_classes = Schdl_Class.query.filter(and_(Schdl_Class.enrollments.any(student_id=current_student.id),
+                                                     Schdl_Class.enrollments.any(current=True))).all()
 
-    if form.validate_on_submit():
-        form.populate_obj(current_student)
-        # save to db
-        db.session.commit()
-        flash("Student {} {} edited".format(current_student.first_name, current_student.last_name), "success")
-        return redirect(url_for('user.main'))
-
-    return render_template('student/enroll.html', current_classes=current_classes, student=current_student, current_school=current_school)
+    return render_template('student/enroll.html', current_classes=current_classes, student=current_student,
+                           current_school=current_school, enrolled_classes=enrolled_classes)
