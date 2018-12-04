@@ -2,7 +2,7 @@
     <div class="col">
         <div class="jumbotron">
         <div class="col text-center text-md-left">
-            {% if current_class in current_student.classes %}
+            {% if current_enrollment %}
                 <a class="btn btn-success"
                    href="#"
                    role="button">{{ current_student.first_name }} {{ current_student.last_name }} already
