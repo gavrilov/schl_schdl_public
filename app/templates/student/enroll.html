@@ -32,7 +32,7 @@
                 </div>
                 <div class="col align-self-center">${{ current_class.price }}</div>
                 <div class="col text-center col-md-3 text-md-left align-self-center">
-                    {% if current_class in student.classes %}
+                    {% if current_class in enrolled_classes %}
                         <a class="btn btn-success"
                            href="#"
                            role="button">Already Enrolled</a>

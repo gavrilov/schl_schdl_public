@@ -1,11 +1,9 @@
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app
 from flask_security import current_user, login_required, roles_required, roles_accepted
+from sqlalchemy import and_
 
 from app import db
-from app.models import Schdl_Class, Student
-from app.models import School
-from app.models import Subject
-from app.models import Teacher
+from app.models import Schdl_Class, Student, Enrollment, School, Subject, Teacher
 from app.payment import charge_customer
 from .forms import ClassForm
 
@@ -75,10 +73,11 @@ def add_class():
 @roles_accepted('admin', 'teacher')
 def info_class(class_id):
     current_class = Schdl_Class.query.filter_by(id=class_id).first()
+    enrollments = Enrollment.query.filter_by(class_id=class_id).all()
     if not current_class:
         flash('Class with id = {} did not find'.format(class_id), 'danger')
         redirect('schdl_class.class_list')
-    return render_template('dashboard/class_info.html', current_class=current_class)
+    return render_template('dashboard/class_info.html', current_class=current_class, enrollments=enrollments)
 
 
 @schdl_class.route('/<class_id>/edit', methods=['GET', 'POST'])
@@ -127,14 +126,16 @@ def enroll_class(class_id, student_id):
                                                                                              class_id))
         flash('Class does not find', 'danger')
         return redirect(url_for('user.main'))
-    if not current_student or (current_student.user_id != current_user.id and not current_user.has_role('admin')):
+    if not current_student or (current_student not in current_user.students and not current_user.has_role('admin')):
         current_app.logger.warning(
             'User is trying to enroll not his student. user_id = {} student_id = {}'.format(current_user.id,
                                                                                             student_id))
         flash("Student does not find", "danger")
         return redirect(url_for('user.main'))
-
-    return render_template('schdl_class/enroll.html', current_class=current_class, current_student=current_student)
+    current_enrollment = Enrollment.query.filter(
+        and_(Enrollment.student_id == student_id, Enrollment.class_id == class_id, Enrollment.current == True)).first()
+    return render_template('schdl_class/enroll.html', current_class=current_class, current_student=current_student,
+                           current_enrollment=current_enrollment)
 
 
 @schdl_class.route('/<class_id>/payment/<student_id>', methods=['GET', 'POST'])
@@ -142,8 +143,9 @@ def enroll_class(class_id, student_id):
 def payment_class(class_id, student_id):
     current_class = Schdl_Class.query.filter_by(id=class_id).first()
     current_student = Student.query.filter_by(id=student_id).first()
-
-    if current_class in current_student.classes:
+    current_enrollment = Enrollment.query.filter(
+        and_(Enrollment.student_id == student_id, Enrollment.class_id == class_id, Enrollment.current == True)).first()
+    if current_enrollment:
         flash('Your child already enrolled, you do not need to pay second time', 'warning')
         return redirect(url_for('user.main'))
 
@@ -154,7 +156,7 @@ def payment_class(class_id, student_id):
         flash('Class does not find', 'danger')
         return redirect(url_for('user.main'))
 
-    if not current_student or current_student.user_id != current_user.id:
+    if not current_student or current_student not in current_user.students:
         current_app.logger.warning(
             'User is trying to enroll not his student. user_id = {} student_id = {}'.format(current_user.id,
                                                                                             student_id))
@@ -164,7 +166,12 @@ def payment_class(class_id, student_id):
                                                     current_student.first_name, current_student.last_name)
     charge = charge_customer(int(current_class.price * 100), description)
     if charge.status == 'succeeded':
-        current_student.classes.append(current_class)  # if payment successful then enroll student
+        # TODO improve code how to add new enrollment, make def
+        new_enrollment = Enrollment()
+        new_enrollment.class_id = current_class.id
+        new_enrollment.student_id = current_student.id
+        new_enrollment.current = True
+        db.session.add(new_enrollment)
         db.session.commit()
         flash("{} has been added to student list of {} classes".format(current_student.first_name,
                                                                        current_class.subject.name), "success")

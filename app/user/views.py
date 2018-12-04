@@ -206,7 +206,7 @@ def add_contacts():
 def edit_contacts(contact_id):
     contact_info = UserContacts.query.filter_by(id=contact_id).first()
 
-    if not contact_info or contact_info.user_id != current_user.id:
+    if not contact_info or contact_info not in current_user.contacts:
         current_app.logger.warning(
             'User is trying to edit not his contact. user_id = {} contact_id = {}'.format(current_user.id, contact_id))
         flash("Contact does not find", "danger")
@@ -235,7 +235,7 @@ def edit_contacts(contact_id):
 def delete_contacts(contact_id):
     contact_info = UserContacts.query.filter_by(id=contact_id).first()
 
-    if not contact_info or contact_info.user_id != current_user.id:
+    if not contact_info or contact_info not in current_user.contacts:
         current_app.logger.warning(
             'User is trying to delete not his contact. user_id = {} contact_id = {}'.format(current_user.id,
                                                                                             contact_id))

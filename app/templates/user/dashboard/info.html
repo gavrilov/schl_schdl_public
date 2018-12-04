@@ -64,11 +64,11 @@
                         <a href="{{ url_for('student.info', student_id=student.id) }}">{{ student.first_name }} {{ student.last_name }}</a>
                     </td>
                     <td>
-                        {% if student.classes.count() > 0 %}Enrolled in
-                            {% for current_class in student.classes %}
+                        {% if student.enrollments.count() > 0 %}Enrolled in
+                            {% for enrollment in student.enrollments %}
                                 <a class="btn btn-outline-primary"
-                                   href="{{ url_for('schdl_class.enroll_class', student_id=student.id, class_id=current_class.id) }}"
-                                   role="button">{{ current_class.subject.name }}</a>
+                                   href="{{ url_for('schdl_class.enroll_class', student_id=student.id, class_id=enrollment.schdl_class.id) }}"
+                                   role="button">{{ enrollment.schdl_class.subject.name }}</a>
                             {% endfor %}
                         {% else %}
                             not enrolled yet
