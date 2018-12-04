@@ -31,17 +31,19 @@
                     {% endif %}
                 </div>
                 <div class="col align-self-center">${{ current_class.price }}</div>
-                <div class="col text-center col-md-3 text-md-left align-self-center">
                     {% if current_class in enrolled_classes %}
+                <div class="col text-center col-md-3 text-md-left align-self-center">
                         <a class="btn btn-success"
                            href="#"
                            role="button">Already Enrolled</a>
+                    </div>
                     {% elif current_user.stripe_id %}
+                    <div class="col text-center col-md-3 text-md-left align-self-center">
                         <a class="btn btn btn-outline-success"
                            href="{{ url_for('schdl_class.payment_class', class_id=current_class.id, student_id=student.id) }}"
                            role="button">Pay with your card ${{ current_class.price }}</a>
+                    </div>
                     {% endif %}
-                </div>
                 <div class="col text-center col-md-3 text-md-right align-self-center">
                     <a class="btn btn-info"
                        href="{{ url_for('schdl_class.enroll_class', student_id=student.id, class_id=current_class.id) }}"
@@ -51,9 +53,11 @@
         {% endfor %}
 
         {% if current_school.agreement %}
-            <div class="row">
+            <div class="row mt-5">
+                <div class="col">
                 <div class="alert alert-danger" role="alert">
                     {{ current_school.agreement | safe }}
+                </div>
                 </div>
             </div>
         {% endif %}

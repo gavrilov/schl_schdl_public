@@ -175,6 +175,10 @@ def payment_class(class_id, student_id):
         db.session.commit()
         flash("{} has been added to student list of {} classes".format(current_student.first_name,
                                                                        current_class.subject.name), "success")
+        if current_class.school.agreement:
+            from app.payment import send_email
+            send_email(msg_subject='Reminder', msg_html=str(current_class.school.agreement))
+
         return render_template('payment/successful.html', charge=charge, current_class=current_class,
                                current_student=current_student)
     else:
