@@ -13,15 +13,13 @@
     <h3 style="color: lightgrey">{{ current_user.email }}</h3>
     <p>Total users: {{ users }}</p>
     <p>Total students: {{ students }}</p>
+    <h1>Current System Version</h1>
+    <p>{{ config.CURRENT_RELEASE_HEROKU_VERSION }}</p>
+    <p>{{ config.CURRENT_RELEASE_VERSION }}</p>
+    <p>{{ config.CURRENT_RELEASE_CREATED_AT }}</p>
 {% endblock %}
 
 
 {% block scripts %}
     {{ super() }}
-    <!--Script for Tooltip-->
-    <script>
-        $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
 {% endblock %}
