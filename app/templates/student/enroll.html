@@ -25,7 +25,7 @@
                              class="font-weight-bold align-self-center">{{ current_class.subject.name }}</div>
                     </a></div>
                 <div class="col align-self-center">{{ current_class.day_of_week }}
-                    {% if current_class.class_time_start and current_class.class_time_end %}
+                    {% if current_class.class_time_start and current_class.class_time_end %} <br>
                         {{ current_class.class_time_start | ctimeformat }}
                         - {{ current_class.class_time_end | ctimeformat }}
                     {% endif %}
