@@ -72,7 +72,8 @@ def add_student():
 @login_required
 def edit_student(student_id):
     current_student = Student.query.filter_by(id=student_id).first()
-    if not current_student or (current_student.user_id != current_user.id and not current_user.has_role('admin')):  # TODO or current_student not in current_user.students
+    if not current_student or (current_student not in current_user.students and not current_user.has_role(
+            'admin')):  # TODO or current_student not in current_user.students
         current_app.logger.warning(
             'User is trying to edit not his student. user_id = {} student_id = {}'.format(current_user.id, student_id))
         flash("Student does not find", "danger")
@@ -103,8 +104,9 @@ def edit_student(student_id):
 @student.route('/<student_id>/enroll', methods=['GET', 'POST'])
 @login_required
 def enroll_student(student_id):
+    # list all classes available for current_student
     current_student = Student.query.filter_by(id=student_id).first()
-    if not current_student or (current_student.user_id != current_user.id and not current_user.has_role('admin')):  # TODO or current_student not in current_user.students
+    if not current_student or (current_student not in current_user.students and not current_user.has_role('admin')):
         current_app.logger.warning(
             'User is trying to enroll not his student. user_id = {} student_id = {}'.format(current_user.id,
                                                                                             student_id))

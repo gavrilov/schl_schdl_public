@@ -127,7 +127,7 @@ def enroll_class(class_id, student_id):
                                                                                              class_id))
         flash('Class does not find', 'danger')
         return redirect(url_for('user.main'))
-    if not current_student or (current_student.user_id != current_user.id and not current_user.has_role('admin')):
+    if not current_student or (current_student not in current_user.students and not current_user.has_role('admin')):
         current_app.logger.warning(
             'User is trying to enroll not his student. user_id = {} student_id = {}'.format(current_user.id,
                                                                                             student_id))
@@ -154,7 +154,7 @@ def payment_class(class_id, student_id):
         flash('Class does not find', 'danger')
         return redirect(url_for('user.main'))
 
-    if not current_student or current_student.user_id != current_user.id:
+    if not current_student or current_student not in current_user.students:
         current_app.logger.warning(
             'User is trying to enroll not his student. user_id = {} student_id = {}'.format(current_user.id,
                                                                                             student_id))
