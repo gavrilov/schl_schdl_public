@@ -28,7 +28,7 @@
             {% endfor %}
             </td>
             <td>{% for contact in student.user.contacts %}
-                {{ contact.email }}
+                <a href="mailto:{{ contact.email }}" target="_top">{{ contact.email }}</a>
             {% endfor %}</td>
         {% else %}
             <td></td>
