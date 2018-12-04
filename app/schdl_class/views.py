@@ -6,6 +6,7 @@ from app import db
 from app.models import Schdl_Class, Student, Enrollment, School, Subject, Teacher
 from app.payment import charge_customer
 from .forms import ClassForm
+import requests
 
 schdl_class = Blueprint('schdl_class', __name__, template_folder='templates')
 
@@ -176,8 +177,8 @@ def payment_class(class_id, student_id):
         flash("{} has been added to student list of {} classes".format(current_student.first_name,
                                                                        current_class.subject.name), "success")
         if current_class.school.agreement:
-            from app.payment import send_email
-            send_email(msg_subject='Reminder', msg_html=str(current_class.school.agreement))
+            # from app.payment import send_email
+            send_email_to_current_user(msg_subject='Reminder', msg_html=str(current_class.school.agreement))
 
         return render_template('payment/successful.html', charge=charge, current_class=current_class,
                                current_student=current_student)
@@ -186,3 +187,29 @@ def payment_class(class_id, student_id):
         flash("Something wrong with your payment", "danger")
         return render_template('payment/failed.html', charge=charge)
     # return redirect(url_for('student.enroll_student', student_id=current_student.id))
+
+# TODO def to dif file
+def send_email_to_current_user(msg_subject, msg_html):
+    msg_sender = current_app.config['MAIL_DEFAULT_SENDER']
+    msg_recipients_list = [current_user.email]
+    msg_recipients = []
+    for email in msg_recipients_list:
+        msg_recipients.append(dict(address=dict(email=email)))
+    url = 'https://api.sparkpost.com/api/v1/transmissions'
+    spark_api_key = current_app.config['SPARKPOST_API_KEY']
+    payload = {
+        'recipients': msg_recipients,
+        'content': {
+            'from': msg_sender,
+            'subject': msg_subject,
+            'html': msg_html
+        }
+    }
+    response = requests.post(url, headers={'Authorization': spark_api_key}, json=payload)
+    r = response.json()
+    if 'errors' in r:
+        for error in r['errors']:
+            flash("".format(error['message']), 'danger')
+            current_app.logger.error('SparkPost {} error: {}'.format(error['code'], error['message']))
+            return False
+    return True
