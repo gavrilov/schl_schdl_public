@@ -53,9 +53,11 @@
         {% endfor %}
 
         {% if current_school.agreement %}
-            <div class="row">
+            <div class="row mt-5">
+                <div class="col">
                 <div class="alert alert-danger" role="alert">
                     {{ current_school.agreement | safe }}
+                </div>
                 </div>
             </div>
         {% endif %}
