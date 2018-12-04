@@ -73,10 +73,11 @@ def add_class():
 @roles_accepted('admin', 'teacher')
 def info_class(class_id):
     current_class = Schdl_Class.query.filter_by(id=class_id).first()
+    enrollments = Enrollment.query.filter_by(class_id=class_id).all()
     if not current_class:
         flash('Class with id = {} did not find'.format(class_id), 'danger')
         redirect('schdl_class.class_list')
-    return render_template('dashboard/class_info.html', current_class=current_class)
+    return render_template('dashboard/class_info.html', current_class=current_class, enrollments=enrollments)
 
 
 @schdl_class.route('/<class_id>/edit', methods=['GET', 'POST'])
