@@ -70,9 +70,9 @@
     </div>
     <div class="row">
     <div class="col">
-    {% for current_class in student.classes %}
-        <a href="{{ url_for('schdl_class.edit_class', class_id=current_class.id) }}">{{ current_class.subject.name }}
-            @ {{ current_class.school.name }}</a><br>
+        {% for enrollment in student.enrollments %}
+            <a href="{{ url_for('schdl_class.info_class', class_id=enrollment.schdl_class.id) }}">{{ enrollment.schdl_class.subject.name }}
+                @ {{ enrollment.schdl_class.school.name }}</a><br>
     {% endfor %}
     </div>
     </div>
