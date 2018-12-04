@@ -25,7 +25,7 @@ def student_list():
 def student_all_list():
     # show students who are not enrolled in any classes
     q = db.session.query(Student)
-    students = q.filter(~Student.classes.any()) # ~ means not
+    students = q.filter(~Student.enrollments.any())  # ~ means not
     return render_template('student/student_list_not_current.html', students=students)
 
 
