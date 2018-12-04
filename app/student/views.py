@@ -114,7 +114,7 @@ def enroll_student(student_id):
         flash("Student does not find", "danger")
         return redirect(url_for('user.main'))
     current_school = School.query.filter_by(id=current_student.default_school_id).first()
-    current_classes = current_school.classes.filter_by(current=True).order_by(Schdl_Class.day_of_week.asc()).all()
+    current_classes = current_school.classes.filter_by(current=True).order_by(Schdl_Class.day_of_week.asc(), Schdl_Class.class_time_start.asc()).all()
     enrolled_classes = Schdl_Class.query.filter(and_(Schdl_Class.enrollments.any(student_id=current_student.id),
                                                      Schdl_Class.enrollments.any(current=True))).all()
 
