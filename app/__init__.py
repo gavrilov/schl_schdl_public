@@ -106,7 +106,7 @@ def create_app(config_class=Config):
             user_datastore.find_or_create_role(name='teacher', description='Teacher')
 
             encrypted_password = utils.hash_password('password')
-            user_datastore.create_user(email=app.config['SUPERADMIN'], password=encrypted_password)
+            user_datastore.create_user(email=app.config['SUPERADMIN'], password=encrypted_password, first_name='First', last_name='Last')
 
             db.session.commit()
 
