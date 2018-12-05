@@ -66,9 +66,13 @@
                     <td>
                         {% if student.enrollments.count() > 0 %}Enrolled in
                             {% for enrollment in student.enrollments %}
-                                <a class="btn btn-outline-primary"
-                                   href="{{ url_for('schdl_class.enroll_class', student_id=student.id, class_id=enrollment.schdl_class.id) }}"
-                                   role="button">{{ enrollment.schdl_class.subject.name }}</a>
+                                {% if enrollment.current %}
+                                    <a class="btn btn-outline-primary"
+                                {% else %}
+                                    <a class="btn btn-danger"
+                                {% endif %}
+                                       href="{{ url_for('schdl_class.enroll_class', student_id=student.id, class_id=enrollment.schdl_class.id) }}"
+                                       role="button">{{ enrollment.schdl_class.subject.name }}</a>
                             {% endfor %}
                         {% else %}
                             not enrolled yet
@@ -76,9 +80,6 @@
                     </td>
                 </tr>
             {% endfor %}
-            <tr>
-                <td></td>
-            </tr>
             </tbody>
         </table>
     </div>

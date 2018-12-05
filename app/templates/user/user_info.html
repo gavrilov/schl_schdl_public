@@ -42,9 +42,11 @@
                 <div class="col-sm-5 text-center align-self-center">
                     {% if student.enrollments.count() > 0 %}Enrolled in
                         {% for enrollment in student.enrollments %}
+                            {% if enrollment.current %}
                             <a class="btn btn-outline-primary"
                                href="{{ url_for('schdl_class.enroll_class', student_id=student.id, class_id=enrollment.schdl_class.id) }}"
                                role="button">{{ enrollment.schdl_class.subject.name }}</a>
+                            {% endif %}
                         {% endfor %}
                     {% else %}
                         not enrolled yet
@@ -58,7 +60,6 @@
                     <a class="far fa-edit" href="{{ url_for('student.edit_student', student_id=student.id) }}"
                        role="button" data-toggle="tooltip" title="edit" style="color: blue"></a>
                 </div>
-                <br><br>
             </div>
         {% endfor %}
 
