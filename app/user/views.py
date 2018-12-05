@@ -44,9 +44,9 @@ def user_add():
 @roles_required('admin')
 def user_info(user_id):
     thisuser = User.query.filter_by(id=user_id).first()
-    payments_html = my_payments(thisuser)
-    cards_html = my_cards(thisuser)
     if thisuser:
+        payments_html = my_payments(thisuser)
+        cards_html = my_cards(thisuser)
         return render_template('user/dashboard/info.html', user=thisuser, payments_html=payments_html,
                                cards_html=cards_html)
     else:
