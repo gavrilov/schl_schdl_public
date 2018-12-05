@@ -2,7 +2,7 @@ from flask import render_template, Blueprint, flash, redirect, url_for, current_
 from flask_security import current_user, login_required, roles_required
 
 from app import db, user_datastore
-from app.models import User, UserContacts, Student, Role, School, Teacher
+from app.models import User, UserContacts, Student, Role, School, Teacher, Enrollment
 from app.payment import my_cards, my_payments
 from app.school.forms import SchoolListForm
 from app.user.forms import UserForm, UserContactForm, UserSettingsForm
@@ -13,7 +13,8 @@ user = Blueprint('user', __name__, template_folder='templates')
 @user.route('/', methods=['GET', 'POST'])
 @roles_required('admin')
 def user_list():
-    users = User.query.all()
+    q = db.session.query(User)
+    users = q.filter(User.students.any(Student.enrollments.any(Enrollment.schdl_class.has(current=True))))
     return render_template('user/dashboard/list.html', users=users, current_users_only=True)
 
 
@@ -21,6 +22,15 @@ def user_list():
 @roles_required('admin')
 def user_all_list():
     users = User.query.all()
+    return render_template('user/dashboard/list.html', users=users, current_users_only=False)
+
+
+@user.route('/without_students', methods=['GET', 'POST'])
+@roles_required('admin')
+def user_without_students_list():
+    # show students who are not enrolled in any classes
+    q = db.session.query(User)
+    users = q.filter(~User.students.any())  # ~ means not
     return render_template('user/dashboard/list.html', users=users, current_users_only=False)
 
 
@@ -72,7 +82,6 @@ def user_role():
                 new_teacher.user_id = thisuser.id
                 db.session.add(new_teacher)
                 db.session.commit()
-
 
         elif action == 'remove':
             user_datastore.remove_role_from_user(thisuser, thisrole)

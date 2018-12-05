@@ -16,16 +16,16 @@
             <h1>User List</h1>
         </div>
         <div class="col text-right">
-            {% if current_schools_only %}
+            {% if current_users_only %}
                 <a class="btn btn-outline-primary" href="{{ url_for('user.user_all_list') }}" role="button">Show All
                     Users</a>
             {% else %}
                 <a class="btn btn-outline-primary" href="{{ url_for('user.user_list') }}" role="button">Show Current
                     Users</a>
             {% endif %}
-            <a class="btn btn-outline-success" href="{{ url_for('user.user_add') }}" role="button">Add New User</a>
+            <a class="btn btn-outline-warning" href="{{ url_for('user.user_without_students_list') }}" role="button">Show
+                Users Without Students</a>
         </div>
-
     </div>
 
     <form method="POST" action="" id="theForm">
