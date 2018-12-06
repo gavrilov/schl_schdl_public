@@ -1,3 +1,4 @@
+import requests
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app
 from flask_security import current_user, login_required, roles_required, roles_accepted
 from sqlalchemy import and_
@@ -6,23 +7,8 @@ from app import db
 from app.models import Schdl_Class, Student, Enrollment, School, Subject, Teacher
 from app.payment import charge_customer
 from .forms import ClassForm
-import requests
 
 schdl_class = Blueprint('schdl_class', __name__, template_folder='templates')
-
-
-@schdl_class.route('/popup', methods=['GET', 'POST'])
-def generate_popup_url():
-    # We need it to generate a base of dynamic url for popups
-    return False
-
-
-@schdl_class.route('/popup/<class_id>/', methods=['GET', 'POST'])
-def generate_popup_html(class_id):
-    print('I GOT IT!', class_id)
-    form = ClassForm()
-    form.title.data = class_id
-    return render_template('schdl_class/edit.html', form=form)
 
 
 @schdl_class.route('/', methods=['GET', 'POST'])
