@@ -1,13 +1,15 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField, RadioField, BooleanField
-from wtforms.validators import DataRequired, Optional
+from wtforms import StringField, SubmitField
+from wtforms.validators import Optional
 
 
-class EventForm(FlaskForm):
-    #school_id = SelectField('School', coerce=int, validators=[Optional()])
-    teacher_id = SelectField('Teacher', coerce=int, validators=[Optional()])
-    class_id = SelectField('Class', coerce=int, validators=[Optional()])
-    # note = StringField('Description', validators=[DataRequired()])
-    # current = BooleanField('Current Class')
+class PopupEventForm(FlaskForm):
+    id = StringField('id', validators=[Optional()])
+    payrate = StringField('Payrate', validators=[Optional()])
+    billing_rate = StringField('Billing Rate', validators=[Optional()])
+    datetime_start = StringField('Date time start', validators=[Optional()])
+    datetime_end = StringField('Date time end', validators=[Optional()])
+    note = StringField('note', validators=[Optional()])
+    class_id = StringField('Class', validators=[Optional()])
+    active = StringField('Active', validators=[Optional()])
     submit = SubmitField('Update')
-
