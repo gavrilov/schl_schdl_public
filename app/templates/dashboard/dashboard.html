@@ -9,12 +9,49 @@
 
 {% block page_content %}
     {{ super() }}
-    <h1>{{ current_user.first_name }} {{ current_user.last_name }} </h1>
-    <h3 style="color: lightgrey">{{ current_user.email }}</h3>
-    <p>Total users: {{ users }}</p>
-    <p>Total students: {{ students }}</p>
-    <h1>Current System Version {{ config.CURRENT_RELEASE_HEROKU_VERSION }}</h1>
-    <p>{{ config.CURRENT_RELEASE_VERSION }} @ {{ config.CURRENT_RELEASE_CREATED_AT }}</p>
+    <div class="row">
+        <div class="col">
+            <h1>{{ current_user.first_name }} {{ current_user.last_name }} </h1>
+            <h3 style="color: lightgrey">{{ current_user.email }}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            Total users: {{ users }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            Total students: {{ students }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            Total enrollments: {{ enrollments_num }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <h2>Last 5 enrollments</h2>
+        </div>
+    </div>
+    {% for enrollment in five_last_enrollments %}
+        <div class="row">
+            <div class="col">
+                <a href="{{ url_for('student.info', student_id=enrollment.student.id) }}">{{ enrollment.student.first_name }} {{ enrollment.student.last_name }}</a>
+                -
+                <a href="{{ url_for('schdl_class.info_class', class_id=enrollment.schdl_class.id) }}">{{ enrollment.schdl_class.subject.name }}
+                    @ {{ enrollment.schdl_class.school.name }}</a>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="row">
+        <div class="col">
+            <h2>Current System Version {{ config.CURRENT_RELEASE_HEROKU_VERSION }}</h2>
+            <p>{{ config.CURRENT_RELEASE_VERSION }} @ {{ config.CURRENT_RELEASE_CREATED_AT }}</p>
+        </div>
+    </div>
 {% endblock %}
 
 
