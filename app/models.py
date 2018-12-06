@@ -89,7 +89,11 @@ class Event(db.Model):
     class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
     teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'))
     note = db.Column('note', db.Unicode(2048))
-    # school_id = db.Column(db.Integer, db.ForeignKey('schools.id'))
+    active = db.Column('active', db.Boolean())
+    payrate = db.Column('payrate', db.Numeric(scale=2))
+    billing_rate = db.Column('billing_rate', db.Numeric(scale=2))
+    start = db.Column('start', db.DateTime)
+    end = db.Column('end', db.DateTime)
 
 
 class User(UserMixin, db.Model):
