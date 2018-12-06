@@ -1,0 +1,27 @@
+{% extends "dashboard/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Edit Event{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block page_content %}
+    {{ super() }}
+    <form method="POST" action="{{ url_for('event.edit_event', event_id=current_event.id) }}">
+        {{ form.csrf_token }}
+        {{ form.id.label }} {{ form.id }}
+        {{ form.payrate.label }} {{ form.payrate }}
+        {{ form.billing_rate.label }} {{ form.billing_rate }}
+        {{ form.datetime_start.label }} {{ form.datetime_start }}
+        {{ form.datetime_end.label }} {{ form.datetime_end }}
+        {{ form.note.label }} {{ form.note }}
+        {{ form.class_id.label }} {{ form.class_id }}
+        {{ form.active.label }} {{ form.active }}
+        {{ form.submit }}
+    </form>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}
