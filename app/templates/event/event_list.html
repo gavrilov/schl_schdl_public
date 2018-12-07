@@ -26,16 +26,26 @@
             <caption>List of events</caption>
             <tbody>
             <tr>
+                <th>Date</th>
                 <th>School</th>
                 <th>Subject</th>
+                <th>Billing Rate</th>
+                <th>Pay Rate</th>
                 <th>Teacher</th>
+                <th>Note</th>
+                <th>Active</th>
                 <th>Edit</th>
             </tr>
             {% for current_event in events %}
                 <tr>
+                    <td>{{ current_event.start }}</td>
                     <td>{{ current_event.schdl_class.school.name }}</td>
                     <td>{{ current_event.schdl_class.subject.name }}</td>
-                    <td>{{ current_event.teacher.first_name }} {{ current_event.teacher.last_name }}</td>
+                    <td>{{ current_event.billing_rate }}</td>
+                    <td>{{ current_event.payrate }}</td>
+                    <td>{{ current_event.teacher.user.first_name }} {{ current_event.teacher.user.last_name }}</td>
+                    <td>{{ current_event.note }}</td>
+                    <td>{{ current_event.active }}</td>
                     <td><a href="{{ url_for('event.edit_event', event_id=current_event.id) }}">Edit</a></td>
                 </tr>
             {% endfor %}
