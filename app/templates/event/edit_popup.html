@@ -1,4 +1,4 @@
-{% extends "dashboard/base.html" %}
+{% extends "base_popup.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block title %}Edit Event{% endblock %}
 
@@ -7,19 +7,65 @@
 {% endblock %}
 
 {% block page_content %}
-    {{ super() }}
-    <form method="POST" action="{{ url_for('event.edit_event', event_id=current_event.id) }}">
-        {{ form.csrf_token }}
-        {{ form.id.label }} {{ form.id }}
-        {{ form.payrate.label }} {{ form.payrate }}
-        {{ form.billing_rate.label }} {{ form.billing_rate }}
-        {{ form.datetime_start.label }} {{ form.datetime_start }}
-        {{ form.datetime_end.label }} {{ form.datetime_end }}
-        {{ form.note.label }} {{ form.note }}
-        {{ form.class_id.label }} {{ form.class_id }}
-        {{ form.active.label }} {{ form.active }}
-        {{ form.submit }}
-    </form>
+    <div class="col">
+        {{ super() }}
+        <div class="row mt-3">
+            <div class="col">
+                <div class="row">
+                    <div class="col"><h1>{{ current_event.schdl_class.subject.name }}
+                        @ {{ current_event.schdl_class.school.name }}</h1></div>
+                </div>
+                <form method="POST" action="{{ url_for('event.edit_event', event_id=current_event.id) }}">
+                    {{ form.csrf_token }}
+                    <div class="form-group row">
+                        <div class="form-group col">
+                            {{ form.id.label }} {{ form.id }}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="form-group col">
+                            {{ form.payrate.label }} {{ form.payrate }}
+                        </div>
+                        <div class="form-group col">
+                            {{ form.billing_rate.label }} {{ form.billing_rate }}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="form-group col">
+                            {{ form.start.label }} {{ form.start }}
+                        </div>
+                        <div class="form-group col">
+                            {{ form.end.label }} {{ form.end }}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="form-group col">
+                            {{ form.note.label }} {{ form.note }}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="form-group col">
+                            {{ form.teacher_id.label }} {{ form.teacher_id }}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="form-group col">
+                            {{ form.active.label }} {{ form.active }}
+                        </div>
+                        <div class="form-group col">
+                            {{ form.submit }}
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block scripts %}
