@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "dashboard/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block title %}Calendar{% endblock %}
 
@@ -41,9 +41,9 @@
                 header: {
                     left: '',
                     center: '',
-                    right: 'prev title next today'
+                    right: 'prev title next today PrintButton'
                 },
-                footer: {right: 'PrintButton'},
+                contentHeight: 'auto',
                 showNonCurrentDates: false,
                 defaultView: 'month',
                 eventClick: function (event, jsEvent, view) {
@@ -74,6 +74,4 @@
             })
         });
     </script>
-
-
 {% endblock %}
