@@ -91,7 +91,6 @@ def data(schdl_object, id):
     start = datetime.datetime.strptime(start_date, '%Y-%m-%d')
     end = datetime.datetime.strptime(end_date, '%Y-%m-%d')
 
-    print(start, end)
     if schdl_object == 'class':
         current_class = Schdl_Class.query.filter_by(id=id).first()
         events = current_class.events.filter(Event.start > start, Event.end < end).all()
@@ -110,6 +109,8 @@ def data(schdl_object, id):
         pass
     elif schdl_object == 'all':
         # get all Events between star_date & end_date
+        events = Event.query.filter(Event.start > start, Event.end < end).all()
+        return generate_calendar_data(events)
         pass
 
     return 'ok'
