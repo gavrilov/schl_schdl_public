@@ -38,7 +38,7 @@ def generate_popup_html(event_id):
 @event.route('/', methods=['GET', 'POST'])
 @roles_required('admin')
 def event_list():
-    events = Event.query.filter_by().all()
+    events = Event.query.filter(Event.schdl_class.has(current=True)).order_by(Event.start.asc()).all()
     # TODO current_events_only - by date or Schdl_Class.current = True. if today in range(start_date_of_class, end_date_of_class)
     return render_template('event/event_list.html', events=events, current_events_only=False)
 
@@ -47,11 +47,18 @@ def event_list():
 @roles_required('admin')
 def add_event(class_id):
     current_class = Schdl_Class.query.filter_by(id=class_id).first()
-    event_dates = create_events(current_class)
+    if current_class.events:
+        flash('Current class already has events', 'warning')
+        return redirect(url_for('schdl_class.edit_class', class_id=current_class.id))
+    return create_events(current_class)
 
-    flash('Events for {} class at {} have been created'.format(current_class.subject.name, current_class.school.name),
-          'success')
-    return 'Ok'
+
+@event.route('/class/<class_id>', methods=['GET', 'POST'])
+@roles_required('admin')
+def list_for_class(class_id):
+    current_class = Schdl_Class.query.filter_by(id=class_id).first()
+    events = current_class.events
+    return render_template('event/event_list.html', events=events, current_events_only=False)
 
 
 @event.route('/edit/<event_id>', methods=['GET', 'POST'])
@@ -154,12 +161,23 @@ def create_events(current_class):
     # dates of start and end
     start = current_class.class_start
     end = current_class.class_end
-    # TODO if not start or not end: error
+
+    if not start or not end:
+        flash('Class does not have start or end date', 'warning')
+        return redirect(url_for('schdl_class.edit_class', class_id=current_class.id))
+
+    if not current_class.class_time_start or not current_class.class_time_end:
+        flash('Class does not have start or end time', 'warning')
+        return redirect(url_for('schdl_class.edit_class', class_id=current_class.id))
+
+    if current_class.payrate is None or current_class.billing_rate is None:
+        flash('Class does not have Pay or Billing rate', 'warning')
+        return redirect(url_for('schdl_class.edit_class', class_id=current_class.id))
     # https://stackoverflow.com/questions/43305577/python-calculate-the-difference-between-two-datetime-time-objects
     # To calculate the difference - convert the datetime.time object to a datetime.datetime
     start_time = datetime.datetime.combine(start, current_class.class_time_start)
     end_time = datetime.datetime.combine(start, current_class.class_time_end)
-    # TODO if not start or not end: error
+
     # get seconds from timedelta object and divide
     class_duration = (end_time - start_time).total_seconds()
 
@@ -185,5 +203,6 @@ def create_events(current_class):
         new_event.billing_rate = current_class.billing_rate
         db.session.add(new_event)
     db.session.commit()
-
-    return True
+    flash('Events for {} class at {} have been created'.format(current_class.subject.name, current_class.school.name),
+          'success')
+    return redirect(url_for('schdl_class.edit_class', class_id=current_class.id))
