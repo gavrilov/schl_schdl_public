@@ -11,7 +11,7 @@ calendar = Blueprint('calendar', __name__, template_folder='templates')
 @roles_required('admin')
 def main():
     # calendar for all classes at all schools
-    return render_template('calendar/caledar.html', id='all', schdl_object='class')
+    return render_template('calendar/caledar.html', id=0, schdl_object='all')
 
 
 @calendar.route('/class/<class_id>', methods=['GET', 'POST'])
