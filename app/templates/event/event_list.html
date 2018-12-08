@@ -40,7 +40,9 @@
                 <tr>
                     <td>{{ current_event.start }}</td>
                     <td>{{ current_event.schdl_class.school.name }}</td>
-                    <td>{{ current_event.schdl_class.subject.name }}</td>
+                    <td>
+                        <a href="{{ url_for('schdl_class.info_class', class_id=current_event.schdl_class.id) }}">{{ current_event.schdl_class.subject.name }}</a>
+                    </td>
                     <td>{{ current_event.billing_rate }}</td>
                     <td>{{ current_event.payrate }}</td>
                     <td>{{ current_event.teacher.user.first_name }} {{ current_event.teacher.user.last_name }}</td>
