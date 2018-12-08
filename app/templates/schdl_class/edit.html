@@ -11,82 +11,89 @@
 {% block page_content %}
     {{ super() }}
     <div class="row">
-        <h1>{{ current_class.subject.name }} @ {{ current_class.school.name }}
-            {% if form.current.data == True %}
-                <span class="badge badge-success">Current Class</span>
-            {% endif %}
-            <br>
-            <small>
-                teacher: {{ current_class.teacher.user.first_name }} {{ current_class.teacher.user.last_name }}</small>
-        </h1>
+        <div class="col-10">
+            <h1>{{ current_class.subject.name }} @ {{ current_class.school.name }}
+                {% if form.current.data == True %}
+                    <span class="badge badge-success">Current Class</span>
+                {% endif %}
+                <br>
+                <small>
+                    teacher: {{ current_class.teacher.user.first_name }} {{ current_class.teacher.user.last_name }}</small>
+            </h1>
+        </div>
+        <div class="col-2">
+            <a class="btn btn-primary" href="{{ url_for('event.list_for_class', class_id=current_class.id) }}"
+               role="button">Events</a>
+        </div>
     </div>
     <div class="row">
-        <form id="edit_class_form" action="{{ url_for('schdl_class.edit_class', class_id=current_class.id) }}"
-              method="POST"
-              name="edit_class_form">
-            {{ form.csrf_token }}
+        <div class="col">
+            <form id="edit_class_form" action="{{ url_for('schdl_class.edit_class', class_id=current_class.id) }}"
+                  method="POST"
+                  name="edit_class_form">
+                {{ form.csrf_token }}
 
-            <div class="form-group row">
-                <div class="col">
-                    {{ form.school_id.label(class="form-control-label") }}
-                    {{ form.school_id(class="form-control") }}
+                <div class="form-group row">
+                    <div class="col">
+                        {{ form.school_id.label(class="form-control-label") }}
+                        {{ form.school_id(class="form-control") }}
+                    </div>
+                    <div class="col">
+                        {{ form.teacher_id.label(class="form-control-label") }}
+                        {{ form.teacher_id(class="form-control") }}
+                    </div>
+                    <div class="col">
+                        {{ form.subject_id.label(class="form-control-label") }}
+                        {{ form.subject_id(class="form-control") }}
+                    </div>
                 </div>
-                <div class="col">
-                    {{ form.teacher_id.label(class="form-control-label") }}
-                    {{ form.teacher_id(class="form-control") }}
-                </div>
-                <div class="col">
-                    {{ form.subject_id.label(class="form-control-label") }}
-                    {{ form.subject_id(class="form-control") }}
-                </div>
-            </div>
 
-            <div class="form-group row">
-                <div class="form-group col">
-                    {{ form.price.label(class="form-control-label") }}
-                    {{ form.price(class="form-control") }}
+                <div class="form-group row">
+                    <div class="form-group col">
+                        {{ form.price.label(class="form-control-label") }}
+                        {{ form.price(class="form-control") }}
+                    </div>
+                    <div class="form-group col">
+                        {{ form.payrate.label(class="form-control-label") }}
+                        {{ form.payrate(class="form-control") }}
+                    </div>
+                    <div class="form-group col">
+                        {{ form.billing_rate.label(class="form-control-label") }}
+                        {{ form.billing_rate(class="form-control") }}
+                    </div>
                 </div>
-                <div class="form-group col">
-                    {{ form.payrate.label(class="form-control-label") }}
-                    {{ form.payrate(class="form-control") }}
-                </div>
-                <div class="form-group col">
-                    {{ form.billing_rate.label(class="form-control-label") }}
-                    {{ form.billing_rate(class="form-control") }}
-                </div>
-            </div>
 
-            <div class="form-group row">
-                <div class="form-group col">
-                    {{ form.registration_start.label(class="form-control-label") }}
-                    {{ form.registration_start(class="form-control") }}
+                <div class="form-group row">
+                    <div class="form-group col">
+                        {{ form.registration_start.label(class="form-control-label") }}
+                        {{ form.registration_start(class="form-control") }}
+                    </div>
+                    <div class="form-group col">
+                        {{ form.registration_end.label(class="form-control-label") }}
+                        {{ form.registration_end(class="form-control") }}
+                    </div>
+                    <div class="form-group col">
+                        {{ form.class_start.label(class="form-control-label") }}
+                        {{ form.class_start(class="form-control") }}
+                    </div>
+                    <div class="form-group col">
+                        {{ form.class_end.label(class="form-control-label") }}
+                        {{ form.class_end(class="form-control") }}
+                    </div>
+                    <div class="form-group col">
+                        {{ form.day_of_week.label(class="form-control-label") }}
+                        {{ form.day_of_week(class="form-control") }}
+                    </div>
+                    <div class="form-group col">
+                        {{ form.class_time_start.label(class="form-control-label") }}
+                        {{ form.class_time_start(class="form-control") }}
+                    </div>
+                    <div class="form-group col">
+                        {{ form.class_time_end.label(class="form-control-label") }}
+                        {{ form.class_time_end(class="form-control") }}
+                    </div>
                 </div>
-                <div class="form-group col">
-                    {{ form.registration_end.label(class="form-control-label") }}
-                    {{ form.registration_end(class="form-control") }}
-                </div>
-                <div class="form-group col">
-                    {{ form.class_start.label(class="form-control-label") }}
-                    {{ form.class_start(class="form-control") }}
-                </div>
-                <div class="form-group col">
-                    {{ form.class_end.label(class="form-control-label") }}
-                    {{ form.class_end(class="form-control") }}
-                </div>
-                <div class="form-group col">
-                    {{ form.day_of_week.label(class="form-control-label") }}
-                    {{ form.day_of_week(class="form-control") }}
-                </div>
-                <div class="form-group col">
-                    {{ form.class_time_start.label(class="form-control-label") }}
-                    {{ form.class_time_start(class="form-control") }}
-                </div>
-                <div class="form-group col">
-                    {{ form.class_time_end.label(class="form-control-label") }}
-                    {{ form.class_time_end(class="form-control") }}
-                </div>
-            </div>
-            <!-- GRADE AND AGE LIMITS
+                <!-- GRADE AND AGE LIMITS
             <div class="form-group row">
                 <div class="form-group col">
                     {{ form.grade_limit_from.label(class="form-control-label") }}
@@ -106,34 +113,29 @@
                 </div>
             </div>
             -->
-            <div class="row">
-                <div class="form-check mr-auto">
-                    {{ form.current(class="form-check-input") }}
-                    {{ form.current.label (class="form-check-label") }}
+                <div class="row">
+                    <div class="form-check mr-auto">
+                        {{ form.current(class="form-check-input") }}
+                        {{ form.current.label (class="form-check-label") }}
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group row">
-                {{ form.info.label(class="form-control-label") }}
-            </div>
-
-            <div class="form-group row">
-                {{ form.info(class="form-control") }}
-            </div>
-
-            <div class="form-group row">
-                <div class="col">
-                    <button id="recaptcha-submit" class="btn btn-primary">Save</button>
+                <div class="form-group row">
+                    {{ form.info.label(class="form-control-label") }}
                 </div>
-                <!-- CREATE EVENTS BUTTON
-                <div class="col">
-                    <button id="recaptcha-submit" class="btn btn-warning">Create Events</button>
+
+                <div class="form-group row">
+                    {{ form.info(class="form-control") }}
                 </div>
-                -->
-            </div>
-        </form>
+
+                <div class="form-group row">
+                    <div class="col">
+                        <button id="recaptcha-submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-    <div id="summernote"></div>
 {% endblock %}
 
 
