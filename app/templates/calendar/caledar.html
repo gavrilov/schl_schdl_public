@@ -55,7 +55,7 @@
                     });
                 },
                 events: {
-                    url: '{{ url_for('event.data', id=id, schdl_object = schdl_object) }}',
+                    url: '{{ url_for('event.data', id=id, schdl_object=schdl_object) }}',
                     error: function () {
                         $('#script-warning').show();
                     }
