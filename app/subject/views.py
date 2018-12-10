@@ -1,4 +1,5 @@
 from flask import render_template, Blueprint, flash, redirect, url_for
+from flask_babel import _
 from flask_security import roles_required
 
 from app import db
@@ -22,9 +23,8 @@ def info(subject_id):
     if current_subject:
         return render_template('subject/subject_info.html', subject=current_subject)
     else:
-        flash("Subject with id {} did not find".format(subject_id), "danger")
+        flash(_('(Subject did not find'), 'danger')
         return redirect(url_for('subject.subject_list'))
-
 
 
 @subject.route('/add', methods=['GET', 'POST'])
@@ -37,7 +37,7 @@ def add_subject():
         # save new school to db
         db.session.add(new_subject)
         db.session.commit()
-        flash("Subject {} created".format(new_subject.name), "success")
+        flash(_('Subject has been created'), 'success')
         return redirect(url_for('subject.subject_list'))
     else:
         return render_template('subject/add.html', form=form)
@@ -52,12 +52,12 @@ def edit_subject(subject_id):
         form.populate_obj(current_subject)
         #save to db
         db.session.commit()
-        flash("Subject {} edited".format(current_subject.name), "success")
+        flash(_('Subject has been updated'), 'success')
         return redirect(url_for('subject.subject_list'))
     else:
         if current_subject:
             form = SubjectForm(obj=current_subject)
             return render_template('subject/edit.html', form=form, subject_id=subject_id)
         else:
-            flash("Subject with id {} did not find".format(subject_id), "danger")
+            flash(_('Subject did not find'), 'danger')
             return redirect(url_for('subject.subject_list'))

@@ -1,4 +1,5 @@
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app, request
+from flask_babel import _
 from flask_security import current_user, login_required, roles_required
 
 from app import db, user_datastore
@@ -44,7 +45,7 @@ def user_add():
         # save new school to db
         db.session.add(new_user)
         db.session.commit()
-        flash("User {} {} created".format(new_user.first_name, new_user.last_name), "success")
+        flash(_('User has been created'), 'success')
         return redirect(url_for('user.user_list'))
     else:
         return render_template('user/dashboard/add.html', form=form, action='add')
@@ -60,7 +61,7 @@ def user_info(user_id):
         return render_template('user/dashboard/info.html', user=thisuser, payments_html=payments_html,
                                cards_html=cards_html)
     else:
-        flash("User with id {} did not find".format(user_id), "danger")
+        flash(_('User did not find'), 'danger')
         return redirect(url_for('user.user_list'))
 
 
@@ -86,10 +87,10 @@ def user_role():
         elif action == 'remove':
             user_datastore.remove_role_from_user(thisuser, thisrole)
         db.session.commit()
-        flash("{} {} updated".format(thisuser.first_name, thisuser.last_name), "success")
+        flash(_('User has been updated'), 'success')
         return redirect(url_for('user.user_info', user_id=thisuser.id))
     else:
-        flash("{} {} something wrong".format(thisuser.first_name, thisuser.last_name), "warning")
+        flash(_('Something wrong'), 'warning')
         return redirect(url_for('user.user_info', user_id=thisuser.id))
 
 
@@ -103,14 +104,14 @@ def user_edit(user_id):
         form.populate_obj(user)
         # save to db
         db.session.commit()
-        flash("User {} {} edited".format(user.first_name, user.last_name), "success")
+        flash(_('User has been updated'), 'success')
         return redirect(url_for('dashboard.user_list'))
     else:
         if user:
             form = UserForm(obj=user)
             return render_template('user/dashboard/user_edit.html', form=form, user_id=user_id)
         else:
-            flash("User with id {} did not find".format(user_id), "danger")
+            flash(_('User did not find'), 'danger')
             return redirect(url_for('user.user_list'))
 
 
@@ -132,19 +133,18 @@ def user_school(user_id):
                 thisschool.users.append(thisuser)
                 # save to db
                 db.session.commit()
-                flash("{} {} added to {}".format(thisuser.first_name, thisuser.last_name, thisschool.name), "success")
+                flash(_('User has been added to School'), 'success')
                 return redirect(url_for('user.user_info', user_id=thisuser.id))
             else:
-                flash("{} {} already connected to {}".format(thisuser.first_name, thisuser.last_name, thisschool.name),
-                      "warning")
+                flash(_('User already connected to School'), 'warning')
                 return redirect(url_for('user.user_info', user_id=thisuser.id))
         else:
-            flash("School with id {} does not find".format(form.school_id.data), 'danger')
+            flash(_('School did not find'), 'danger')
     else:
         if thisuser:
             return render_template('user/dashboard/school.html', form=form, user=thisuser)
         else:
-            flash("User with id {} did not find".format(user_id), "danger")
+            flash(_('User did not find'), 'danger')
             return redirect(url_for('user.user_list'))
 
 
@@ -157,10 +157,10 @@ def main():
     payments_html = my_payments()
 
     if not contacts:
-        flash("Please add your contact information", "danger")
+        flash(_('Please add your contact information'), 'danger')
         return redirect(url_for('user.add_contacts'))
     if not students:  # TODO filter for admins and parents and not (current_user.has_role('admin') or current_user.has_role('teacher')):
-        flash("Please add student information", "danger")
+        flash(_('Please add student information'), 'danger')
         return redirect(url_for('student.add_student'))
     return render_template('user/user_info.html', user=current_user, students=students, cards_html=cards_html,
                            payments_html=payments_html)
@@ -175,7 +175,7 @@ def edit():
         form.populate_obj(current_user)
         # save to db
         db.session.commit()
-        flash("User {} {} edited".format(current_user.first_name, current_user.last_name), "success")
+        flash(_('User has been updated'), 'success')
         return redirect(url_for('user.main'))
     else:
         form = UserForm(obj=current_user)
@@ -199,7 +199,7 @@ def add_contacts():
         contact_info.user_id = current_user.id
         db.session.add(contact_info)
         db.session.commit()
-        flash("Contact information updated", "success")
+        flash(_('Contact information has been updated'), 'success')
         return redirect(url_for('user.main'))
 
     if form.errors:
@@ -218,7 +218,7 @@ def edit_contacts(contact_id):
     if not contact_info or contact_info not in current_user.contacts:
         current_app.logger.warning(
             'User is trying to edit not his contact. user_id = {} contact_id = {}'.format(current_user.id, contact_id))
-        flash("Contact does not find", "danger")
+        flash(_('Contact information did not find'), 'danger')
         return redirect(url_for('user.main'))
 
     form = UserContactForm(obj=contact_info)
@@ -228,7 +228,7 @@ def edit_contacts(contact_id):
         # save new school to db
         contact_info.user_id = current_user.id
         db.session.commit()
-        flash("Contact information updated", "success")
+        flash(_('Contact information has been updated'), 'success')
         return redirect(url_for('user.main'))
 
     if form.errors:
@@ -248,10 +248,10 @@ def delete_contacts(contact_id):
         current_app.logger.warning(
             'User is trying to delete not his contact. user_id = {} contact_id = {}'.format(current_user.id,
                                                                                             contact_id))
-        flash("Contact does not find", "danger")
+        flash(_('Contact information did not find'), 'danger')
         return redirect(url_for('user.main'))
 
     db.session.delete(contact_info)
     db.session.commit()
-    flash("Contact has been deleted", "success")
+    flash(_('Contact information has been deleted'), 'success')
     return redirect(url_for('user.main'))

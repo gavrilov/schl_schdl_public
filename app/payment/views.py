@@ -1,5 +1,6 @@
 import stripe
 from flask import Blueprint, abort, request, current_app, redirect, url_for, flash
+from flask_babel import _
 from flask_security import login_required, current_user
 
 from app import db
@@ -27,7 +28,7 @@ def update_card():
         customer = stripe.Customer.retrieve(current_user.stripe_id)
         customer.source = token
         customer.save()
-    flash('Your card has been added', 'success')
+    flash(_('Card has been added'), 'success')
     return redirect(redirect_url())
 
 
@@ -49,7 +50,7 @@ def update_card_and_pay():
         customer = stripe.Customer.retrieve(current_user.stripe_id)
         customer.source = token
         customer.save()
-    flash('Your card has been added', 'success')
+    flash(_('Card has been added'), 'success')
     return redirect(url_for('schdl_class.payment_class', class_id=class_id, student_id=student_id))
 
 

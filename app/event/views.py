@@ -4,6 +4,7 @@ import json
 import pytz as tz
 from dateutil import rrule
 from flask import render_template, Blueprint, flash, redirect, url_for, request
+from flask_babel import _
 from flask_security import roles_required
 
 from app import db
@@ -48,7 +49,7 @@ def event_list():
 def add_event(class_id):
     current_class = Schdl_Class.query.filter_by(id=class_id).first()
     if current_class.events.first():
-        flash('Current class already has events', 'warning')
+        flash(_('Current class already has events'), 'warning')
         return redirect(url_for('event.list_for_class', class_id=current_class.id))
     return create_events(current_class)
 
@@ -66,7 +67,7 @@ def list_for_class(class_id):
 def add_event_for_class(class_id):
     current_class = Schdl_Class.query.filter_by(id=class_id).first()
     if not current_class:
-        flash('Class with id {} did not find'.format(class_id), 'danger')
+        flash(_('Class did not find'), 'danger')
         return redirect(url_for('event.list_for_class', class_id=class_id))
     form = PopupEventForm()
 
@@ -84,8 +85,7 @@ def add_event_for_class(class_id):
         # save to db
         db.session.add(current_event)
         db.session.commit()
-        flash("Event of {} class at {} has been added".format(current_class.subject.name, current_class.school.name),
-              "success")
+        flash(_('Event has been added'), 'success')
         return redirect(url_for('event.list_for_class', class_id=class_id))
     else:
         return render_template('event/add.html', form=form, current_class=current_class)
@@ -110,13 +110,12 @@ def edit_event(event_id):
             form.populate_obj(current_event)
             # save to db
             db.session.commit()
-            flash("Event of {} class at {} has been updated".format(current_event.schdl_class.subject.name,
-                                                                    current_event.schdl_class.school.name), "success")
+            flash(_('Event has been updated'), 'success')
             return redirect(url_for('event.event_list'))
         else:
             return render_template('event/edit.html', form=form, current_event=current_event)
     else:
-        flash("Event with id {} did not find".format(event_id), "danger")
+        flash(_('Event did not find'), 'danger')
         return redirect(url_for('event.event_list'))
 
 
@@ -129,11 +128,10 @@ def delete_event(event_id):
     if current_event:
         db.session.delete(current_event)
         db.session.commit()
-        flash("Event of {} class at {} has been deleted".format(current_class.subject.name, current_class.school.name),
-              "success")
+        flash(_('Event has been deleted'), 'success')
         return redirect(url_for('event.list_for_class', class_id=current_class.id))
     else:
-        flash("Event with id {} did not find".format(event_id), "danger")
+        flash(_('Event did not find'), 'danger')
         return redirect(url_for('event.event_list'))
 
 
@@ -210,15 +208,15 @@ def create_events(current_class):
     end = current_class.class_end
 
     if not start or not end:
-        flash('Class does not have start or end date', 'warning')
+        flash(_('Class does not have start or end date'), 'warning')
         return redirect(url_for('schdl_class.edit_class', class_id=current_class.id))
 
     if not current_class.class_time_start or not current_class.class_time_end:
-        flash('Class does not have start or end time', 'warning')
+        flash(_('Class does not have start or end time'), 'warning')
         return redirect(url_for('schdl_class.edit_class', class_id=current_class.id))
 
     if current_class.payrate is None or current_class.billing_rate is None:
-        flash('Class does not have Pay or Billing rate', 'warning')
+        flash(_('Class does not have Pay or Billing rate'), 'warning')
         return redirect(url_for('schdl_class.edit_class', class_id=current_class.id))
     # https://stackoverflow.com/questions/43305577/python-calculate-the-difference-between-two-datetime-time-objects
     # To calculate the difference - convert the datetime.time object to a datetime.datetime
@@ -250,6 +248,5 @@ def create_events(current_class):
         new_event.billing_rate = current_class.billing_rate
         db.session.add(new_event)
     db.session.commit()
-    flash('Events for {} class at {} have been created'.format(current_class.subject.name, current_class.school.name),
-          'success')
+    flash(_('Events have been created'), 'success')
     return redirect(url_for('schdl_class.edit_class', class_id=current_class.id))
