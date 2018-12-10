@@ -15,6 +15,7 @@ from raven.contrib.flask import Sentry
 from app.models import db, user_datastore, Schdl_Class, User
 from app.user.forms import SignInForm, RegistrationForm
 from config import Config
+from .cli import register as cli
 
 security = Security()
 migrate = Migrate()
@@ -32,6 +33,7 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
     app.secret_key = app.config['SECRET_KEY']
+    cli(app)  # add babel translate command for command line
     bootstrap.init_app(app)
     security_ctx = security.init_app(app, user_datastore, login_form=SignInForm, register_form=RegistrationForm)
     moment.init_app(app)
