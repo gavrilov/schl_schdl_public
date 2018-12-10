@@ -24,6 +24,8 @@
         <div class="col-2">
             <a class="btn btn-primary" href="{{ url_for('event.list_for_class', class_id=current_class.id) }}"
                role="button">Events</a>
+            <a class="btn btn-info" href="{{ url_for('event.add_event', class_id=current_class.id) }}"
+               role="button">Create Events</a>
         </div>
     </div>
     <div class="row">
