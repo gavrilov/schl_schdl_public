@@ -1,5 +1,6 @@
 from flask import flash
 from flask_babel import _
+from flask_babel import lazy_gettext as _l
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, BooleanField, SelectField
 from wtforms.validators import DataRequired, Optional, ValidationError
@@ -12,20 +13,20 @@ def selection_validator(form, field):
 
 
 class SchoolForm(FlaskForm):
-    name = StringField('School Name', validators=[DataRequired()])
-    director_name = StringField('Director Name', validators=[Optional()])
-    note = StringField('Note', validators=[Optional()])
-    agreement = StringField('Additional Agreement for Parents', validators=[Optional()])
-    type = SelectField('Type',
+    name = StringField(_l('School Name'), validators=[DataRequired()])
+    director_name = StringField(_l('Director Name'), validators=[Optional()])
+    note = StringField(_l('Note'), validators=[Optional()])
+    agreement = StringField(_l('Additional Agreement for Parents'), validators=[Optional()])
+    type = SelectField(_l('Type'),
                         choices=[('0', '---'), ('PP/CC', 'PP/CC'), ('PP/EC', 'PP/EC')],
                         validators=[selection_validator])
-    current = BooleanField('Current School')
-    # password = StringField('Password', validators=[DataRequired()])
-    # email = StringField('Email', validators=[DataRequired()])
-    # easypost_api_key = StringField('EasyPost API Key', validators=[DataRequired()])
-    submit = SubmitField('Submit')
+    current = BooleanField(_l('Current School'))
+    # password = StringField(_l('Password'), validators=[DataRequired()])
+    # email = StringField(_l('Email'), validators=[DataRequired()])
+    # easypost_api_key = StringField(_l('EasyPost API Key'), validators=[DataRequired()])
+    submit = SubmitField(_l('Submit'))
 
 
 class SchoolListForm(FlaskForm):
-    school_id = SelectField('School', coerce=int, validators=[Optional()])
-    submit = SubmitField('Submit')
+    school_id = SelectField(_l('School'), coerce=int, validators=[Optional()])
+    submit = SubmitField(_l('Submit'))

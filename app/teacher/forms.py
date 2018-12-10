@@ -1,9 +1,10 @@
+from flask_babel import lazy_gettext as _l
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, BooleanField
 from wtforms.validators import Optional
 
 
 class TeacherForm(FlaskForm):
-    note = StringField('Note', validators=[Optional()])
-    current = BooleanField('Current Teacher')
-    submit = SubmitField('Submit')
+    note = StringField(_l('Note'), validators=[Optional()])
+    current = BooleanField(_l('Current Teacher'))
+    submit = SubmitField(_l('Submit'))
