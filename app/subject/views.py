@@ -23,7 +23,7 @@ def info(subject_id):
     if current_subject:
         return render_template('subject/subject_info.html', subject=current_subject)
     else:
-        flash(_('(Subject did not find'), 'danger')
+        flash(_('Subject did not find'), 'danger')
         return redirect(url_for('subject.subject_list'))
 
 

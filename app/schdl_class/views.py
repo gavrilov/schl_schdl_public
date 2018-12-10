@@ -133,7 +133,7 @@ def payment_class(class_id, student_id):
     current_enrollment = Enrollment.query.filter(
         and_(Enrollment.student_id == student_id, Enrollment.class_id == class_id, Enrollment.current == True)).first()
     if current_enrollment:
-        flash(_('Your child already enrolled, you do not need to pay second time'), 'warning')
+        flash(_('Your student already enrolled, you do not need to pay second time'), 'warning')
         return redirect(url_for('user.main'))
 
     if not current_class:

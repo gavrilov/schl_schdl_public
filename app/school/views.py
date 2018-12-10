@@ -54,7 +54,7 @@ def school_info(school_id):
     if current_school:
         return render_template('school/info.html', school=current_school)
     else:
-        flash(_('School with did not find'), 'danger')
+        flash(_('School did not find'), 'danger')
         return redirect(url_for('school.school_list'))
 
 
