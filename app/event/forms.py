@@ -5,7 +5,6 @@ from wtforms.validators import Optional
 
 
 class PopupEventForm(FlaskForm):
-    id = StringField('id', validators=[Optional()])
     payrate = StringField('Payrate', validators=[Optional()])
     billing_rate = StringField('Billing Rate', validators=[Optional()])
     start = DateTimeField('Date time start', validators=[Optional()], format='%m/%d/%Y %I:%M %p')
