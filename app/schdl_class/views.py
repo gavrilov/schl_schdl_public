@@ -122,7 +122,7 @@ def enroll_class(class_id, student_id):
     current_enrollment = Enrollment.query.filter(
         and_(Enrollment.student_id == student_id, Enrollment.class_id == class_id, Enrollment.current == True)).first()
     return render_template('schdl_class/enroll.html', current_class=current_class, current_student=current_student,
-                           current_enrollment=current_enrollment)
+                           current_enrollment=current_enrollment, step=4)  # step=4 for progressbar
 
 
 @schdl_class.route('/<class_id>/payment/<student_id>', methods=['GET', 'POST'])

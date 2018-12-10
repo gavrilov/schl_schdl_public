@@ -207,7 +207,7 @@ def add_contacts():
         for error in form.errors.values():
             flash(error, 'danger')
 
-    return render_template('user/contact_info.html', form=form)
+    return render_template('user/contact_info.html', form=form, step=1)  # step=1 for progress bar
 
 
 @user.route('/contacts/<contact_id>/edit', methods=['GET', 'POST'])

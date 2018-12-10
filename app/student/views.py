@@ -66,7 +66,7 @@ def add_student():
         for error in form.errors.values():
             flash(error, 'danger')
 
-    return render_template('student/add.html', form=form)
+    return render_template('student/add.html', form=form, step=2)  # step=2 for progressbar
 
 
 @student.route('/<student_id>/edit', methods=['GET', 'POST'])
@@ -119,4 +119,5 @@ def enroll_student(student_id):
                                                      Schdl_Class.enrollments.any(current=True))).all()
 
     return render_template('student/enroll.html', current_classes=current_classes, student=current_student,
-                           current_school=current_school, enrolled_classes=enrolled_classes)
+                           current_school=current_school, enrolled_classes=enrolled_classes,
+                           step=3)  # step=3 for progressbar
