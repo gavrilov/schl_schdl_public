@@ -1,6 +1,6 @@
 import requests
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app
-from flask_babel import _
+from flask_babelex import _
 from flask_security import current_user, login_required, roles_required, roles_accepted
 from sqlalchemy import and_
 

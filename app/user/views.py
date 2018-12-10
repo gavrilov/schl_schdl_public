@@ -1,5 +1,5 @@
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app, request
-from flask_babel import _
+from flask_babelex import _
 from flask_security import current_user, login_required, roles_required
 
 from app import db, user_datastore

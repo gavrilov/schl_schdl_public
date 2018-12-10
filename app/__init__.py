@@ -3,8 +3,8 @@ import os
 from logging.handlers import RotatingFileHandler
 
 from SlackLogger import SlackHandler
-from flask import Flask, redirect, url_for, render_template, abort, flash, request
-from flask_babel import Babel
+from flask import Flask, redirect, url_for, render_template, abort, flash
+from flask_babelex import Babel
 from flask_bootstrap import Bootstrap
 from flask_mail import Mail
 from flask_migrate import Migrate

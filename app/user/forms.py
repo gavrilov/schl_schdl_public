@@ -1,4 +1,4 @@
-from flask_babel import lazy_gettext as _l
+from flask_babelex import lazy_gettext as _l
 from flask_security.forms import RegisterForm, LoginForm
 from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import StringField, SubmitField, BooleanField, SelectField

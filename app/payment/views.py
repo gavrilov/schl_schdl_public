@@ -1,6 +1,6 @@
 import stripe
 from flask import Blueprint, abort, request, current_app, redirect, url_for, flash
-from flask_babel import _
+from flask_babelex import _
 from flask_security import login_required, current_user
 
 from app import db

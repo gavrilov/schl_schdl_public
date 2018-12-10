@@ -1,6 +1,6 @@
 from flask import flash
-from flask_babel import _
-from flask_babel import lazy_gettext as _l
+from flask_babelex import _
+from flask_babelex import lazy_gettext as _l
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField
 from wtforms.fields.html5 import DateField
@@ -9,8 +9,8 @@ from wtforms.validators import DataRequired, Optional, ValidationError
 
 def selection_validator(form, field):
     if field.data == 0 or field.data == '0':
-        flash(_('You have not selected %(field_label)s ', field_label=field.label.text), 'danger')
-        raise ValidationError(_('You have not selected %(field_label)s ', field_label=field.label.text))
+        flash(_('You have not selected %(field_label)s', field_label=field.label.text), 'danger')
+        raise ValidationError(_('You have not selected %(field_label)s', field_label=field.label.text))
 
 
 class StudentForm(FlaskForm):
