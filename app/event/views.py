@@ -47,9 +47,9 @@ def event_list():
 @roles_required('admin')
 def add_event(class_id):
     current_class = Schdl_Class.query.filter_by(id=class_id).first()
-    if current_class.events:
+    if current_class.events.first():
         flash('Current class already has events', 'warning')
-        return redirect(url_for('schdl_class.edit_class', class_id=current_class.id))
+        return redirect(url_for('event.list_for_class', class_id=current_class.id))
     return create_events(current_class)
 
 
@@ -57,8 +57,38 @@ def add_event(class_id):
 @roles_required('admin')
 def list_for_class(class_id):
     current_class = Schdl_Class.query.filter_by(id=class_id).first()
-    events = current_class.events
-    return render_template('event/event_list.html', events=events, current_events_only=False)
+    events = current_class.events.order_by(Event.start.asc()).all()
+    return render_template('event/event_list.html', events=events, current_class=current_class)
+
+
+@event.route('/add/<class_id>', methods=['GET', 'POST'])
+@roles_required('admin')
+def add_event_for_class(class_id):
+    current_class = Schdl_Class.query.filter_by(id=class_id).first()
+    if not current_class:
+        flash('Class with id {} did not find'.format(class_id), 'danger')
+        return redirect(url_for('event.list_for_class', class_id=class_id))
+    form = PopupEventForm()
+
+    current_teachers = Teacher.query.filter_by(current=True).all()
+
+    # Now forming the list of tuples for SelectField
+    teacher_list = [(i.id, i.user.first_name + " " + i.user.last_name) for i in current_teachers]
+
+    form.teacher_id.choices = teacher_list
+
+    if form.validate_on_submit():
+        form.class_id.data = current_class.id
+        current_event = Event()
+        form.populate_obj(current_event)
+        # save to db
+        db.session.add(current_event)
+        db.session.commit()
+        flash("Event of {} class at {} has been added".format(current_class.subject.name, current_class.school.name),
+              "success")
+        return redirect(url_for('event.list_for_class', class_id=class_id))
+    else:
+        return render_template('event/add.html', form=form, current_class=current_class)
 
 
 @event.route('/edit/<event_id>', methods=['GET', 'POST'])
@@ -85,6 +115,23 @@ def edit_event(event_id):
             return redirect(url_for('event.event_list'))
         else:
             return render_template('event/edit.html', form=form, current_event=current_event)
+    else:
+        flash("Event with id {} did not find".format(event_id), "danger")
+        return redirect(url_for('event.event_list'))
+
+
+@event.route('/delete/<event_id>', methods=['GET', 'POST'])
+@roles_required('admin')
+def delete_event(event_id):
+    # TODO check attendance that connect with this event, told user that he should delete them first
+    current_event = Event.query.filter_by(id=event_id).first()
+    current_class = current_event.schdl_class
+    if current_event:
+        db.session.delete(current_event)
+        db.session.commit()
+        flash("Event of {} class at {} has been deleted".format(current_class.subject.name, current_class.school.name),
+              "success")
+        return redirect(url_for('event.list_for_class', class_id=current_class.id))
     else:
         flash("Event with id {} did not find".format(event_id), "danger")
         return redirect(url_for('event.event_list'))
