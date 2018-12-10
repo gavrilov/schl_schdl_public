@@ -1,0 +1,661 @@
+# Russian translations for PROJECT.
+# Copyright (C) 2018 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2018-12-10 16:20-0600\n"
+"PO-Revision-Date: 2018-12-10 16:13-0600\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: app/dashboard/forms.py:8 app/user/forms.py:14 app/user/forms.py:22
+#: app/user/forms.py:30
+msgid "First Name"
+msgstr "Имя"
+
+#: app/dashboard/forms.py:8 app/user/forms.py:14 app/user/forms.py:22
+#: app/user/forms.py:30
+msgid "Please enter your First Name"
+msgstr "Пожалуйста, укажите свое имя"
+
+#: app/dashboard/forms.py:9 app/user/forms.py:15 app/user/forms.py:23
+#: app/user/forms.py:31
+msgid "Last Name"
+msgstr "Фамилия"
+
+#: app/dashboard/forms.py:9 app/user/forms.py:15 app/user/forms.py:23
+#: app/user/forms.py:31
+msgid "Please enter your Last Name"
+msgstr "Пожалуйста, укажите свою фамилию"
+
+#: app/dashboard/forms.py:10 app/user/forms.py:24 app/user/forms.py:38
+msgid "Email"
+msgstr "Email"
+
+#: app/dashboard/forms.py:11 app/school/forms.py:27 app/school/forms.py:32
+#: app/student/forms.py:47 app/subject/forms.py:15 app/teacher/forms.py:10
+#: app/user/forms.py:26 app/user/forms.py:32 app/user/forms.py:72
+msgid "Submit"
+msgstr "Отправить"
+
+#: app/dashboard/views.py:28
+msgid "Teacher did not find. Please contact administration"
+msgstr "Преподаватель не найден. Пожалуйста, обратитесь к администрации"
+
+#: app/event/forms.py:9
+msgid "Payrate"
+msgstr "Ставка оплаты"
+
+#: app/event/forms.py:10 app/schdl_class/forms.py:13
+msgid "Billing Rate"
+msgstr "Ставка тарифа"
+
+#: app/event/forms.py:11
+msgid "Date time start"
+msgstr "Дата и время начала"
+
+#: app/event/forms.py:12
+msgid "Date time end"
+msgstr "Дата и время конца"
+
+#: app/event/forms.py:13 app/school/forms.py:18 app/teacher/forms.py:8
+#: app/user/forms.py:25 app/user/forms.py:71
+msgid "Note"
+msgstr "Заметка"
+
+#: app/event/forms.py:15 app/schdl_class/forms.py:10
+msgid "Teacher"
+msgstr "Преподаватель"
+
+#: app/event/forms.py:16
+msgid "Active"
+msgstr "Активен"
+
+#: app/event/forms.py:17 app/schdl_class/forms.py:28
+msgid "Update"
+msgstr "Обновить"
+
+#: app/event/views.py:52
+msgid "Current class already has events"
+msgstr "Текущий класс уже имеет события"
+
+#: app/event/views.py:70 app/schdl_class/views.py:66
+#: app/schdl_class/views.py:100 app/schdl_class/views.py:114
+#: app/schdl_class/views.py:143
+msgid "Class did not find"
+msgstr "Класс не найден"
+
+#: app/event/views.py:88
+msgid "Event has been added"
+msgstr "Событие было добавлено"
+
+#: app/event/views.py:113
+msgid "Event has been updated"
+msgstr "Событие было обновлено"
+
+#: app/event/views.py:118 app/event/views.py:134
+msgid "Event did not find"
+msgstr "Событие не найдено"
+
+#: app/event/views.py:131
+msgid "Event has been deleted"
+msgstr "Событие было удалено"
+
+#: app/event/views.py:211
+msgid "Class does not have start or end date"
+msgstr "Класс не имеет дату начала и окончания"
+
+#: app/event/views.py:215
+msgid "Class does not have start or end time"
+msgstr "Класс не имеет время начала и окончания"
+
+#: app/event/views.py:219
+msgid "Class does not have Pay or Billing rate"
+msgstr "Класс не имеет ставки оплаты и тарифа"
+
+#: app/event/views.py:251
+msgid "Events have been created"
+msgstr "События созданы"
+
+#: app/payment/views.py:31 app/payment/views.py:53
+msgid "Card has been added"
+msgstr "Карта добавлена"
+
+#: app/schdl_class/forms.py:9 app/school/forms.py:31 app/student/forms.py:41
+msgid "School"
+msgstr "Школа"
+
+#: app/schdl_class/forms.py:11
+msgid "Subject"
+msgstr "Предмет"
+
+#: app/schdl_class/forms.py:12
+msgid "Price"
+msgstr "Цена"
+
+#: app/schdl_class/forms.py:14
+msgid "Pay Rate"
+msgstr "Ставка оплаты"
+
+#: app/schdl_class/forms.py:15
+msgid "Registration Start"
+msgstr "Регистрация начинается"
+
+#: app/schdl_class/forms.py:16
+msgid "Registration End"
+msgstr "Регистрация заканчивается"
+
+#: app/schdl_class/forms.py:17
+msgid "Class Start"
+msgstr "Класс начинается"
+
+#: app/schdl_class/forms.py:18
+msgid "Class End"
+msgstr "Класс заканчивается"
+
+#: app/schdl_class/forms.py:19
+msgid "Time Class Start"
+msgstr "Время начала"
+
+#: app/schdl_class/forms.py:20
+msgid "Time Class End"
+msgstr "Время окончания"
+
+#: app/schdl_class/forms.py:21
+msgid "Grade Limit From"
+msgstr "Ограничение по классу от"
+
+#: app/schdl_class/forms.py:22
+msgid "Grade Limit To"
+msgstr "Ограничение по классу до"
+
+#: app/schdl_class/forms.py:23
+msgid "Age Limit From"
+msgstr "Ограничение по возрасту от"
+
+#: app/schdl_class/forms.py:24
+msgid "Age Limit To"
+msgstr "Ограничение по возрасту до"
+
+#: app/schdl_class/forms.py:25
+msgid "Class Description"
+msgstr "Описание класса"
+
+#: app/schdl_class/forms.py:26
+msgid "Day of Week"
+msgstr "День недели"
+
+#: app/schdl_class/forms.py:27
+msgid "Current Class"
+msgstr "Текущий класс"
+
+#: app/schdl_class/views.py:54
+msgid "Class has been created"
+msgstr "Класс создан"
+
+#: app/schdl_class/views.py:95
+msgid "Class has been updated"
+msgstr "Класс обновлен"
+
+#: app/schdl_class/views.py:120 app/student/views.py:41
+msgid "Student did not find"
+msgstr "Студент не найден"
+
+#: app/schdl_class/views.py:136
+msgid "Your student already enrolled, you do not need to pay second time"
+msgstr "Ваш студент уже записан, Вам не надо оплачивать во второй раз"
+
+#: app/schdl_class/views.py:150 app/student/views.py:81
+#: app/student/views.py:115
+msgid "Student does not find"
+msgstr "Студент не найден"
+
+#: app/schdl_class/views.py:163
+#, python-format
+msgid "%(student)s has been added to student list of %(current_class)s classes"
+msgstr "%(student)s добавлен в список студентов для класса %(current_class)s"
+
+#: app/schdl_class/views.py:173
+msgid "Something wrong with your payment"
+msgstr "Ошибка платежа"
+
+#: app/school/forms.py:11 app/school/forms.py:12 app/student/forms.py:12
+#: app/student/forms.py:13
+#, python-format
+msgid "You have not selected %(field_label)s"
+msgstr "Вы не выбрали %(field_label)s"
+
+#: app/school/forms.py:16
+msgid "School Name"
+msgstr "Название Школы"
+
+#: app/school/forms.py:17
+msgid "Director Name"
+msgstr "Имя Директора"
+
+#: app/school/forms.py:19
+msgid "Additional Agreement for Users"
+msgstr "Дополнительное соглашение для пользователей"
+
+#: app/school/forms.py:20
+msgid "Type"
+msgstr "Тип"
+
+#: app/school/forms.py:23
+msgid "Current School"
+msgstr "Текущая Школа"
+
+#: app/school/views.py:44
+msgid "School has been created"
+msgstr "Школа добавлена"
+
+#: app/school/views.py:57 app/school/views.py:77 app/user/views.py:142
+msgid "School did not find"
+msgstr "Школа не найдена"
+
+#: app/school/views.py:70
+msgid "School has been updated"
+msgstr "Школа обновлена"
+
+#: app/student/forms.py:17
+msgid "Student First Name"
+msgstr "Имя Студента"
+
+#: app/student/forms.py:18
+msgid "Please enter First Name of Student"
+msgstr "Пожалуйста, укажите имя студента"
+
+#: app/student/forms.py:19
+msgid "Student Last Name"
+msgstr "Фамилия Студента"
+
+#: app/student/forms.py:20
+msgid "Please enter your Last Name of Student"
+msgstr "Пожалуйста, укажите фамилию студента"
+
+#: app/student/forms.py:21
+msgid "Gender"
+msgstr "Пол"
+
+#: app/student/forms.py:21
+msgid "Boy"
+msgstr "Мужской"
+
+#: app/student/forms.py:21
+msgid "Girl"
+msgstr "Женский"
+
+#: app/student/forms.py:23
+msgid "Student Date of Birth"
+msgstr "Дата рождения студента"
+
+#: app/student/forms.py:24 app/student/forms.py:25
+msgid "Month"
+msgstr "Месяц"
+
+#: app/student/forms.py:25
+msgid "Jan"
+msgstr "Янв"
+
+#: app/student/forms.py:25
+msgid "Feb"
+msgstr "Фев"
+
+#: app/student/forms.py:25
+msgid "Mar"
+msgstr "Мар"
+
+#: app/student/forms.py:26
+msgid "Apr"
+msgstr "Апр"
+
+#: app/student/forms.py:26
+msgid "May"
+msgstr "Май"
+
+#: app/student/forms.py:26
+msgid "Jun"
+msgstr "Июн"
+
+#: app/student/forms.py:26
+msgid "Jul"
+msgstr "Июл"
+
+#: app/student/forms.py:27
+msgid "Aug"
+msgstr "Авг"
+
+#: app/student/forms.py:27
+msgid "Sep"
+msgstr "Сен"
+
+#: app/student/forms.py:27
+msgid "Oct"
+msgstr "Окт"
+
+#: app/student/forms.py:27
+msgid "Nov"
+msgstr "Ноя"
+
+#: app/student/forms.py:28
+msgid "Dec"
+msgstr "Дек"
+
+#: app/student/forms.py:29 app/student/forms.py:30
+msgid "Day"
+msgstr "День"
+
+#: app/student/forms.py:36
+msgid "Year"
+msgstr "Год"
+
+#: app/student/forms.py:42
+msgid "Grade"
+msgstr "Класс"
+
+#: app/student/forms.py:42
+msgid "Preschool"
+msgstr "Preschool"
+
+#: app/student/forms.py:42
+msgid "Pre-Kindergarten"
+msgstr "Pre-Kindergarten"
+
+#: app/student/forms.py:43
+msgid "Kindergarten"
+msgstr "Kindergarten"
+
+#: app/student/forms.py:44
+msgid "1st"
+msgstr "1ый"
+
+#: app/student/forms.py:44
+msgid "2nd"
+msgstr "2ой"
+
+#: app/student/forms.py:44
+msgid "3rd"
+msgstr "3ий"
+
+#: app/student/forms.py:44
+msgid "4th"
+msgstr "4ый"
+
+#: app/student/forms.py:45
+msgid "5th"
+msgstr "5ый"
+
+#: app/student/views.py:63
+msgid "Student has been created"
+msgstr "Студен добавлен"
+
+#: app/student/views.py:95
+msgid "Student has been updated"
+msgstr "Студент обновлен"
+
+#: app/subject/forms.py:8
+msgid "Name of Subject"
+msgstr "Название предмета"
+
+#: app/subject/forms.py:9
+msgid "Current Subject"
+msgstr "Текущий предмет"
+
+#: app/subject/forms.py:10
+msgid "Color"
+msgstr "Цвет"
+
+#: app/subject/forms.py:11
+msgid "Default Class Description"
+msgstr "Стандартное описание класса"
+
+#: app/subject/views.py:26 app/subject/views.py:62
+msgid "Subject did not find"
+msgstr "Предмет не найден"
+
+#: app/subject/views.py:40
+msgid "Subject has been created"
+msgstr "Предмет добавлен"
+
+#: app/subject/views.py:55
+msgid "Subject has been updated"
+msgstr "Предмет обновлен"
+
+#: app/teacher/forms.py:9
+msgid "Current Teacher"
+msgstr "Текущий преподаватель"
+
+#: app/teacher/views.py:36
+msgid "Teacher has been created"
+msgstr "Преподаватель добавлен"
+
+#: app/teacher/views.py:49 app/teacher/views.py:69
+msgid "Teacher did not find"
+msgstr "Преподаватель не найден"
+
+#: app/teacher/views.py:62
+msgid "Teacher has been updated"
+msgstr "Преподаватель обновлен"
+
+#: app/templates/security/_menu.html:2
+msgid "Menu"
+msgstr "Меню"
+
+#: app/templates/security/_menu.html:5 app/templates/security/send_login.html:6
+msgid "Login"
+msgstr "Вход"
+
+#: app/templates/security/_menu.html:9
+msgid "Register"
+msgstr "Регистрация"
+
+#: app/templates/security/_menu.html:13
+msgid "Forgot password"
+msgstr "Забыли пароль?"
+
+#: app/templates/security/_menu.html:16
+msgid "Confirm account"
+msgstr "Подтвердить аккаунт"
+
+#: app/templates/security/change_password.html:7
+msgid "Change password"
+msgstr "Сменить пароль"
+
+#: app/templates/security/forgot_password.html:23
+msgid "Send password reset instructions"
+msgstr "Отправить интструкции по сбросу пароля"
+
+#: app/templates/security/reset_password.html:23
+msgid "Reset password"
+msgstr "Сбросить пароль "
+
+#: app/templates/security/send_confirmation.html:6
+msgid "Resend confirmation instructions"
+msgstr "Заново отправить подтвержадющие инструкции"
+
+#: app/templates/security/email/change_notice.html:1
+msgid "Your password has been changed."
+msgstr "Ваш пароль был изменен"
+
+#: app/templates/security/email/change_notice.html:3
+msgid "If you did not change your password,"
+msgstr "Если вы не меняли свой пароль"
+
+#: app/templates/security/email/change_notice.html:4
+msgid "click here to reset it"
+msgstr "нажмите здесь, чтобы сбросить его"
+
+#: app/templates/security/email/confirmation_instructions.html:1
+msgid "Please confirm your email through the link below:"
+msgstr "Пожалуйста, подтвердите ваш email кликнув на ссылку ниже:"
+
+#: app/templates/security/email/confirmation_instructions.html:3
+#: app/templates/security/email/welcome.html:6
+msgid "Confirm my account"
+msgstr "Подтвердить мой аккаунт"
+
+#: app/templates/security/email/login_instructions.html:1
+#: app/templates/security/email/welcome.html:1
+#, python-format
+msgid "Welcome %(email)s!"
+msgstr "Добро пожаловать %(email)s!"
+
+#: app/templates/security/email/login_instructions.html:3
+msgid "You can log into your account through the link below:"
+msgstr "Вы можете войти в свой аккаунт кликнув по ссылке ниже:"
+
+#: app/templates/security/email/login_instructions.html:5
+msgid "Login now"
+msgstr "Войти сейчас"
+
+#: app/templates/security/email/reset_instructions.html:1
+msgid "Click here to reset your password"
+msgstr "Нажмите здесь для сброса пароля"
+
+#: app/templates/security/email/reset_notice.html:1
+msgid "Your password has been reset"
+msgstr "Ваш пароль был сброшен"
+
+#: app/templates/security/email/welcome.html:4
+msgid "You can confirm your email through the link below:"
+msgstr "Вы можете подтвердить ваш email нажав на ссылку ниже:"
+
+#: app/user/forms.py:16
+msgid "I agree to the Terms of Service and Privacy Policy"
+msgstr "Я согласен с Правилами Сервиса и Политикой Конфиденциальности"
+
+#: app/user/forms.py:17
+msgid "You must accept the agreement to continue"
+msgstr "Вы должны приянть соглашение чтобы продолжить"
+
+#: app/user/forms.py:24
+msgid "Please enter your Email"
+msgstr "Пожалуйста, укажите ващ email"
+
+#: app/user/forms.py:25
+msgid "Please enter your Note"
+msgstr "Пожалуйста укажите вашу заметку"
+
+#: app/user/forms.py:38
+msgid "Please enter your email address"
+msgstr "Пожалуйста, укажите ваш email"
+
+#: app/user/forms.py:39
+msgid "Cellphone #"
+msgstr "Номер телефона"
+
+#: app/user/forms.py:39
+msgid "Please enter your phone number"
+msgstr "Пожалуйста, укажите номер телефона"
+
+#: app/user/forms.py:41
+msgid "Please enter 10 digits of your Cellphone number i.e. 83212345678"
+msgstr "Пожалуйста, введите 10 цифр вашего номера, например 83212345678"
+
+#: app/user/forms.py:43
+msgid "Mailing Address"
+msgstr "Почтовый адрес"
+
+#: app/user/forms.py:43
+msgid "Please enter your address"
+msgstr "Пожалуйста, укажите свой адрес"
+
+#: app/user/forms.py:44
+msgid "Address 2"
+msgstr "Адрес 2"
+
+#: app/user/forms.py:45
+msgid "City"
+msgstr "Город"
+
+#: app/user/forms.py:45
+msgid "Please enter your City"
+msgstr "Пожалуйста, укажите свой город"
+
+#: app/user/forms.py:46
+msgid "State"
+msgstr "Штат"
+
+#: app/user/forms.py:46
+msgid "Please enter your State"
+msgstr "Пожалуйста,укажите свой штат"
+
+#: app/user/forms.py:64
+msgid "ZIP"
+msgstr "Индекс"
+
+#: app/user/forms.py:65
+msgid "Please enter your ZIP code"
+msgstr "Пожалуйста, укажите свой индекс"
+
+#: app/user/forms.py:66
+msgid "Please enter 5 digit of your ZIP code i.e 77001"
+msgstr "Пожалуйста, введите 5 цифр вашего индекса, например 77001"
+
+#: app/user/forms.py:68
+msgid "email"
+msgstr "email"
+
+#: app/user/forms.py:69
+msgid "text messages"
+msgstr "смс сообщения"
+
+#: app/user/forms.py:70
+msgid "mail"
+msgstr "почта"
+
+#: app/user/views.py:48
+msgid "User has been created"
+msgstr "Пользователь добавлен"
+
+#: app/user/views.py:64 app/user/views.py:114 app/user/views.py:147
+msgid "User did not find"
+msgstr "Пользователь не найден"
+
+#: app/user/views.py:90 app/user/views.py:107 app/user/views.py:178
+msgid "User has been updated"
+msgstr "Пользователь обновлен"
+
+#: app/user/views.py:93
+msgid "Something wrong"
+msgstr "Произошла ошибка"
+
+#: app/user/views.py:136
+msgid "User has been added to School"
+msgstr "Пользователь добавлен к школе"
+
+#: app/user/views.py:139
+msgid "User already connected to School"
+msgstr "Пользователь уже привязан к школе"
+
+#: app/user/views.py:160
+msgid "Please add your contact information"
+msgstr "Пожалуйста, добавьте контактную информаицю"
+
+#: app/user/views.py:163
+msgid "Please add student information"
+msgstr "Пожалуйста, добавте студента"
+
+#: app/user/views.py:202 app/user/views.py:231
+msgid "Contact information has been updated"
+msgstr "Контактная информация обновлена"
+
+#: app/user/views.py:221 app/user/views.py:251
+msgid "Contact information did not find"
+msgstr "Контактная информация не найдена"
+
+#: app/user/views.py:256
+msgid "Contact information has been deleted"
+msgstr "Контактная информация удалена"
+
