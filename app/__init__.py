@@ -3,7 +3,8 @@ import os
 from logging.handlers import RotatingFileHandler
 
 from SlackLogger import SlackHandler
-from flask import Flask, redirect, url_for, render_template, abort, flash
+from flask import Flask, redirect, url_for, render_template, abort, flash, request
+from flask_babel import Babel
 from flask_bootstrap import Bootstrap
 from flask_mail import Mail
 from flask_migrate import Migrate
@@ -21,6 +22,7 @@ sentry = Sentry()
 bootstrap = Bootstrap()
 mail = Mail()
 moment = Moment()
+babel = Babel()
 
 from flask_security import current_user
 import datetime
@@ -36,6 +38,7 @@ def create_app(config_class=Config):
     db.init_app(app)
     migrate.init_app(app, db)
     mail.init_app(app)
+    babel.init_app(app)
     # ====== BLUEPRINTS ========================================================
     from app.dashboard.views import dashboard
     app.register_blueprint(dashboard, url_prefix='/dashboard')
@@ -173,4 +176,9 @@ def create_app(config_class=Config):
             for error in r['errors']:
                 flash("".format(error['message']), 'danger')
                 app.logger.error('SparkPost {} error: {}'.format(error['code'], error['message']))
+
+    @babel.localeselector
+    def get_locale():
+        return request.accept_languages.best_match(app.config['LANGUAGES'])
+
     return app
