@@ -11,13 +11,15 @@
     {{ super() }}
     <div class="row">
             <div class="col-md-3 offset-md-9">
-                {% if current_events_only %}
-                    <a class="btn btn-outline-primary" href=" role="button">Show All Events</a>
-                {% else %}
+                {% if current_class is defined %}
+                    <a class="btn btn-outline-primary"
+                       href="{{ url_for('event.add_event_for_class', class_id=current_class.id) }}" role="button">Add
+                        New Event</a>
+                {% endif %}
                     <a class="btn btn-outline-primary" href="{{ url_for('event.event_list') }}" role="button">Show
                         Current Events</a>
-                {% endif %}
-        </div>
+
+            </div>
 
     </div>
     <div class="row">
