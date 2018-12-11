@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-12-11 09:57-0600\n"
+"POT-Creation-Date: 2018-12-11 09:50-0600\n"
 "PO-Revision-Date: 2018-12-11 09:50-0600\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
@@ -28,7 +28,7 @@ msgstr "Nombre de pila"
 #: app/dashboard/forms.py:8 app/user/forms.py:14 app/user/forms.py:22
 #: app/user/forms.py:30
 msgid "Please enter your First Name"
-msgstr "Por favor, introduzca su nombre de pila"
+msgstr "Por favor, introduzca su Primer Nombre"
 
 #: app/dashboard/forms.py:9 app/templates/teacher/list.html:38
 #: app/templates/teacher/list.html:45 app/templates/user/dashboard/list.html:37
@@ -52,7 +52,7 @@ msgstr "Por favor ingrese su apellido"
 #: app/templates/user/dashboard/list.html:46 app/user/forms.py:24
 #: app/user/forms.py:38
 msgid "Email"
-msgstr "Email"
+msgstr "Correo Electronico"
 
 #: app/dashboard/forms.py:11 app/school/forms.py:27 app/school/forms.py:32
 #: app/student/forms.py:47 app/subject/forms.py:15 app/teacher/forms.py:10
@@ -121,7 +121,7 @@ msgstr "Nota"
 #: app/templates/teacher/add_edit.html:3
 #: app/templates/user/dashboard/info.html:43
 msgid "Teacher"
-msgstr "Profesor"
+msgstr "Instructor(a)"
 
 #: app/event/forms.py:16 app/templates/event/event_list.html:37
 msgid "Active"
@@ -197,7 +197,7 @@ msgstr "Tarjeta ha sido añadida"
 #: app/templates/student/student_list.html:44
 #: app/templates/user/dashboard/info.html:44
 msgid "School"
-msgstr "Colegio"
+msgstr "Escuela"
 
 #: app/schdl_class/forms.py:11 app/templates/dashboard/class_list.html:32
 #: app/templates/dashboard/event_list.html:32
@@ -208,7 +208,7 @@ msgstr "Colegio"
 #: app/templates/subject/subject_info.html:16
 #: app/templates/subject/subject_list.html:25
 msgid "Subject"
-msgstr "Tema"
+msgstr "Tipo de Clase"
 
 #: app/schdl_class/forms.py:12 app/templates/schdl_class/class_list.html:43
 #: app/templates/schdl_class/class_list.html:55
@@ -221,11 +221,11 @@ msgstr "Tasa de pago"
 
 #: app/schdl_class/forms.py:15
 msgid "Registration Start"
-msgstr "Inicio de registro"
+msgstr "Inicio de Inscripcion"
 
 #: app/schdl_class/forms.py:16
 msgid "Registration End"
-msgstr "Fin de registro"
+msgstr "Fin de Inscripcion"
 
 #: app/schdl_class/forms.py:17
 msgid "Class Start"
@@ -237,11 +237,11 @@ msgstr "Fin de clase"
 
 #: app/schdl_class/forms.py:19
 msgid "Time Class Start"
-msgstr "Inicio de clase de tiempo"
+msgstr "Hora de inicio de clase"
 
 #: app/schdl_class/forms.py:20
 msgid "Time Class End"
-msgstr "Fin de clase de tiempo"
+msgstr "Hora del fin de clase"
 
 #: app/schdl_class/forms.py:21
 msgid "Grade Limit From"
@@ -249,7 +249,7 @@ msgstr "Límite de grado de"
 
 #: app/schdl_class/forms.py:22
 msgid "Grade Limit To"
-msgstr "Límite de calificaciones para"
+msgstr "Límite de grado para"
 
 #: app/schdl_class/forms.py:23
 msgid "Age Limit From"
@@ -285,27 +285,25 @@ msgstr "Estudiante no encontró"
 
 #: app/schdl_class/views.py:136
 msgid "Your student already enrolled, you do not need to pay second time"
-msgstr "Su estudiante ya matriculado, no necesita pagar por segunda vez."
+msgstr "Su estudiante ya esta matriculado, no necesita pagar por segunda vez."
 
 #: app/schdl_class/views.py:150 app/student/views.py:81
 #: app/student/views.py:115
 msgid "Student does not find"
-msgstr "Estudiante no encuentra"
+msgstr "Estudiante no se encuentra"
 
 #: app/schdl_class/views.py:163
 msgid "{student_name} has been added to student list of {subject_name} classes"
-msgstr ""
-"{student_name} se ha agregado a la lista de estudiantes de {subject_name}"
-" clases"
+msgstr "{student_name} se ha agregado a la lista de estudiantes de {subject_name} clases"
 
 #: app/schdl_class/views.py:173
 msgid "Something wrong with your payment"
-msgstr "Algo mal con su pago"
+msgstr "Algo esta mal con su pago"
 
 #: app/school/forms.py:11 app/school/forms.py:12 app/student/forms.py:12
 #: app/student/forms.py:13
 msgid "You have not selected {field_label}"
-msgstr "No has seleccionado {field_label}"
+msgstr "No ha seleccionado {field_label}"
 
 #: app/school/forms.py:16
 msgid "School Name"
@@ -354,7 +352,7 @@ msgstr "Apellido del estudiante"
 
 #: app/student/forms.py:20
 msgid "Please enter your Last Name of Student"
-msgstr "Por favor ingrese su apellido de estudiante"
+msgstr "Por favor ingrese el apellido del estudiante"
 
 #: app/student/forms.py:21
 msgid "Gender"
@@ -394,7 +392,7 @@ msgstr "abr"
 
 #: app/student/forms.py:26
 msgid "May"
-msgstr "Mayo"
+msgstr "mayo"
 
 #: app/student/forms.py:26
 msgid "Jun"
@@ -450,7 +448,7 @@ msgstr "Pre kinder"
 
 #: app/student/forms.py:43
 msgid "Kindergarten"
-msgstr "Jardín de infancia"
+msgstr "Kinder"
 
 #: app/student/forms.py:44
 msgid "1st"
@@ -462,15 +460,15 @@ msgstr "2do"
 
 #: app/student/forms.py:44
 msgid "3rd"
-msgstr "3er"
+msgstr "3ro"
 
 #: app/student/forms.py:44
 msgid "4th"
-msgstr "Cuarto"
+msgstr "4to"
 
 #: app/student/forms.py:45
 msgid "5th"
-msgstr "Quinto"
+msgstr "5to"
 
 #: app/student/views.py:63
 msgid "Student has been created"
@@ -482,11 +480,11 @@ msgstr "Estudiante ha sido actualizado"
 
 #: app/subject/forms.py:8
 msgid "Name of Subject"
-msgstr "Nombre del sujeto"
+msgstr "Nombre de la Clase"
 
 #: app/subject/forms.py:9
 msgid "Current Subject"
-msgstr "Asunto actual"
+msgstr "Clase Actual"
 
 #: app/subject/forms.py:10
 msgid "Color"
@@ -498,15 +496,15 @@ msgstr "Descripción de clase predeterminada"
 
 #: app/subject/views.py:26 app/subject/views.py:62
 msgid "Subject did not find"
-msgstr "El sujeto no encontró"
+msgstr "La clase no encontró"
 
 #: app/subject/views.py:40
 msgid "Subject has been created"
-msgstr "El tema ha sido creado"
+msgstr "La clase ha sido creado"
 
 #: app/subject/views.py:55
 msgid "Subject has been updated"
-msgstr "El tema ha sido actualizado"
+msgstr "La clase ha sido actualizado"
 
 #: app/teacher/forms.py:9
 msgid "Current Teacher"
@@ -514,15 +512,15 @@ msgstr "Profesor actual"
 
 #: app/teacher/views.py:36
 msgid "Teacher has been created"
-msgstr "Maestro ha sido creado"
+msgstr "Instructor ha sido creado"
 
 #: app/teacher/views.py:49 app/teacher/views.py:69
 msgid "Teacher did not find"
-msgstr "Maestro no encontró"
+msgstr "Instructor no encontró"
 
 #: app/teacher/views.py:62
 msgid "Teacher has been updated"
-msgstr "Profesor ha sido actualizado"
+msgstr "Instructor ha sido actualizado"
 
 #: app/templates/main_page.html:3 app/templates/main_page.html:6
 msgid "Main Page"
@@ -536,7 +534,7 @@ msgstr "Tablero de administración"
 
 #: app/templates/nav_bar.html:21
 msgid "Teacher Dashboard"
-msgstr "Tablero de maestros"
+msgstr "Tablero de Instructores"
 
 #: app/templates/nav_bar.html:26
 msgid "School Dashboard"
@@ -544,7 +542,7 @@ msgstr "Tablero de la escuela"
 
 #: app/templates/dashboard/nav_bar_admin.html:43 app/templates/nav_bar.html:35
 msgid "Register / Sign In"
-msgstr "Registrarse / Iniciar sesión"
+msgstr "Inscribirse / Iniciar sesión"
 
 #: app/templates/nav_bar.html:39 app/templates/user/edit.html:20
 msgid "Settings"
@@ -556,7 +554,7 @@ msgstr "Cerrar sesión"
 
 #: app/templates/privacy.html:3
 msgid "Privacy"
-msgstr "Intimidad"
+msgstr "Privacidad"
 
 #: app/templates/privacy.html:14
 msgid "Agreement"
@@ -700,8 +698,6 @@ msgstr "Añadir nuevo evento"
 
 #: app/templates/dashboard/event_list.html:26
 #: app/templates/dashboard/event_list.html:28
-#: app/templates/event/event_list.html:25
-#: app/templates/event/event_list.html:27
 msgid "List of events"
 msgstr "Lista de eventos"
 
@@ -720,7 +716,7 @@ msgstr "Maestros"
 
 #: app/templates/dashboard/nav_bar_admin.html:24
 msgid "Subjects"
-msgstr "Asignaturas"
+msgstr "Tipo de Clases"
 
 #: app/templates/dashboard/nav_bar_admin.html:27
 msgid "Classes"
@@ -765,19 +761,19 @@ msgstr "Lista de estudiantes"
 #: app/templates/dashboard/subject_list.html:3
 #: app/templates/subject/subject_list.html:3
 msgid "Subject List"
-msgstr "Lista de temas"
+msgstr "Lista de tipos de clases"
 
 #: app/templates/dashboard/subject_list.html:15
 #: app/templates/subject/subject_list.html:15
 msgid "Add New Subject"
-msgstr "Añadir nuevo tema"
+msgstr "Añadir nuevo tipo de clase"
 
 #: app/templates/dashboard/subject_list.html:20
 #: app/templates/dashboard/subject_list.html:22
 #: app/templates/subject/subject_list.html:20
 #: app/templates/subject/subject_list.html:22
 msgid "List of subjects"
-msgstr "Lista de temas"
+msgstr "Lista de tipo de clases"
 
 #: app/templates/dashboard/teacher_list.html:3
 #: app/templates/teacher/list.html:3 app/templates/teacher/list.html:16
@@ -847,11 +843,11 @@ msgstr "Actualizar la información de la tarjeta"
 
 #: app/templates/payment/failed.html:3 app/templates/payment/failed.html:15
 msgid "Payment failed"
-msgstr "Pago fallido"
+msgstr "Pago fallo"
 
 #: app/templates/payment/failed.html:21
 msgid "Please try different card"
-msgstr "Por favor prueba otra tarjeta"
+msgstr "Por favor intente usar otra tarjeta"
 
 #: app/templates/payment/my_payments.html:7
 msgid "Amount"
@@ -867,32 +863,28 @@ msgstr "Descripción"
 
 #: app/templates/payment/my_payments.html:10
 msgid "Status"
-msgstr "Estado"
+msgstr "Estatus"
 
 #: app/templates/payment/my_payments.html:21
 msgid "Refunded"
-msgstr "Reintegrado"
+msgstr "Reembolsado"
 
 #: app/templates/payment/successful.html:3
 #: app/templates/payment/successful.html:25
 msgid "Thank you for your payment"
-msgstr "Gracias por tu pago"
+msgstr "Gracias por su pago"
 
 #: app/templates/payment/successful.html:14
 msgid ""
 "{first_name} {last_name} has been added to student list of {subject_name}"
 " class at {school_name}"
-msgstr ""
-"{first_name} {last_name} se ha agregado a la lista de estudiantes de la "
-"clase {subject_name} en {school_name}"
+msgstr "{first_name} {last_name} se ha agregado a la lista de estudiantes de la clase {subject_name} en {school_name}"
 
 #: app/templates/payment/successful.html:16
 msgid ""
 "Your {card}-{card_last4} has been charged for {amount} {currency}. Your "
 "receipt has been sent by email"
-msgstr ""
-"Su {card} - {card_last4} ha sido cargada por {amount} {currency}. Su "
-"recibo ha sido enviado por correo electrónico."
+msgstr "Su {card} - {card_last4} ha sido cargada por {amount} {currency}. Su recibo ha sido enviado por correo electrónico."
 
 #: app/templates/schdl_class/add.html:3
 msgid "Add Class"
@@ -934,7 +926,7 @@ msgstr "Robo Call"
 #: app/templates/student/student_list_not_current.html:74
 #: app/templates/teacher/list.html:64 app/templates/user/dashboard/list.html:67
 msgid "Send txt"
-msgstr "Enviar txt"
+msgstr "Enviar mensaje de txt"
 
 #: app/templates/schdl_class/class_list.html:95
 #: app/templates/school/list.html:65 app/templates/student/student_list.html:64
@@ -956,7 +948,7 @@ msgstr "Editar clase"
 
 #: app/templates/schdl_class/edit.html:21
 msgid "teacher:"
-msgstr "profesor:"
+msgstr "Instructor:"
 
 #: app/templates/schdl_class/edit.html:28
 msgid "Create Events"
@@ -966,7 +958,7 @@ msgstr "Crear eventos"
 #: app/templates/subject/edit.html:25 app/templates/user/add.html:16
 #: app/templates/user/dashboard/user_edit.html:17
 msgid "Save"
-msgstr "Salvar"
+msgstr "Guardar"
 
 #: app/templates/schdl_class/edit.html:149 app/templates/subject/add.html:35
 #: app/templates/subject/edit.html:35
@@ -1051,7 +1043,7 @@ msgstr "Iniciar sesión"
 #: app/templates/security/register_user.html:4
 #: app/templates/security/register_user.html:24
 msgid "Register"
-msgstr "Registro"
+msgstr "Inscribase"
 
 #: app/templates/security/_menu.html:13
 msgid "Forgot password"
@@ -1133,7 +1125,7 @@ msgstr "Termino del servicio y política de privacidad"
 
 #: app/templates/security/register_user.html:58
 msgid "Already have an account?"
-msgstr "¿Ya tienes una cuenta?"
+msgstr "¿Ya tiene una cuenta?"
 
 #: app/templates/security/reset_password.html:23
 msgid "Reset password"
@@ -1145,15 +1137,15 @@ msgstr "Vuelva a enviar las instrucciones de confirmación"
 
 #: app/templates/security/email/change_notice.html:1
 msgid "Your password has been changed."
-msgstr "Tu contraseña ha sido cambiada."
+msgstr "Su contraseña ha sido cambiada."
 
 #: app/templates/security/email/change_notice.html:3
 msgid "If you did not change your password,"
-msgstr "Si no has cambiado tu contraseña,"
+msgstr "Si no ha cambiado su contraseña,"
 
 #: app/templates/security/email/change_notice.html:4
 msgid "click here to reset it"
-msgstr "Haga clic aquí para restablecerlo"
+msgstr "Haga clic aquí para restablecerla"
 
 #: app/templates/security/email/confirmation_instructions.html:1
 msgid "Please confirm your email through the link below:"
@@ -1179,7 +1171,7 @@ msgstr "Inicia sesión ahora"
 
 #: app/templates/security/email/reset_instructions.html:1
 msgid "Click here to reset your password"
-msgstr "Pincha aquí para restaurar tu contraseña"
+msgstr "Hacer clic aquí para restaurar tu contraseña"
 
 #: app/templates/security/email/reset_notice.html:1
 msgid "Your password has been reset"
@@ -1207,7 +1199,7 @@ msgstr "Ingrese el apellido del estudiante"
 
 #: app/templates/student/edit.html:3
 msgid "Edit Student"
-msgstr "Editar estudiante"
+msgstr "Editar el estudiante"
 
 #: app/templates/student/enroll.html:3
 msgid "Enroll Class"
@@ -1219,7 +1211,7 @@ msgstr "Ya inscrito"
 
 #: app/templates/student/enroll.html:44
 msgid "Pay with your card ${price}"
-msgstr "Paga con tu tarjeta $ {precio}"
+msgstr "Pague con su tarjeta $ {price}"
 
 #: app/templates/student/enroll.html:50
 msgid "Register / Class Information"
@@ -1236,7 +1228,7 @@ msgstr "Creado:"
 
 #: app/templates/student/student_info.html:27
 msgid "DOB:"
-msgstr "DOB:"
+msgstr "Fecha de Nacimiento:"
 
 #: app/templates/student/student_info.html:29
 #: app/templates/student/student_info.html:31
@@ -1263,7 +1255,7 @@ msgstr "Nota sobre el usuario:"
 #: app/templates/student/student_info.html:59
 #: app/templates/user/dashboard/info.html:36
 msgid "Email:"
-msgstr "Email:"
+msgstr "Correo Electrónico "
 
 #: app/templates/student/student_info.html:60
 msgid "Phone:"
@@ -1306,7 +1298,7 @@ msgstr "Lista de estudiantes no matriculados"
 
 #: app/templates/student/student_list_rows.html:9
 msgid "[DROPPED]"
-msgstr "[CAÍDO]"
+msgstr "[RETIRADA/ELIMINADA]"
 
 #: app/templates/subject/add.html:3
 msgid "Add Subject"
@@ -1326,7 +1318,7 @@ msgstr "Añadir profesor"
 
 #: app/templates/teacher/add_edit.html:21
 msgid "Edit Teacher"
-msgstr "Profesor de edición"
+msgstr "Edite al profesor"
 
 #: app/templates/teacher/add_edit.html:32
 msgid "current teacher"
@@ -1366,7 +1358,7 @@ msgstr "Ciudad"
 
 #: app/templates/user/contact_info.html:47 app/user/forms.py:64
 msgid "ZIP"
-msgstr "cremallera"
+msgstr "Código Postal"
 
 #: app/templates/user/dashboard/user_edit.html:3 app/templates/user/edit.html:3
 msgid "Edit User"
@@ -1400,7 +1392,7 @@ msgstr "aún no está inscrito"
 
 #: app/templates/user/user_info.html:58
 msgid "Register for Classes"
-msgstr "Registrarse para Clases"
+msgstr "Inscríbase para Clases"
 
 #: app/templates/user/user_info.html:69
 msgid "Payment Information"
@@ -1470,7 +1462,7 @@ msgstr "Añadir escuela a este usuario"
 
 #: app/templates/user/dashboard/info.html:31
 msgid "Registration:"
-msgstr "Registro:"
+msgstr "Inscripción:"
 
 #: app/templates/user/dashboard/info.html:32
 msgid "Last Seen:"
@@ -1562,9 +1554,7 @@ msgstr "Por favor, introduzca su número de teléfono"
 
 #: app/user/forms.py:41
 msgid "Please enter 10 digits of your Cellphone number i.e. 83212345678"
-msgstr ""
-"Por favor ingrese 10 dígitos de su número de teléfono, es decir "
-"83212345678"
+msgstr "Por favor ingrese 10 dígitos de su número de teléfono, por ej. 83212345678"
 
 #: app/user/forms.py:43
 msgid "Mailing Address"
@@ -1596,7 +1586,7 @@ msgstr "Por favor ingrese su código postal"
 
 #: app/user/forms.py:66
 msgid "Please enter 5 digit of your ZIP code i.e 77001"
-msgstr "Introduzca 5 dígitos de su código postal, es decir, 77001"
+msgstr "Introduzca 5 dígitos de su código postal, por ej. 77001"
 
 #: app/user/forms.py:69
 msgid "text messages"
