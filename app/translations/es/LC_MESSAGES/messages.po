@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-12-11 09:50-0600\n"
+"POT-Creation-Date: 2018-12-11 14:29-0600\n"
 "PO-Revision-Date: 2018-12-11 09:50-0600\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
@@ -698,6 +698,8 @@ msgstr "Añadir nuevo evento"
 
 #: app/templates/dashboard/event_list.html:26
 #: app/templates/dashboard/event_list.html:28
+#: app/templates/event/event_list.html:25
+#: app/templates/event/event_list.html:27
 msgid "List of events"
 msgstr "Lista de eventos"
 
@@ -965,6 +967,47 @@ msgstr "Guardar"
 msgid "Users see that class description"
 msgstr "Los usuarios ven esa descripción de clase"
 
+#: app/templates/schdl_class/enroll_info_table.html:8
+msgid "{first_name} {last_name} already enrolled for that class"
+msgstr "{first_name} {last_name} ya está inscrito en esa clase"
+
+#: app/templates/schdl_class/enroll_info_table.html:10
+msgid "Click to Enroll {first_name} {last_name}"
+msgstr "Haga clic para inscribirse {first_name} {last_name}"
+
+#: app/templates/schdl_class/enroll_info_table.html:15
+msgid "Complete Registration"
+msgstr "Inscripcion completa"
+
+#: app/templates/schdl_class/enroll_info_table.html:15
+#: app/templates/student/enroll.html:44
+msgid "Pay with your card ${price}"
+msgstr "Pague con su tarjeta $ {price}"
+
+#: app/templates/schdl_class/enroll_info_table.html:23
+msgid "To enroll {first_name} {last_name} - click and pay with your card"
+msgstr "Para inscribir a {first_name} {last_name} - haga clic y pague con su tarjeta"
+
+#: app/templates/schdl_class/enroll_info_table.html:27
+msgid "{subject_name} at {school_name}!"
+msgstr "{subject_name} en {school_name}!"
+
+#: app/templates/schdl_class/enroll_info_table.html:28
+msgid "Day: {day_of_week}"
+msgstr "Día: {day_of_week}"
+
+#: app/templates/schdl_class/enroll_info_table.html:30
+msgid "Time:"
+msgstr "Hora:"
+
+#: app/templates/schdl_class/enroll_info_table.html:34
+msgid "Dates:"
+msgstr "Fechas:"
+
+#: app/templates/schdl_class/enroll_info_table.html:36
+msgid "Price: ${price}"
+msgstr "Precio: $ {price}"
+
 #: app/templates/school/add_edit.html:16
 msgid "Add school"
 msgstr "Añadir escuela"
@@ -1208,10 +1251,6 @@ msgstr "Inscribirse en clase"
 #: app/templates/student/enroll.html:38
 msgid "Already Enrolled"
 msgstr "Ya inscrito"
-
-#: app/templates/student/enroll.html:44
-msgid "Pay with your card ${price}"
-msgstr "Pague con su tarjeta $ {price}"
 
 #: app/templates/student/enroll.html:50
 msgid "Register / Class Information"
