@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-12-11 09:57-0600\n"
+"POT-Creation-Date: 2018-12-11 14:29-0600\n"
 "PO-Revision-Date: 2018-12-10 16:13-0600\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -972,13 +972,54 @@ msgstr "Сохранить"
 msgid "Users see that class description"
 msgstr "Пользователи видят это описание класса"
 
+#: app/templates/schdl_class/enroll_info_table.html:8
+msgid "{first_name} {last_name} already enrolled for that class"
+msgstr "{first_name} {last_name} уже зарегистрирован на этот класс"
+
+#: app/templates/schdl_class/enroll_info_table.html:10
+msgid "Click to Enroll {first_name} {last_name}"
+msgstr "Нажмите, чтобы зарегистрировать {first_name} {last_name}"
+
+#: app/templates/schdl_class/enroll_info_table.html:15
+msgid "Complete Registration"
+msgstr "Зарегистрироваться"
+
+#: app/templates/schdl_class/enroll_info_table.html:15
+#: app/templates/student/enroll.html:44
+msgid "Pay with your card ${price}"
+msgstr "Оплатить с помощью карты ${price}"
+
+#: app/templates/schdl_class/enroll_info_table.html:23
+msgid "To enroll {first_name} {last_name} - click and pay with your card"
+msgstr "Для регистрации {first_name} {last_name} - нажмите и оплатите с помощью карты"
+
+#: app/templates/schdl_class/enroll_info_table.html:27
+msgid "{subject_name} at {school_name}!"
+msgstr "{subject_name} в {school_name}!"
+
+#: app/templates/schdl_class/enroll_info_table.html:28
+msgid "Day: {day_of_week}"
+msgstr "День: {day_of_week}"
+
+#: app/templates/schdl_class/enroll_info_table.html:30
+msgid "Time:"
+msgstr "Время:"
+
+#: app/templates/schdl_class/enroll_info_table.html:34
+msgid "Dates:"
+msgstr "Даты:"
+
+#: app/templates/schdl_class/enroll_info_table.html:36
+msgid "Price: ${price}"
+msgstr "Цена: ${price}"
+
 #: app/templates/school/add_edit.html:16
 msgid "Add school"
-msgstr ""
+msgstr "Добавить школу"
 
 #: app/templates/school/add_edit.html:21
 msgid "Edit school"
-msgstr ""
+msgstr "Редактировать школу"
 
 #: app/templates/school/add_edit.html:26 app/templates/school/info.html:21
 #: app/templates/teacher/info.html:21
@@ -987,15 +1028,15 @@ msgstr "Название школы"
 
 #: app/templates/school/add_edit.html:29
 msgid "Director name"
-msgstr ""
+msgstr "Имя директора"
 
 #: app/templates/school/add_edit.html:36
 msgid "Additional Agreement For Parents"
-msgstr ""
+msgstr "Дополнительное соглашение для пользователей"
 
 #: app/templates/school/add_edit.html:46
 msgid "current school"
-msgstr ""
+msgstr "текущая школа"
 
 #: app/templates/school/info.html:3
 msgid "School Info"
@@ -1215,10 +1256,6 @@ msgstr "Зарегистрироваться на класс"
 #: app/templates/student/enroll.html:38
 msgid "Already Enrolled"
 msgstr "Уже зарегестрирован"
-
-#: app/templates/student/enroll.html:44
-msgid "Pay with your card ${price}"
-msgstr "Оплатить с помощью карты ${price}"
 
 #: app/templates/student/enroll.html:50
 msgid "Register / Class Information"
@@ -1461,7 +1498,7 @@ msgstr "Добавить пользователя"
 
 #: app/templates/user/dashboard/add_edit.html:21
 msgid "Edit user"
-msgstr ""
+msgstr "Редактировать пользователя"
 
 #: app/templates/user/dashboard/info.html:26
 msgid "Add School to this User"

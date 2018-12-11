@@ -67,6 +67,7 @@ class Subject(db.Model):
     __tablename__ = "subjects"
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
     name = db.Column('name', db.Unicode(2048))
+    name_es = db.Column('name_es', db.Unicode(2048))
     color = db.Column('color', db.Unicode(32))
     current = db.Column('current', db.Boolean())
     default_info = db.Column('default_info', db.UnicodeText())  # default description will insert to Schdl_Class.info
