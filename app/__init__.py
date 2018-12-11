@@ -90,7 +90,7 @@ def create_app(config_class=Config):
         # Sentry.io logging
         sentry.init_app(app, logging=True, level=logging.WARNING)
 
-        app.logger.setLevel(logging.INFO)
+        app.logger.setLevel(logging.WARNING)
         app.logger.info('App startup')
 
     @app.route('/')
