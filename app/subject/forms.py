@@ -6,6 +6,7 @@ from wtforms.validators import DataRequired, Optional
 
 class SubjectForm(FlaskForm):
     name = StringField(_l('Name of Subject'), validators=[DataRequired()])
+    name_es = StringField(_l('Name of Subject in Spanish'), validators=[DataRequired()])
     current = BooleanField(_l('Current Subject'))
     color = StringField(_l('Color'), validators=[Optional()])
     default_info = TextAreaField(_l('Default Class Description'), validators=[Optional()])
