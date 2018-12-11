@@ -1,1 +1,1 @@
-web: flask db upgrade; gunicorn app:create_app\(\) -b 0.0.0.0:$PORT -w 3
+web: flask db upgrade; flask translate compile; gunicorn app:create_app\(\) -b 0.0.0.0:$PORT -w 3
