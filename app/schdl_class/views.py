@@ -160,8 +160,8 @@ def payment_class(class_id, student_id):
         new_enrollment.current = True
         db.session.add(new_enrollment)
         db.session.commit()
-        flash(_('%(student)s has been added to student list of %(current_class)s classes',
-                student=current_student.first_name, current_class=current_class.subject.name), 'success')
+        flash(_('{student_name} has been added to student list of {subject_name} classes').format(
+            student_name=current_student.first_name, subject_name=current_class.subject.name), 'success')
         if current_class.school.agreement:
             # from app.payment import send_email
             send_email_to_current_user(msg_subject='Reminder', msg_html=str(current_class.school.agreement))

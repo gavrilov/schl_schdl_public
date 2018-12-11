@@ -1,4 +1,4 @@
-{{ _('Welcome %(email)s!', email=user.email) }}
+{{ _('Welcome {email}!').format(email=user.email) }}
 
 {{ _('You can log into your account through the link below:') }}
 

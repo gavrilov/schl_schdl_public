@@ -41,7 +41,7 @@
                     <div class="col text-center col-md-3 text-md-left align-self-center">
                         <a class="btn btn btn-outline-success"
                            href="{{ url_for('schdl_class.payment_class', class_id=current_class.id, student_id=student.id) }}"
-                           role="button">{{ _('Pay with your card $%(price)s', price=current_class.price) }}</a>
+                           role="button">{{ _('Pay with your card ${price}').format(price=current_class.price) }}</a>
                     </div>
                     {% endif %}
                 <div class="col text-center col-md-3 text-md-right align-self-center">
