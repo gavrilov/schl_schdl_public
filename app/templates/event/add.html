@@ -1,6 +1,6 @@
 {% extends "dashboard/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}Edit Event{% endblock %}
+{% block title %}{{ _('Add Event') }}{% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -12,7 +12,8 @@
         <div class="row mt-3">
             <div class="col">
                 <div class="row">
-                    <div class="col"><h1>Add new Event for {{ current_class.subject.name }}
+                    <div class="col">
+                        <h1>{{ _('Add new Event for %(subject_name)s', subject_name = current_class.subject.name) }}
                         @ {{ current_class.school.name }}</h1></div>
                 </div>
                 <form method="POST" action="{{ url_for('event.add_event_for_class', class_id=current_class.id) }}">

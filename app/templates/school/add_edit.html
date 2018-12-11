@@ -1,6 +1,6 @@
 {% extends "dashboard/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}School{% endblock %}
+{% block title %}{{ _('School') }}{% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -13,27 +13,27 @@
         {% if action == 'add' %}
             <form method="POST" action="{{ url_for('school.school_add') }}">
             <div class="form-group row">
-                <h1>Add school</h1>
+                <h1>{{ _('Add school') }}</h1>
             </div>
         {% else %}
             <form method="POST" action="{{ url_for('school.school_edit', school_id=school.id) }}">
             <div class="form-group row">
-                <h1>Edit school</h1>
+                <h1>{{ _('Edit school') }}</h1>
             </div>
         {% endif %}
         {{ form.csrf_token }}
         <div class="form-group row">
-            {{ form.name(size=30, class="form-control", placeholder="School name") }}
+            {{ form.name(size=30, class="form-control", placeholder=_('School name')) }}
         </div>
         <div class="form-group row">
-            {{ form.director_name(size=30, class="form-control", placeholder="Director name") }}
+            {{ form.director_name(size=30, class="form-control", placeholder=_('Director name')) }}
         </div>
         <div class="form-group row">
-            {{ form.note(size=30, class="form-control", placeholder="Note") }}
+            {{ form.note(size=30, class="form-control", placeholder=_('Note')) }}
         </div>
         <div class="form-group row">
             {{ form.agreement.label(class="form-control-label") }}
-            {{ form.agreement(size=30, class="form-control", placeholder="Additional Agreement For Parents") }}
+            {{ form.agreement(size=30, class="form-control", placeholder=_('Additional Agreement For Parents')) }}
         </div>
         <div class="form-group row">
             {{ form.type.label(class="form-control-label") }}
@@ -43,7 +43,7 @@
             <div class="form-check mr-auto">
                 {{ form.current(class="form-check-input") }}
                 <label class="form-check-label" for="current">
-                    current school
+                    {{ _('current school') }}
                 </label>
             </div>
         </div>
@@ -52,11 +52,10 @@
             {{ form.recaptcha }}
         </div>
         <div class="form-group row">
-            <button type="submit" id="recaptcha-submit" class="btn btn-primary">Submit</button>
+            <button type="submit" id="recaptcha-submit" class="btn btn-primary">{{ _('Submit') }}</button>
         </div>
         </form>
     </div>
-    </form>
 {% endblock %}
 
 

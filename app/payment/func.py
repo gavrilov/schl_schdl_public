@@ -1,5 +1,6 @@
 import stripe
 from flask import render_template, current_app
+from flask_babelex import lazy_gettext as _l
 from flask_security import current_user
 
 
@@ -11,7 +12,7 @@ def my_cards(user=current_user):
     # get User object and return html code
     stripe.api_key = current_app.config['STRIPE_SECRET_KEY']
     if not user.stripe_id:
-        return "You do not have any cards"
+        return _l('You do not have any cards')
     customer = stripe.Customer.retrieve(user.stripe_id)
     cards = customer.sources.data
     return render_template('payment/my_cards.html', cards=cards)
@@ -22,10 +23,10 @@ def my_payments(user=current_user):
     # Show all payments to customer
     stripe.api_key = current_app.config['STRIPE_SECRET_KEY']
     if not user.stripe_id:
-        return "You do not have any payments"
+        return _l('You do not have any payments')
     payments = stripe.Charge.list(customer=user.stripe_id)['data']
     if not payments:
-        return "You do not have any payments"
+        return _l('You do not have any payments')
     return render_template('payment/my_payments.html', payments=payments)
 
 

@@ -9,40 +9,40 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="{{ url_for('dashboard.main') }}">Dashboard</a>
+                <a class="nav-link" href="{{ url_for('dashboard.main') }}">{{ _('Dashboard') }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('calendar.main') }}">Calendar</a>
+                <a class="nav-link" href="{{ url_for('calendar.main') }}">{{ _('Calendar') }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('school.school_list') }}">Schools</a>
+                <a class="nav-link" href="{{ url_for('school.school_list') }}">{{ _('Schools') }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('teacher.teacher_list') }}">Teachers</a>
+                <a class="nav-link" href="{{ url_for('teacher.teacher_list') }}">{{ _('Teachers') }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('subject.subject_list') }}">Subjects</a>
+                <a class="nav-link" href="{{ url_for('subject.subject_list') }}">{{ _('Subjects') }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('schdl_class.class_list') }}">Classes</a>
+                <a class="nav-link" href="{{ url_for('schdl_class.class_list') }}">{{ _('Classes') }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('event.event_list') }}">Events</a>
+                <a class="nav-link" href="{{ url_for('event.event_list') }}">{{ _('Events') }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('user.user_list') }}">Users</a>
+                <a class="nav-link" href="{{ url_for('user.user_list') }}">{{ _('Users') }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('student.student_list') }}">Students</a>
+                <a class="nav-link" href="{{ url_for('student.student_list') }}">{{ _('Students') }}</a>
             </li>
         </ul>
         <!--RIGHT PART-->
         <ul class="navbar-nav">
             <li class="nav-item">
                 {% if current_user.is_anonymous %}
-                    <a class="nav-link" href="{{ url_for_security('login') }}">Register / Sign In</a>
+                    <a class="nav-link" href="{{ url_for_security('login') }}">{{ _('Register / Sign In') }}</a>
                 {% else %}
-                    <a class="nav-link" href="{{ url_for_security('logout') }}">Logout</a>
+                    <a class="nav-link" href="{{ url_for_security('logout') }}">{{ _('Logout') }}</a>
                 {% endif %}
             </li>
         </ul>

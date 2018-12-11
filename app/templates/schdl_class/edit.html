@@ -1,6 +1,6 @@
 {% extends "dashboard/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}Edit Class{% endblock %}
+{% block title %}{{ _('Edit Class') }}{% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -14,18 +14,18 @@
         <div class="col-10">
             <h1>{{ current_class.subject.name }} @ {{ current_class.school.name }}
                 {% if form.current.data == True %}
-                    <span class="badge badge-success">Current Class</span>
+                    <span class="badge badge-success">{{ _('Current Class') }}</span>
                 {% endif %}
                 <br>
                 <small>
-                    teacher: {{ current_class.teacher.user.first_name }} {{ current_class.teacher.user.last_name }}</small>
+                    {{ _('teacher:') }} {{ current_class.teacher.user.first_name }} {{ current_class.teacher.user.last_name }}</small>
             </h1>
         </div>
         <div class="col-2">
             <a class="btn btn-primary" href="{{ url_for('event.list_for_class', class_id=current_class.id) }}"
-               role="button">Events</a>
+               role="button">{{ _('Events') }}</a>
             <a class="btn btn-info" href="{{ url_for('event.add_event', class_id=current_class.id) }}"
-               role="button">Create Events</a>
+               role="button">{{ _('Create Events') }}</a>
         </div>
     </div>
     <div class="row">
@@ -132,7 +132,7 @@
 
                 <div class="form-group row">
                     <div class="col">
-                        <button id="recaptcha-submit" class="btn btn-primary">Save</button>
+                        <button id="recaptcha-submit" class="btn btn-primary">{{ _('Save') }}</button>
                     </div>
                 </div>
             </form>
@@ -146,7 +146,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
     <script>
         $('#info').summernote({
-            placeholder: 'Users see that class description',
+            placeholder: '{{_("Users see that class description") }}',
             height: 400,
             toolbar: [
                 ['style', ['bold', 'italic', 'underline', 'clear']],

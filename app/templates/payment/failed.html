@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}Payment failed{% endblock %}
+{% block title %}{{ _('Payment failed') }}{% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -12,13 +12,13 @@
     <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
         <div class="row">
             <div class="col">
-                <h1>Payment failed</h1>
+                <h1>{{ _('Payment failed') }}</h1>
             </div>
         </div>
         <div class="row">
             <div class="col">
                 {{ charge.failure_message }}
-                Please try different card.
+                {{ _('Please try different card') }}
                 <!--Update Card Button-->
                 {% include 'payment/add_card_button.html' %}
             </div>

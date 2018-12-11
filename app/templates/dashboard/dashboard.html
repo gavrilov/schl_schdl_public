@@ -1,6 +1,6 @@
 {% extends "dashboard/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}Admin Dashboard{% endblock %}
+{% block title %}{{ _('Admin Dashboard') }}{% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -17,23 +17,23 @@
     </div>
     <div class="row">
         <div class="col">
-            Total users: {{ users }}
+            {{ _('Total users:') }} {{ users }}
         </div>
     </div>
     <div class="row">
         <div class="col">
-            Total students: {{ students }}
+            {{ _('Total students:') }} {{ students }}
         </div>
     </div>
     <div class="row">
         <div class="col">
-            Total enrollments: {{ enrollments_num }}
+            {{ _('Total enrollments:') }} {{ enrollments_num }}
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <h2>Last 5 enrollments</h2>
+            <h2>{{ _('Last 5 enrollments') }}</h2>
         </div>
     </div>
     {% for enrollment in five_last_enrollments %}
@@ -48,7 +48,7 @@
     {% endfor %}
     <div class="row">
         <div class="col">
-            <h2>Current System Version {{ config.CURRENT_RELEASE_HEROKU_VERSION }}</h2>
+            <h2>{{ _('Current System') }} {{ config.CURRENT_RELEASE_HEROKU_VERSION }}</h2>
             <p>{{ config.CURRENT_RELEASE_VERSION }} @ {{ config.CURRENT_RELEASE_CREATED_AT }}</p>
         </div>
     </div>

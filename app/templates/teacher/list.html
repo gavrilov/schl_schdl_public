@@ -1,6 +1,6 @@
 {% extends "dashboard/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}Teacher List{% endblock %}
+{% block title %}{{ _('Teacher List') }}{% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -13,20 +13,18 @@
     {{ super() }}
     <div class="row">
         <div class="col text-left">
-            <h1>Teacher List</h1>
+            <h1>{{ _('Teacher List') }}</h1>
         </div>
         <div class="col text-right">
             {% if current_teachers_only %}
-                <a class="btn btn-outline-primary" href="{{ url_for('teacher.teacher_all_list') }}" role="button">Show
-                    All
-                    Teachers</a>
+                <a class="btn btn-outline-primary" href="{{ url_for('teacher.teacher_all_list') }}"
+                   role="button">{{ _('Show All Teachers') }}</a>
             {% else %}
-                <a class="btn btn-outline-primary" href="{{ url_for('teacher.teacher_list') }}" role="button">Show
-                    Current
-                    Teachers</a>
+                <a class="btn btn-outline-primary" href="{{ url_for('teacher.teacher_list') }}"
+                   role="button">{{ _('Show Current Teachers') }}</a>
             {% endif %}
-            <a class="btn btn-outline-success" href="{{ url_for('teacher.teacher_add') }}" role="button">Add New
-                Teacher</a>
+            <a class="btn btn-outline-success" href="{{ url_for('teacher.teacher_add') }}"
+               role="button">{{ _('Add New Teacher') }}</a>
         </div>
 
     </div>
@@ -36,17 +34,17 @@
             <thead>
             <tr id="filterrow">
                 <th></th>
-                <th id="filtercol">First Name</th>
-                <th id="filtercol">Last Name</th>
-                <th id="filtercol">Note</th>
+                <th id="filtercol">{{ _('First Name') }}</th>
+                <th id="filtercol">{{ _('Last Name') }}</th>
+                <th id="filtercol">{{ _('Note') }}</th>
                 <th></th>
             </tr>
             <tr>
                 <th class="text-center">#</th>
-                <th class="text-center">First Name</th>
-                <th class="text-center">Last Name</th>
-                <th class="text-center">Note</th>
-                <th class="text-center">Info</th>
+                <th class="text-center">{{ _('First Name') }}</th>
+                <th class="text-center">{{ _('Last Name') }}</th>
+                <th class="text-center">{{ _('Note') }}</th>
+                <th class="text-center">{{ _('Info') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -56,18 +54,18 @@
                     <td>{{ teacher.user.first_name }}</td>
                     <td>{{ teacher.user.last_name }}</td>
                     <td>{{ teacher.note }}</td>
-                    <td><a href="{{ url_for('teacher.teacher_info', teacher_id=teacher.id) }}">Info</a></td>
+                    <td><a href="{{ url_for('teacher.teacher_info', teacher_id=teacher.id) }}">{{ _('Info') }}</a></td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
         <select name="actionselect" id="actionselect">
-            <option value="">with selection</option>
-            <option value="txt">Send txt</option>
-            <option value="email">Send email</option>
-            <option value="labels">Print Labels</option>
+            <option value="">{{ _('with selection') }}</option>
+            <option value="txt">{{ _('Send txt') }}</option>
+            <option value="email">{{ _('Send email') }}</option>
+            <option value="labels">{{ _('Print Labels') }}</option>
         </select>
-        <button id="submit">Submit</button>
+        <button id="submit">{{ _('Submit') }}</button>
     </form>
 {% endblock %}
 

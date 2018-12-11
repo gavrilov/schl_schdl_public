@@ -1,6 +1,6 @@
 {% extends "dashboard/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}{{ teacher.user.first_name }} {{ teacher.user.last_name }} - Info{% endblock %}
+{% block title %}{{ _('Teacher Info') }}{% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -13,17 +13,17 @@
         <h1>{{ teacher.user.first_name }} {{ teacher.user.last_name }} </h1>
     </div>
     <div class="row">
-        Director:
+        {{ _('Director:') }}
     </div>
     <table>
         <tbody>
         <tr>
-            <td>School name</td>
-            <td>Edit</td>
+            <td>{{ _('School name') }}</td>
+            <td>{{ _('Edit') }}</td>
         </tr>
         <tr>
             <td></td>
-            <td><a href="{{ url_for('teacher.teacher_edit', teacher_id=teacher.id) }}">Edit</a>></td>
+            <td><a href="{{ url_for('teacher.teacher_edit', teacher_id=teacher.id) }}">{{ _('Edit') }}</a>></td>
         </tr>
         </tbody>
     </table>

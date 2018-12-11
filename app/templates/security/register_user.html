@@ -1,7 +1,7 @@
 {% extends "security/security_base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% from "security/_macros.html" import render_field_with_errors, render_field %}
-{% block title %}Register{% endblock %}
+{% block title %}{{ _('Register') }}{% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -14,36 +14,36 @@
     {% include "security/_messages.html" %}
     <div class="row">
     <div class="col text-center text-primary">
-        <h1>Welcome to our New and improved Registration System!</h1>
+        <h1>{{ _('Welcome to our New and improved Registration System!') }}</h1>
     </div>
     </div>
     <div class="row justify-content-center">
         <form id="registration-form" method="POST" action="{{ url_for_security('register') }}">
             {{ register_user_form.hidden_tag() }}
             <div class="form-group row">
-                <h1>Register</h1>
+                <h1>{{ _('Register') }}</h1>
             </div>
             <div class="form-group row">
-                {{ render_field_with_errors(register_user_form.first_name, size=30, class="form-control", placeholder="Parent First Name") }}
+                {{ render_field_with_errors(register_user_form.first_name, size=30, class="form-control", placeholder=_('Parent First Name')) }}
             </div>
             <div class="form-group row">
-                {{ render_field_with_errors(register_user_form.last_name, size=30, class="form-control", placeholder="Parent Last Name") }}
+                {{ render_field_with_errors(register_user_form.last_name, size=30, class="form-control", placeholder=_('Parent Last Name')) }}
             </div>
             <div class="form-group row">
-                {{ render_field_with_errors(register_user_form.email, size=30, class="form-control", placeholder="Enter your Email") }}
+                {{ render_field_with_errors(register_user_form.email, size=30, class="form-control", placeholder=_('Enter your Email')) }}
             </div>
             <div class="form-group row">
-                {{ render_field_with_errors(register_user_form.password, size=30, class="form-control", placeholder="Create your Password") }}
+                {{ render_field_with_errors(register_user_form.password, size=30, class="form-control", placeholder=_('Create your Password')) }}
             </div>
             <div class="form-group row">
-                {{ render_field_with_errors(register_user_form.password_confirm, size=30, class="form-control", placeholder="Repeat your Password") }}
+                {{ render_field_with_errors(register_user_form.password_confirm, size=30, class="form-control", placeholder=_('Repeat your Password')) }}
             </div>
             <div class="form-group row">
                 <div class="form-check mr-auto">
                     {{ render_field_with_errors(register_user_form.agreement, class="form-check-input") }}
                     <label class="form-check-label" for="agreement">
-                        I agree to the <a href="{{ url_for('privacy') }}" target=”_blank”>Terms of Service and Privacy
-                        Policy</a>
+                        {{ _('I agree to the') }} <a href="{{ url_for('privacy') }}"
+                                                     target=”_blank”>{{ _('Terms of Service and Privacy Policy') }}</a>
                     </label>
                 </div>
             </div>
@@ -52,17 +52,18 @@
                 {{ register_user_form.recaptcha }}
             </div>
             <div class="form-group row">
-                <button id="recaptcha-submit" class="btn btn-primary">Submit</button>
+                <button id="recaptcha-submit" class="btn btn-primary">{{ _('Submit') }}</button>
             </div>
             <div class="form-group row">
-                <h5>Already have an account? <a href="{{ url_for_security('login') }}">Sign In</a></h5>
+                <h5>{{ _('Already have an account?') }} <a href="{{ url_for_security('login') }}">{{ _('Sign In') }}</a>
+                </h5>
             </div>
         </form>
     </div>
     <div class="row justify-content-center">
         <img src="{{ url_for('static', filename='company_logo.png') }}"
              class="img-fluid mx-auto d-block">
-        <h5 class="text-center"><i>{{ config.COMPANY_SLOGAN | safe }}</i></h5>
+        <h5 class="text-center"><i>{{ _(config.COMPANY_SLOGAN | safe) }}</i></h5>
     </div>
 {% endblock %}
 

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}Enroll Class{% endblock %}
+{% block title %}{{ _('Enroll Class') }}{% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -35,19 +35,19 @@
                 <div class="col text-center col-md-3 text-md-left align-self-center">
                         <a class="btn btn-success"
                            href="#"
-                           role="button">Already Enrolled</a>
+                           role="button">{{ _('Already Enrolled') }}</a>
                     </div>
                     {% elif current_user.stripe_id %}
                     <div class="col text-center col-md-3 text-md-left align-self-center">
                         <a class="btn btn btn-outline-success"
                            href="{{ url_for('schdl_class.payment_class', class_id=current_class.id, student_id=student.id) }}"
-                           role="button">Pay with your card ${{ current_class.price }}</a>
+                           role="button">{{ _('Pay with your card $%(price)s', price=current_class.price) }}</a>
                     </div>
                     {% endif %}
                 <div class="col text-center col-md-3 text-md-right align-self-center">
                     <a class="btn btn-info"
                        href="{{ url_for('schdl_class.enroll_class', student_id=student.id, class_id=current_class.id) }}"
-                       role="button">Register / Class Information</a>
+                       role="button">{{ _('Register / Class Information') }}</a>
                 </div>
             </div>
         {% endfor %}

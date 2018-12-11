@@ -3,7 +3,7 @@ import os
 from logging.handlers import RotatingFileHandler
 
 from SlackLogger import SlackHandler
-from flask import Flask, redirect, url_for, render_template, abort, flash
+from flask import Flask, redirect, url_for, render_template, abort, flash, request
 from flask_babelex import Babel
 from flask_bootstrap import Bootstrap
 from flask_mail import Mail
@@ -181,7 +181,7 @@ def create_app(config_class=Config):
 
     @babel.localeselector
     def get_locale():
-        # return request.accept_languages.best_match(app.config['LANGUAGES'])
-        return 'ru'  # to test specific language of babel
+        return request.accept_languages.best_match(app.config['LANGUAGES'])
+        # return 'ru'  # to test specific language of babel
 
     return app

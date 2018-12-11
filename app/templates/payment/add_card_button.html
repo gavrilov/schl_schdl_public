@@ -5,9 +5,9 @@
             data-key="{{ config['STRIPE_PUBLIC_KEY'] }}"
             data-name="{{ config['COMPANY_NAME'] }}"
             data-email="{{ current_user.email }}"
-            data-description="Update Card Info"
-            data-label="Update Card Info"
-            data-panel-label="Update Card Info"
+            data-description="{{ _('Update Card Info') }}"
+            data-label="{{ _('Update Card Info') }}"
+            data-panel-label="{{ _('Update Card Info') }}"
             data-billing-address=true
             data-zip-code=true
             data-allow-remember-me=false

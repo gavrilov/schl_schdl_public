@@ -1,4 +1,4 @@
-# Russian translations for PROJECT.
+# Spanish translations for PROJECT.
 # Copyright (C) 2018 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
@@ -8,12 +8,11 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2018-12-10 21:42-0600\n"
-"PO-Revision-Date: 2018-12-10 16:13-0600\n"
+"PO-Revision-Date: 2018-12-10 21:42-0600\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: ru\n"
-"Language-Team: ru <LL@li.org>\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,24 +23,24 @@ msgstr ""
 #: app/templates/user/dashboard/list.html:41 app/user/forms.py:14
 #: app/user/forms.py:22 app/user/forms.py:30
 msgid "First Name"
-msgstr "Имя"
+msgstr ""
 
 #: app/dashboard/forms.py:8 app/user/forms.py:14 app/user/forms.py:22
 #: app/user/forms.py:30
 msgid "Please enter your First Name"
-msgstr "Пожалуйста, укажите свое имя"
+msgstr ""
 
 #: app/dashboard/forms.py:9 app/templates/teacher/list.html:35
 #: app/templates/teacher/list.html:42 app/templates/user/dashboard/list.html:34
 #: app/templates/user/dashboard/list.html:42 app/user/forms.py:15
 #: app/user/forms.py:23 app/user/forms.py:31
 msgid "Last Name"
-msgstr "Фамилия"
+msgstr ""
 
 #: app/dashboard/forms.py:9 app/user/forms.py:15 app/user/forms.py:23
 #: app/user/forms.py:31
 msgid "Please enter your Last Name"
-msgstr "Пожалуйста, укажите свою фамилию"
+msgstr ""
 
 #: app/dashboard/forms.py:10 app/templates/student/student_list.html:36
 #: app/templates/student/student_list.html:49
@@ -52,7 +51,7 @@ msgstr "Пожалуйста, укажите свою фамилию"
 #: app/templates/user/dashboard/list.html:43 app/user/forms.py:24
 #: app/user/forms.py:38
 msgid "Email"
-msgstr "Email"
+msgstr ""
 
 #: app/dashboard/forms.py:11 app/school/forms.py:27 app/school/forms.py:32
 #: app/student/forms.py:47 app/subject/forms.py:15 app/teacher/forms.py:10
@@ -71,28 +70,28 @@ msgstr "Email"
 #: app/templates/user/dashboard/school.html:20 app/user/forms.py:26
 #: app/user/forms.py:32 app/user/forms.py:72
 msgid "Submit"
-msgstr "Отправить"
+msgstr ""
 
 #: app/dashboard/views.py:28
 msgid "Teacher did not find. Please contact administration"
-msgstr "Преподаватель не найден. Пожалуйста, обратитесь к администрации"
+msgstr ""
 
 #: app/event/forms.py:9
 msgid "Payrate"
-msgstr "Ставка оплаты"
+msgstr ""
 
 #: app/event/forms.py:10 app/schdl_class/forms.py:13
 #: app/templates/event/event_list.html:31
 msgid "Billing Rate"
-msgstr "Ставка тарифа"
+msgstr ""
 
 #: app/event/forms.py:11
 msgid "Date time start"
-msgstr "Дата и время начала"
+msgstr ""
 
 #: app/event/forms.py:12
 msgid "Date time end"
-msgstr "Дата и время конца"
+msgstr ""
 
 #: app/event/forms.py:13 app/school/forms.py:18 app/teacher/forms.py:8
 #: app/templates/event/event_list.html:34 app/templates/school/list.html:36
@@ -106,7 +105,7 @@ msgstr "Дата и время конца"
 #: app/templates/user/dashboard/list.html:44 app/user/forms.py:25
 #: app/user/forms.py:71
 msgid "Note"
-msgstr "Заметка"
+msgstr ""
 
 #: app/event/forms.py:15 app/schdl_class/forms.py:10
 #: app/templates/dashboard/class_list.html:31
@@ -117,70 +116,70 @@ msgstr "Заметка"
 #: app/templates/teacher/add_edit.html:3
 #: app/templates/user/dashboard/info.html:43
 msgid "Teacher"
-msgstr "Преподаватель"
+msgstr ""
 
 #: app/event/forms.py:16 app/templates/event/event_list.html:35
 msgid "Active"
-msgstr "Активен"
+msgstr ""
 
 #: app/event/forms.py:17 app/schdl_class/forms.py:28
 #: app/templates/user/edit.html:36
 msgid "Update"
-msgstr "Обновить"
+msgstr ""
 
 #: app/event/views.py:52
 msgid "Current class already has events"
-msgstr "Текущий класс уже имеет события"
+msgstr ""
 
 #: app/event/views.py:70 app/schdl_class/views.py:66
 #: app/schdl_class/views.py:100 app/schdl_class/views.py:114
 #: app/schdl_class/views.py:143
 msgid "Class did not find"
-msgstr "Класс не найден"
+msgstr ""
 
 #: app/event/views.py:88
 msgid "Event has been added"
-msgstr "Событие было добавлено"
+msgstr ""
 
 #: app/event/views.py:113
 msgid "Event has been updated"
-msgstr "Событие было обновлено"
+msgstr ""
 
 #: app/event/views.py:118 app/event/views.py:134
 msgid "Event did not find"
-msgstr "Событие не найдено"
+msgstr ""
 
 #: app/event/views.py:131
 msgid "Event has been deleted"
-msgstr "Событие было удалено"
+msgstr ""
 
 #: app/event/views.py:211
 msgid "Class does not have start or end date"
-msgstr "Класс не имеет дату начала и окончания"
+msgstr ""
 
 #: app/event/views.py:215
 msgid "Class does not have start or end time"
-msgstr "Класс не имеет время начала и окончания"
+msgstr ""
 
 #: app/event/views.py:219
 msgid "Class does not have Pay or Billing rate"
-msgstr "Класс не имеет ставки оплаты и тарифа"
+msgstr ""
 
 #: app/event/views.py:251
 msgid "Events have been created"
-msgstr "События созданы"
+msgstr ""
 
 #: app/payment/func.py:14
 msgid "You do not have any cards"
-msgstr "Нет привязанных карт"
+msgstr ""
 
 #: app/payment/func.py:25 app/payment/func.py:28
 msgid "You do not have any payments"
-msgstr "Платежи отсутствуют"
+msgstr ""
 
 #: app/payment/views.py:31 app/payment/views.py:53
 msgid "Card has been added"
-msgstr "Карта добавлена"
+msgstr ""
 
 #: app/schdl_class/forms.py:9 app/school/forms.py:31 app/student/forms.py:41
 #: app/templates/dashboard/class_list.html:30
@@ -193,7 +192,7 @@ msgstr "Карта добавлена"
 #: app/templates/student/student_list.html:43
 #: app/templates/user/dashboard/info.html:44
 msgid "School"
-msgstr "Школа"
+msgstr ""
 
 #: app/schdl_class/forms.py:11 app/templates/dashboard/class_list.html:29
 #: app/templates/dashboard/event_list.html:30
@@ -204,221 +203,221 @@ msgstr "Школа"
 #: app/templates/subject/subject_info.html:16
 #: app/templates/subject/subject_list.html:24
 msgid "Subject"
-msgstr "Предмет"
+msgstr ""
 
 #: app/schdl_class/forms.py:12 app/templates/schdl_class/class_list.html:40
 #: app/templates/schdl_class/class_list.html:52
 msgid "Price"
-msgstr "Цена"
+msgstr ""
 
 #: app/schdl_class/forms.py:14 app/templates/event/event_list.html:32
 msgid "Pay Rate"
-msgstr "Ставка оплаты"
+msgstr ""
 
 #: app/schdl_class/forms.py:15
 msgid "Registration Start"
-msgstr "Регистрация начинается"
+msgstr ""
 
 #: app/schdl_class/forms.py:16
 msgid "Registration End"
-msgstr "Регистрация заканчивается"
+msgstr ""
 
 #: app/schdl_class/forms.py:17
 msgid "Class Start"
-msgstr "Класс начинается"
+msgstr ""
 
 #: app/schdl_class/forms.py:18
 msgid "Class End"
-msgstr "Класс заканчивается"
+msgstr ""
 
 #: app/schdl_class/forms.py:19
 msgid "Time Class Start"
-msgstr "Время начала"
+msgstr ""
 
 #: app/schdl_class/forms.py:20
 msgid "Time Class End"
-msgstr "Время окончания"
+msgstr ""
 
 #: app/schdl_class/forms.py:21
 msgid "Grade Limit From"
-msgstr "Ограничение по классу от"
+msgstr ""
 
 #: app/schdl_class/forms.py:22
 msgid "Grade Limit To"
-msgstr "Ограничение по классу до"
+msgstr ""
 
 #: app/schdl_class/forms.py:23
 msgid "Age Limit From"
-msgstr "Ограничение по возрасту от"
+msgstr ""
 
 #: app/schdl_class/forms.py:24
 msgid "Age Limit To"
-msgstr "Ограничение по возрасту до"
+msgstr ""
 
 #: app/schdl_class/forms.py:25
 msgid "Class Description"
-msgstr "Описание класса"
+msgstr ""
 
 #: app/schdl_class/forms.py:26
 msgid "Day of Week"
-msgstr "День недели"
+msgstr ""
 
 #: app/schdl_class/forms.py:27 app/templates/schdl_class/edit.html:17
 msgid "Current Class"
-msgstr "Текущий класс"
+msgstr ""
 
 #: app/schdl_class/views.py:54
 msgid "Class has been created"
-msgstr "Класс создан"
+msgstr ""
 
 #: app/schdl_class/views.py:95
 msgid "Class has been updated"
-msgstr "Класс обновлен"
+msgstr ""
 
 #: app/schdl_class/views.py:120 app/student/views.py:41
 msgid "Student did not find"
-msgstr "Студент не найден"
+msgstr ""
 
 #: app/schdl_class/views.py:136
 msgid "Your student already enrolled, you do not need to pay second time"
-msgstr "Ваш студент уже записан, Вам не надо оплачивать во второй раз"
+msgstr ""
 
 #: app/schdl_class/views.py:150 app/student/views.py:81
 #: app/student/views.py:115
 msgid "Student does not find"
-msgstr "Студент не найден"
+msgstr ""
 
 #: app/schdl_class/views.py:163
 #, python-format
 msgid "%(student)s has been added to student list of %(current_class)s classes"
-msgstr "%(student)s добавлен в список студентов для класса %(current_class)s"
+msgstr ""
 
 #: app/schdl_class/views.py:173
 msgid "Something wrong with your payment"
-msgstr "Ошибка платежа"
+msgstr ""
 
 #: app/school/forms.py:11 app/school/forms.py:12 app/student/forms.py:12
 #: app/student/forms.py:13
 #, python-format
 msgid "You have not selected %(field_label)s"
-msgstr "Вы не выбрали %(field_label)s"
+msgstr ""
 
 #: app/school/forms.py:16
 msgid "School Name"
-msgstr "Название Школы"
+msgstr ""
 
 #: app/school/forms.py:17
 msgid "Director Name"
-msgstr "Имя Директора"
+msgstr ""
 
 #: app/school/forms.py:19
 msgid "Additional Agreement for Users"
-msgstr "Дополнительное соглашение для пользователей"
+msgstr ""
 
 #: app/school/forms.py:20 app/templates/student/student_list.html:31
 #: app/templates/student/student_list.html:44
 msgid "Type"
-msgstr "Тип"
+msgstr ""
 
 #: app/school/forms.py:23
 msgid "Current School"
-msgstr "Текущая Школа"
+msgstr ""
 
 #: app/school/views.py:44
 msgid "School has been created"
-msgstr "Школа добавлена"
+msgstr ""
 
 #: app/school/views.py:57 app/school/views.py:77 app/user/views.py:142
 msgid "School did not find"
-msgstr "Школа не найдена"
+msgstr ""
 
 #: app/school/views.py:70
 msgid "School has been updated"
-msgstr "Школа обновлена"
+msgstr ""
 
 #: app/student/forms.py:17 app/templates/dashboard/student_list.html:29
 msgid "Student First Name"
-msgstr "Имя cтудента"
+msgstr ""
 
 #: app/student/forms.py:18
 msgid "Please enter First Name of Student"
-msgstr "Пожалуйста, укажите имя студента"
+msgstr ""
 
 #: app/student/forms.py:19 app/templates/dashboard/student_list.html:30
 msgid "Student Last Name"
-msgstr "Фамилия cтудента"
+msgstr ""
 
 #: app/student/forms.py:20
 msgid "Please enter your Last Name of Student"
-msgstr "Пожалуйста, укажите фамилию студента"
+msgstr ""
 
 #: app/student/forms.py:21
 msgid "Gender"
-msgstr "Пол"
+msgstr ""
 
 #: app/student/forms.py:21 app/templates/student/student_info.html:29
 msgid "Boy"
-msgstr "Мужской"
+msgstr ""
 
 #: app/student/forms.py:21 app/templates/student/student_info.html:31
 msgid "Girl"
-msgstr "Женский"
+msgstr ""
 
 #: app/student/forms.py:23
 msgid "Student Date of Birth"
-msgstr "Дата рождения студента"
+msgstr ""
 
 #: app/student/forms.py:24 app/student/forms.py:25
 msgid "Month"
-msgstr "Месяц"
+msgstr ""
 
 #: app/student/forms.py:25
 msgid "Jan"
-msgstr "Янв"
+msgstr ""
 
 #: app/student/forms.py:25
 msgid "Feb"
-msgstr "Фев"
+msgstr ""
 
 #: app/student/forms.py:25
 msgid "Mar"
-msgstr "Мар"
+msgstr ""
 
 #: app/student/forms.py:26
 msgid "Apr"
-msgstr "Апр"
+msgstr ""
 
 #: app/student/forms.py:26
 msgid "May"
-msgstr "Май"
+msgstr ""
 
 #: app/student/forms.py:26
 msgid "Jun"
-msgstr "Июн"
+msgstr ""
 
 #: app/student/forms.py:26
 msgid "Jul"
-msgstr "Июл"
+msgstr ""
 
 #: app/student/forms.py:27
 msgid "Aug"
-msgstr "Авг"
+msgstr ""
 
 #: app/student/forms.py:27
 msgid "Sep"
-msgstr "Сен"
+msgstr ""
 
 #: app/student/forms.py:27
 msgid "Oct"
-msgstr "Окт"
+msgstr ""
 
 #: app/student/forms.py:27
 msgid "Nov"
-msgstr "Ноя"
+msgstr ""
 
 #: app/student/forms.py:28
 msgid "Dec"
-msgstr "Дек"
+msgstr ""
 
 #: app/student/forms.py:29 app/student/forms.py:30
 #: app/templates/schdl_class/class_list.html:35
@@ -426,202 +425,202 @@ msgstr "Дек"
 #: app/templates/student/student_list.html:33
 #: app/templates/student/student_list.html:46
 msgid "Day"
-msgstr "День"
+msgstr ""
 
 #: app/student/forms.py:36
 msgid "Year"
-msgstr "Год"
+msgstr ""
 
 #: app/student/forms.py:42
 msgid "Grade"
-msgstr "Класс"
+msgstr ""
 
 #: app/student/forms.py:42
 msgid "Preschool"
-msgstr "Preschool"
+msgstr ""
 
 #: app/student/forms.py:42
 msgid "Pre-Kindergarten"
-msgstr "Pre-Kindergarten"
+msgstr ""
 
 #: app/student/forms.py:43
 msgid "Kindergarten"
-msgstr "Kindergarten"
+msgstr ""
 
 #: app/student/forms.py:44
 msgid "1st"
-msgstr "1ый"
+msgstr ""
 
 #: app/student/forms.py:44
 msgid "2nd"
-msgstr "2ой"
+msgstr ""
 
 #: app/student/forms.py:44
 msgid "3rd"
-msgstr "3ий"
+msgstr ""
 
 #: app/student/forms.py:44
 msgid "4th"
-msgstr "4ый"
+msgstr ""
 
 #: app/student/forms.py:45
 msgid "5th"
-msgstr "5ый"
+msgstr ""
 
 #: app/student/views.py:63
 msgid "Student has been created"
-msgstr "Студен добавлен"
+msgstr ""
 
 #: app/student/views.py:95
 msgid "Student has been updated"
-msgstr "Студент обновлен"
+msgstr ""
 
 #: app/subject/forms.py:8
 msgid "Name of Subject"
-msgstr "Название предмета"
+msgstr ""
 
 #: app/subject/forms.py:9
 msgid "Current Subject"
-msgstr "Текущий предмет"
+msgstr ""
 
 #: app/subject/forms.py:10
 msgid "Color"
-msgstr "Цвет"
+msgstr ""
 
 #: app/subject/forms.py:11
 msgid "Default Class Description"
-msgstr "Стандартное описание класса"
+msgstr ""
 
 #: app/subject/views.py:26 app/subject/views.py:62
 msgid "Subject did not find"
-msgstr "Предмет не найден"
+msgstr ""
 
 #: app/subject/views.py:40
 msgid "Subject has been created"
-msgstr "Предмет добавлен"
+msgstr ""
 
 #: app/subject/views.py:55
 msgid "Subject has been updated"
-msgstr "Предмет обновлен"
+msgstr ""
 
 #: app/teacher/forms.py:9
 msgid "Current Teacher"
-msgstr "Текущий преподаватель"
+msgstr ""
 
 #: app/teacher/views.py:36
 msgid "Teacher has been created"
-msgstr "Преподаватель добавлен"
+msgstr ""
 
 #: app/teacher/views.py:49 app/teacher/views.py:69
 msgid "Teacher did not find"
-msgstr "Преподаватель не найден"
+msgstr ""
 
 #: app/teacher/views.py:62
 msgid "Teacher has been updated"
-msgstr "Преподаватель обновлен"
+msgstr ""
 
 #: app/templates/main_page.html:3 app/templates/main_page.html:6
 msgid "Main Page"
-msgstr "Главная страница"
+msgstr ""
 
 #: app/templates/dashboard/dashboard.html:3
 #: app/templates/dashboard/dashboard_teacher.html:3
 #: app/templates/nav_bar.html:15
 msgid "Admin Dashboard"
-msgstr "Панель администратора"
+msgstr ""
 
 #: app/templates/nav_bar.html:20
 msgid "Teacher Dashboard"
-msgstr "Панель перподавателя"
+msgstr ""
 
 #: app/templates/nav_bar.html:25
 msgid "School Dashboard"
-msgstr "Панель школы"
+msgstr ""
 
 #: app/templates/dashboard/nav_bar_admin.html:43 app/templates/nav_bar.html:34
 msgid "Register / Sign In"
-msgstr "Зарегистрироваться / Войти"
+msgstr ""
 
 #: app/templates/nav_bar.html:38 app/templates/user/edit.html:20
 msgid "Settings"
-msgstr "Настройки"
+msgstr ""
 
 #: app/templates/dashboard/nav_bar_admin.html:45 app/templates/nav_bar.html:41
 msgid "Logout"
-msgstr "Выход"
+msgstr ""
 
 #: app/templates/privacy.html:3
 msgid "Privacy"
-msgstr "Приватность"
+msgstr ""
 
 #: app/templates/privacy.html:14
 msgid "Agreement"
-msgstr "Соглашение"
+msgstr ""
 
 #: app/templates/progress_bar.html:5
 msgid "Step 1/4 - Enter your Contact information"
-msgstr "Шаг 1/4 - Укажите вашу контактную информацию"
+msgstr ""
 
 #: app/templates/progress_bar.html:8
 msgid "Step 2/4 - Enter your Student information"
-msgstr "Шаг 2/4 - Укажите информацию о студенте"
+msgstr ""
 
 #: app/templates/progress_bar.html:11
 msgid "Step 3/4 - Select Class"
-msgstr "Шаг 3/4 - Выберите класс"
+msgstr ""
 
 #: app/templates/progress_bar.html:14
 msgid "Step 4/4 - Pay to Enroll"
-msgstr "Шаг 4/4 - Оплатите чтобы зарегистрироваться"
+msgstr ""
 
 #: app/templates/return_main_page.html:1
 msgid "Back to Account Page"
-msgstr "Назад на главную странциу"
+msgstr ""
 
 #: app/templates/calendar/caledar.html:3
 #: app/templates/calendar/main_page.html:3
 #: app/templates/dashboard/nav_bar_admin.html:15
 msgid "Calendar"
-msgstr "Календарь"
+msgstr ""
 
 #: app/templates/dashboard/class_info.html:3
 #: app/templates/schdl_class/enroll.html:3
 msgid "Class Info"
-msgstr "Описание класса"
+msgstr ""
 
 #: app/templates/dashboard/class_info.html:28
 #: app/templates/dashboard/nav_bar_admin.html:36
 #: app/templates/user/dashboard/info.html:56
 #: app/templates/user/user_info.html:28
 msgid "Students"
-msgstr "Студенты"
+msgstr ""
 
 #: app/templates/dashboard/class_list.html:3
 #: app/templates/schdl_class/class_list.html:3
 msgid "Class List"
-msgstr "Лист классов"
+msgstr ""
 
 #: app/templates/dashboard/class_list.html:15
 #: app/templates/schdl_class/class_list.html:17
 msgid "Show All Classes"
-msgstr "Показать все классы"
+msgstr ""
 
 #: app/templates/dashboard/class_list.html:17
 #: app/templates/schdl_class/class_list.html:19
 msgid "Show Current Classes"
-msgstr "Показать текущие классы"
+msgstr ""
 
 #: app/templates/dashboard/class_list.html:19
 #: app/templates/schdl_class/class_list.html:21
 msgid "Add New Class"
-msgstr "Добавить класс"
+msgstr ""
 
 #: app/templates/dashboard/class_list.html:24
 #: app/templates/dashboard/class_list.html:26
 #: app/templates/schdl_class/class_list.html:26
 #: app/templates/schdl_class/class_list.html:29
 msgid "List of classes"
-msgstr "Список классов"
+msgstr ""
 
 #: app/templates/dashboard/class_list.html:32
 #: app/templates/dashboard/class_list.html:39
@@ -649,104 +648,104 @@ msgstr "Список классов"
 #: app/templates/teacher/info.html:22 app/templates/teacher/info.html:26
 #: app/templates/user/user_list.html:34 app/templates/user/user_list.html:42
 msgid "Edit"
-msgstr "Редактировать"
+msgstr ""
 
 #: app/templates/dashboard/dashboard.html:20
 msgid "Total users:"
-msgstr "Всего пользователей:"
+msgstr ""
 
 #: app/templates/dashboard/dashboard.html:25
 msgid "Total students:"
-msgstr "Всего студентов:"
+msgstr ""
 
 #: app/templates/dashboard/dashboard.html:30
 msgid "Total enrollments:"
-msgstr "Всего регистраций:"
+msgstr ""
 
 #: app/templates/dashboard/dashboard.html:36
 msgid "Last 5 enrollments"
-msgstr "Последние 5 регистраций"
+msgstr ""
 
 #: app/templates/dashboard/dashboard.html:51
 msgid "Current System"
-msgstr "Текущая система"
+msgstr ""
 
 #: app/templates/dashboard/datatable.html:10
 msgid "Search"
-msgstr "Поиск"
+msgstr ""
 
 #: app/templates/dashboard/event_list.html:3
 #: app/templates/event/event_list.html:3
 msgid "Event List"
-msgstr "Лист событий"
+msgstr ""
 
 #: app/templates/dashboard/event_list.html:15
 msgid "Show All Events"
-msgstr "Показать все события"
+msgstr ""
 
 #: app/templates/dashboard/event_list.html:17
 #: app/templates/event/event_list.html:18
 msgid "Show Current Events"
-msgstr "Показать текущие события"
+msgstr ""
 
 #: app/templates/dashboard/event_list.html:19
 #: app/templates/event/event_list.html:16
 msgid "Add New Event"
-msgstr "Добавить новое событие"
+msgstr ""
 
 #: app/templates/dashboard/event_list.html:24
 #: app/templates/dashboard/event_list.html:26
 msgid "List of events"
-msgstr "Лист событий"
+msgstr ""
 
 #: app/templates/dashboard/nav_bar_admin.html:12
 msgid "Dashboard"
-msgstr "Панель"
+msgstr ""
 
 #: app/templates/dashboard/nav_bar_admin.html:18
 #: app/templates/user/dashboard/info.html:99
 msgid "Schools"
-msgstr "Школы"
+msgstr ""
 
 #: app/templates/dashboard/nav_bar_admin.html:21
 msgid "Teachers"
-msgstr "Преподаватели"
+msgstr ""
 
 #: app/templates/dashboard/nav_bar_admin.html:24
 msgid "Subjects"
-msgstr "Предметы"
+msgstr ""
 
 #: app/templates/dashboard/nav_bar_admin.html:27
 msgid "Classes"
-msgstr "Классы"
+msgstr ""
 
 #: app/templates/dashboard/nav_bar_admin.html:30
 #: app/templates/schdl_class/edit.html:26
 msgid "Events"
-msgstr "События"
+msgstr ""
 
 #: app/templates/dashboard/nav_bar_admin.html:33
 msgid "Users"
-msgstr "Пользователи"
+msgstr ""
 
 #: app/templates/dashboard/student_list.html:3
 #: app/templates/student/student_list.html:3
 #: app/templates/student/student_list_not_current.html:3
 msgid "Student List"
-msgstr "Лист студентов"
+msgstr ""
 
 #: app/templates/dashboard/student_list.html:15
 msgid "Show All Students"
-msgstr "Показать всех студентов"
+msgstr ""
 
 #: app/templates/dashboard/student_list.html:17
 #: app/templates/student/student_list_not_current.html:16
 msgid "Show Current Students"
-msgstr "Показать текущих студентов"
+msgstr ""
 
 #: app/templates/dashboard/student_list.html:19
 msgid "Add New Student"
-msgstr "Добавить студента"
+msgstr ""
 
 #: app/templates/dashboard/student_list.html:24
 #: app/templates/dashboard/student_list.html:26
@@ -754,124 +753,124 @@ msgstr "Добавить студента"
 #: app/templates/student/student_list.html:25
 #: app/templates/student/student_list_not_current.html:24
 msgid "List of students"
-msgstr "Лист студентов"
+msgstr ""
 
 #: app/templates/dashboard/subject_list.html:3
 #: app/templates/subject/subject_list.html:3
 msgid "Subject List"
-msgstr "Лист предметов"
+msgstr ""
 
 #: app/templates/dashboard/subject_list.html:14
 #: app/templates/subject/subject_list.html:14
 msgid "Add New Subject"
-msgstr "Добавить новый предмет"
+msgstr ""
 
 #: app/templates/dashboard/subject_list.html:19
 #: app/templates/dashboard/subject_list.html:21
 #: app/templates/subject/subject_list.html:19
 #: app/templates/subject/subject_list.html:21
 msgid "List of subjects"
-msgstr "Лист предметов"
+msgstr ""
 
 #: app/templates/dashboard/teacher_list.html:3
 #: app/templates/teacher/list.html:3 app/templates/teacher/list.html:16
 msgid "Teacher List"
-msgstr "Лист преподавателей"
+msgstr ""
 
 #: app/templates/dashboard/teacher_list.html:15
 #: app/templates/teacher/list.html:20
 msgid "Show All Teachers"
-msgstr "Показать всех преподавателей"
+msgstr ""
 
 #: app/templates/dashboard/teacher_list.html:17
 #: app/templates/teacher/list.html:22
 msgid "Show Current Teachers"
-msgstr "Показать текущих преподавателей"
+msgstr ""
 
 #: app/templates/dashboard/teacher_list.html:19
 #: app/templates/teacher/list.html:24
 msgid "Add New Teacher"
-msgstr "Добавить преподавателя"
+msgstr ""
 
 #: app/templates/dashboard/teacher_list.html:24
 #: app/templates/dashboard/teacher_list.html:26
 msgid "List of teachers"
-msgstr "Лист преподавателей"
+msgstr ""
 
 #: app/templates/dashboard/teacher_list.html:29
 msgid "Teacher First Name"
-msgstr "Имя преподавателя"
+msgstr ""
 
 #: app/templates/dashboard/teacher_list.html:30
 msgid "Teacher Last Name"
-msgstr "Фамилия преподавателя"
+msgstr ""
 
 #: app/templates/event/add.html:3
 msgid "Add Event"
-msgstr "Добавить событие"
+msgstr ""
 
 #: app/templates/event/add.html:15
 #, python-format
 msgid "Add new Event for %(subject_name)s"
-msgstr "Добавить событие для %(subject_name)s"
+msgstr ""
 
 #: app/templates/event/edit.html:3 app/templates/event/edit_popup.html:3
 msgid "Edit Event"
-msgstr "Редактирвоать событие"
+msgstr ""
 
 #: app/templates/event/edit.html:59 app/templates/event/edit_popup.html:59
 msgid "Delete"
-msgstr "Удалить"
+msgstr ""
 
 #: app/templates/event/event_list.html:28
 #: app/templates/payment/my_payments.html:6
 msgid "Date"
-msgstr "Дата"
+msgstr ""
 
 #: app/templates/payment/add_card_and_pay_button.html:10
 #: app/templates/payment/add_card_and_pay_button.html:11
 #: app/templates/payment/add_card_and_pay_button.html:12
 msgid "Pay Now $"
-msgstr "Оплатить $"
+msgstr ""
 
 #: app/templates/payment/add_card_button.html:8
 #: app/templates/payment/add_card_button.html:9
 #: app/templates/payment/add_card_button.html:10
 msgid "Update Card Info"
-msgstr "Обновить платежную информацию"
+msgstr ""
 
 #: app/templates/payment/failed.html:3 app/templates/payment/failed.html:15
 msgid "Payment failed"
-msgstr "Платеж не удался"
+msgstr ""
 
 #: app/templates/payment/failed.html:21
 msgid "Please try different card"
-msgstr "Пожалуйста, попробуйте оплатить другой картой"
+msgstr ""
 
 #: app/templates/payment/my_payments.html:7
 msgid "Amount"
-msgstr "Стоимость"
+msgstr ""
 
 #: app/templates/payment/my_payments.html:8
 msgid "Card"
-msgstr "Карта"
+msgstr ""
 
 #: app/templates/payment/my_payments.html:9
 msgid "Description"
-msgstr "Описание"
+msgstr ""
 
 #: app/templates/payment/my_payments.html:10
 msgid "Status"
-msgstr "Статус"
+msgstr ""
 
 #: app/templates/payment/my_payments.html:21
 msgid "Refunded"
-msgstr "Возврат"
+msgstr ""
 
 #: app/templates/payment/successful.html:3
 #: app/templates/payment/successful.html:25
 msgid "Thank you for your payment"
-msgstr "Спасибо за Ваш платеж"
+msgstr ""
 
 #: app/templates/payment/successful.html:14
 #, python-format
@@ -879,8 +878,6 @@ msgid ""
 "%(first_name)s %(last_name)s has been added to student list of "
 "%(subject_name)s class at %(school_name)s"
 msgstr ""
-"%(first_name)s %(last_name)s добавлен в список студентов "
-"класса%(subject_name)s в %(school_name)s"
 
 #: app/templates/payment/successful.html:16
 #, python-format
@@ -888,174 +885,170 @@ msgid ""
 "Your %(card)s-%(card_last4)s has been charged for %(amount)s "
 "%(currency)s. Your receipt has been sent by email"
 msgstr ""
-"С Вашей %(card)s-%(card_last4)s списано %(amount)s %(currency)s. Ваша "
-"квитанция была отправлена по электронной почте"
 
 #: app/templates/schdl_class/add.html:3
 msgid "Add Class"
-msgstr "Добавить класс"
+msgstr ""
 
 #: app/templates/schdl_class/class_list.html:36
 #: app/templates/schdl_class/class_list.html:48
 #: app/templates/student/student_list.html:34
 #: app/templates/student/student_list.html:47
 msgid "Time"
-msgstr "Время"
+msgstr ""
 
 #: app/templates/schdl_class/class_list.html:37
 #: app/templates/schdl_class/class_list.html:49
 msgid "Start date"
-msgstr "Дата начала"
+msgstr ""
 
 #: app/templates/schdl_class/class_list.html:38
 #: app/templates/schdl_class/class_list.html:50
 msgid "End date"
-msgstr "Дата конца"
+msgstr ""
 
 #: app/templates/schdl_class/class_list.html:87
 #: app/templates/school/list.html:60 app/templates/student/student_list.html:60
 #: app/templates/student/student_list_not_current.html:71
 #: app/templates/teacher/list.html:60 app/templates/user/dashboard/list.html:62
 msgid "with selection"
-msgstr "с выбранным"
+msgstr ""
 
 #: app/templates/schdl_class/class_list.html:88
 #: app/templates/student/student_list.html:61
 #: app/templates/student/student_list_not_current.html:72
 #: app/templates/user/dashboard/list.html:63
 msgid "Robo Call"
-msgstr "робо звонок"
+msgstr ""
 
 #: app/templates/schdl_class/class_list.html:89
 #: app/templates/school/list.html:61 app/templates/student/student_list.html:62
 #: app/templates/student/student_list_not_current.html:73
 #: app/templates/teacher/list.html:61 app/templates/user/dashboard/list.html:64
 msgid "Send txt"
-msgstr "отправить смс"
+msgstr ""
 
 #: app/templates/schdl_class/class_list.html:90
 #: app/templates/school/list.html:62 app/templates/student/student_list.html:63
 #: app/templates/student/student_list_not_current.html:74
 #: app/templates/teacher/list.html:62 app/templates/user/dashboard/list.html:65
 msgid "Send email"
-msgstr "отправить email"
+msgstr ""
 
 #: app/templates/schdl_class/class_list.html:91
 #: app/templates/school/list.html:63 app/templates/student/student_list.html:64
 #: app/templates/student/student_list_not_current.html:75
 #: app/templates/teacher/list.html:63 app/templates/user/dashboard/list.html:66
 msgid "Print Labels"
-msgstr "печать наклеек"
+msgstr ""
 
 #: app/templates/schdl_class/edit.html:3
 msgid "Edit Class"
-msgstr "Редактировать класс"
+msgstr ""
 
 #: app/templates/schdl_class/edit.html:21
 msgid "teacher:"
-msgstr "преподаватель:"
+msgstr ""
 
 #: app/templates/schdl_class/edit.html:28
 msgid "Create Events"
-msgstr "Создать событие"
+msgstr ""
 
 #: app/templates/schdl_class/edit.html:135 app/templates/subject/add.html:25
 #: app/templates/subject/edit.html:25 app/templates/user/add.html:16
 #: app/templates/user/dashboard/user_edit.html:17
 msgid "Save"
-msgstr "Сохранить"
+msgstr ""
 
 #: app/templates/schdl_class/edit.html:149 app/templates/subject/add.html:35
 #: app/templates/subject/edit.html:35
 msgid "Users see that class description"
-msgstr "Пользователи видят это описание класса"
+msgstr ""
 
 #: app/templates/schdl_class/enroll_info_table.html:8
 #, python-format
 msgid "%(first_name)s %(last_name)s already enrolled for that class"
-msgstr "%(first_name)s %(last_name)s уже зарегестрирован на этот класс"
+msgstr ""
 
 #: app/templates/schdl_class/enroll_info_table.html:10
 #, python-format
 msgid "Click to Enroll %(first_name)s %(last_name)s"
-msgstr "Нажмите дял регистрации %(first_name)s %(last_name)s"
+msgstr ""
 
 #: app/templates/schdl_class/enroll_info_table.html:14
 msgid "Complete Registration"
-msgstr "Завершите регистрацию"
+msgstr ""
 
 #: app/templates/schdl_class/enroll_info_table.html:14
 #: app/templates/student/enroll.html:44
 #, python-format
 msgid "Pay with your card $%(price)s"
-msgstr "Оплатить с помощью карты $%(price)s"
+msgstr ""
 
 #: app/templates/schdl_class/enroll_info_table.html:21
 #, python-format
 msgid "To enroll %(first_name)s %(last_name)s - click and pay with your card"
 msgstr ""
-"Для регистрации %(first_name)s %(last_name)s - нажмите и оплатите с "
-"помощью карты"
 
 #: app/templates/schdl_class/enroll_info_table.html:25
 #, python-format
 msgid "%(subject_name)s at %(school_name)s!"
-msgstr "%(subject_name)s в %(school_name)s!"
+msgstr ""
 
 #: app/templates/schdl_class/enroll_info_table.html:26
 #, python-format
 msgid "Day: %(day_of_week)s"
-msgstr "День: %(day_of_week)s"
+msgstr ""
 
 #: app/templates/schdl_class/enroll_info_table.html:28
 msgid "Time:"
-msgstr "Время:"
+msgstr ""
 
 #: app/templates/schdl_class/enroll_info_table.html:32
 msgid "Dates:"
-msgstr "Даты:"
+msgstr ""
 
 #: app/templates/schdl_class/enroll_info_table.html:34
 #, python-format
 msgid "Price: $%(price)s"
-msgstr "Цена: $%(price)s"
+msgstr ""
 
 #: app/templates/school/info.html:3
 msgid "School Info"
-msgstr "Информация о школе"
+msgstr ""
 
 #: app/templates/school/info.html:16 app/templates/teacher/info.html:16
 msgid "Director:"
-msgstr "Директор:"
+msgstr ""
 
 #: app/templates/school/info.html:21 app/templates/teacher/info.html:21
 msgid "School name"
-msgstr "Название школы"
+msgstr ""
 
 #: app/templates/school/info.html:35 app/templates/user/dashboard/info.html:118
 #: app/templates/user/edit.html:48
 msgid "Contacts"
-msgstr "Контактная информация"
+msgstr ""
 
 #: app/templates/school/list.html:3 app/templates/school/list.html:16
 msgid "School List"
-msgstr "Лист школ"
+msgstr ""
 
 #: app/templates/school/list.html:20
 msgid "Show All Schools"
-msgstr "Показать все школы"
+msgstr ""
 
 #: app/templates/school/list.html:22
 msgid "Show Current Schools"
-msgstr "Показать текущие школы"
+msgstr ""
 
 #: app/templates/school/list.html:24
 msgid "Add New School"
-msgstr "Добавить школу"
+msgstr ""
 
 #: app/templates/school/list.html:35 app/templates/school/list.html:42
 msgid "Director"
-msgstr "Директор"
+msgstr ""
 
 #: app/templates/school/list.html:44 app/templates/school/list.html:54
 #: app/templates/teacher/list.html:44 app/templates/teacher/list.html:54
@@ -1063,618 +1056,603 @@ msgstr "Директор"
 #: app/templates/user/dashboard/list.html:56
 #: app/templates/user/user_info.html:3
 msgid "Info"
-msgstr "Информация"
+msgstr ""
 
 #: app/templates/security/_menu.html:2
 msgid "Menu"
-msgstr "Меню"
+msgstr ""
 
 #: app/templates/security/_menu.html:5 app/templates/security/send_login.html:6
 msgid "Login"
-msgstr "Вход"
+msgstr ""
 
 #: app/templates/security/_menu.html:9
 #: app/templates/security/register_user.html:4
 #: app/templates/security/register_user.html:24
 msgid "Register"
-msgstr "Регистрация"
+msgstr ""
 
 #: app/templates/security/_menu.html:13
 msgid "Forgot password"
-msgstr "Забыли пароль?"
+msgstr ""
 
 #: app/templates/security/_menu.html:16
 msgid "Confirm account"
-msgstr "Подтвердить аккаунт"
+msgstr ""
 
 #: app/templates/security/change_password.html:7
 msgid "Change password"
-msgstr "Сменить пароль"
+msgstr ""
 
 #: app/templates/security/change_password.html:14
 msgid "Enter your current Password"
-msgstr "Укажите свой текущий пароль"
+msgstr ""
 
 #: app/templates/security/change_password.html:17
 msgid "Enter new Password"
-msgstr "Укажите новый пароль"
+msgstr ""
 
 #: app/templates/security/change_password.html:20
 msgid "ReEnter new Password"
-msgstr "Повторите новый пароль"
+msgstr ""
 
 #: app/templates/security/forgot_password.html:23
 msgid "Send password reset instructions"
-msgstr "Отправить интструкции по сбросу пароля"
+msgstr ""
 
 #: app/templates/security/forgot_password.html:26
 #: app/templates/security/login_user.html:27
 #: app/templates/security/register_user.html:33
 msgid "Enter your Email"
-msgstr "Укажите свой email"
+msgstr ""
 
 #: app/templates/security/login_user.html:5
 #: app/templates/security/register_user.html:57
 msgid "Sign In"
-msgstr "Вход"
+msgstr ""
 
 #: app/templates/security/login_user.html:24
 #: app/templates/security/login_user.html:30
 msgid "Enter your Password"
-msgstr "Укажите Ваш пароль"
+msgstr ""
 
 #: app/templates/security/login_user.html:38
 msgid "Forgot password?"
-msgstr "Забыли пароль?"
+msgstr ""
 
 #: app/templates/security/register_user.html:17
 msgid "Welcome to our New and improved Registration System!"
-msgstr "Добро пожаловать в нашу новую и улучшенную систему регистрации"
+msgstr ""
 
 #: app/templates/security/register_user.html:27
 msgid "Parent First Name"
-msgstr "Имя родителя"
+msgstr ""
 
 #: app/templates/security/register_user.html:30
 msgid "Parent Last Name"
-msgstr "Фамилия родителя"
+msgstr ""
 
 #: app/templates/security/register_user.html:36
 #: app/templates/security/reset_password.html:26
 msgid "Create your Password"
-msgstr "Создайте пароль"
+msgstr ""
 
 #: app/templates/security/register_user.html:39
 #: app/templates/security/reset_password.html:29
 msgid "Repeat your Password"
-msgstr "Повтрите пароль"
+msgstr ""
 
 #: app/templates/security/register_user.html:45
 msgid "I agree to the"
-msgstr "Я соглсен с"
+msgstr ""
 
 #: app/templates/security/register_user.html:45
 msgid "Terms of Service and Privacy Policy"
-msgstr "Условими обслуживания и Политикой конфиденциальности"
+msgstr ""
 
 #: app/templates/security/register_user.html:57
 msgid "Already have an account?"
-msgstr "Уже зарегистрированы?"
+msgstr ""
 
 #: app/templates/security/reset_password.html:23
 msgid "Reset password"
-msgstr "Сбросить пароль "
+msgstr ""
 
 #: app/templates/security/send_confirmation.html:6
 msgid "Resend confirmation instructions"
-msgstr "Заново отправить подтвержадющие инструкции"
+msgstr ""
 
 #: app/templates/security/email/change_notice.html:1
 msgid "Your password has been changed."
-msgstr "Ваш пароль был изменен"
+msgstr ""
 
 #: app/templates/security/email/change_notice.html:3
 msgid "If you did not change your password,"
-msgstr "Если вы не меняли свой пароль"
+msgstr ""
 
 #: app/templates/security/email/change_notice.html:4
 msgid "click here to reset it"
-msgstr "нажмите здесь, чтобы сбросить его"
+msgstr ""
 
 #: app/templates/security/email/confirmation_instructions.html:1
 msgid "Please confirm your email through the link below:"
-msgstr "Пожалуйста, подтвердите ваш email кликнув на ссылку ниже:"
+msgstr ""
 
 #: app/templates/security/email/confirmation_instructions.html:3
 #: app/templates/security/email/welcome.html:6
 msgid "Confirm my account"
-msgstr "Подтвердить мой аккаунт"
+msgstr ""
 
 #: app/templates/security/email/login_instructions.html:1
 #: app/templates/security/email/welcome.html:1
 #, python-format
 msgid "Welcome %(email)s!"
-msgstr "Добро пожаловать %(email)s!"
+msgstr ""
 
 #: app/templates/security/email/login_instructions.html:3
 msgid "You can log into your account through the link below:"
-msgstr "Вы можете войти в свой аккаунт кликнув по ссылке ниже:"
+msgstr ""
 
 #: app/templates/security/email/login_instructions.html:5
 msgid "Login now"
-msgstr "Войти сейчас"
+msgstr ""
 
 #: app/templates/security/email/reset_instructions.html:1
 msgid "Click here to reset your password"
-msgstr "Нажмите здесь для сброса пароля"
+msgstr ""
 
 #: app/templates/security/email/reset_notice.html:1
 msgid "Your password has been reset"
-msgstr "Ваш пароль был сброшен"
+msgstr ""
 
 #: app/templates/security/email/welcome.html:4
 msgid "You can confirm your email through the link below:"
-msgstr "Вы можете подтвердить ваш email нажав на ссылку ниже:"
+msgstr ""
 
 #: app/templates/student/add.html:3 app/templates/user/user_info.html:31
 msgid "Add Student"
-msgstr "Добавить студента"
+msgstr ""
 
 #: app/templates/student/add.html:16 app/templates/student/edit.html:16
 msgid "Edit Student Information"
-msgstr "Редактировать информацию о студенте"
+msgstr ""
 
 #: app/templates/student/add.html:20 app/templates/student/edit.html:20
 msgid "Enter First Name of Student"
-msgstr "Укажите имя студента"
+msgstr ""
 
 #: app/templates/student/add.html:24 app/templates/student/edit.html:24
 msgid "Enter Last Name of Student"
-msgstr "Укажите фамилию студента"
+msgstr ""
 
 #: app/templates/student/edit.html:3
 msgid "Edit Student"
-msgstr "Редактирвоать студента"
+msgstr ""
 
 #: app/templates/student/enroll.html:3
 msgid "Enroll Class"
-msgstr "Зарегистрироваться на класс"
+msgstr ""
 
 #: app/templates/student/enroll.html:38
 msgid "Already Enrolled"
-msgstr "Уже зарегестрирован"
+msgstr ""
 
 #: app/templates/student/enroll.html:50
 msgid "Register / Class Information"
-msgstr "Зарегестрироваться / Информация о классе"
+msgstr ""
 
 #: app/templates/student/student_info.html:3
 #: app/templates/student/student_info.html:22
 msgid "Student Info"
-msgstr "Информация о студенте"
+msgstr ""
 
 #: app/templates/student/student_info.html:16
 msgid "Created:"
-msgstr "Создан:"
+msgstr ""
 
 #: app/templates/student/student_info.html:27
 msgid "DOB:"
-msgstr "Дата рождения:"
+msgstr ""
 
 #: app/templates/student/student_info.html:29
 #: app/templates/student/student_info.html:31
 msgid "Gender:"
-msgstr "Пол:"
+msgstr ""
 
 #: app/templates/student/student_info.html:37
 msgid "Note about student:"
-msgstr "Заметка о студенте:"
+msgstr ""
 
 #: app/templates/student/student_info.html:42
 #: app/templates/user/dashboard/info.html:3
 msgid "User Info"
-msgstr "Информация о пользователе"
+msgstr ""
 
 #: app/templates/student/student_info.html:47
 msgid "User:"
-msgstr "Пользователь:"
+msgstr ""
 
 #: app/templates/student/student_info.html:53
 msgid "Note about User:"
-msgstr "Заметка о пользователе:"
+msgstr ""
 
 #: app/templates/student/student_info.html:59
 #: app/templates/user/dashboard/info.html:36
 msgid "Email:"
-msgstr "Email:"
+msgstr ""
 
 #: app/templates/student/student_info.html:60
 msgid "Phone:"
-msgstr "Телефон:"
+msgstr ""
 
 #: app/templates/student/student_info.html:61
 msgid "Address:"
-msgstr "Адрес:"
+msgstr ""
 
 #: app/templates/student/student_info.html:68
 msgid "Classes Info"
-msgstr "Информаия о классах"
+msgstr ""
 
 #: app/templates/student/student_list.html:16
 msgid "Show Not Enrolled Students"
-msgstr "Показать незарегистрированных студентов"
+msgstr ""
 
 #: app/templates/student/student_list.html:29
 #: app/templates/student/student_list.html:42
 #: app/templates/student/student_list_not_current.html:28
 #: app/templates/student/student_list_not_current.html:36
 msgid "Student Name"
-msgstr "Имя студента"
+msgstr ""
 
 #: app/templates/student/student_list.html:32
 #: app/templates/student/student_list.html:45
 msgid "Class"
-msgstr "Класс"
+msgstr ""
 
 #: app/templates/student/student_list.html:35
 #: app/templates/student/student_list.html:48
 #: app/templates/student/student_list_not_current.html:29
 #: app/templates/student/student_list_not_current.html:37
 msgid "Phone"
-msgstr "Телефон"
+msgstr ""
 
 #: app/templates/student/student_list_not_current.html:21
 msgid "List of not enrolled students"
-msgstr "Лист не зарегестрированных студентов"
+msgstr ""
 
 #: app/templates/student/student_list_rows.html:9
 msgid "[DROPPED]"
-msgstr "[БРОСИЛ]"
+msgstr ""
 
 #: app/templates/subject/add.html:3
 msgid "Add Subject"
-msgstr "Добавить предмет"
+msgstr ""
 
 #: app/templates/subject/edit.html:3
 msgid "Edit Subject"
-msgstr "Редактировать предмет"
+msgstr ""
 
 #: app/templates/subject/subject_info.html:3
 msgid "Subject Info"
-msgstr "Информация о предмете"
+msgstr ""
 
 #: app/templates/teacher/add_edit.html:16
 msgid "Add Teacher"
-msgstr "Добавить преподавателя"
+msgstr ""
 
 #: app/templates/teacher/add_edit.html:21
 msgid "Edit Teacher"
-msgstr "Редактировать преподавателя"
+msgstr ""
 
 #: app/templates/teacher/add_edit.html:32
 msgid "current teacher"
-msgstr "текущий преподаватель"
+msgstr ""
 
 #: app/templates/teacher/info.html:3
 msgid "Teacher Info"
-msgstr "Информация о преподавателе"
+msgstr ""
 
 #: app/templates/user/add.html:3 app/templates/user/user_list.html:20
 msgid "Add New User"
-msgstr "Добавить нового пользователя"
+msgstr ""
 
 #: app/templates/user/contact_info.html:3 app/templates/user/edit.html:59
 msgid "Contact Info"
-msgstr "Контактная информация"
+msgstr ""
 
 #: app/templates/user/contact_info.html:20
 msgid "Edit your Contact Information"
-msgstr "Редактировать контактную информацию"
+msgstr ""
 
 #: app/templates/user/contact_info.html:28
 msgid "Enter your Cellphone number"
-msgstr "Укажите номер сотового телефона"
+msgstr ""
 
 #: app/templates/user/contact_info.html:32
 msgid "Street and number"
-msgstr "Улица"
+msgstr ""
 
 #: app/templates/user/contact_info.html:35
 msgid "Apartment, suite, unit, building, floor, etc."
-msgstr "Квартира"
+msgstr ""
 
 #: app/templates/user/contact_info.html:39 app/user/forms.py:45
 msgid "City"
-msgstr "Город"
+msgstr ""
 
 #: app/templates/user/contact_info.html:47 app/user/forms.py:64
 msgid "ZIP"
-msgstr "Индекс"
+msgstr ""
 
 #: app/templates/user/dashboard/user_edit.html:3 app/templates/user/edit.html:3
 msgid "Edit User"
-msgstr "Редактировать пользователя"
+msgstr ""
 
 #: app/templates/user/edit.html:28
 msgid "Enter your First Name"
-msgstr "Укажите Ваше имя"
+msgstr ""
 
 #: app/templates/user/edit.html:32
 msgid "Enter your Last Name"
-msgstr "Укажите Вашу фамилию"
+msgstr ""
 
 #: app/templates/user/edit.html:39
 msgid "Change Password"
-msgstr "Изменить пароль"
+msgstr ""
 
 #: app/templates/user/edit.html:51
 msgid "Add Contact"
-msgstr "Добавить контакт"
+msgstr ""
 
 #: app/templates/user/dashboard/info.html:67
 #: app/templates/user/user_info.html:42
 msgid "Enrolled in"
-msgstr "Зарегистрирован на"
+msgstr ""
 
 #: app/templates/user/dashboard/info.html:78
 #: app/templates/user/user_info.html:51
 msgid "not enrolled yet"
-msgstr "не зарегестрирован"
+msgstr ""
 
 #: app/templates/user/user_info.html:57
 msgid "Register for Classes"
-msgstr "Зарегестрироваться на классы"
+msgstr ""
 
 #: app/templates/user/user_info.html:68
 msgid "Payment Information"
-msgstr "Платежная информация"
+msgstr ""
 
 #: app/templates/user/dashboard/info.html:92
 #: app/templates/user/user_info.html:71
 msgid "Current card:"
-msgstr "Текушая карта:"
+msgstr ""
 
 #: app/templates/user/dashboard/list.html:3
 #: app/templates/user/dashboard/list.html:16
 #: app/templates/user/user_list.html:3
 msgid "User List"
-msgstr "Лист пользователей"
+msgstr ""
 
 #: app/templates/user/user_list.html:13
 msgid "Hi"
-msgstr "Привет"
+msgstr ""
 
 #: app/templates/user/dashboard/list.html:20
 #: app/templates/user/user_list.html:16
 msgid "Show All Users"
-msgstr "Все пользователи"
+msgstr ""
 
 #: app/templates/user/dashboard/list.html:22
 #: app/templates/user/user_list.html:18
 msgid "Show Current Users"
-msgstr "Текущие пользователи"
+msgstr ""
 
 #: app/templates/user/user_list.html:25 app/templates/user/user_list.html:27
 msgid "List of users"
-msgstr "Лист пользователей"
+msgstr ""
 
 #: app/templates/user/user_list.html:31 app/user/forms.py:68
 msgid "email"
-msgstr "email"
+msgstr ""
 
 #: app/templates/user/user_list.html:32
 msgid "User First Name"
-msgstr "Имя пользователя"
+msgstr ""
 
 #: app/templates/user/user_list.html:33
 msgid "User Last Name"
-msgstr "Фамилия пользователя"
+msgstr ""
 
 #: app/templates/user/dashboard/add.html:3
 #: app/templates/user/dashboard/school.html:3
 msgid "User"
-msgstr "Пользователь"
+msgstr ""
 
 #: app/templates/user/dashboard/add.html:16
 msgid "Add user"
-msgstr "Добавить пользователя"
+msgstr ""
 
 #: app/templates/user/dashboard/info.html:26
 msgid "Add School to this User"
-msgstr "Добавить школу к пользователю"
+msgstr ""
 
 #: app/templates/user/dashboard/info.html:31
 msgid "Registration:"
-msgstr "Регистрация:"
+msgstr ""
 
 #: app/templates/user/dashboard/info.html:32
 msgid "Last Seen:"
-msgstr "Последний раз:"
+msgstr ""
 
 #: app/templates/user/dashboard/info.html:35
 msgid "Note:"
-msgstr "Заметка:"
+msgstr ""
 
 #: app/templates/user/dashboard/info.html:39
 msgid "Role:"
-msgstr "Роль:"
+msgstr ""
 
 #: app/templates/user/dashboard/info.html:45
 msgid "Admin"
-msgstr "Админ"
+msgstr ""
 
 #: app/templates/user/dashboard/info.html:48
 msgid "Add"
-msgstr "Добавить"
+msgstr ""
 
 #: app/templates/user/dashboard/info.html:49
 msgid "Remove"
-msgstr "Удалить"
+msgstr ""
 
 #: app/templates/user/dashboard/info.html:89
 msgid "Payments"
-msgstr "Платежи"
+msgstr ""
 
 #: app/templates/user/dashboard/info.html:128
 msgid "email is allowed"
-msgstr "email разрешен"
+msgstr ""
 
 #: app/templates/user/dashboard/info.html:131
 msgid "email is prohibited"
-msgstr "email запрещен"
+msgstr ""
 
 #: app/templates/user/dashboard/info.html:137
 msgid "txt messages is allowed"
-msgstr "смс разрешены"
+msgstr ""
 
 #: app/templates/user/dashboard/info.html:140
 msgid "txt messages is prohibited"
-msgstr "смс запрещены"
+msgstr ""
 
 #: app/templates/user/dashboard/info.html:146
 msgid "mail is allowed"
-msgstr "почта разрешена"
+msgstr ""
 
 #: app/templates/user/dashboard/info.html:149
 msgid "mail is prohibited"
-msgstr "почта запрещена"
+msgstr ""
 
 #: app/templates/user/dashboard/list.html:24
 msgid "Show Users Without Students"
-msgstr "Пользователи без студентов"
+msgstr ""
 
 #: app/templates/user/dashboard/school.html:21
 msgid "Cancel"
-msgstr "Отмена"
+msgstr ""
 
 #: app/user/forms.py:16
 msgid "I agree to the Terms of Service and Privacy Policy"
-msgstr "Я согласен с Правилами Сервиса и Политикой Конфиденциальности"
+msgstr ""
 
 #: app/user/forms.py:17
 msgid "You must accept the agreement to continue"
-msgstr "Вы должны приянть соглашение чтобы продолжить"
+msgstr ""
 
 #: app/user/forms.py:24
 msgid "Please enter your Email"
-msgstr "Пожалуйста, укажите ващ email"
+msgstr ""
 
 #: app/user/forms.py:25
 msgid "Please enter your Note"
-msgstr "Пожалуйста укажите вашу заметку"
+msgstr ""
 
 #: app/user/forms.py:38
 msgid "Please enter your email address"
-msgstr "Пожалуйста, укажите ваш email"
+msgstr ""
 
 #: app/user/forms.py:39
 msgid "Cellphone #"
-msgstr "Номер телефона"
+msgstr ""
 
 #: app/user/forms.py:39
 msgid "Please enter your phone number"
-msgstr "Пожалуйста, укажите номер телефона"
+msgstr ""
 
 #: app/user/forms.py:41
 msgid "Please enter 10 digits of your Cellphone number i.e. 83212345678"
-msgstr "Пожалуйста, введите 10 цифр вашего номера, например 83212345678"
+msgstr ""
 
 #: app/user/forms.py:43
 msgid "Mailing Address"
-msgstr "Почтовый адрес"
+msgstr ""
 
 #: app/user/forms.py:43
 msgid "Please enter your address"
-msgstr "Пожалуйста, укажите свой адрес"
+msgstr ""
 
 #: app/user/forms.py:44
 msgid "Address 2"
-msgstr "Адрес 2"
+msgstr ""
 
 #: app/user/forms.py:45
 msgid "Please enter your City"
-msgstr "Пожалуйста, укажите свой город"
+msgstr ""
 
 #: app/user/forms.py:46
 msgid "State"
-msgstr "Штат"
+msgstr ""
 
 #: app/user/forms.py:46
 msgid "Please enter your State"
-msgstr "Пожалуйста,укажите свой штат"
+msgstr ""
 
 #: app/user/forms.py:65
 msgid "Please enter your ZIP code"
-msgstr "Пожалуйста, укажите свой индекс"
+msgstr ""
 
 #: app/user/forms.py:66
 msgid "Please enter 5 digit of your ZIP code i.e 77001"
-msgstr "Пожалуйста, введите 5 цифр вашего индекса, например 77001"
+msgstr ""
 
 #: app/user/forms.py:69
 msgid "text messages"
-msgstr "смс сообщения"
+msgstr ""
 
 #: app/user/forms.py:70
 msgid "mail"
-msgstr "почта"
+msgstr ""
 
 #: app/user/views.py:48
 msgid "User has been created"
-msgstr "Пользователь добавлен"
+msgstr ""
 
 #: app/user/views.py:64 app/user/views.py:114 app/user/views.py:147
 msgid "User did not find"
-msgstr "Пользователь не найден"
+msgstr ""
 
 #: app/user/views.py:90 app/user/views.py:107 app/user/views.py:178
 msgid "User has been updated"
-msgstr "Пользователь обновлен"
+msgstr ""
 
 #: app/user/views.py:93
 msgid "Something wrong"
-msgstr "Произошла ошибка"
+msgstr ""
 
 #: app/user/views.py:136
 msgid "User has been added to School"
-msgstr "Пользователь добавлен к школе"
+msgstr ""
 
 #: app/user/views.py:139
 msgid "User already connected to School"
-msgstr "Пользователь уже привязан к школе"
+msgstr ""
 
 #: app/user/views.py:160
 msgid "Please add your contact information"
-msgstr "Пожалуйста, добавьте контактную информаицю"
+msgstr ""
 
 #: app/user/views.py:163
 msgid "Please add student information"
-msgstr "Пожалуйста, добавте студента"
+msgstr ""
 
 #: app/user/views.py:202 app/user/views.py:231
 msgid "Contact information has been updated"
-msgstr "Контактная информация обновлена"
+msgstr ""
 
 #: app/user/views.py:221 app/user/views.py:251
 msgid "Contact information did not find"
-msgstr "Контактная информация не найдена"
+msgstr ""
 
 #: app/user/views.py:256
 msgid "Contact information has been deleted"
-msgstr "Контактная информация удалена"
-
-#~ msgid "Add school"
-#~ msgstr "Добавить школу"
-
-#~ msgid "Edit school"
-#~ msgstr "Редактировать школу"
-
-#~ msgid "current school"
-#~ msgstr "текущая школа"
-
-#~ msgid "Edit user"
-#~ msgstr "Редактировать пользователя"
-
-#~ msgid "Enter your password"
-#~ msgstr "Укажите Ваш пароль"
+msgstr ""
 

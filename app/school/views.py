@@ -41,7 +41,7 @@ def school_add():
         # save new school to db
         db.session.add(new_school)
         db.session.commit()
-        flash(_("School has been created"), 'success')
+        flash(_('School has been created'), 'success')
         return redirect(url_for('school.school_list'))
     else:
         return render_template('school/add_edit.html', form=form, action='add')

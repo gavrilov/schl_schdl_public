@@ -2,7 +2,7 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% from "security/_macros.html" import render_field_with_errors, render_field %}
 
-{% block title %}Sign In{% endblock %}
+{% block title %}{{ _('Sign In') }}{% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -15,19 +15,19 @@
     <div class="row justify-content-center">
         <img src="{{ url_for('static', filename='company_logo.png') }}"
              class="img-fluid mx-auto d-block">
-        <h5 class="text-center">{{ config.COMPANY_SLOGAN | safe }}</h5>
+        <h5 class="text-center">{{ _(config.COMPANY_SLOGAN | safe) }}</h5>
     </div>
     <div class="row justify-content-center">
         <form id="checkemail-form" action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
             {{ login_user_form.hidden_tag() }}
             <div class="form-group row">
-                <h1>Enter your password</h1>
+                <h1>{{ _('Enter your Password') }}</h1>
             </div>
             <div class="form-group row">
-                {{ render_field_with_errors(login_user_form.email, size=30, class="form-control", placeholder="Enter your Email") }}
+                {{ render_field_with_errors(login_user_form.email, size=30, class="form-control", placeholder=_("Enter your Email")) }}
             </div>
             <div class="form-group row">
-                {{ render_field_with_errors(login_user_form.password, size=30, class="form-control", placeholder="Enter your Password") }}
+                {{ render_field_with_errors(login_user_form.password, size=30, class="form-control", placeholder=_("Enter your Password")) }}
             </div>
             <div class="row">
                 <div class="form-check mr-auto">
@@ -35,14 +35,14 @@
                     {{ login_user_form.remember.label(class="form-check-label") }}
                 </div>
                 <div class="ml-auto">
-                    <a href="{{ url_for_security('forgot_password') }}">Forgot password?</a>
+                    <a href="{{ url_for_security('forgot_password') }}">{{ _('Forgot password?') }}</a>
                 </div>
             </div>
             <div class="form-group row">
                 {{ render_field_with_errors(login_user_form.recaptcha) }}
             </div>
             <div class="form-group row">
-                <button id="recaptcha-submit" class="btn btn-primary">Submit</button>
+                <button id="recaptcha-submit" class="btn btn-primary">{{ _('Submit') }}</button>
             </div>
         </form>
     </div>
