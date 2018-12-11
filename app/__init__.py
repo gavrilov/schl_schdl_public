@@ -3,7 +3,8 @@ import os
 from logging.handlers import RotatingFileHandler
 
 from SlackLogger import SlackHandler
-from flask import Flask, redirect, url_for, render_template, abort, flash
+from flask import Flask, redirect, url_for, render_template, abort, flash, request
+from flask_babelex import Babel
 from flask_bootstrap import Bootstrap
 from flask_mail import Mail
 from flask_migrate import Migrate
@@ -14,6 +15,7 @@ from raven.contrib.flask import Sentry
 from app.models import db, user_datastore, Schdl_Class, User
 from app.user.forms import SignInForm, RegistrationForm
 from config import Config
+from .cli import register as cli
 
 security = Security()
 migrate = Migrate()
@@ -21,6 +23,7 @@ sentry = Sentry()
 bootstrap = Bootstrap()
 mail = Mail()
 moment = Moment()
+babel = Babel()
 
 from flask_security import current_user
 import datetime
@@ -30,12 +33,14 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
     app.secret_key = app.config['SECRET_KEY']
+    cli(app)  # add babel translate command for command line
     bootstrap.init_app(app)
     security_ctx = security.init_app(app, user_datastore, login_form=SignInForm, register_form=RegistrationForm)
     moment.init_app(app)
     db.init_app(app)
     migrate.init_app(app, db)
     mail.init_app(app)
+    babel.init_app(app)
     # ====== BLUEPRINTS ========================================================
     from app.dashboard.views import dashboard
     app.register_blueprint(dashboard, url_prefix='/dashboard')
@@ -106,7 +111,7 @@ def create_app(config_class=Config):
             user_datastore.find_or_create_role(name='teacher', description='Teacher')
 
             encrypted_password = utils.hash_password('password')
-            user_datastore.create_user(email=app.config['SUPERADMIN'], password=encrypted_password)
+            user_datastore.create_user(email=app.config['SUPERADMIN'], password=encrypted_password, first_name='First', last_name='Last')
 
             db.session.commit()
 
@@ -173,4 +178,10 @@ def create_app(config_class=Config):
             for error in r['errors']:
                 flash("".format(error['message']), 'danger')
                 app.logger.error('SparkPost {} error: {}'.format(error['code'], error['message']))
+
+    @babel.localeselector
+    def get_locale():
+        return request.accept_languages.best_match(app.config['LANGUAGES'])
+        # return 'ru'  # to test specific language of babel
+
     return app

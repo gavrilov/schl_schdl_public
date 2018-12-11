@@ -7,7 +7,7 @@
         // Setup - add a text input to each footer cell
         $('#maintable thead tr#filterrow th#filtercol').each(function () {
             var title = $('#maintable thead th').eq($(this).index()).text();
-            $(this).html('<input type="text" onclick="stopPropagation(event);" placeholder="Search ' + title + '" />');
+            $(this).html('<input type="text" onclick="stopPropagation(event);" placeholder="{{ _('Search') }} ' + title + '" />');
         });
 
         // DataTable

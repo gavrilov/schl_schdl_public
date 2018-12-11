@@ -1,0 +1,27 @@
+{% block progressbar %}
+    {% if step is defined %}
+        {% if step == 1 %}
+            {% set progress_bar_percent = 25 %}
+            {% set progress_bar_name_step = _('Step 1/4 - Enter your Contact information') %}
+        {% elif step == 2 %}
+            {% set progress_bar_percent = 50 %}
+            {% set progress_bar_name_step = _('Step 2/4 - Enter your Student information') %}
+        {% elif step == 3 %}
+            {% set progress_bar_percent = 75 %}
+            {% set progress_bar_name_step = _('Step 3/4 - Select Class') %}
+        {% elif step == 4 %}
+            {% set progress_bar_percent = 99 %}
+            {% set progress_bar_name_step = _('Step 4/4 - Pay to Enroll') %}
+        {% endif %}
+        {# Progress Bar #}
+        <div class="progress">
+            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar"
+                 aria-valuenow="{{ progress_bar_percent }}"
+                 aria-valuemin="0" aria-valuemax="100" style="width: {{ progress_bar_percent }}%">
+            </div>
+            <small class="justify-content-center d-flex position-absolute w-100 align-self-center">
+                {{ progress_bar_name_step }}
+            </small>
+        </div>
+    {% endif %}
+{% endblock %}

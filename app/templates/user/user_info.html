@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}Info{% endblock %}
+{% block title %}{{ _('Info') }}{% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -25,11 +25,11 @@
         <!--Students table-->
         <div class="row mt-4">
             <div class="col">
-                <h2>Students</h2>
+                <h2>{{ _('Students') }}</h2>
             </div>
             <div class="col offset-sm-0 offset-md-3 text-right">
-                <a class="btn btn-outline-primary" href="{{ url_for('student.add_student') }}" role="button">Add
-                    Student</a>
+                <a class="btn btn-outline-primary" href="{{ url_for('student.add_student') }}"
+                   role="button">{{ _('Add Student') }}</a>
             </div>
         </div>
 
@@ -40,35 +40,36 @@
                 </div>
                 {# Show buttons for all enrolled classes #}
                 <div class="col-sm-5 text-center align-self-center">
-                    {% if student.enrollments.count() > 0 %}Enrolled in
+                    {% if student.enrollments.count() > 0 %}{{ _('Enrolled in') }}
                         {% for enrollment in student.enrollments %}
+                            {% if enrollment.current %}
                             <a class="btn btn-outline-primary"
                                href="{{ url_for('schdl_class.enroll_class', student_id=student.id, class_id=enrollment.schdl_class.id) }}"
                                role="button">{{ enrollment.schdl_class.subject.name }}</a>
+                            {% endif %}
                         {% endfor %}
                     {% else %}
-                        not enrolled yet
+                        {{ _('not enrolled yet') }}
                     {% endif %}
                 </div>
                 <div class="col-sm-4 text-center text-md-right align-self-center">
                     {# Show button to Register for new classes #}
                     <a class="btn btn-success" href="{{ url_for('student.enroll_student', student_id=student.id) }}"
-                       role="button">Register for Classes</a>
+                       role="button">{{ _('Register for Classes') }}</a>
                     {# Edit Student Button  #}
                     <a class="far fa-edit" href="{{ url_for('student.edit_student', student_id=student.id) }}"
                        role="button" data-toggle="tooltip" title="edit" style="color: blue"></a>
                 </div>
-                <br><br>
             </div>
         {% endfor %}
 
         <!--Payments table-->
         <div class="row mt-4">
             <div class="col text-left align-self-center">
-                <h2>Payment Information</h2>
+                <h2>{{ _('Payment Information') }}</h2>
             </div>
             <div class="col text-center align-self-center">
-                Current card: {{ cards_html|safe }}
+                {{ _('Current card:') }} {{ cards_html|safe }}
             </div>
             <div class="col text-right align-self-center">
                 <!--Update Card Button-->

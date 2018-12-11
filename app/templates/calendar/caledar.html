@@ -1,0 +1,77 @@
+{% extends "dashboard/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}{{ _('Calendar') }}{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" type="text/css"
+          rel="stylesheet"/>
+    <style>
+        {# To show whole title of event #}
+        .fc-month-view span.fc-title {
+            white-space: normal;
+        }
+    </style>
+{% endblock %}
+
+
+{% block page_content %}
+    <div class="col">
+        {{ super() }}
+        <!-- POPUP HTML CODE -->
+        {% include 'calendar/popup.html' %}
+
+        <!-- CALENDAR  -->
+        <div class="row">
+            <div class="col">
+                <div id="bootstrapModalFullCalendar"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#bootstrapModalFullCalendar').fullCalendar({
+                header: {
+                    left: '',
+                    center: '',
+                    right: 'prev title next today PrintButton'
+                },
+                contentHeight: 'auto',
+                showNonCurrentDates: false,
+                defaultView: 'month',
+                eventClick: function (event, jsEvent, view) {
+                    // generate url for popup, get html and show popup
+                    var classURL = '{{ url_for('event.generate_popup_url') }}' + '/' + event.id + '/';
+                    $('.modal-content').load(classURL, function (result) {
+                        $('#schdl_class_modal').modal({show: true});
+                        return false;
+                    });
+                },
+                events: {
+                    url: '{{ url_for('event.data', id=id, schdl_object=schdl_object) }}',
+                    error: function () {
+                        $('#script-warning').show();
+                    }
+                },
+                customButtons: {
+                    PrintButton: {
+                        text: 'print',
+                        click: function () {
+                            window.print();
+                        }
+                    }
+                },
+                eventRender: function (event, element) {
+                    element.find('.fc-title').html(event.title);
+                }
+            })
+        });
+    </script>
+{% endblock %}

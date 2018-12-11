@@ -6,7 +6,7 @@
         <td>
             <a href="{{ url_for('student.info', student_id=student.id) }}">
                 {% if not enrollment.current %}
-                    [DROPPED]
+                    {{ _('[DROPPED]') }}
                 {% endif %}
                 {{ student.first_name }} {{ student.last_name }}</a>
         </td>
@@ -36,6 +36,6 @@
         {% endif %}
 
         <td>{{ student.note }}</td>
-        <td><a href="{{ url_for('student.edit_student', student_id=student.id) }}">Edit</a></td>
+        <td><a href="{{ url_for('student.edit_student', student_id=student.id) }}">{{ _('Edit') }}</a></td>
     </tr>
 {% endfor %}

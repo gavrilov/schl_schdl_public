@@ -1,6 +1,6 @@
 {% extends "dashboard/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}{{ student.first_name }} {{ student.last_name }} - Info{% endblock %}
+{% block title %}{{ _('Student Info') }}{% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -13,59 +13,60 @@
     <div class="col">
         <h1>{{ student.first_name }} {{ student.last_name }}</h1>
         <small>
-            Created: {{ moment(student.timestamp).format('L LT') }}
+            {{ _('Created:') }} {{ moment(student.timestamp).format('L LT') }}
         </small>
     </div>
     </div>
     <div class="row">
     <div class="col">
-    <h3>Student Info</h3>
+        <h3>{{ _('Student Info') }}</h3>
     </div>
     </div>
     <div class="row">
     <div class="col">
-        DOB: {{ student.dob | cdateformat }} <br>
+        {{ _('DOB:') }} {{ student.dob | cdateformat }} <br>
     {% if student.gender == 1 %}
-        Gender: Boy <br>
+        {{ _('Gender:') }} {{ _('Boy') }} <br>
     {% else %}
-        Gender: Girl <br>
+        {{ _('Gender:') }} {{ _('Girl') }} <br>
     {% endif %}
         </div>
     </div>
     <div class="row">
     <div class="col">
-    Note about student: {{ student.note }}<br>
+        {{ _('Note about student:') }} {{ student.note }}<br>
         </div>
     </div>
     <div class="row">
     <div class="col">
-    <h3>Parent Info</h3>
+        <h3>{{ _('User Info') }}</h3>
         </div>
     </div>
     <div class="row">
     <div class="col">
-        Parent: <a
+        {{ _('User:') }} <a
             href="{{ url_for('user.user_info', user_id=student.user.id) }}">{{ student.user.first_name }} {{ student.user.last_name }}</a><br>
         </div>
     </div>
     <div class="row">
     <div class="col">
-    Note about Parent: {{ student.user.note }}<br>
+        {{ _('Note about User:') }} {{ student.user.note }}<br>
         </div>
     </div>
     <div class="row">
     <div class="col">
     {% for contact in student.user.contacts %}
-        Email: {{ contact.email }}<br>
-        Phone: {{ contact.phone }}<br>
-        Address: {{ contact.address1 }} {{ contact.address2 }} {{ contact.city }} {{ contact.state }} {{ contact.zip }}
+        {{ _('Email:') }} {{ contact.email }}<br>
+        {{ _('Phone:') }} {{ contact.phone }}<br>
+        {{ _('Address:') }} {{ contact.address1 }} {{ contact.address2 }} {{ contact.city }} {{ contact.state }}
+        {{ contact.zip }}
         <br>
     {% endfor %}
         </div>
     </div>
     <div class="row">
     <div class="col">
-    <h3>Classes Info</h3>
+        <h3>{{ _('Classes Info') }}</h3>
         </div>
     </div>
     <div class="row">

@@ -1,6 +1,6 @@
 {% extends "dashboard/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}{{ school.name }} - Info{% endblock %}
+{% block title %}{{ _('School Info') }}{% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -13,80 +13,77 @@
         <h1>{{ school.name }}</h1>
     </div>
     <div class="row">
-        Director: {{ school.director_name }}
+        {{ _('Director:') }} {{ school.director_name }}
     </div>
     <table>
         <tbody>
         <tr>
-            <td>School name</td>
-            <td>Edit</td>
+            <td>{{ _('School name') }}</td>
+            <td>{{ _('Edit') }}</td>
         </tr>
         <tr>
             <td>{{ school.name }} </td>
-            <td><a href="{{ url_for('school.school_edit', school_id=school.id) }}">Edit</a>></td>
+            <td><a href="{{ url_for('school.school_edit', school_id=school.id) }}">{{ _('Edit') }}</a>></td>
         </tr>
         </tbody>
     </table>
-
-
 
     <!--Contacts-->
     <div class="row">
-        <h2>Contacts</h2>
+        <h2>{{ _('Contacts') }}</h2>
     </div>
     <div class="table-responsive">
-    <table class="table table-striped table-hover">
-        <tbody>
-        {% for user in school.users %}
-            {% for contact in user.contacts %}
-                <tr>
-                    <td>{{ user.first_name }} {{ user.last_name }}</td>
-                    <td>{{ contact.email }}
-                        {% if contact.contact_by_email == 1 %}
-                            <i class="fas fa-at" style="font-size: 1em; color: green;" data-toggle="tooltip"
-                               title="email is allowed"></i>
-                        {% else %}
-                            <i class="fas fa-at" style="font-size: 1em; color: red;" data-toggle="tooltip"
-                               title="email is prohibited"></i>
-                        {% endif %}
-                    </td>
-                    <td>{{ contact.phone }}
-                        {% if contact.contact_by_txt == 1 %}
-                            <i class="fas fa-mobile-alt" style="font-size: 1em; color: green;" data-toggle="tooltip"
-                               title="txt messages is allowed"></i>
-                        {% else %}
-                            <i class="fas fa-mobile-alt" style="font-size: 1em; color: red;" data-toggle="tooltip"
-                               title="txt messages is prohibited"></i>
-                        {% endif %}
-                    </td>
-                    <td>{{ contact.address1 }} {{ contact.address2 }}<br>{{ contact.city }} {{ contact.state }} {{ contact.zip }}
-                        {% if contact.contact_by_mail == 1 %}
-                            <i class="far fa-envelope" style="font-size: 1em; color: green;" data-toggle="tooltip"
-                               title="mail is allowed"></i>
-                        {% else %}
-                            <i class="far fa-envelope" style="font-size: 1em; color: red;" data-toggle="tooltip"
-                               title="mail is prohibited"></i>
-                        {% endif %}
-                    </td>
-                    <td>
-                        <a class="far fa-edit" href="{{ url_for('user.edit_contacts', contact_id=contact.id) }}"
-                           role="button" data-toggle="tooltip" title="edit" style="color: blue"></a>
-                    </td>
-                    <td>
-                        <a class="far fa-trash-alt" href="{{ url_for('user.delete_contacts', contact_id=contact.id) }}"
-                           role="button" data-toggle="tooltip" title="delete" style="color: red"></a>
-                    </td>
-                </tr>
+        <table class="table table-striped table-hover">
+            <tbody>
+            {% for user in school.users %}
+                {% for contact in user.contacts %}
+                    <tr>
+                        <td>{{ user.first_name }} {{ user.last_name }}</td>
+                        <td>{{ contact.email }}
+                            {% if contact.contact_by_email == 1 %}
+                                <i class="fas fa-at" style="font-size: 1em; color: green;" data-toggle="tooltip"
+                                   title="email is allowed"></i>
+                            {% else %}
+                                <i class="fas fa-at" style="font-size: 1em; color: red;" data-toggle="tooltip"
+                                   title="email is prohibited"></i>
+                            {% endif %}
+                        </td>
+                        <td>{{ contact.phone }}
+                            {% if contact.contact_by_txt == 1 %}
+                                <i class="fas fa-mobile-alt" style="font-size: 1em; color: green;" data-toggle="tooltip"
+                                   title="txt messages is allowed"></i>
+                            {% else %}
+                                <i class="fas fa-mobile-alt" style="font-size: 1em; color: red;" data-toggle="tooltip"
+                                   title="txt messages is prohibited"></i>
+                            {% endif %}
+                        </td>
+                        <td>{{ contact.address1 }} {{ contact.address2 }}<br>{{ contact.city }} {{ contact.state }} {{ contact.zip }}
+                            {% if contact.contact_by_mail == 1 %}
+                                <i class="far fa-envelope" style="font-size: 1em; color: green;" data-toggle="tooltip"
+                                   title="mail is allowed"></i>
+                            {% else %}
+                                <i class="far fa-envelope" style="font-size: 1em; color: red;" data-toggle="tooltip"
+                                   title="mail is prohibited"></i>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a class="far fa-edit" href="{{ url_for('user.edit_contacts', contact_id=contact.id) }}"
+                               role="button" data-toggle="tooltip" title="edit" style="color: blue"></a>
+                        </td>
+                        <td>
+                            <a class="far fa-trash-alt"
+                               href="{{ url_for('user.delete_contacts', contact_id=contact.id) }}"
+                               role="button" data-toggle="tooltip" title="delete" style="color: red"></a>
+                        </td>
+                    </tr>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-        <tr>
-            <td></td>
-        </tr>
-        </tbody>
-    </table>
-
-
-
+            <tr>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
 
 

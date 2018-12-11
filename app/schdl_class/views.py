@@ -1,4 +1,6 @@
+import requests
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app
+from flask_babelex import _
 from flask_security import current_user, login_required, roles_required, roles_accepted
 from sqlalchemy import and_
 
@@ -6,23 +8,8 @@ from app import db
 from app.models import Schdl_Class, Student, Enrollment, School, Subject, Teacher
 from app.payment import charge_customer
 from .forms import ClassForm
-import requests
 
 schdl_class = Blueprint('schdl_class', __name__, template_folder='templates')
-
-
-@schdl_class.route('/popup', methods=['GET', 'POST'])
-def generate_popup_url():
-    # We need it to generate a base of dynamic url for popups
-    return False
-
-
-@schdl_class.route('/popup/<class_id>/', methods=['GET', 'POST'])
-def generate_popup_html(class_id):
-    print('I GOT IT!', class_id)
-    form = ClassForm()
-    form.title.data = class_id
-    return render_template('schdl_class/edit.html', form=form)
 
 
 @schdl_class.route('/', methods=['GET', 'POST'])
@@ -64,7 +51,7 @@ def add_class():
         db.session.commit()
         new_class.info = new_class.subject.default_info  # add default description from subject to class
         db.session.commit()
-        flash("{} class at {} has been created".format(new_class.subject.name, new_class.school.name), "success")
+        flash(_('Class has been created'), 'success')
         return redirect(url_for('schdl_class.edit_class', class_id=new_class.id))
     else:
         return render_template('schdl_class/add.html', form=form)
@@ -76,7 +63,7 @@ def info_class(class_id):
     current_class = Schdl_Class.query.filter_by(id=class_id).first()
     enrollments = Enrollment.query.filter_by(class_id=class_id).all()
     if not current_class:
-        flash('Class with id = {} did not find'.format(class_id), 'danger')
+        flash(_('Class did not find'), 'danger')
         redirect('schdl_class.class_list')
     return render_template('dashboard/class_info.html', current_class=current_class, enrollments=enrollments)
 
@@ -105,13 +92,12 @@ def edit_class(class_id):
             form.populate_obj(current_class)
             # save to db
             db.session.commit()
-            flash("{} class at {} has been updated".format(current_class.subject.name, current_class.school.name),
-                  "success")
+            flash(_('Class has been updated'), 'success')
             return redirect(url_for('schdl_class.class_list'))
         else:
             return render_template('schdl_class/edit.html', form=form, current_class=current_class)
     else:
-        flash("Class with id " + str(class_id) + " did not find", "danger")
+        flash(_('Class did not find'), 'danger')
         return redirect(url_for('schdl_class.class_list'))
 
 
@@ -125,18 +111,18 @@ def enroll_class(class_id, student_id):
         current_app.logger.warning(
             'User is trying to enroll not existing class. user_id = {} class_id = {}'.format(current_user.id,
                                                                                              class_id))
-        flash('Class does not find', 'danger')
+        flash(_('Class did not find'), 'danger')
         return redirect(url_for('user.main'))
     if not current_student or (current_student not in current_user.students and not current_user.has_role('admin')):
         current_app.logger.warning(
             'User is trying to enroll not his student. user_id = {} student_id = {}'.format(current_user.id,
                                                                                             student_id))
-        flash("Student does not find", "danger")
+        flash(_('Student did not find'), 'danger')
         return redirect(url_for('user.main'))
     current_enrollment = Enrollment.query.filter(
         and_(Enrollment.student_id == student_id, Enrollment.class_id == class_id, Enrollment.current == True)).first()
     return render_template('schdl_class/enroll.html', current_class=current_class, current_student=current_student,
-                           current_enrollment=current_enrollment)
+                           current_enrollment=current_enrollment, step=4)  # step=4 for progressbar
 
 
 @schdl_class.route('/<class_id>/payment/<student_id>', methods=['GET', 'POST'])
@@ -147,21 +133,21 @@ def payment_class(class_id, student_id):
     current_enrollment = Enrollment.query.filter(
         and_(Enrollment.student_id == student_id, Enrollment.class_id == class_id, Enrollment.current == True)).first()
     if current_enrollment:
-        flash('Your child already enrolled, you do not need to pay second time', 'warning')
+        flash(_('Your student already enrolled, you do not need to pay second time'), 'warning')
         return redirect(url_for('user.main'))
 
     if not current_class:
         current_app.logger.warning(
             'User is trying to enroll not existing class. user_id = {} class_id = {}'.format(current_user.id,
                                                                                              class_id))
-        flash('Class does not find', 'danger')
+        flash(_('Class did not find'), 'danger')
         return redirect(url_for('user.main'))
 
     if not current_student or current_student not in current_user.students:
         current_app.logger.warning(
             'User is trying to enroll not his student. user_id = {} student_id = {}'.format(current_user.id,
                                                                                             student_id))
-        flash("Student does not find", "danger")
+        flash(_('Student does not find'), 'danger')
         return redirect(url_for('user.main'))
     description = "{} class at {} for {} {}".format(current_class.subject.name, current_class.school.name,
                                                     current_student.first_name, current_student.last_name)
@@ -174,8 +160,8 @@ def payment_class(class_id, student_id):
         new_enrollment.current = True
         db.session.add(new_enrollment)
         db.session.commit()
-        flash("{} has been added to student list of {} classes".format(current_student.first_name,
-                                                                       current_class.subject.name), "success")
+        flash(_('%(student)s has been added to student list of %(current_class)s classes',
+                student=current_student.first_name, current_class=current_class.subject.name), 'success')
         if current_class.school.agreement:
             # from app.payment import send_email
             send_email_to_current_user(msg_subject='Reminder', msg_html=str(current_class.school.agreement))
@@ -184,7 +170,7 @@ def payment_class(class_id, student_id):
                                current_student=current_student)
     else:
         flash(charge.failure_message, 'danger')
-        flash("Something wrong with your payment", "danger")
+        flash(_('Something wrong with your payment'), 'danger')
         return render_template('payment/failed.html', charge=charge)
     # return redirect(url_for('student.enroll_student', student_id=current_student.id))
 

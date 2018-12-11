@@ -1,6 +1,6 @@
 {% extends "dashboard/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}Event List{% endblock %}
+{% block title %}{{ _('Event List') }}{% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -11,14 +11,14 @@
     {{ super() }}
     <div class="row">
             <div class="col-md-3 offset-md-9">
-                {% if current_events_only %}
-                    <a class="btn btn-outline-primary" href=" role="button">Show All Events</a>
-                {% else %}
-                    <a class="btn btn-outline-primary" href="{{ url_for('event.event_list') }}" role="button">Show
-                        Current Events</a>
+                {% if current_class is defined %}
+                    <a class="btn btn-outline-primary"
+                       href="{{ url_for('event.add_event_for_class', class_id=current_class.id) }}"
+                       role="button">{{ _('Add New Event') }}</a>
                 {% endif %}
-                <a class="btn btn-outline-success" href="{{ url_for('event.add_event') }}" role="button">Add New Event</a>
-        </div>
+                <a class="btn btn-outline-primary" href="{{ url_for('event.event_list') }}"
+                   role="button">{{ _('Show Current Events') }}</a>
+            </div>
 
     </div>
     <div class="row">
@@ -27,17 +27,29 @@
             <caption>List of events</caption>
             <tbody>
             <tr>
-                <th>School</th>
-                <th>Subject</th>
-                <th>Teacher</th>
-                <th>Edit</th>
+                <th>{{ _('Date') }}</th>
+                <th>{{ _('School') }}</th>
+                <th>{{ _('Subject') }}</th>
+                <th>{{ _('Billing Rate') }}</th>
+                <th>{{ _('Pay Rate') }}</th>
+                <th>{{ _('Teacher') }}</th>
+                <th>{{ _('Note') }}</th>
+                <th>{{ _('Active') }}</th>
+                <th>{{ _('Edit') }}</th>
             </tr>
             {% for current_event in events %}
                 <tr>
+                    <td>{{ current_event.start }}</td>
                     <td>{{ current_event.schdl_class.school.name }}</td>
-                    <td>{{ current_event.schdl_class.subject.name }}</td>
-                    <td>{{ current_event.teacher.first_name }} {{ current_event.teacher.last_name }}</td>
-                    <td><a href="{{ url_for('event.edit_event', event_id=current_event.id) }}">Edit</a></td>
+                    <td>
+                        <a href="{{ url_for('schdl_class.info_class', class_id=current_event.schdl_class.id) }}">{{ current_event.schdl_class.subject.name }}</a>
+                    </td>
+                    <td>{{ current_event.billing_rate }}</td>
+                    <td>{{ current_event.payrate }}</td>
+                    <td>{{ current_event.teacher.user.first_name }} {{ current_event.teacher.user.last_name }}</td>
+                    <td>{{ current_event.note }}</td>
+                    <td>{{ current_event.active }}</td>
+                    <td><a href="{{ url_for('event.edit_event', event_id=current_event.id) }}">{{ _('Edit') }}</a></td>
                 </tr>
             {% endfor %}
             </tbody>

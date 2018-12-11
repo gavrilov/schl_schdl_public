@@ -5,38 +5,37 @@
             {% if current_enrollment %}
                 <a class="btn btn-success"
                    href="#"
-                   role="button">{{ current_student.first_name }} {{ current_student.last_name }} already
-                    enrolled for that class</a>
+                   role="button">{{ _('%(first_name)s %(last_name)s already enrolled for that class', first_name=current_student.first_name, last_name=current_student.last_name) }} </a>
             {% elif current_user.stripe_id %}
-                Click to Enroll {{ current_student.first_name }} {{ current_student.last_name }}<br>
+                {{ _('Click to Enroll %(first_name)s %(last_name)s', first_name=current_student.first_name, last_name=current_student.last_name) }}
+                <br>
                 <a class="btn btn-success"
                    href="{{ url_for('schdl_class.payment_class', class_id=current_class.id, student_id=current_student.id) }}"
                    role="button">
-                    Complete Registration<br>Pay with your card ${{ current_class.price }}</a>
+                    {{ _('Complete Registration') }}<br>{{ _('Pay with your card $%(price)s', price=current_class.price) }}
+                </a>
             {% else %}
                 <!--Update Card and Pay Button-->
                 <div class="col">
                 {% include 'payment/add_card_and_pay_button.html' %}
                 </div>
                 <div class="col">
-                To enroll {{ current_student.first_name }} {{ current_student.last_name }} -
-                    click and pay with your card
+                    {{ _('To enroll %(first_name)s %(last_name)s - click and pay with your card', first_name=current_student.first_name, last_name=current_student.last_name) }}
                 </div>
             {% endif %}
             </div>
-            <h1 class="display-4">{{ current_class.subject.name }} at {{ current_class.school.name }}!</h1>
-            <p class="lead"> Day: {{ current_class.day_of_week }}<br>
+            <h1 class="display-4">{{ _('%(subject_name)s at %(school_name)s!', subject_name=current_class.subject.name, school_name=current_class.school.name) }}</h1>
+            <p class="lead"> {{ _('Day: %(day_of_week)s', day_of_week=current_class.day_of_week) }}<br>
                 {% if current_class.class_time_start and current_class.class_time_end %}
-                    Time: {{ current_class.class_time_start | ctimeformat }}
+                    {{ _('Time:') }} {{ current_class.class_time_start | ctimeformat }}
                     - {{ current_class.class_time_end | ctimeformat }}<br>
                 {% endif %}
                 {% if current_class.class_start and current_class.class_end %}
-                    Dates: {{ current_class.class_start | cdateformat }}
+                    {{ _('Dates:') }} {{ current_class.class_start | cdateformat }}
                     - {{ current_class.class_end | cdateformat }}<br>
-                Price: ${{ current_class.price }}<br>
+                    {{ _('Price: $%(price)s', price=current_class.price) }}<br>
                 {% endif %}
             </p>
-
         </div>
     </div>
 </div>

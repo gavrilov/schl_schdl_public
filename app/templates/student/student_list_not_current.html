@@ -1,6 +1,6 @@
 {% extends "dashboard/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}Student List{% endblock %}
+{% block title %}{{ _('Student List') }}{% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -13,33 +13,32 @@
     {{ super() }}
     <div class="row">
         <div class="col-md-3 offset-md-9">
-                <a class="btn btn-outline-primary" href="{{ url_for('student.student_list') }}" role="button">Show
-                    Current
-                    Students</a>
+            <a class="btn btn-outline-primary" href="{{ url_for('student.student_list') }}"
+               role="button">{{ _('Show Current Students') }}</a>
         </div>
 
     </div>
 
-    <h1>List of not enrolled students</h1>
+    <h1>{{ _('List of not enrolled students') }}</h1>
     <form method="POST" action="" id="theForm">
         <table class="table table-hover table-bordered" id="maintable">
-            <caption>List of students</caption>
+            <caption>{{ _('List of students') }}</caption>
             <thead>
             <tr id="filterrow">
                 <th></th>
-                <th id="filtercol">Student Name</th>
-                <th id="filtercol">Phone</th>
-                <th id="filtercol">Email</th>
-                <th id="filtercol">Note</th>
+                <th id="filtercol">{{ _('Student Name') }}</th>
+                <th id="filtercol">{{ _('Phone') }}</th>
+                <th id="filtercol">{{ _('Email') }}</th>
+                <th id="filtercol">{{ _('Note') }}</th>
                 <th></th>
             </tr>
             <tr>
                 <th class="text-center">#</th>
-                <th class="text-center">Student Name</th>
-                <th class="text-center">Phone</th>
-                <th class="text-center">Email</th>
-                <th class="text-center">Note</th>
-                <th class="text-center">Edit</th>
+                <th class="text-center">{{ _('Student Name') }}</th>
+                <th class="text-center">{{ _('Phone') }}</th>
+                <th class="text-center">{{ _('Email') }}</th>
+                <th class="text-center">{{ _('Note') }}</th>
+                <th class="text-center">{{ _('Edit') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -63,20 +62,20 @@
         {% endif %}
 
         <td>{{ student.note }}</td>
-        <td><a href="{{ url_for('student.edit_student', student_id=student.id) }}">Edit</a></td>
+        <td><a href="{{ url_for('student.edit_student', student_id=student.id) }}">{{ _('Edit') }}</a></td>
     </tr>
 {% endfor %}
 
             </tbody>
         </table>
         <!-- <select name="actionselect" id="actionselect">
-            <option value="">with selection</option>
-            <option value="call">Robo Call</option>
-            <option value="txt">Send txt</option>
-            <option value="email">Send email</option>
-            <option value="labels">Print Labels</option>
+            <option value="">{{ _('with selection') }}</option>
+            <option value="call">{{ _('Robo Call') }}</option>
+            <option value="txt">{{ _('Send txt') }}</option>
+            <option value="email">{{ _('Send email') }}</option>
+            <option value="labels">{{ _('Print Labels') }}</option>
         </select>
-        <button id="submit">Submit</button> -->
+        <button id="submit">{{ _('Submit') }}</button> -->
     </form>
 
 

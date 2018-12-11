@@ -1,25 +1,42 @@
-from flask import Flask, request, render_template, session, Blueprint, flash, redirect, url_for
-from app import db
-
+from flask import render_template, Blueprint
+from flask_security import roles_accepted, roles_required
 
 calendar = Blueprint('calendar', __name__, template_folder='templates')
 
 
+# TODO @roles_accepted('admin', 'teacher') if user don't have access to event - hide
+
+
 @calendar.route('/', methods=['GET', 'POST'])
+@roles_required('admin')
 def main():
-    return render_template('calendar/main_page.html')
+    # calendar for all classes at all schools
+    return render_template('calendar/caledar.html', id=0, schdl_object='all')
 
-@calendar.route('/data', methods=['GET', 'POST'])
-def return_data():
-    start_date = request.args.get('start', '')
-    end_date = request.args.get('end', '')
-    # You'd normally use the variables above to limit the data returned
-    # you don't want to return ALL events like in this code
-    # but since no db or any real storage is implemented I'm just
-    # returning data from a text file that contains json elements
 
-    with open("app/calendar/events.json", "r") as input_data:
-        # you should use something else here than just plaintext
-        # check out jsonfiy method or the built in json module
-        # http://flask.pocoo.org/docs/0.10/api/#module-flask.json
-        return input_data.read()
+@calendar.route('/class/<class_id>', methods=['GET', 'POST'])
+@roles_accepted('admin', 'teacher')
+def class_calendar(class_id):
+    return render_template('calendar/caledar.html', id=class_id, schdl_object='class')
+
+
+@calendar.route('/student/<student_id>', methods=['GET', 'POST'])
+def student_calendar(student_id):
+    return render_template('calendar/caledar.html', id=student_id, schdl_object='student')
+
+
+@calendar.route('/user/<user_id>', methods=['GET', 'POST'])
+def user_calendar(user_id):
+    return render_template('calendar/caledar.html', id=user_id, schdl_object='user')
+
+
+@calendar.route('/teacher/<teacher_id>', methods=['GET', 'POST'])
+@roles_accepted('admin', 'teacher')
+def teacher_calendar(teacher_id):
+    return render_template('calendar/caledar.html', id=teacher_id, schdl_object='teacher')
+
+
+@calendar.route('/school/<school_id>', methods=['GET', 'POST'])
+@roles_accepted('admin', 'school')
+def school_calendar(school_id):
+    return render_template('calendar/class_caledar.html', id=school_id, schdl_object='school')

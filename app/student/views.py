@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app
+from flask_babelex import _
 from flask_security import current_user, login_required, roles_required
 from sqlalchemy import and_
 
@@ -37,7 +38,7 @@ def info(student_id):
     if current_student:
         return render_template('student/student_info.html', student=current_student)
     else:
-        flash("Student with id {} did not find".format(student_id), "danger")
+        flash(_('Student did not find'), 'danger')
         return redirect(url_for('student.student_list'))
 
 
@@ -59,14 +60,14 @@ def add_student():
         # save new school to db
         db.session.add(new_student)
         db.session.commit()
-        flash("Student {} {} has been created".format(new_student.first_name, new_student.last_name), "success")
+        flash(_('Student has been created'), 'success')
         return redirect(url_for('student.enroll_student', student_id=new_student.id))
 
     if form.errors:
         for error in form.errors.values():
             flash(error, 'danger')
 
-    return render_template('student/add.html', form=form)
+    return render_template('student/add.html', form=form, step=2)  # step=2 for progressbar
 
 
 @student.route('/<student_id>/edit', methods=['GET', 'POST'])
@@ -77,7 +78,7 @@ def edit_student(student_id):
             'admin')):  # TODO or current_student not in current_user.students
         current_app.logger.warning(
             'User is trying to edit not his student. user_id = {} student_id = {}'.format(current_user.id, student_id))
-        flash("Student does not find", "danger")
+        flash(_('Student does not find'), 'danger')
         return redirect(url_for('user.main'))
     current_schools = School.query.filter_by(current=True).order_by(School.name.asc()).all()
     # Now forming the list of tuples for SelectField
@@ -91,7 +92,7 @@ def edit_student(student_id):
         form.populate_obj(current_student)
         # save to db
         db.session.commit()
-        flash("Student {} {} has been updated".format(current_student.first_name, current_student.last_name), "success")
+        flash(_('Student has been updated'), 'success')
         return redirect(url_for('user.main'))
 
     form.dob_month.data = form.dob.data.strftime("%m")
@@ -111,7 +112,7 @@ def enroll_student(student_id):
         current_app.logger.warning(
             'User is trying to enroll not his student. user_id = {} student_id = {}'.format(current_user.id,
                                                                                             student_id))
-        flash("Student does not find", "danger")
+        flash(_('Student does not find'), 'danger')
         return redirect(url_for('user.main'))
     current_school = School.query.filter_by(id=current_student.default_school_id).first()
     current_classes = current_school.classes.filter_by(current=True).order_by(Schdl_Class.day_of_week.asc(), Schdl_Class.class_time_start.asc()).all()
@@ -119,4 +120,5 @@ def enroll_student(student_id):
                                                      Schdl_Class.enrollments.any(current=True))).all()
 
     return render_template('student/enroll.html', current_classes=current_classes, student=current_student,
-                           current_school=current_school, enrolled_classes=enrolled_classes)
+                           current_school=current_school, enrolled_classes=enrolled_classes,
+                           step=3)  # step=3 for progressbar

@@ -1,4 +1,5 @@
 from flask import render_template, Blueprint, redirect, url_for, flash, request
+from flask_babelex import _
 from flask_security import roles_required
 
 from app import db
@@ -40,7 +41,7 @@ def school_add():
         # save new school to db
         db.session.add(new_school)
         db.session.commit()
-        flash("School {} created".format(new_school.name), "success")
+        flash(_('School has been created'), 'success')
         return redirect(url_for('school.school_list'))
     else:
         return render_template('school/add_edit.html', form=form, action='add')
@@ -53,7 +54,7 @@ def school_info(school_id):
     if current_school:
         return render_template('school/info.html', school=current_school)
     else:
-        flash("School with id {} did not find".format(school_id), "danger")
+        flash(_('School did not find'), 'danger')
         return redirect(url_for('school.school_list'))
 
 
@@ -66,12 +67,12 @@ def school_edit(school_id):
         form.populate_obj(current_school)
         # save to db
         db.session.commit()
-        flash("School {} edited".format(current_school.name), "success")
+        flash(_('School has been updated'), 'success')
         return redirect(url_for('school.school_list'))
     else:
         if current_school:
             form = SchoolForm(obj=current_school)
             return render_template('school/add_edit.html', form=form, action='edit', school=current_school)
         else:
-            flash("School with id " + str(school_id) + " did not find", "danger")
+            flash(_('School did not find'), 'danger')
             return redirect(url_for('school.school_list'))

@@ -1,6 +1,6 @@
 {% extends "dashboard/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}Edit Subject{% endblock %}
+{% block title %}{{ _('Edit Subject') }}{% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -22,7 +22,7 @@
         <div class="form-group row">
             {{ form.default_info(class="form-control") }}
         </div>
-        <input type="submit" value="Save">
+        <input type="submit" value="{{ _('Save') }}">
     </form>
 {% endblock %}
 
@@ -32,7 +32,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/summernote.js"></script>
     <script>
         $('#default_info').summernote({
-            placeholder: 'Users see that class description',
+            placeholder: '{{ _("Users see that class description") }}',
             height: 400,
             toolbar: [
                 ['style', ['bold', 'italic', 'underline', 'clear']],

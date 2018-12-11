@@ -1,6 +1,6 @@
 {% extends "dashboard/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}User{% endblock %}
+{% block title %}{{ _('User') }}{% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -13,21 +13,20 @@
 
         <form method="POST" action="{{ url_for('user.user_add') }}">
             <div class="form-group row">
-                <h1>Add user</h1>
+                <h1>{{ _('Add user') }}</h1>
             </div>
             {{ form.csrf_token }}
             <div class="form-group row">
-                {{ form.email(size=30, class="form-control", placeholder="Email") }}
+                {{ form.email(size=30, class="form-control", placeholder=_('Email')) }}
             </div>
             <div class="form-group row">
-                {{ form.note(size=30, class="form-control", placeholder="Note") }}
+                {{ form.note(size=30, class="form-control", placeholder=_('Note')) }}
             </div>
             <div class="form-group row">
-                <button type="submit" id="recaptcha-submit" class="btn btn-primary">Submit</button>
+                <button type="submit" id="recaptcha-submit" class="btn btn-primary">{{ _('Submit') }}</button>
             </div>
         </form>
     </div>
-    </form>
 {% endblock %}
 
 

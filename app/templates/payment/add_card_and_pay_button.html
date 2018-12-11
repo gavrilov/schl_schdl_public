@@ -7,9 +7,9 @@
             data-key="{{ config['STRIPE_PUBLIC_KEY'] }}"
             data-name="{{ config['COMPANY_NAME'] }}"
             data-email="{{ current_user.email }}"
-            data-description="Pay Now ${{ current_class.price }}"
-            data-label="Pay Now ${{ current_class.price }}"
-            data-panel-label="Pay Now ${{ current_class.price }}"
+            data-description="{{ _('Pay Now $') }}{{ current_class.price }}"
+            data-label="{{ _('Pay Now $') }}{{ current_class.price }}"
+            data-panel-label="{{ _('Pay Now $') }}{{ current_class.price }}"
             data-billing-address=true
             data-zip-code=true
             data-allow-remember-me=false

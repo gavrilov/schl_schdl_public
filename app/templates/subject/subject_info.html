@@ -1,6 +1,6 @@
 {% extends "dashboard/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}{{ subject.name }} - Info{% endblock %}
+{% block title %}{{ _('Subject Info') }}{% endblock %}
 
 {% block head %}
     {{ super() }}
@@ -13,12 +13,12 @@
     <table>
         <tbody>
         <tr>
-            <td>Subject</td>
-            <td>Edit</td>
+            <td>{{ _('Subject') }}</td>
+            <td>{{ _('Edit') }}</td>
         </tr>
             <tr>
                 <td>{{ subject.name}} </td>
-                <td><a href="{{ url_for('subject.edit_subject', subject_id=subject_id)}}">Edit</a>></td>
+                <td><a href="{{ url_for('subject.edit_subject', subject_id=subject_id) }}">{{ _('Edit') }}</a>></td>
             </tr>
         </tbody>
     </table>

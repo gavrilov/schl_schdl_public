@@ -1,24 +1,70 @@
 {% extends "dashboard/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}Edit Event{% endblock %}
+{% block title %}{{ _('Edit Event') }}{% endblock %}
 
 {% block head %}
     {{ super() }}
 {% endblock %}
 
-
 {% block page_content %}
-    {{ super() }}
-    <form method="POST" action="{{ url_for('event.edit_event', event_id=event_id) }}">
-        {{ form.csrf_token }}
+    <div class="col">
+        {{ super() }}
+        <div class="row mt-3">
+            <div class="col">
+                <div class="row">
+                    <div class="col"><h1>{{ current_event.schdl_class.subject.name }}
+                        @ {{ current_event.schdl_class.school.name }}</h1></div>
+                </div>
+                <form method="POST" action="{{ url_for('event.edit_event', event_id=current_event.id) }}">
+                    {{ form.csrf_token }}
+                    <div class="form-group row">
+                        <div class="form-group col">
+                            {{ form.payrate.label }} {{ form.payrate }}
+                        </div>
+                        <div class="form-group col">
+                            {{ form.billing_rate.label }} {{ form.billing_rate }}
+                        </div>
+                    </div>
 
-        {{ form.teacher_id.label }} {{ form.teacher_id }}
-        {{ form.class_id.label }} {{ form.class_id }}
-        {{ form.current.label }} {{ form.current }}
-        <input type="submit" value="Save">
-    </form>
+                    <div class="form-group row">
+                        <div class="form-group col">
+                            {{ form.start.label }} {{ form.start }}
+                        </div>
+                        <div class="form-group col">
+                            {{ form.end.label }} {{ form.end }}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="form-group col">
+                            {{ form.note.label }} {{ form.note }}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="form-group col">
+                            {{ form.teacher_id.label }} {{ form.teacher_id }}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="form-group col">
+                            {{ form.active.label }} {{ form.active }}
+                        </div>
+                        <div class="form-group col">
+                            {{ form.submit(class="btn btn-success") }}
+                        </div>
+                        <div class="form-group col">
+                            <a class="btn btn-outline-danger"
+                               href="{{ url_for('event.delete_event', event_id=current_event.id) }}"
+                               role="button">{{ _('Delete') }}</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}
-
 
 {% block scripts %}
     {{ super() }}

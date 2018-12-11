@@ -12,17 +12,18 @@
 
             {% if current_user.has_role('admin') %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('dashboard.main') }}">Admin Dashboard</a>
+                    <a class="nav-link" href="{{ url_for('dashboard.main') }}">{{ _('Admin Dashboard') }}</a>
                 </li>
             {% endif %}
             {% if current_user.has_role('teacher') %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('dashboard.teacher_dashboard') }}">Teacher Dashboard</a>
+                    <a class="nav-link"
+                       href="{{ url_for('dashboard.teacher_dashboard') }}">{{ _('Teacher Dashboard') }}</a>
                 </li>
             {% endif %}
             {% if current_user.has_role('school') %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('dashboard.main') }}">School Dashboard</a>
+                    <a class="nav-link" href="{{ url_for('dashboard.main') }}">{{ _('School Dashboard') }}</a>
                 </li>
             {% endif %}
         </ul>
@@ -31,17 +32,17 @@
         <ul class="navbar-nav">
             {% if current_user.is_anonymous %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for_security('register') }}">Register</a>
+                    <a class="nav-link" href="{{ url_for_security('register') }}">{{ _('Register') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for_security('login') }}">Sign In</a>
+                    <a class="nav-link" href="{{ url_for_security('login') }}">{{ _('Sign In') }}</a>
                 </li>
             {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('user.edit') }}">Settings</a>
+                    <a class="nav-link" href="{{ url_for('user.edit') }}">{{ _('Settings') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for_security('logout') }}">Logout</a>
+                    <a class="nav-link" href="{{ url_for_security('logout') }}">{{ _('Logout') }}</a>
                 </li>
             {% endif %}
 
