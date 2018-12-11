@@ -11,9 +11,9 @@
     {{ super() }}
     <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
     <div class="jumbotron">
-        <p class="lead">{{ _('%(first_name)s %(last_name)s has been added to student list of %(subject_name)s class at %(school_name)s', first_name=current_student.first_name, last_name=current_student.last_name, subject_name = current_class.subject.name, school_name = current_class.school.name) }}</p>
+        <p class="lead">{{ _('{first_name} {last_name} has been added to student list of {subject_name} class at {school_name}').format(first_name=current_student.first_name, last_name=current_student.last_name, subject_name = current_class.subject.name, school_name = current_class.school.name) }}</p>
         <hr class="my-4">
-        <p>{{ _('Your %(card)s-%(card_last4)s has been charged for %(amount)s %(currency)s. Your receipt has been sent by email', card=charge.source.brand, card_last4=charge.source.last4, amount=charge.amount/100, currency=charge.currency) }}</p>
+        <p>{{ _('Your {card}-{card_last4} has been charged for {amount} {currency}. Your receipt has been sent by email').format(card=charge.source.brand, card_last4=charge.source.last4, amount=charge.amount/100, currency=charge.currency) }}</p>
     </div>
     </div>
 {% endblock %}
