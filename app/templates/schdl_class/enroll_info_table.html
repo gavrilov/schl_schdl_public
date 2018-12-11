@@ -7,7 +7,7 @@
                    href="#"
                    role="button">{{ _('{first_name} {last_name} already enrolled for that class').format(first_name=current_student.first_name, last_name=current_student.last_name) }} </a>
             {% elif current_user.stripe_id %}
-                {{ _('Click to Enroll {first_name} {last_name}'.format(first_name=current_student.first_name, last_name=current_student.last_name) }}
+                {{ _('Click to Enroll {first_name} {last_name}').format(first_name=current_student.first_name, last_name=current_student.last_name) }}
                 <br>
                 <a class="btn btn-success"
                    href="{{ url_for('schdl_class.payment_class', class_id=current_class.id, student_id=current_student.id) }}"
