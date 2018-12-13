@@ -17,17 +17,30 @@
     </div>
     <div class="row">
         <div class="col">
-            {{ _('Total users:') }} {{ users }}
+            {{ _('Total users:') }} <a href="{{ url_for('user.user_list') }}">{{ users }}</a>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            {{ _('Total students:') }} {{ students }}
+            {{ _('Users without students:') }} <a
+                href="{{ url_for('user.user_without_students_list') }}">{{ users_without_students }}</a>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            {{ _('Total enrollments:') }} {{ enrollments_num }}
+            {{ _('Total students:') }} <a href="{{ url_for('student.student_all_list') }}">{{ students }}</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ _('Not enrolled students:') }} <a
+                href="{{ url_for('student.not_enrolled') }}">{{ not_enrolled_students }}</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ _('Total enrollments (with drops):') }} <a
+                href="{{ url_for('student.student_list') }}">{{ enrollments_num }}</a>
         </div>
     </div>
 
@@ -36,16 +49,22 @@
             <h2>{{ _('Last 5 enrollments') }}</h2>
         </div>
     </div>
-    {% for enrollment in five_last_enrollments %}
-        <div class="row">
-            <div class="col">
-                <a href="{{ url_for('student.info', student_id=enrollment.student.id) }}">{{ enrollment.student.first_name }} {{ enrollment.student.last_name }}</a>
-                -
-                <a href="{{ url_for('schdl_class.info_class', class_id=enrollment.schdl_class.id) }}">{{ enrollment.schdl_class.subject.name }}
-                    @ {{ enrollment.schdl_class.school.name }}</a>
-            </div>
+    <div class="row">
+        <div class="col-auto">
+            <ul class="list-group list-group-flush">
+                {% for enrollment in five_last_enrollments %}
+                    <li class="list-group-item">
+                        {{ moment(enrollment.timestamp).format('L LT') }}
+                        <a href="{{ url_for('student.info', student_id=enrollment.student.id) }}">{{ enrollment.student.first_name }} {{ enrollment.student.last_name }}</a>
+                        -
+                        <a href="{{ url_for('schdl_class.info_class', class_id=enrollment.schdl_class.id) }}">{{ enrollment.schdl_class.subject.name }}
+                            @ {{ enrollment.schdl_class.school.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
-    {% endfor %}
+    </div>
+
     <div class="row">
         <div class="col">
             <h2>{{ _('Current System') }} {{ config.CURRENT_RELEASE_HEROKU_VERSION }}</h2>
@@ -57,4 +76,5 @@
 
 {% block scripts %}
     {{ super() }}
+    {{ moment.include_moment() }}
 {% endblock %}
