@@ -128,7 +128,7 @@ def create_app(config_class=Config):
     @app.template_filter('ctime')
     def timectime(s):
         # jinja2 template to convert unix timestamp to datetime object as required by flask-moment
-        return datetime.datetime.fromtimestamp(s)
+        return datetime.datetime.utcfromtimestamp(s)
 
     @app.template_filter('ctimeformat')
     def timeformat(s):
