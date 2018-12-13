@@ -20,14 +20,22 @@ def student_list():
     for current_class in current_classes:
         # generate rows for table for each class
         students_html += render_template('student/student_list_rows.html', current_class=current_class)
-    return render_template('student/student_list.html', students_html=students_html, current_students_only=False)
+    return render_template('student/student_list.html', students_html=students_html, current_students_only=True)
 
 
 @student.route('/all', methods=['GET', 'POST'])
+@roles_required('admin')
 def student_all_list():
+    # show all students who enrolled in any classes or dropped
+    students = Student.query.filter(Student.enrollments.any())
+    return render_template('student/student_list_not_current.html', students=students)
+
+
+@student.route('/not_enrolled', methods=['GET', 'POST'])
+@roles_required('admin')
+def not_enrolled():
     # show students who are not enrolled in any classes
-    q = db.session.query(Student)
-    students = q.filter(~Student.enrollments.any())  # ~ means not
+    students = Student.query.filter(~Student.enrollments.any())  # ~ means not
     return render_template('student/student_list_not_current.html', students=students)
 
 
