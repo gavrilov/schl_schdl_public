@@ -69,7 +69,7 @@ def create_app(config_class=Config):
         # Heroku logging
         if app.config['LOG_TO_STDOUT']:
             stream_handler = logging.StreamHandler()
-            stream_handler.setLevel(logging.INFO)
+            stream_handler.setLevel(logging.WARNING)
             app.logger.addHandler(stream_handler)
         else:
             if not os.path.exists('logs'):
@@ -79,12 +79,12 @@ def create_app(config_class=Config):
             file_handler.setFormatter(logging.Formatter(
                 '%(asctime)s %(levelname)s: %(message)s '
                 '[in %(pathname)s:%(lineno)d]'))
-            file_handler.setLevel(logging.INFO)
+            file_handler.setLevel(logging.WARNING)
             app.logger.addHandler(file_handler)
 
         # Slack logging
         slack_handler = SlackHandler(app.config['SLACK_WEBHOOK_URL'])
-        slack_handler.setLevel(logging.INFO)
+        slack_handler.setLevel(logging.WARNING)
         app.logger.addHandler(slack_handler)
 
         # Sentry.io logging
