@@ -13,19 +13,24 @@
     {{ super() }}
     <div class="row">
         <div class="col text-left">
-            <h1>{{ _('User List') }}</h1>
-        </div>
-        <div class="col text-right">
             {% if current_users_only %}
-                <a class="btn btn-outline-primary" href="{{ url_for('user.user_all_list') }}"
-                   role="button">{{ _('Show All Users') }}</a>
-            {% else %}
+                <h1>{{ _('List of Users') }}
+                    <small>{{ _('with currently enrolled students') }}</small>
+                </h1>
+                </div>
+                <div class="col text-right">
+                    <a class="btn btn-outline-primary" href="{{ url_for('user.user_all_list') }}"
+                       role="button">{{ _('Show All Users') }}</a>
+                    {% else %}
+                    <h1>{{ _('List of All Users') }}</h1>
+                </div>
+                <div class="col text-right">
                 <a class="btn btn-outline-primary" href="{{ url_for('user.user_list') }}"
                    role="button">{{ _('Show Current Users') }}</a>
             {% endif %}
             <a class="btn btn-outline-warning" href="{{ url_for('user.user_without_students_list') }}"
                role="button">{{ _('Show Users Without Students') }}</a>
-        </div>
+            </div>
     </div>
 
     <form method="POST" action="" id="theForm">
@@ -33,30 +38,26 @@
             <thead>
             <tr id="filterrow">
                 <th></th>
-                <th id="filtercol">{{ _('First Name') }}</th>
-                <th id="filtercol">{{ _('Last Name') }}</th>
+                <th id="filtercol">{{ _('Name') }}</th>
                 <th id="filtercol">{{ _('Email') }}</th>
                 <th id="filtercol">{{ _('Note') }}</th>
-                <th></th>
             </tr>
             <tr>
                 <th class="text-center">#</th>
-                <th class="text-center">{{ _('First Name') }}</th>
-                <th class="text-center">{{ _('Last Name') }}</th>
+                <th class="text-center">{{ _('Name') }}</th>
                 <th class="text-center">{{ _('Email') }}</th>
                 <th class="text-center">{{ _('Note') }}</th>
-                <th class="text-center">{{ _('Info') }}</th>
             </tr>
             </thead>
             <tbody>
             {% for user in users %}
                 <tr>
                     <td><input type="hidden" name="schools" value="{{ user.id }}"></td>
-                    <td>{{ user.first_name }}</td>
-                    <td>{{ user.last_name }}</td>
-                    <td>{{ user.email }}</td>
+                    <td>
+                        <a href="{{ url_for('user.user_info', user_id=user.id) }}">{{ user.first_name }} {{ user.last_name }}</a>
+                    </td>
+                    <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
                     <td>{{ user.note }}</td>
-                    <td><a href="{{ url_for('user.user_info', user_id=user.id) }}">{{ _('Info') }}</a></td>
                 </tr>
             {% endfor %}
             </tbody>
