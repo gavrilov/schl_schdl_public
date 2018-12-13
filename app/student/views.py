@@ -35,7 +35,8 @@ def student_all_list():
 @roles_required('admin')
 def not_enrolled():
     # show students who are not enrolled in any classes
-    students = Student.query.filter(~Student.enrollments.any())  # ~ means not
+    students = Student.query.filter(~Student.enrollments.any()).order_by(Student.timestamp.desc()).all()
+
     return render_template('student/student_list_not_current.html', students=students)
 
 
