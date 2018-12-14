@@ -184,4 +184,17 @@ def create_app(config_class=Config):
         return request.accept_languages.best_match(app.config['LANGUAGES'])
         # return 'ru'  # to test specific language of babel
 
+    @app.errorhandler(404)
+    def page_not_found(e):
+        if current_user.is_authenticated:
+            user_id = current_user.id
+        else:
+            user_id = 'anonymous'
+        app.logger.warning('Error 404 - User id = {}, url = {}'.format(user_id, request.url))
+        return render_template('errors/404.html'), 404
+
+    @app.errorhandler(500)
+    def internal_error(e):
+        return render_template('errors/500.html'), 500
+
     return app

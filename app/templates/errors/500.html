@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}{{ _('Error 404 - Page Not Found') }}{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
+        <div class="row">
+            <div class="col text-left">
+                <h1>500</h1>
+                <h2>Oops! Internal Server Error</h2>
+                <p>Sorry... It's not you. It's us. Something went wrong.</p>
+                <p>Don't worry, our development team has automatically been notified of this issue and they will fix it
+                    soon.</p>
+                <p>Please try again later or contact our office {{ config.COMPANY_CONTACT_PHONE }} or <a
+                        href="mailto:{{ config.COMPANY_CONTACT_EMAIL }}">{{ config.COMPANY_CONTACT_EMAIL }}</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}
