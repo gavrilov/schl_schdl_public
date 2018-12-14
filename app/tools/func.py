@@ -1,5 +1,5 @@
 import requests
-from flask import current_app
+from flask import current_app, flash
 
 
 def send_email_to_user(user, msg_subject, msg_html):
