@@ -2,7 +2,6 @@ import logging
 import os
 from logging.handlers import RotatingFileHandler
 
-from SlackLogger import SlackHandler
 from flask import Flask, redirect, url_for, render_template, abort, flash, request
 from flask_babelex import Babel
 from flask_bootstrap import Bootstrap
@@ -81,11 +80,6 @@ def create_app(config_class=Config):
                 '[in %(pathname)s:%(lineno)d]'))
             file_handler.setLevel(logging.WARNING)
             app.logger.addHandler(file_handler)
-
-        # Slack logging
-        slack_handler = SlackHandler(app.config['SLACK_WEBHOOK_URL'])
-        slack_handler.setLevel(logging.WARNING)
-        app.logger.addHandler(slack_handler)
 
         # Sentry.io logging
         sentry.init_app(app, logging=True, level=logging.WARNING)
