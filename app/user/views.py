@@ -9,6 +9,7 @@ from flask_security.registerable import register_user
 from app import db, user_datastore
 from app.models import User, UserContacts, Student, Role, School, Teacher, Enrollment
 from app.payment import my_cards, my_payments
+from app.payment.forms import PaymentForm
 from app.school.forms import SchoolListForm
 from app.tools import send_email_to_user
 from app.user.forms import UserForm, UserContactForm, UserSettingsForm
@@ -77,14 +78,18 @@ def user_add():
 @roles_required('admin')
 def user_info(user_id):
     thisuser = User.query.filter_by(id=user_id).first()
-    if thisuser:
-        payments_html = my_payments(thisuser)
-        cards_html = my_cards(thisuser)
-        return render_template('user/dashboard/info.html', user=thisuser, payments_html=payments_html,
-                               cards_html=cards_html)
-    else:
+
+    if not thisuser:
         flash(_('User did not find'), 'danger')
         return redirect(url_for('user.user_list'))
+
+    form = PaymentForm()
+    form.user_id.data = thisuser.id
+    payments_html = my_payments(thisuser)
+    cards_html = my_cards(thisuser)
+    return render_template('user/dashboard/info.html', user=thisuser, payments_html=payments_html,
+                           cards_html=cards_html, form=form)
+
 
 
 @user.route('/role', methods=['POST'])

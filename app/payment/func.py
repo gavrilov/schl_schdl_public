@@ -42,10 +42,7 @@ def my_payments(user=current_user):
     return render_template('payment/my_payments.html', payments=payments)
 
 
-def charge_customer(amount, description):
-    # TODO figure out - is that def not in app context, and can not use current_user directly???
-    # TODO update 11/21/2018 - I removed current_user variable - and it still works
-
+def charge_customer(amount, description, user=current_user):
     # When it's time to charge the customer again, retrieve the customer ID.
     stripe.api_key = current_app.config['STRIPE_SECRET_KEY']
     try:
@@ -53,8 +50,8 @@ def charge_customer(amount, description):
             amount=amount,  # in cents
             currency='usd',
             description=description,
-            customer=current_user.stripe_id,
-            receipt_email=current_user.email
+            customer=user.stripe_id,
+            receipt_email=user.email
         )
     except stripe.error.CardError as e:
         # Since it's a decline, stripe.error.CardError will be caught
