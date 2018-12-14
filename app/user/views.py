@@ -1,5 +1,4 @@
 import secrets
-import string
 
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app, request
 from flask_babelex import _
@@ -54,8 +53,7 @@ def user_add():
             return render_template('user/dashboard/add.html', form=form, action='add')
         else:
             # generate random password
-            alphabet = string.ascii_letters + string.digits
-            password = ''.join(secrets.choice(alphabet) for i in range(20))
+            password = secrets.token_urlsafe(16)
             first_name = form.first_name.data
             last_name = form.last_name.data
             note = form.note.data
