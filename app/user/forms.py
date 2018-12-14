@@ -23,6 +23,7 @@ class UserForm(FlaskForm):
     last_name = StringField(_l('Last Name'), validators=[DataRequired(_l('Please enter your Last Name'))])
     email = StringField(_l('Email'), validators=[DataRequired(_l('Please enter your Email'))])
     note = StringField(_l('Note'), validators=[Optional(_l('Please enter your Note'))])
+    send_email = BooleanField(_l('Email an invitation'), validators=[Optional()], default=False)
     submit = SubmitField(_l('Submit'))
 
 

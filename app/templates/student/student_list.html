@@ -14,7 +14,11 @@
     <div class="row">
         <div class="col-md-3 offset-md-9">
             <a class="btn btn-outline-primary" href="{{ url_for('student.student_all_list') }}"
-               role="button">{{ _('Show Not Enrolled Students') }}</a>
+               role="button">{{ _('All Students') }}</a>
+            {#  <a class="btn btn-outline-success" href="{{ url_for('student.add_student') }}" role="button">{{ _('Add New Student') }}</a> #}
+
+            <a class="btn btn-outline-warning" href="{{ url_for('student.not_enrolled') }}"
+               role="button">{{ _('Not Enrolled Students') }}</a>
             {#  <a class="btn btn-outline-success" href="{{ url_for('student.add_student') }}" role="button">{{ _('Add New Student') }}</a> #}
         </div>
 
@@ -31,8 +35,7 @@
                 <th id="filtercol">{{ _('School') }}</th>
                 <th id="filtercol">{{ _('Type') }}</th>
                 <th id="filtercol">{{ _('Class') }}</th>
-                <th id="filtercol">{{ _('Day') }}</th>
-                <th id="filtercol">{{ _('Time') }}</th>
+                <th id="filtercol">{{ _('Day') }}/{{ _('Time') }} </th>
                 <th id="filtercol">{{ _('Phone') }}</th>
                 <th id="filtercol">{{ _('Email') }}</th>
                 <th id="filtercol">{{ _('Note') }}</th>
@@ -44,8 +47,7 @@
                 <th class="text-center">{{ _('School') }}</th>
                 <th class="text-center">{{ _('Type') }}</th>
                 <th class="text-center">{{ _('Class') }}</th>
-                <th class="text-center">{{ _('Day') }}</th>
-                <th class="text-center">{{ _('Time') }}</th>
+                <th class="text-center">{{ _('Day') }}/{{ _('Time') }}</th>
                 <th class="text-center">{{ _('Phone') }}</th>
                 <th class="text-center">{{ _('Email') }}</th>
                 <th class="text-center">{{ _('Note') }}</th>

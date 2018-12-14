@@ -13,8 +13,14 @@ def my_cards(user=current_user):
     stripe.api_key = current_app.config['STRIPE_SECRET_KEY']
     if not user.stripe_id:
         return _l('You do not have any cards')
-    customer = stripe.Customer.retrieve(user.stripe_id)
-    cards = customer.sources.data
+    try:
+        customer = stripe.Customer.retrieve(user.stripe_id)
+        cards = customer.sources.data
+    except stripe.error.InvalidRequestError as e:
+        body = e.json_body
+        current_app.logger.error(
+            'Unable to get card information for user id={}. Check Stripe API Key. {}'.format(user.id, body))
+        return _l('Error: Unable to get your card information')
     return render_template('payment/my_cards.html', cards=cards)
 
 
@@ -24,16 +30,19 @@ def my_payments(user=current_user):
     stripe.api_key = current_app.config['STRIPE_SECRET_KEY']
     if not user.stripe_id:
         return _l('You do not have any payments')
-    payments = stripe.Charge.list(customer=user.stripe_id)['data']
+    try:
+        payments = stripe.Charge.list(customer=user.stripe_id)['data']
+    except stripe.error.InvalidRequestError as e:
+        body = e.json_body
+        current_app.logger.error(
+            'Unable to get payment information for user id={}. Check Stripe API Key. {}'.format(user.id, body))
+        return _l('Error: Unable to get your payment information')
     if not payments:
         return _l('You do not have any payments')
     return render_template('payment/my_payments.html', payments=payments)
 
 
-def charge_customer(amount, description):
-    # TODO figure out - is that def not in app context, and can not use current_user directly???
-    # TODO update 11/21/2018 - I removed current_user variable - and it still works
-
+def charge_customer(amount, description, user=current_user):
     # When it's time to charge the customer again, retrieve the customer ID.
     stripe.api_key = current_app.config['STRIPE_SECRET_KEY']
     try:
@@ -41,8 +50,8 @@ def charge_customer(amount, description):
             amount=amount,  # in cents
             currency='usd',
             description=description,
-            customer=current_user.stripe_id,
-            receipt_email=current_user.email
+            customer=user.stripe_id,
+            receipt_email=user.email
         )
     except stripe.error.CardError as e:
         # Since it's a decline, stripe.error.CardError will be caught

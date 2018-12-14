@@ -2,7 +2,6 @@ import logging
 import os
 from logging.handlers import RotatingFileHandler
 
-from SlackLogger import SlackHandler
 from flask import Flask, redirect, url_for, render_template, abort, flash, request
 from flask_babelex import Babel
 from flask_bootstrap import Bootstrap
@@ -69,7 +68,7 @@ def create_app(config_class=Config):
         # Heroku logging
         if app.config['LOG_TO_STDOUT']:
             stream_handler = logging.StreamHandler()
-            stream_handler.setLevel(logging.INFO)
+            stream_handler.setLevel(logging.WARNING)
             app.logger.addHandler(stream_handler)
         else:
             if not os.path.exists('logs'):
@@ -79,18 +78,13 @@ def create_app(config_class=Config):
             file_handler.setFormatter(logging.Formatter(
                 '%(asctime)s %(levelname)s: %(message)s '
                 '[in %(pathname)s:%(lineno)d]'))
-            file_handler.setLevel(logging.INFO)
+            file_handler.setLevel(logging.WARNING)
             app.logger.addHandler(file_handler)
-
-        # Slack logging
-        slack_handler = SlackHandler(app.config['SLACK_WEBHOOK_URL'])
-        slack_handler.setLevel(logging.INFO)
-        app.logger.addHandler(slack_handler)
 
         # Sentry.io logging
         sentry.init_app(app, logging=True, level=logging.WARNING)
 
-        app.logger.setLevel(logging.INFO)
+        app.logger.setLevel(logging.WARNING)
         app.logger.info('App startup')
 
     @app.route('/')
@@ -128,7 +122,7 @@ def create_app(config_class=Config):
     @app.template_filter('ctime')
     def timectime(s):
         # jinja2 template to convert unix timestamp to datetime object as required by flask-moment
-        return datetime.datetime.fromtimestamp(s)
+        return datetime.datetime.utcfromtimestamp(s)
 
     @app.template_filter('ctimeformat')
     def timeformat(s):
@@ -183,5 +177,18 @@ def create_app(config_class=Config):
     def get_locale():
         return request.accept_languages.best_match(app.config['LANGUAGES'])
         # return 'ru'  # to test specific language of babel
+
+    @app.errorhandler(404)
+    def page_not_found(e):
+        if current_user.is_authenticated:
+            user_id = current_user.id
+        else:
+            user_id = 'anonymous'
+        app.logger.warning('Error 404 - User id = {}, url = {}'.format(user_id, request.url))
+        return render_template('errors/404.html'), 404
+
+    @app.errorhandler(500)
+    def internal_error(e):
+        return render_template('errors/500.html'), 500
 
     return app
