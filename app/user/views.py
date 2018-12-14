@@ -1,11 +1,17 @@
+import secrets
+import string
+
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app, request
 from flask_babelex import _
-from flask_security import current_user, login_required, roles_required
+from flask_security import current_user, login_required, roles_required, url_for_security
+from flask_security.recoverable import generate_reset_password_token
+from flask_security.registerable import register_user
 
 from app import db, user_datastore
 from app.models import User, UserContacts, Student, Role, School, Teacher, Enrollment
 from app.payment import my_cards, my_payments
 from app.school.forms import SchoolListForm
+from app.tools import send_email_to_user
 from app.user.forms import UserForm, UserContactForm, UserSettingsForm
 
 user = Blueprint('user', __name__, template_folder='templates')
@@ -40,13 +46,31 @@ def user_without_students_list():
 def user_add():
     form = UserForm()
     if form.validate_on_submit():
-        new_user = User()
-        form.populate_obj(new_user)
-        # save new school to db
-        db.session.add(new_user)
-        db.session.commit()
-        flash(_('User has been created'), 'success')
-        return redirect(url_for('user.user_list'))
+        email = form.email.data
+        user_exists = User.query.filter_by(email=email).first()
+        if user_exists:
+            flash(_('{email} is already associated with another user').format(email=email), 'danger')
+            form.email.data = ''
+            return render_template('user/dashboard/add.html', form=form, action='add')
+        else:
+            # generate random password
+            alphabet = string.ascii_letters + string.digits
+            password = ''.join(secrets.choice(alphabet) for i in range(20))
+            first_name = form.first_name.data
+            last_name = form.last_name.data
+            note = form.note.data
+            new_user = register_user(first_name=first_name, last_name=last_name, note=note, email=email,
+                                     password=password)
+            flash(_('User has been created'), 'success')
+
+            # if send invitation is checked - send email with link to reset password
+            if form.send_email.data is True:
+                token = generate_reset_password_token(new_user)
+                reset_link = url_for_security('reset_password', token=token, _external=True)
+                send_email_to_user(user=new_user, msg_subject='Invitation',
+                                   msg_html=render_template('emails/invitation.html', user=new_user,
+                                                            reset_link=reset_link))
+            return redirect(url_for('user.user_info', user_id=new_user.id))
     else:
         return render_template('user/dashboard/add.html', form=form, action='add')
 
