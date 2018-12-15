@@ -2,7 +2,7 @@ import logging
 import os
 from logging.handlers import RotatingFileHandler
 
-from flask import Flask, redirect, url_for, render_template, abort, flash, request
+from flask import Flask, redirect, url_for, render_template, abort, flash, request, send_from_directory
 from flask_babelex import Babel
 from flask_bootstrap import Bootstrap
 from flask_mail import Mail
@@ -190,5 +190,10 @@ def create_app(config_class=Config):
     @app.errorhandler(500)
     def internal_error(e):
         return render_template('errors/500.html'), 500
+
+    @app.route('/favicon.ico')
+    def favicon():
+        return send_from_directory(os.path.join(app.root_path, 'static'),
+                                   'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
     return app
