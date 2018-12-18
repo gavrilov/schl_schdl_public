@@ -65,9 +65,7 @@ def add_student():
         form.dob.data = datetime.strptime('{}/{}/{}'.format(form.dob_month.data, form.dob_day.data, form.dob_year.data),
                                           '%m/%d/%Y')
         form.populate_obj(new_student)
-        new_student.user_id = current_user.id  # TODO current_user.students.append(new_student)
-        # save new school to db
-        db.session.add(new_student)
+        current_user.students.append(new_student)
         db.session.commit()
         flash(_('Student has been created'), 'success')
         return redirect(url_for('student.enroll_student', student_id=new_student.id))

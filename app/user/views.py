@@ -105,11 +105,12 @@ def user_role():
     if thisuser and thisrole:
         if action == 'add':
             user_datastore.add_role_to_user(thisuser, thisrole)
-            if thisrole.name == 'teacher' and not Teacher.query.filter_by(id=thisuser.id).first():
+            if thisrole.name == 'teacher' and not Teacher.query.filter_by(user_id=thisuser.id).first():
                 new_teacher = Teacher()
                 new_teacher.user_id = thisuser.id
                 db.session.add(new_teacher)
                 db.session.commit()
+                flash(_('Teacher created'), 'success')
 
         elif action == 'remove':
             user_datastore.remove_role_from_user(thisuser, thisrole)
