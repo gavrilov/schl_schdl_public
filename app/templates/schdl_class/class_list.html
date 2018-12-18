@@ -62,7 +62,7 @@
                     {% for current_class in classes %}
                         <tr>
                             <td><input type="hidden" name="schdl_classes" value="{{ current_class.id }}"></td>
-                            <td>{{ current_class.school.name }}</td>
+                            <td>{{ current_class.school.name }} <span class="badge badge-secondary">{{ current_class.enrollments.count() }}</span></td>
                             <td bgcolor="{{ current_class.subject.color }}"><a
                                     href="{{ url_for('schdl_class.info_class', class_id=current_class.id) }}">{{ current_class.subject.name }}</a>
                             </td>
