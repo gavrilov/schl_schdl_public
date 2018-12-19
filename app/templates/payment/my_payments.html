@@ -4,6 +4,7 @@
         <thead>
         <tr>
             <th>{{ _('Date') }}</th>
+            <th>{{ _('Receipt #') }}</th>
             <th>{{ _('Amount') }}</th>
             <th>{{ _('Card') }}</th>
             <th>{{ _('Description') }}</th>
@@ -14,15 +15,22 @@
         {% for payment in payments %}
             <tr>
                 <td>{{ moment(payment.created | ctime).format('L LT') }}</td>
+                <td>{{ payment.receipt_number }}</td>
                 <td>{{ payment.amount/100 }} {{ payment.currency }}</td>
                 <td>{{ payment.source.brand }}-{{ payment.source.last4 }}</td>
                 <td>{{ payment.description }}</td>
-                {% if payment.amount_refunded > 0 %}
-                    <td>{{ _('Refunded') }} {{ payment.amount_refunded/100 }} {{ payment.currency }}</td>
-                {% else %}
-                    <td>{{ payment.status }}</td>
-                {% endif %}
-            </tr>
+                <td>{{ payment.status }}</td>
+            <tr>
+                {% for refund in payment.refunds.data %}
+                    <tr>
+                        <td>{{ moment(refund.created | ctime).format('L LT') }}</td>
+                        <td>{{ refund.receipt_number }}</td>
+                        <td>-{{ refund.amount/100 }} {{ refund.currency }}</td>
+                        <td>{{ payment.source.brand }}-{{ payment.source.last4 }}</td>
+                        <td>{{ payment.description }} <span class="badge badge-primary">{{ _('Refund') }}</span></td>
+                        <td>{{ refund.status }}</td>
+                    <tr>
+                {% endfor %}
         {% endfor %}
         </tbody>
     </table>

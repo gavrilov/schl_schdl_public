@@ -6,7 +6,7 @@
         <td>
             <a href="{{ url_for('student.info', student_id=student.id) }}">
                 {% if not enrollment.current %}
-                    {{ _('[DROPPED]') }}
+                    <span class="badge badge-danger">{{ _('DROPPED') }}</span>
                 {% endif %}
                 {{ student.first_name }} {{ student.last_name }}</a>
         </td>

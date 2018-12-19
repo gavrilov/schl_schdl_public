@@ -13,11 +13,13 @@ def main():
     # Dashboard for Admins
     users = User.query.count()
     users_without_students = User.query.filter(~User.students.any()).count()
+    teachers = Teacher.query.count()
+    users_without_students -= teachers  # dont count teachers
     students = Student.query.count()
     not_enrolled_students = Student.query.filter(~Student.enrollments.any()).count()
     enrollments_num = Enrollment.query.count()
     five_last_enrollments = Enrollment.query.order_by(Enrollment.id.desc()).limit(5).all()
-    return render_template('dashboard/dashboard.html', users=users, students=students, enrollments_num=enrollments_num,
+    return render_template('dashboard/dashboard.html', users=users, teachers=teachers, students=students, enrollments_num=enrollments_num,
                            five_last_enrollments=five_last_enrollments, users_without_students=users_without_students,
                            not_enrolled_students=not_enrolled_students)
 

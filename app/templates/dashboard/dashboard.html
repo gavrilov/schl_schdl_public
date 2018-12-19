@@ -26,6 +26,12 @@
                 href="{{ url_for('user.user_without_students_list') }}">{{ users_without_students }}</a>
         </div>
     </div>
+        <div class="row">
+        <div class="col">
+            {{ _('Teachers:') }} <a
+                href="{{ url_for('teacher.teacher_list') }}">{{ teachers }}</a>
+        </div>
+    </div>
     <div class="row">
         <div class="col">
             {{ _('Total students:') }} <a href="{{ url_for('student.student_all_list') }}">{{ students }}</a>
