@@ -28,9 +28,11 @@ def list_current():
 @roles_required('admin')
 def add(student_id):
     form = EnrollmentForm()
-    current_classes = Schdl_Class.query.filter_by(current=True).all()
+    current_classes = Schdl_Class.query.filter_by(current=True).join(School, Schdl_Class.school).order_by(
+        School.name.asc()).all()
 
-    class_list = [(i.id, i.school.name + ' ' + i.subject.name + ' ' + i.day_of_week) for i in current_classes]
+    class_list = [(i.id, i.school.name + '@' + i.subject.name + ' ' + i.day_of_week + ' ' + (
+        i.class_time_start.strftime("%I:%M %p") if i.class_time_start else "")) for i in current_classes]
     form.class_id.choices = class_list
 
     if form.validate_on_submit():
@@ -54,10 +56,10 @@ def add(student_id):
 @roles_required('admin')
 def edit(enrollment_id):
 
-    current_classes = Schdl_Class.query.filter_by(current=True).all()
+    current_classes = Schdl_Class.query.filter_by(current=True).join(School, Schdl_Class.school).order_by(School.name.asc()).all()
     current_enrollment = Enrollment.query.filter_by(id=enrollment_id).first()
     form = EnrollmentForm(obj=current_enrollment)
-    class_list = [(i.id, i.school.name + ' ' + i.subject.name + ' ' + i.day_of_week) for i in current_classes]
+    class_list = [(i.id, i.school.name + '@' + i.subject.name + ' ' + i.day_of_week + ' ' + (i.class_time_start.strftime("%I:%M %p") if i.class_time_start else "")) for i in current_classes]
     form.class_id.choices = class_list
     if form.validate_on_submit():
         form.populate_obj(current_enrollment)
