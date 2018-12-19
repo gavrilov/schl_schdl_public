@@ -79,8 +79,17 @@
     {% for enrollment in student.enrollments %}
         <div class="row border-top">
             <div class="col">
-                {% if enrollment.current %}
-                    <span class="badge badge-success">{{ _('Current') }}</span>
+            {% if enrollment.schdl_class.current %}
+
+            {% endif %}
+                {% if enrollment.current and enrollment.schdl_class.current%}
+                    <span class="badge badge-success">{{ _('Enrolled') }}</span>
+                {% elif enrollment.current and not enrollment.schdl_class.current %}
+                    <span class="badge badge-warning">{{ _('Archive') }}</span>
+                    <span class="badge badge-success">{{ _('Was enrolled') }}</span>
+                {% elif not enrollment.current and not enrollment.schdl_class.current %}
+                    <span class="badge badge-warning">{{ _('Archive') }}</span>
+                    <span class="badge badge-danger">{{ _('Dropped') }}</span>
                 {% else %}
                     <span class="badge badge-danger">{{ _('Dropped') }}</span>
                 {% endif %}
