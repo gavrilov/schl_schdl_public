@@ -10,77 +10,128 @@
 {% block page_content %}
     {{ super() }}
     <div class="row">
-    <div class="col">
-        <h1>{{ student.first_name }} {{ student.last_name }}</h1>
-        <small>
-            {{ _('Created:') }} {{ moment(student.timestamp).format('L LT') }}
-        </small>
-    </div>
-    </div>
-    <div class="row">
-    <div class="col">
-        <h3>{{ _('Student Info') }}</h3>
-    </div>
-    </div>
-    <div class="row">
-    <div class="col">
-        {{ _('DOB:') }} {{ student.dob | cdateformat }} <br>
-    {% if student.gender == 1 %}
-        {{ _('Gender:') }} {{ _('Boy') }} <br>
-    {% else %}
-        {{ _('Gender:') }} {{ _('Girl') }} <br>
-    {% endif %}
+        <div class="col">
+            <h1>{{ student.first_name }} {{ student.last_name }}</h1>
+            <small>
+                {{ _('Created:') }} {{ moment(student.timestamp).format('L LT') }}
+            </small>
         </div>
     </div>
     <div class="row">
-    <div class="col">
-        {{ _('Note about student:') }} {{ student.note }}<br>
+        <div class="col">
+            <h3>{{ _('Student Info') }}</h3>
         </div>
     </div>
     <div class="row">
-    <div class="col">
-        <h3>{{ _('User Info') }}</h3>
+        <div class="col">
+            {{ _('DOB:') }} {{ student.dob | cdateformat }} <br>
+            {% if student.gender == 1 %}
+                {{ _('Gender:') }} {{ _('Boy') }} <br>
+            {% else %}
+                {{ _('Gender:') }} {{ _('Girl') }} <br>
+            {% endif %}
         </div>
     </div>
     <div class="row">
-    <div class="col">
-        {{ _('User:') }} <a
-            href="{{ url_for('user.user_info', user_id=student.user.id) }}">{{ student.user.first_name }} {{ student.user.last_name }}</a><br>
+        <div class="col">
+            {{ _('Note about student:') }} {{ student.note }}<br>
         </div>
     </div>
     <div class="row">
-    <div class="col">
-        {{ _('Note about User:') }} {{ student.user.note }}<br>
+        <div class="col">
+            <h3>{{ _('User Info') }}</h3>
         </div>
     </div>
     <div class="row">
-    <div class="col">
-    {% for contact in student.user.contacts %}
-        {{ _('Email:') }} {{ contact.email }}<br>
-        {{ _('Phone:') }} {{ contact.phone }}<br>
-        {{ _('Address:') }} {{ contact.address1 }} {{ contact.address2 }} {{ contact.city }} {{ contact.state }}
-        {{ contact.zip }}
-        <br>
+        <div class="col">
+            {{ _('User:') }} <a
+                href="{{ url_for('user.user_info', user_id=student.user.id) }}">{{ student.user.first_name }} {{ student.user.last_name }}</a><br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ _('Note about User:') }} {{ student.user.note }}<br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {% for contact in student.user.contacts %}
+                {{ _('Email:') }} {{ contact.email }}<br>
+                {{ _('Phone:') }} {{ contact.phone }}<br>
+                {{ _('Address:') }} {{ contact.address1 }} {{ contact.address2 }} {{ contact.city }} {{ contact.state }}
+                {{ contact.zip }}
+                <br>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h3>{{ _('Enrollments') }}</h3>
+        </div>
+            <div class="col"><a class="btn btn-outline-success" role="button" href="#theModal" data-remote="{{ url_for('enrollment.add', student_id=student.id) }}" data-toggle="modal" data-target="#theModal">{{ _('Add Enrollment') }}</a></div>
+    </div>
+    <div class="row">
+        <div class="col">{{ _('Date') }}</div>
+        <div class="col">{{ _('Class') }}</div>
+        <div class="col">{{ _('Note') }}</div>
+        <div class="col">{{ _('Edit') }}</div>
+    </div>
+    {% for enrollment in student.enrollments %}
+        <div class="row border-top">
+            <div class="col">
+                {% if enrollment.current %}
+                    <span class="badge badge-success">{{ _('Current') }}</span>
+                {% else %}
+                    <span class="badge badge-danger">{{ _('Dropped') }}</span>
+                {% endif %}
+                {{ moment(enrollment.timestamp).format('L LT') }}</div>
+            <div class="col">
+                <a href="{{ url_for('schdl_class.info_class', class_id=enrollment.schdl_class.id) }}">{{ enrollment.schdl_class.subject.name }}
+                    @ {{ enrollment.schdl_class.school.name }}</a><br>
+            </div>
+            <div class="col">{{ enrollment.note }}</div>
+            <div class="col"><a class="btn btn-outline-success" role="button" href="#theModal" data-remote="{{ url_for('enrollment.edit', enrollment_id=enrollment.id) }}" data-toggle="modal" data-target="#theModal">Edit</a></div>
+        </div>
     {% endfor %}
+
+<div class="modal fade" id="theModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{ _('Enrollment') }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {# remote content from "data-remote" loads here #}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('Close') }}</button>
+                <button type="button" class="btn btn-primary">{{ _('Submit') }}</button>
+            </div>
         </div>
     </div>
-    <div class="row">
-    <div class="col">
-        <h3>{{ _('Classes Info') }}</h3>
-        </div>
-    </div>
-    <div class="row">
-    <div class="col">
-        {% for enrollment in student.enrollments %}
-            <a href="{{ url_for('schdl_class.info_class', class_id=enrollment.schdl_class.id) }}">{{ enrollment.schdl_class.subject.name }}
-                @ {{ enrollment.schdl_class.school.name }}</a><br>
-    {% endfor %}
-    </div>
-    </div>
+</div>
+
 {% endblock %}
 
 
 {% block scripts %}
     {{ super() }}
     {{ moment.include_moment() }}
+    <script>
+        $('#theModal').on('show.bs.modal', function (e) {
+
+            var button = $(e.relatedTarget);
+            var modal = $(this);
+
+            // load content from HTML string
+            //modal.find('.modal-body').html("Nice modal body baby...");
+
+            // or, load content from value of data-remote url
+            modal.find('.modal-body').load(button.data("remote"));
+
+        });
+    </script>
 {% endblock %}
