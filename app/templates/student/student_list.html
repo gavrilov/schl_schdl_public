@@ -19,12 +19,18 @@
 
             <a class="btn btn-outline-warning" href="{{ url_for('student.not_enrolled') }}"
                role="button">{{ _('Not Enrolled Students') }}</a>
+
+                        <a class="btn btn-outline-danger" href="{{ url_for('student.student_drops_list') }}"
+               role="button">{{ _('Drops Student') }}</a>
             {#  <a class="btn btn-outline-success" href="{{ url_for('student.add_student') }}" role="button">{{ _('Add New Student') }}</a> #}
         </div>
 
     </div>
-
+    {% if drops_students_only %}
+    <h1>{{ _('Drops List of students') }}</h1>
+    {% else %}
     <h1>{{ _('List of students') }}</h1>
+    {% endif %}
     <form method="POST" action="" id="theForm">
         <table class="table table-hover table-bordered" id="maintable">
             <caption>{{ _('List of students') }}</caption>

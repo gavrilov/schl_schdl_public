@@ -23,6 +23,17 @@ def student_list():
     return render_template('student/student_list.html', students_html=students_html, current_students_only=True)
 
 
+@student.route('/drops', methods=['GET', 'POST'])
+@roles_required('admin')
+def student_drops_list():
+    students_html = ""
+    current_classes = Schdl_Class.query.filter_by(current=True).all()
+    for current_class in current_classes:
+        # generate rows for table for each class
+        students_html += render_template('student/student_drops_list_rows.html', current_class=current_class)
+    return render_template('student/student_list.html', students_html=students_html, drops_students_only=True)
+
+
 @student.route('/all', methods=['GET', 'POST'])
 @roles_required('admin')
 def student_all_list():
