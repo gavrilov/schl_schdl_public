@@ -232,10 +232,11 @@ def create_events(current_class):
 
     end_local = time_zone.localize(end)
     # convert to utc timezone
-    # start_time_utc = start_time_local.astimezone(tz.utc)
+    start_time_utc = start_time_local.astimezone(tz.utc)
+    end_time_utc = end_local.astimezone(tz.utc)
     # print(start_time_local.strftime('%m/%d/%Y %I:%M %p'))
 
-    event_dates = rrule.rrule(rrule.WEEKLY, dtstart=start_time_local, until=end_local)
+    event_dates = rrule.rrule(rrule.WEEKLY, dtstart=start_time_utc, until=end_time_utc)
 
     for event_date in event_dates:
         new_event = Event()
