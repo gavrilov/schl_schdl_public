@@ -93,8 +93,8 @@ class Event(db.Model):
     active = db.Column('active', db.Boolean())
     payrate = db.Column('payrate', db.Numeric(scale=2))
     billing_rate = db.Column('billing_rate', db.Numeric(scale=2))
-    start = db.Column('start', db.DateTime)
-    end = db.Column('end', db.DateTime)
+    start = db.Column('start', db.DateTime(timezone=True))
+    end = db.Column('end', db.DateTime(timezone=True))
     attendances = db.relationship('Attendance', backref='event', lazy='dynamic')
 
 
