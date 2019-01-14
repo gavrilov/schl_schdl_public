@@ -39,7 +39,7 @@
             </tr>
             {% for current_event in events %}
                 <tr>
-                    <td>{{ moment(current_event.start ).format('L LT') }}</td>
+                    <td>{{ moment(current_event.start, local=True).format('L LT') }}</td>
                     <td>{{ current_event.schdl_class.school.name }}</td>
                     <td>
                         <a href="{{ url_for('schdl_class.info_class', class_id=current_event.schdl_class.id) }}">{{ current_event.schdl_class.subject.name }}</a>
