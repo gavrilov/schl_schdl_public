@@ -50,7 +50,7 @@
         <table class="table table-striped table-bordered table-responsive">
             <tr>
                 <th>Name</th>
-                {% for event in current_class.events %}
+                {% for event in current_class.events|sort(attribute='start') %}
                     <th>{{ moment(event.start).format('D-MMM') }}</th>
                 {% endfor %}
             </tr>
@@ -59,16 +59,20 @@
                     <td>
                         {{ enrollment.student.first_name }} {{ enrollment.student.last_name }}
                     </td>
-                    {% for event in current_class.events %}
-                        <td>
-                            <form id="change_attendance" action="#">
-                                {{ form.csrf_token }}
-                                <input type="hidden" value={{ enrollment.student_id }} name="student_id">
-                                <input type="hidden" value={{ event.id }} name="event_id">
-                                {#  set id for select #}
-                                {{ form.status(onchange='attendanceChange(this)', id='s{student_id}e{event_id}'.format(student_id=enrollment.student_id, event_id=event.id)) }}
-                            </form>
-                        </td>
+                    {% for event in current_class.events|sort(attribute='start') %}
+                        {% if event.active %}
+                            <td>
+                                <form id="change_attendance" action="#">
+                                    {{ form.csrf_token }}
+                                    <input type="hidden" value={{ enrollment.student_id }} name="student_id">
+                                    <input type="hidden" value={{ event.id }} name="event_id">
+                                    {#  set id for select #}
+                                    {{ form.status(onchange='attendanceChange(this)', id='s{student_id}e{event_id}'.format(student_id=enrollment.student_id, event_id=event.id)) }}
+                                </form>
+                            </td>
+                        {% else %}
+                            <td>N/A</td>
+                        {% endif %}
                     {% endfor %}
                 </tr>
             {% endfor %}
@@ -83,6 +87,7 @@
 
     <script>
         {# script makes post request to backend every time when selectfield changed #}
+
         function attendanceChange(obj) {
             var $form = $(obj).closest('form'); // OR var form = obj.from;
             var dataString = $form.serialize();
