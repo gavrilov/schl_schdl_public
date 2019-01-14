@@ -1,6 +1,6 @@
 from flask import jsonify
 from flask import render_template, Blueprint
-from flask_security import roles_required
+from flask_security import roles_required, roles_accepted
 
 from app import db
 from app.models import Attendance, Enrollment, Schdl_Class
@@ -18,7 +18,7 @@ def list_all():
 
 
 @attendance.route('/class/<class_id>', methods=['GET', 'POST'])
-@roles_required('teacher')
+@roles_accepted('teacher', 'admin')
 def for_class(class_id):
     form = AttendanceForm()
     current_class = Schdl_Class.query.filter_by(id=class_id).first()
@@ -27,7 +27,7 @@ def for_class(class_id):
 
 
 @attendance.route('/change', methods=['POST'])
-@roles_required('teacher')
+@roles_accepted('teacher', 'admin')
 def change():
     form = AttendanceForm()
 
@@ -60,7 +60,7 @@ def change():
 
 
 @attendance.route('/get_data/<class_id>', methods=['POST', 'GET'])
-@roles_required('teacher')
+@roles_accepted('teacher', 'admin')
 def get_data(class_id):
     current_class = Schdl_Class.query.filter_by(id=class_id).first()
     attendance_data = []
