@@ -1,7 +1,7 @@
 {% for enrollment in current_class.enrollments %}
 
     {% set student = enrollment.student %}
-    {% if enrollment.current %}
+    {% if not enrollment.current %}
     <tr>
         <td><input type="hidden" name="students" value="{{ student.id }}"></td>
         <td>
