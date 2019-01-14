@@ -95,6 +95,17 @@ class Event(db.Model):
     billing_rate = db.Column('billing_rate', db.Numeric(scale=2))
     start = db.Column('start', db.DateTime)
     end = db.Column('end', db.DateTime)
+    attendances = db.relationship('Attendance', backref='event', lazy='dynamic')
+
+
+class Attendance(db.Model):
+    __tablename__ = "attendances"
+    id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
+    event_id = db.Column(db.Integer, db.ForeignKey('events.id'))
+    student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
+    status = db.Column('status', db.Integer())  # 1 - for A, 2 - for P
+    note = db.Column('note', db.Unicode(2048))
+    timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
 
 class User(UserMixin, db.Model):
@@ -155,6 +166,7 @@ class Student(db.Model):
     default_school_id = db.Column(db.Integer, db.ForeignKey('schools.id'))
     enrollments = db.relationship('Enrollment', backref='student', lazy='dynamic')
     timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    attendances = db.relationship('Attendance', backref='student', lazy='dynamic')
 
 
 # for Flask-Security

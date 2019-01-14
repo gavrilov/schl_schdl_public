@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}{{ _('Class Info') }}{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <style>
+        {# we use that style to freeze first column with student names #}
+        th {
+            background-color: darkgrey;
+            color: white;
+        }
+
+        th:first-child, td:first-child {
+            position: sticky;
+            left: 0px;
+        }
+
+        td:first-child {
+            background-color: white;
+        }
+    </style>
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
+        <div class="row">
+            <div class="col text-left">
+                <h1>{{ current_class.subject.name }} @ {{ current_class.school.name }}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-left">
+                <h3>{{ current_class.day_of_week }} - {{ current_class.class_time_start }}</h3>
+            </div>
+        </div>
+
+        <!--Attendance table-->
+        <div class="row mt-4">
+            <div class="col">
+                <h2>{{ _('Attendance') }}</h2>
+            </div>
+        </div>
+
+
+        <table class="table table-striped table-bordered table-responsive">
+            <tr>
+                <th>Name</th>
+                {% for event in current_class.events %}
+                    <th>{{ moment(event.start).format('D-MMM') }}</th>
+                {% endfor %}
+            </tr>
+            {% for enrollment in current_class.enrollments %}
+                <tr>
+                    <td>
+                        {{ enrollment.student.first_name }} {{ enrollment.student.last_name }}
+                    </td>
+                    {% for event in current_class.events %}
+                        <td>
+                            <form id="change_attendance" action="#">
+                                {{ form.csrf_token }}
+                                <input type="hidden" value={{ enrollment.student_id }} name="student_id">
+                                <input type="hidden" value={{ event.id }} name="event_id">
+                                {#  set id for select #}
+                                {{ form.status(onchange='attendanceChange(this)', id='s{student_id}e{event_id}'.format(student_id=enrollment.student_id, event_id=event.id)) }}
+                            </form>
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+
+    <script>
+        function attendanceChange(obj) {
+            var $form = $(obj).closest('form'); // OR var form = obj.from;
+            var dataString = $form.serialize();
+            // alert(dataString);
+            $.ajax({
+                type: "POST",
+                url: "{{ url_for('attendance.change') }}",
+                data: dataString,
+                success: function () {
+                    obj.style.backgroundColor = "lightgreen";
+                    // alert("prout");
+                },
+                error: function () {
+                    obj.style.backgroundColor = "red";
+                    alert("Error! This attendance record did not saved! Please try again or write it on paper and contact office");
+                },
+
+            });
+        }
+    </script>
+    <script>
+        {# script gets status data of entered attandances and updates selectfields #}
+        $("document").ready(function () {
+            console.log('data:');
+            $.getJSON("{{ url_for('attendance.get_data', class_id=current_class.id) }}", function (json) {
+                $.each(json, function (key, val) {
+                    // console.log(val.id);
+                    // console.log(val.status);
+                    document.getElementById(val.id).value = val.status;
+                });
+            });
+        })
+    </script>
+
+
+{% endblock %}

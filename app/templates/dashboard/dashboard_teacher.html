@@ -21,7 +21,7 @@
                 {% for current_class in teacher.classes %}
                     <div class="row border-bottom mt-3">
                         <div class="col">
-                            <a href="{{ url_for('schdl_class.info_class', class_id=current_class.id) }}">{{ current_class.subject.name }}</a>
+                            <a href="{{ url_for('attendance.for_class', class_id=current_class.id) }}">{{ current_class.subject.name }}</a>
                         </div>
                         <div class="col">
                             {{ current_class.school.name }}

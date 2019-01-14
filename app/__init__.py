@@ -63,6 +63,8 @@ def create_app(config_class=Config):
     app.register_blueprint(payment, url_prefix='/payment')
     from app.enrollment.views import enrollment
     app.register_blueprint(enrollment, url_prefix='/enrollment')
+    from app.attendance.views import attendance
+    app.register_blueprint(attendance, url_prefix='/attendance')
     # ====== END-BLUEPRINTS ===================================================
 
     # Logging for Production
