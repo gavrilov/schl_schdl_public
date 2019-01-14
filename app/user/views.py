@@ -246,8 +246,8 @@ def add_contacts():
 @login_required
 def edit_contacts(contact_id):
     contact_info = UserContacts.query.filter_by(id=contact_id).first()
-
-    if not contact_info or contact_info not in current_user.contacts:
+    if not contact_info or (contact_info not in current_user.contacts and not current_user.has_role(
+            'admin')):
         current_app.logger.warning(
             'User is trying to edit not his contact. user_id = {} contact_id = {}'.format(current_user.id, contact_id))
         flash(_('Contact information did not find'), 'danger')
@@ -257,8 +257,6 @@ def edit_contacts(contact_id):
 
     if form.validate_on_submit():
         form.populate_obj(contact_info)
-        # save new school to db
-        contact_info.user_id = current_user.id
         db.session.commit()
         flash(_('Contact information has been updated'), 'success')
         return redirect(url_for('user.main'))
@@ -276,7 +274,8 @@ def edit_contacts(contact_id):
 def delete_contacts(contact_id):
     contact_info = UserContacts.query.filter_by(id=contact_id).first()
 
-    if not contact_info or contact_info not in current_user.contacts:
+    if not contact_info or (contact_info not in current_user.contacts and not current_user.has_role(
+            'admin')):
         current_app.logger.warning(
             'User is trying to delete not his contact. user_id = {} contact_id = {}'.format(current_user.id,
                                                                                             contact_id))
