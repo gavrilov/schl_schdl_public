@@ -37,25 +37,25 @@ def change():
         check_attendance = Attendance.query.filter_by(student_id=form.student_id.data,
                                                       event_id=form.event_id.data).first()
         if not check_attendance:
-            print('New attendance record')
+            # print('New attendance record')
             new_attendance = Attendance()
             form.populate_obj(new_attendance)
             # new_attendance.id = None
             db.session.add(new_attendance)
             db.session.commit()
         else:
-            print('Updating attendance with id', check_attendance.id)
+            # print('Updating attendance with id', check_attendance.id)
             update_attendance = check_attendance
             form.populate_obj(update_attendance)
 
             db.session.commit()
-        print(form.student_id.data, form.event_id.data, form.status.data)
+        # print(form.student_id.data, form.event_id.data, form.status.data)
         return resp
     else:
         resp = jsonify(success=False)
         resp.status_code = 400
-        print(form.student_id.data, form.event_id.data, form.status.data)
-        print("Not Ok :(")
+        # print(form.student_id.data, form.event_id.data, form.status.data)
+        # print("Not Ok :(")
         return resp
 
 
@@ -68,7 +68,7 @@ def get_data(class_id):
         for current_attendance in current_event.attendances:
             attendance_data.append({'id': 's{}e{}'.format(current_attendance.student_id, current_event.id),
                                     'status': current_attendance.status})
-    print(str(attendance_data))
+    # print(str(attendance_data))
     resp = jsonify(attendance_data)
     resp.status_code = 200
     return resp
