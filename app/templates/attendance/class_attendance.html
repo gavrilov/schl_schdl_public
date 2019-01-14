@@ -82,6 +82,7 @@
     {{ moment.include_moment() }}
 
     <script>
+        {# script makes post request to backend every time when selectfield changed #}
         function attendanceChange(obj) {
             var $form = $(obj).closest('form'); // OR var form = obj.from;
             var dataString = $form.serialize();
