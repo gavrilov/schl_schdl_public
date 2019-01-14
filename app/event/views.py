@@ -236,13 +236,15 @@ def create_events(current_class):
     # end_time_utc = end_local.astimezone(tz.utc)
     # print(start_time_local.strftime('%m/%d/%Y %I:%M %p'))
 
-    event_dates = rrule.rrule(rrule.WEEKLY, dtstart=start_time_local, until=end_local)
+    # generate without time zone
+    event_dates = rrule.rrule(rrule.WEEKLY, dtstart=start_time, until=end)
 
     for event_date in event_dates:
         new_event = Event()
         new_event.class_id = current_class.id
         new_event.active = True
-        new_event.start = event_date.astimezone(tz.utc)
+        # add time zone and convert to utc
+        new_event.start = time_zone.localize(event_date).astimezone(tz.utc)
         new_event.end = new_event.start + datetime.timedelta(seconds=class_duration)
         new_event.teacher_id = current_class.teacher.id
         new_event.payrate = current_class.payrate
