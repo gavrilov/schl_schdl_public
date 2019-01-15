@@ -50,7 +50,9 @@ def add_event(class_id):
     current_class = Schdl_Class.query.filter_by(id=class_id).first()
     if current_class.events.first():
         flash(_('Current class already has events'), 'warning')
-        return redirect(url_for('event.list_for_class', class_id=current_class.id))
+        # temporary disabled check for existing events
+        # return redirect(url_for('event.list_for_class', class_id=current_class.id))
+        return create_events(current_class)
     return create_events(current_class)
 
 
