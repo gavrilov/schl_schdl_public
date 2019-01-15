@@ -222,6 +222,8 @@ def create_events(current_class):
     # To calculate the difference - convert the datetime.time object to a datetime.datetime
     start_time = datetime.datetime.combine(start, current_class.class_time_start)
     end_time = datetime.datetime.combine(start, current_class.class_time_end)
+    # calculate last date of class and end time
+    end_date = datetime.datetime.combine(end, current_class.class_time_end)
 
     # get seconds from timedelta object and divide
     class_duration = (end_time - start_time).total_seconds()
@@ -237,8 +239,7 @@ def create_events(current_class):
     # print(start_time_local.strftime('%m/%d/%Y %I:%M %p'))
 
     # generate without time zone
-    event_dates = rrule.rrule(rrule.WEEKLY, dtstart=start_time, until=end)
-
+    event_dates = rrule.rrule(rrule.WEEKLY, dtstart=start_time, until=end_date)
     for event_date in event_dates:
         new_event = Event()
         new_event.class_id = current_class.id
