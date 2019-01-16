@@ -29,9 +29,9 @@ def class_all_list():
 @schdl_class.route('/add', methods=['GET', 'POST'])
 @roles_required('admin')
 def add_class():
-    current_schools = School.query.filter_by(current=True).all()
+    current_schools = School.query.filter_by(current=True).order_by(School.name.asc()).all()
     current_teachers = Teacher.query.filter_by(current=True).all()
-    current_subjects = Subject.query.filter_by(current=True).all()
+    current_subjects = Subject.query.filter_by(current=True).order_by(Subject.name.asc()).all()
     form = ClassForm()
 
     # Now forming the list of tuples for SelectField
