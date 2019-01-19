@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app
 from flask_babelex import _
 from flask_security import current_user, login_required, roles_required, roles_accepted
@@ -19,10 +21,10 @@ def class_list():
     return render_template('schdl_class/class_list.html', classes=classes, current_classes_only=True)
 
 
-@schdl_class.route('/all', methods=['GET', 'POST'])
+@schdl_class.route('/not_current', methods=['GET', 'POST'])
 @roles_required('admin')
-def class_all_list():
-    classes = Schdl_Class.query.filter_by().all()
+def not_current_list():
+    classes = Schdl_Class.query.filter_by(current=False).all()
     return render_template('schdl_class/class_list.html', classes=classes, current_classes_only=False)
 
 
@@ -121,8 +123,9 @@ def enroll_class(class_id, student_id):
         return redirect(url_for('user.main'))
     current_enrollment = Enrollment.query.filter(
         and_(Enrollment.student_id == student_id, Enrollment.class_id == class_id, Enrollment.current == True)).first()
+    utc_now = datetime.utcnow()
     return render_template('schdl_class/enroll.html', current_class=current_class, current_student=current_student,
-                           current_enrollment=current_enrollment, step=4)  # step=4 for progressbar
+                           current_enrollment=current_enrollment, utc_now=utc_now, step=4)  # step=4 for progressbar
 
 
 @schdl_class.route('/<class_id>/payment/<student_id>', methods=['GET', 'POST'])
