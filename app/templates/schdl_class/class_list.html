@@ -14,8 +14,8 @@
     <div class="row">
         <div class="col-md-3 offset-md-9">
             {% if current_classes_only %}
-                <a class="btn btn-outline-primary" href="{{ url_for('schdl_class.class_all_list') }}"
-                   role="button">{{ _('Show All Classes') }}</a>
+                <a class="btn btn-outline-primary" href="{{ url_for('schdl_class.not_current_list') }}"
+                   role="button">{{ _('Show Not Current Classes') }}</a>
             {% else %}
                 <a class="btn btn-outline-primary" href="{{ url_for('schdl_class.class_list') }}"
                    role="button">{{ _('Show Current Classes') }}</a>

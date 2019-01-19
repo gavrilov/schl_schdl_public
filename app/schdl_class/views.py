@@ -21,10 +21,10 @@ def class_list():
     return render_template('schdl_class/class_list.html', classes=classes, current_classes_only=True)
 
 
-@schdl_class.route('/all', methods=['GET', 'POST'])
+@schdl_class.route('/not_current', methods=['GET', 'POST'])
 @roles_required('admin')
-def class_all_list():
-    classes = Schdl_Class.query.filter_by().all()
+def not_current_list():
+    classes = Schdl_Class.query.filter_by(current=False).all()
     return render_template('schdl_class/class_list.html', classes=classes, current_classes_only=False)
 
 
