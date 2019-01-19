@@ -30,6 +30,8 @@
             <div class="col">
                 <a class="btn btn-primary" href="{{ url_for('attendance.for_class', class_id=current_class.id) }}"
                    role="button">{{ _('Attendance List') }}</a>
+                <a class="btn btn-primary" href="{{ url_for('schdl_class.edit_class', class_id=current_class.id) }}"
+                   role="button">{{ _('Edit Class') }}</a>
             </div>
         </div>
 
