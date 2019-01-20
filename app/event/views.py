@@ -141,14 +141,16 @@ def delete_event(event_id):
 def data(schdl_object, id):
     start_date = request.args.get('start', '')
     end_date = request.args.get('end', '')
+    current_time_zone = request.args.get('timezone', '')
 
     start = datetime.datetime.strptime(start_date, '%Y-%m-%d')
     end = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+    time_zone = tz.timezone(current_time_zone)
 
     if schdl_object == 'class':
         current_class = Schdl_Class.query.filter_by(id=id).first()
         events = current_class.events.filter(Event.start > start, Event.end < end).all()
-        return generate_calendar_data(events)
+        return generate_calendar_data(events, time_zone)
     elif schdl_object == 'student':
         # get Events between star_date & end_date for student_id
         pass
@@ -164,25 +166,25 @@ def data(schdl_object, id):
     elif schdl_object == 'all':
         # get all Events between star_date & end_date
         events = Event.query.filter(Event.start > start, Event.end < end).all()
-        return generate_calendar_data(events)
+        return generate_calendar_data(events, time_zone)
         pass
 
     return 'ok'
 
 
-def generate_calendar_data(events):
+def generate_calendar_data(events, time_zone):
     json_data = []
     for current_event in events:
-        json_data.append(dict_from_event(current_event))
+        json_data.append(dict_from_event(current_event, time_zone))
     print(json_data)
     return json.dumps(json_data)
 
 
-def dict_from_event(current_event):
+def dict_from_event(current_event, time_zone):
     event_data = {}
     event_data['id'] = current_event.id
-    event_data['start'] = current_event.start.isoformat()
-    event_data['end'] = current_event.end.isoformat()
+    event_data['start'] = current_event.start.astimezone(time_zone).isoformat()
+    event_data['end'] = current_event.end.astimezone(time_zone).isoformat()
     event_data['active'] = current_event.active
     if not current_event.active:
         event_data['title'] = '<s>{} @ {} - {} {}</s>'.format(current_event.schdl_class.subject.name,
