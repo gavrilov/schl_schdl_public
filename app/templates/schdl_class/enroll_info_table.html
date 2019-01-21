@@ -1,28 +1,44 @@
+{# check if current class registraion is open #}
+{% if current_class.registration_end %}
+    {% if utc_now > current_class.registration_end %}
+        {% set registration_message = _('Registration is closed') %}
+    {% endif %}
+{% endif %}
+{% if current_class.registration_start %}
+    {% if utc_now < current_class.registration_start %}
+        {% set registration_message = _('Registration has not started yet') %}
+    {% endif %}
+{% endif %}
+
 <div class="row">
     <div class="col">
         <div class="jumbotron">
-        <div class="col text-center text-md-left">
-            {% if current_enrollment %}
-                <a class="btn btn-success"
-                   href="#"
-                   role="button">{{ _('{first_name} {last_name} already enrolled for that class').format(first_name=current_student.first_name, last_name=current_student.last_name) }} </a>
-            {% elif current_user.stripe_id %}
-                {{ _('Click to Enroll {first_name} {last_name}').format(first_name=current_student.first_name, last_name=current_student.last_name) }}
-                <br>
-                <a class="btn btn-success"
-                   href="{{ url_for('schdl_class.payment_class', class_id=current_class.id, student_id=current_student.id) }}"
-                   role="button">
-                    {{ _('Complete Registration') }}<br>{{ _('Pay with your card ${price}').format(price=current_class.price) }}
-                </a>
-            {% else %}
-                <!--Update Card and Pay Button-->
-                <div class="col">
-                {% include 'payment/add_card_and_pay_button.html' %}
-                </div>
-                <div class="col">
-                    {{ _('To enroll {first_name} {last_name} - click and pay with your card').format(first_name=current_student.first_name, last_name=current_student.last_name) }}
-                </div>
-            {% endif %}
+            <div class="col text-center text-md-left">
+                {% if current_enrollment %}
+                    <a class="btn btn-success"
+                       href="#"
+                       role="button">{{ _('{first_name} {last_name} already enrolled for that class').format(first_name=current_student.first_name, last_name=current_student.last_name) }} </a>
+                {% elif current_user.stripe_id and not registration_message %}
+                    {{ _('Click to Enroll {first_name} {last_name}').format(first_name=current_student.first_name, last_name=current_student.last_name) }}
+                    <br>
+                    <a class="btn btn-success"
+                       href="{{ url_for('schdl_class.payment_class', class_id=current_class.id, student_id=current_student.id) }}"
+                       role="button">
+                        {{ _('Complete Registration') }}<br>{{ _('Pay with your card ${price}').format(price=current_class.price) }}
+                    </a>
+                {% elif not registration_message %}
+                    <!--Update Card and Pay Button-->
+                    <div class="col">
+                        {% include 'payment/add_card_and_pay_button.html' %}
+                    </div>
+                    <div class="col">
+                        {{ _('To enroll {first_name} {last_name} - click and pay with your card').format(first_name=current_student.first_name, last_name=current_student.last_name) }}
+                    </div>
+                {% else %}
+                    <div class="col">
+                        <a class="btn btn-warning" href="#" role="button">{{ registration_message }}</a>
+                    </div>
+                {% endif %}
             </div>
             <h1 class="display-4">{{ _('{subject_name} at {school_name}!').format(subject_name=current_class.subject.name, school_name=current_class.school.name) }}</h1>
             <p class="lead"> {{ _('Day: {day_of_week}').format(day_of_week=current_class.day_of_week) }}<br>

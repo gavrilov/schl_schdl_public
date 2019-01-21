@@ -164,6 +164,10 @@
         <div class="col">
             <h2>{{ _('Contacts') }}</h2>
         </div>
+        <div class="col text-right">
+            <a href="{{ url_for('dashboard.add_contact_information', user_id=user.id) }}"
+               class="btn btn-outline-primary" role="button" aria-pressed="true">{{ _('Add Contact Info') }}</a>
+        </div>
     </div>
     <div class="row">
         <div class="col">
