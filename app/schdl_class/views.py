@@ -31,9 +31,9 @@ def not_current_list():
 @schdl_class.route('/add', methods=['GET', 'POST'])
 @roles_required('admin')
 def add_class():
-    current_schools = School.query.filter_by(current=True).all()
+    current_schools = School.query.filter_by(current=True).order_by(School.name.asc()).all()
     current_teachers = Teacher.query.filter_by(current=True).all()
-    current_subjects = Subject.query.filter_by(current=True).all()
+    current_subjects = Subject.query.filter_by(current=True).order_by(Subject.name.asc()).all()
     form = ClassForm()
 
     # Now forming the list of tuples for SelectField
@@ -100,7 +100,7 @@ def edit_class(class_id):
             return render_template('schdl_class/edit.html', form=form, current_class=current_class)
     else:
         flash(_('Class did not find'), 'danger')
-        return redirect(url_for('schdl_class.class_list'))
+        return redirect(url_for('schdl_class.edit_class', class_id=current_class.id))
 
 
 @schdl_class.route('/<class_id>/enroll/<student_id>', methods=['GET', 'POST'])
