@@ -95,12 +95,12 @@ def edit_class(class_id):
             # save to db
             db.session.commit()
             flash(_('Class has been updated'), 'success')
-            return redirect(url_for('schdl_class.class_list'))
+            return redirect(url_for('schdl_class.edit_class', class_id=current_class.id))
         else:
             return render_template('schdl_class/edit.html', form=form, current_class=current_class)
     else:
         flash(_('Class did not find'), 'danger')
-        return redirect(url_for('schdl_class.edit_class', class_id=current_class.id))
+        return redirect(url_for('schdl_class.class_list'))
 
 
 @schdl_class.route('/<class_id>/enroll/<student_id>', methods=['GET', 'POST'])
