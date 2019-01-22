@@ -32,7 +32,7 @@
             {% endif %}
 
             {% if not registration_message %}
-                {% do_we_have_any_current_classes = true %}
+                {% set do_we_have_any_current_classes = true %}
                 <div class="row border-bottom border-top mt-2">
                     <div class="col align-self-center">{{ current_class.school.name }}</div>
                     <div class="col align-self-center">
