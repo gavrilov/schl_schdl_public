@@ -69,13 +69,13 @@
                 </div>
             {% endif %}
         {% endfor %}
-        {% if do_we_have_any_current_classes is not defined %}
+        {% if not do_we_have_any_current_classes%}
             <div class="alert alert-warning" role="alert">
                 {{ _('At the moment we do not have any open for registration classes. Please contact our office if you have any questions.') }}
             </div>
         {% endif %}
 
-        {% if current_school.agreement and do_we_have_any_current_classes is defined %}
+        {% if current_school.agreement and do_we_have_any_current_classes %}
             <div class="row mt-5">
                 <div class="col">
                     <div class="alert alert-danger" role="alert">
