@@ -15,6 +15,7 @@
                 <h1>{{ student.first_name }} {{ student.last_name }}</h1>
             </div>
         </div>
+    {% set ns = namespace(do_we_have_any_current_classes=false) %}
         {% for current_class in current_classes %}
 
             {# check if current class registraion is open #}
@@ -31,7 +32,8 @@
 
             {% if not registration_message %}
                 {# var to check if any classes is availibale right now, else - show message #}
-                {% set do_we_have_any_current_classes = true %}
+                {% set ns.do_we_have_any_current_classes = true %}
+                {{  do_we_have_any_current_classes }}
                 <div class="row border-bottom border-top mt-2">
                     <div class="col align-self-center">{{ current_class.school.name }}</div>
                     <div class="col align-self-center">
@@ -69,13 +71,14 @@
                 </div>
             {% endif %}
         {% endfor %}
-        {% if not do_we_have_any_current_classes%}
+        {% if not ns.do_we_have_any_current_classes %}
+            {{ do_we_have_any_current_classes }}
             <div class="alert alert-warning" role="alert">
                 {{ _('At the moment we do not have any open for registration classes. Please contact our office if you have any questions.') }}
             </div>
         {% endif %}
 
-        {% if current_school.agreement and do_we_have_any_current_classes %}
+        {% if current_school.agreement and ns.do_we_have_any_current_classes %}
             <div class="row mt-5">
                 <div class="col">
                     <div class="alert alert-danger" role="alert">
