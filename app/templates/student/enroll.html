@@ -32,7 +32,7 @@
             {% endif %}
 
             {% if not registration_message %}
-                {% set do_we_have_any_current_classes = true %}
+                {% do_we_have_any_current_classes = true %}
                 <div class="row border-bottom border-top mt-2">
                     <div class="col align-self-center">{{ current_class.school.name }}</div>
                     <div class="col align-self-center">
@@ -70,13 +70,13 @@
                 </div>
             {% endif %}
         {% endfor %}
-        {% if not do_we_have_any_current_classes %}
-            <div class="row border-bottom border-top mt-2">
-                <div class="col align-self-center">{{ _('At the moment we do not have any open for registration classes. Please contact our office if you have any questions.') }}</div>
-            </div>>
+        {% if do_we_have_any_current_classes == false %}
+            <div class="alert alert-warning" role="alert">
+                {{ _('At the moment we do not have any open for registration classes. Please contact our office if you have any questions.') }}
+            </div>
         {% endif %}
 
-        {% if current_school.agreement %}
+        {% if current_school.agreement and do_we_have_any_current_classes == true %}
             <div class="row mt-5">
                 <div class="col">
                     <div class="alert alert-danger" role="alert">
