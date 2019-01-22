@@ -58,7 +58,7 @@ class School(db.Model):
     type = db.Column('type', db.Unicode(2048))
     director_name = db.Column('director_name', db.Unicode(2048))
     note = db.Column('note', db.Unicode(2048))
-    hide_from_users = db.Column('hide_from_users', db.Boolean())
+    hide_from_users = db.Column('hide_from_users', db.Boolean(), default=False)
     current = db.Column('current', db.Boolean())
     agreement = db.Column('agreement', db.UnicodeText())
     classes = db.relationship('Schdl_Class', backref='school', lazy='dynamic')
