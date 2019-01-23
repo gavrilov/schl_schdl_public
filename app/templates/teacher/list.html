@@ -17,13 +17,13 @@
         </div>
         <div class="col text-right">
             {% if current_teachers_only %}
-                <a class="btn btn-outline-primary" href="{{ url_for('teacher.teacher_all_list') }}"
-                   role="button">{{ _('Show All Teachers') }}</a>
+                <a class="btn btn-outline-warning" href="{{ url_for('teacher.not_current_list') }}"
+                   role="button">{{ _('Show Not Current Teachers') }}</a>
             {% else %}
                 <a class="btn btn-outline-primary" href="{{ url_for('teacher.teacher_list') }}"
                    role="button">{{ _('Show Current Teachers') }}</a>
             {% endif %}
-            <a class="btn btn-outline-success" href="{{ url_for('teacher.teacher_add') }}"
+            <a class="btn btn-outline-success disabled" href="{{ url_for('teacher.teacher_add') }}"
                role="button">{{ _('Add New Teacher') }}</a>
         </div>
 
@@ -34,15 +34,13 @@
             <thead>
             <tr id="filterrow">
                 <th></th>
-                <th id="filtercol">{{ _('First Name') }}</th>
-                <th id="filtercol">{{ _('Last Name') }}</th>
+                <th id="filtercol">{{ _('Name') }}</th>
                 <th id="filtercol">{{ _('Note') }}</th>
                 <th></th>
             </tr>
             <tr>
                 <th class="text-center">#</th>
-                <th class="text-center">{{ _('First Name') }}</th>
-                <th class="text-center">{{ _('Last Name') }}</th>
+                <th class="text-center">{{ _('Name') }}</th>
                 <th class="text-center">{{ _('Note') }}</th>
                 <th class="text-center">{{ _('Info') }}</th>
             </tr>
@@ -51,8 +49,7 @@
             {% for teacher in teachers %}
                 <tr>
                     <td><input type="hidden" name="teachers" value="{{ teacher.id }}"></td>
-                    <td>{{ teacher.user.first_name }}</td>
-                    <td>{{ teacher.user.last_name }}</td>
+                    <td>{{ teacher.user.first_name }} {{ teacher.user.last_name }}</td>
                     <td>{{ teacher.note }}</td>
                     <td><a href="{{ url_for('teacher.teacher_info', teacher_id=teacher.id) }}">{{ _('Info') }}</a></td>
                 </tr>

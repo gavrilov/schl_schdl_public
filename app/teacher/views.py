@@ -16,10 +16,10 @@ def teacher_list():
     return render_template('teacher/list.html', teachers=teachers, current_teachers_only=True)
 
 
-@teacher.route('/all', methods=['GET', 'POST'])
+@teacher.route('/not_current_list', methods=['GET', 'POST'])
 @roles_required('admin')
-def teacher_all_list():
-    teachers = Teacher.query.all()
+def not_current_list():
+    teachers = Teacher.query.filter_by(current=False).all()
     return render_template('teacher/list.html', teachers=teachers, current_teachers_only=False)
 
 
