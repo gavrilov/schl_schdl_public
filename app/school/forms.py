@@ -21,9 +21,7 @@ class SchoolForm(FlaskForm):
                         choices=[('0', '---'), ('PP/CC', 'PP/CC'), ('PP/EC', 'PP/EC')],
                         validators=[selection_validator])
     current = BooleanField(_l('Current School'))
-    # password = StringField(_l('Password'), validators=[DataRequired()])
-    # email = StringField(_l('Email'), validators=[DataRequired()])
-    # easypost_api_key = StringField(_l('EasyPost API Key'), validators=[DataRequired()])
+    hide_from_users = BooleanField(_l('Hide School from Users'))
     submit = SubmitField(_l('Submit'))
 
 

@@ -63,10 +63,13 @@ def change():
 @roles_accepted('teacher', 'admin')
 def get_data(class_id):
     current_class = Schdl_Class.query.filter_by(id=class_id).first()
+    current_enrollments = current_class.enrollments.filter_by(current=True).all()
     attendance_data = []
     for current_event in current_class.events:
         for current_attendance in current_event.attendances:
-            attendance_data.append({'id': 's{}e{}'.format(current_attendance.student_id, current_event.id),
+            for enrollment in current_attendance.student.enrollments:
+                if enrollment in current_enrollments:
+                    attendance_data.append({'id': 's{}e{}'.format(current_attendance.student_id, current_event.id),
                                     'status': current_attendance.status})
     # print(str(attendance_data))
     resp = jsonify(attendance_data)

@@ -15,63 +15,70 @@
                 <h1>{{ student.first_name }} {{ student.last_name }}</h1>
             </div>
         </div>
-
+    {% set ns = namespace(do_we_have_any_current_classes=false) %}
         {% for current_class in current_classes %}
-            <div class="row border-bottom border-top mt-2">
-                <div class="col align-self-center">{{ current_class.school.name }}</div>
-                <div class="col align-self-center">
-                    <a href="{{ url_for('schdl_class.enroll_class', student_id=student.id, class_id=current_class.id) }}">
-                        <div style="color:{{ current_class.subject.color }} "
-                             class="font-weight-bold align-self-center">{{ current_class.subject.name }}</div>
-                    </a></div>
-                <div class="col align-self-center">{{ current_class.day_of_week }}
-                    {% if current_class.class_time_start and current_class.class_time_end %} <br>
-                        {{ current_class.class_time_start | ctimeformat }}
-                        - {{ current_class.class_time_end | ctimeformat }}
-                    {% endif %}
-                </div>
-                <div class="col align-self-center">${{ current_class.price }}</div>
 
-                {# check if current class registraion is open #}
-                {% if current_class.registration_end %}
-                    {% if utc_now > current_class.registration_end %}
-                        {% set registration_message = _('Registration is closed') %}
-                    {% endif %}
+            {# check if current class registraion is open #}
+            {% if current_class.registration_end %}
+                {% if utc_now > current_class.registration_end %}
+                    {% set registration_message = _('Registration is closed') %}
                 {% endif %}
-                {% if current_class.registration_start %}
-                    {% if utc_now < current_class.registration_start %}
-                        {% set registration_message = _('Registration has not started yet') %}
-                    {% endif %}
+            {% endif %}
+            {% if current_class.registration_start %}
+                {% if utc_now < current_class.registration_start %}
+                    {% set registration_message = _('Registration has not started yet') %}
                 {% endif %}
+            {% endif %}
 
-                {% if current_class in enrolled_classes %}
-                    <div class="col text-center col-md-3 text-md-left align-self-center">
-                        <a class="btn btn-success"
-                           href="#"
-                           role="button">{{ _('Already Enrolled') }}</a>
+            {% if not registration_message %}
+                {# var to check if any classes is availibale right now, else - show message #}
+                {% set ns.do_we_have_any_current_classes = true %}
+                {{  do_we_have_any_current_classes }}
+                <div class="row border-bottom border-top mt-2">
+                    <div class="col align-self-center">{{ current_class.school.name }}</div>
+                    <div class="col align-self-center">
+                        <a href="{{ url_for('schdl_class.enroll_class', student_id=student.id, class_id=current_class.id) }}">
+                            <div style="color:{{ current_class.subject.color }} "
+                                 class="font-weight-bold align-self-center">{{ current_class.subject.name }}</div>
+                        </a></div>
+                    <div class="col align-self-center">{{ current_class.day_of_week }}
+                        {% if current_class.class_time_start and current_class.class_time_end %} <br>
+                            {{ current_class.class_time_start | ctimeformat }}
+                            - {{ current_class.class_time_end | ctimeformat }}
+                        {% endif %}
                     </div>
-                {% elif current_user.stripe_id and not registration_message %}
-                    <div class="col text-center col-md-3 text-md-left align-self-center">
-                        <a class="btn btn btn-outline-success"
-                           href="{{ url_for('schdl_class.payment_class', class_id=current_class.id, student_id=student.id) }}"
-                           role="button">{{ _('Pay with your card ${price}').format(price=current_class.price) }}</a>
-                    </div>
-                {% endif %}
-                <div class="col text-center col-md-3 text-md-right align-self-center">
-                    {% if registration_message %}
-                        <a class="btn btn-warning"
-                           href="{{ url_for('schdl_class.enroll_class', student_id=student.id, class_id=current_class.id) }}"
-                           role="button">{{ registration_message }}</a>
-                    {% else %}
+                    <div class="col align-self-center">${{ current_class.price }}</div>
+
+
+                    {% if current_class in enrolled_classes %}
+                        <div class="col text-center col-md-3 text-md-left align-self-center">
+                            <a class="btn btn-success"
+                               href="#"
+                               role="button">{{ _('Already Enrolled') }}</a>
+                        </div>
+                    {% elif current_user.stripe_id %}
+                        <div class="col text-center col-md-3 text-md-left align-self-center">
+                            <a class="btn btn btn-outline-success"
+                               href="{{ url_for('schdl_class.payment_class', class_id=current_class.id, student_id=student.id) }}"
+                               role="button">{{ _('Pay with your card ${price}').format(price=current_class.price) }}</a>
+                        </div>
+                    {% endif %}
+                    <div class="col text-center col-md-3 text-md-right align-self-center">
                         <a class="btn btn-info"
                            href="{{ url_for('schdl_class.enroll_class', student_id=student.id, class_id=current_class.id) }}"
                            role="button">{{ _('Register / Class Information') }}</a>
-                    {% endif %}
+                    </div>
                 </div>
-            </div>
+            {% endif %}
         {% endfor %}
+        {% if not ns.do_we_have_any_current_classes %}
+            {{ do_we_have_any_current_classes }}
+            <div class="alert alert-warning" role="alert">
+                {{ _('At the moment we do not have any open for registration classes. Please contact our office if you have any questions.') }}
+            </div>
+        {% endif %}
 
-        {% if current_school.agreement %}
+        {% if current_school.agreement and ns.do_we_have_any_current_classes %}
             <div class="row mt-5">
                 <div class="col">
                     <div class="alert alert-danger" role="alert">

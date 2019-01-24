@@ -65,7 +65,7 @@ def info(student_id):
 @student.route('/add', methods=['GET', 'POST'])
 @login_required
 def add_student():
-    current_schools = School.query.filter_by(current=True).order_by(School.name.asc()).all()
+    current_schools = School.query.filter_by(current=True, hide_from_users=False).order_by(School.name.asc()).all()
     # Now forming the list of tuples for SelectField
     school_list = [(i.id, i.name) for i in current_schools]
 
@@ -98,7 +98,7 @@ def edit_student(student_id):
             'User is trying to edit not his student. user_id = {} student_id = {}'.format(current_user.id, student_id))
         flash(_('Student does not find'), 'danger')
         return redirect(url_for('user.main'))
-    current_schools = School.query.filter_by(current=True).order_by(School.name.asc()).all()
+    current_schools = School.query.filter_by(current=True, hide_from_users=False).order_by(School.name.asc()).all()
     # Now forming the list of tuples for SelectField
     school_list = [(i.id, i.name) for i in current_schools]
     form = StudentForm(obj=current_student)

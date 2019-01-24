@@ -17,8 +17,8 @@
         </div>
         <div class="col text-right">
             {% if current_schools_only %}
-                <a class="btn btn-outline-primary" href="{{ url_for('school.school_all_list') }}"
-                   role="button">{{ _('Show All Schools') }}</a>
+                <a class="btn btn-outline-warning" href="{{ url_for('school.not_current_list') }}"
+                   role="button">{{ _('Show Not Current Schools') }}</a>
             {% else %}
                 <a class="btn btn-outline-primary" href="{{ url_for('school.school_list') }}"
                    role="button">{{ _('Show Current Schools') }}</a>

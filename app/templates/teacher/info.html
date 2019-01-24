@@ -10,23 +10,75 @@
 {% block page_content %}
     {{ super() }}
     <div class="row">
-        <h1>{{ teacher.user.first_name }} {{ teacher.user.last_name }} </h1>
+        <div class="col">
+            <h1><a href="{{ url_for('user.user_info', user_id=teacher.user.id) }}">
+                {{ teacher.user.first_name }} {{ teacher.user.last_name }}</a>
+                <small><a class="far fa-edit" href="{{ url_for('teacher.teacher_edit', teacher_id=teacher.id) }}"
+                          role="button" data-toggle="tooltip" title="edit" style="color: blue"></a></small>
+            </h1>
+        </div>
     </div>
+    {# Contact Information #}
     <div class="row">
-        {{ _('Director:') }}
+        <div class="col">
+            <h3>{{ _('Contact Information') }}</h3>
+        </div>
     </div>
-    <table>
-        <tbody>
-        <tr>
-            <td>{{ _('School name') }}</td>
-            <td>{{ _('Edit') }}</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><a href="{{ url_for('teacher.teacher_edit', teacher_id=teacher.id) }}">{{ _('Edit') }}</a>></td>
-        </tr>
-        </tbody>
-    </table>
+    {% for contact in teacher.user.contacts %}
+        <div class="row">
+            <div class="col">
+                {{ _('Email') }}: <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {{ _('Phone') }}: {{ contact.phone }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {{ _('Address') }}: {{ contact.address1 }} {{ contact.address2 }}, {{ contact.city }} {{ contact.state }} {{ contact.zip }}
+            </div>
+        </div>
+    {% endfor %}
+
+    {# Class Information #}
+    <div class="row mt-5">
+        <div class="col">
+            <h3>{{ _('Class Information') }}</h3>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col">
+            <h5>{{ _('Current Classes') }}</h5>
+        </div>
+    </div>
+    {% for current_class in teacher.classes %}
+        {% if current_class.current %}
+            <div class="row">
+                <div class="col">
+                    <a href="{{ url_for('schdl_class.info_class', class_id=current_class.id) }}">{{ current_class.subject.name }} {{ current_class.school.name }} {{ current_class.day_of_week }} {{ current_class.class_time_start }}</a>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+    <div class="row mt-3">
+        <div class="col">
+            <h5>{{ _('Previous Classes') }}</h5>
+        </div>
+    </div>
+
+    {% for current_class in teacher.classes %}
+        {% if not current_class.current %}
+            <div class="row">
+                <div class="col">
+                    <a href="{{ url_for('schdl_class.info_class', class_id=current_class.id) }}">{{ current_class.subject.name }} {{ current_class.school.name }} {{ current_class.day_of_week }} {{ current_class.class_time_start }}</a>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+
+
 {% endblock %}
 
 
