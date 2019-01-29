@@ -18,7 +18,8 @@ schdl_class = Blueprint('schdl_class', __name__, template_folder='templates')
 @roles_required('admin')
 def class_list():
     classes = Schdl_Class.query.filter_by(current=True).join(School, Schdl_Class.school).order_by(Schdl_Class.day_of_week.asc(), Schdl_Class.class_time_start.asc(), School.name.asc()).all()
-    return render_template('schdl_class/class_list.html', classes=classes, current_classes_only=True)
+    utc_now = datetime.utcnow()
+    return render_template('schdl_class/class_list.html', classes=classes, current_classes_only=True, utc_now=utc_now)
 
 
 @schdl_class.route('/not_current', methods=['GET', 'POST'])
