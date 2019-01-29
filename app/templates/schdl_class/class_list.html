@@ -62,7 +62,8 @@
                     {% for current_class in classes %}
                         <tr>
                             <td><input type="hidden" name="schdl_classes" value="{{ current_class.id }}"></td>
-                            <td>{{ current_class.school.name }} <span class="badge badge-secondary">{{ current_class.enrollments.count() }}</span></td>
+                            <td>{{ current_class.school.name }} <span
+                                    class="badge badge-secondary">{{ current_class.enrollments.count() }}</span></td>
                             <td bgcolor="{{ current_class.subject.color }}"><a
                                     href="{{ url_for('schdl_class.info_class', class_id=current_class.id) }}">{{ current_class.subject.name }}</a>
                             </td>
@@ -81,7 +82,21 @@
                                 <td></td>
                             {% endif %}
                             <td>{{ current_class.teacher.user.first_name }} {{ current_class.teacher.user.last_name }}</td>
-                            <td>${{ current_class.price }}</td>
+                            <td>${{ current_class.price }}
+
+                                {% if current_class.registration_end and current_class.registration_start %}
+                                    {% if utc_now > current_class.registration_end %}
+                                        <span class="badge badge-danger">{{ _('Reg is closed') }}</span>
+                                    {% elif utc_now < current_class.registration_start %}
+                                        <span class="badge badge-warning">{{ _('Reg has not started yet') }}</span>
+                                    {% else %}
+                                        <span class="badge badge-primary">{{ _('Reg is open') }}</span>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="badge badge-info">{{ _('Check reg dates') }}</span>
+                                {% endif %}
+
+                            </td>
                             <td>
                                 <a href="{{ url_for('schdl_class.edit_class', class_id=current_class.id) }}">{{ _('Edit') }}</a>
                             </td>
