@@ -24,6 +24,16 @@
     </div>
     <div class="row">
         <div class="col">
+            {{ _('Grade: ') }}
+            {% if student.grade == -3 %}
+                {{ _('Pre-Schl') }}
+            {% elif student.grade == -2 %}
+                {{ _('Pre-K') }}
+            {% elif student.grade == -1 %}
+                {{ _('K') }}
+            {% else %}
+                {{ student.grade }}
+            {% endif %}<br>
             {{ _('DOB:') }} {{ student.dob | cdateformat }} <br>
             {% if student.gender == 1 %}
                 {{ _('Gender:') }} {{ _('Boy') }} <br>
@@ -68,7 +78,9 @@
         <div class="col">
             <h3>{{ _('Enrollments') }}</h3>
         </div>
-            <div class="col"><a class="btn btn-outline-success" role="button" href="#theModal" data-remote="{{ url_for('enrollment.add', student_id=student.id) }}" data-toggle="modal" data-target="#theModal">{{ _('Add Enrollment') }}</a></div>
+        <div class="col"><a class="btn btn-outline-success" role="button" href="#theModal"
+                            data-remote="{{ url_for('enrollment.add', student_id=student.id) }}" data-toggle="modal"
+                            data-target="#theModal">{{ _('Add Enrollment') }}</a></div>
     </div>
     <div class="row">
         <div class="col">{{ _('Date') }}</div>
@@ -79,10 +91,10 @@
     {% for enrollment in student.enrollments %}
         <div class="row border-top">
             <div class="col">
-            {% if enrollment.schdl_class.current %}
+                {% if enrollment.schdl_class.current %}
 
-            {% endif %}
-                {% if enrollment.current and enrollment.schdl_class.current%}
+                {% endif %}
+                {% if enrollment.current and enrollment.schdl_class.current %}
                     <span class="badge badge-success">{{ _('Enrolled') }}</span>
                 {% elif enrollment.current and not enrollment.schdl_class.current %}
                     <span class="badge badge-warning">{{ _('Archive') }}</span>
@@ -99,29 +111,31 @@
                     @ {{ enrollment.schdl_class.school.name }}</a><br>
             </div>
             <div class="col">{{ enrollment.note }}</div>
-            <div class="col"><a class="btn btn-outline-success" role="button" href="#theModal" data-remote="{{ url_for('enrollment.edit', enrollment_id=enrollment.id) }}" data-toggle="modal" data-target="#theModal">Edit</a></div>
+            <div class="col"><a class="btn btn-outline-success" role="button" href="#theModal"
+                                data-remote="{{ url_for('enrollment.edit', enrollment_id=enrollment.id) }}"
+                                data-toggle="modal" data-target="#theModal">Edit</a></div>
         </div>
     {% endfor %}
 
-<div class="modal fade" id="theModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{ _('Enrollment') }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                {# remote content from "data-remote" loads here #}
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('Close') }}</button>
-                <button type="submit" class="btn btn-primary" form="enrollment">{{ _('Submit') }}</button>
+    <div class="modal fade" id="theModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ _('Enrollment') }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {# remote content from "data-remote" loads here #}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('Close') }}</button>
+                    <button type="submit" class="btn btn-primary" form="enrollment">{{ _('Submit') }}</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 {% endblock %}
 
