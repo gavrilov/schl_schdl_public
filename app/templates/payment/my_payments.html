@@ -15,7 +15,11 @@
         {% for payment in payments %}
             <tr>
                 <td>{{ moment(payment.created | ctime).format('L LT') }}</td>
+                {% if current_user.has_role('admin') %}
+                <td><a href="https://dashboard.stripe.com/payments/{{ payment.id }}" target="_blank">{{ payment.receipt_number }}</a></td>
+                {% else %}
                 <td>{{ payment.receipt_number }}</td>
+                {% endif %}
                 <td>{{ payment.amount/100 }} {{ payment.currency }}</td>
                 <td>{{ payment.source.brand }}-{{ payment.source.last4 }}</td>
                 <td>{{ payment.description }}</td>
