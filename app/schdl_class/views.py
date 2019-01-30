@@ -26,7 +26,8 @@ def class_list():
 @roles_required('admin')
 def not_current_list():
     classes = Schdl_Class.query.filter_by(current=False).all()
-    return render_template('schdl_class/class_list.html', classes=classes, current_classes_only=False)
+    utc_now = datetime.utcnow()
+    return render_template('schdl_class/class_list.html', classes=classes, current_classes_only=False, utc_now=utc_now)
 
 
 @schdl_class.route('/add', methods=['GET', 'POST'])
