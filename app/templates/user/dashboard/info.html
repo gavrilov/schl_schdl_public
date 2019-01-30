@@ -68,6 +68,10 @@
         <div class="col">
             <h2>{{ _('Students') }}</h2>
         </div>
+            <div class="col text-right">
+            <a href="{{ url_for('dashboard.add_student', user_id=user.id) }}"
+               class="btn btn-outline-primary" role="button" aria-pressed="true">{{ _('Add New Student') }}</a>
+        </div>
     </div>
     <div class="row">
         <div class="col">
