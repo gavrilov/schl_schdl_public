@@ -81,7 +81,7 @@
                                 <td></td>
                                 <td></td>
                             {% endif %}
-                            <td>{{ current_class.teacher.user.first_name }} {{ current_class.teacher.user.last_name }}</td>
+                            <td><a href="{{ url_for('teacher.teacher_info', teacher_id=current_class.teacher.id) }}">{{ current_class.teacher.user.first_name }} {{ current_class.teacher.user.last_name }}</a></td>
                             <td>${{ current_class.price }}
 
                                 {% if current_class.registration_end and current_class.registration_start %}
