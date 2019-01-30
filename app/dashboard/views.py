@@ -68,7 +68,7 @@ def add_contact_information():
 @dashboard.route('user/<user_id>/student/add/', methods=['GET', 'POST'])
 @roles_required('admin')
 def add_student(user_id):
-    current_schools = School.query.filter_by(current=True, hide_from_users=False).order_by(School.name.asc()).all()
+    current_schools = School.query.filter_by(current=True).order_by(School.name.asc()).all()
     # Now forming the list of tuples for SelectField
     school_list = [(i.id, i.name) for i in current_schools]
     this_user = User.query.filter_by(id=user_id).first()
