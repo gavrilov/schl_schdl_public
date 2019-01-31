@@ -14,6 +14,14 @@ schools_users = db.Table('schools_users', db.Column('user_id', db.Integer(), db.
                          db.Column('school_id', db.Integer(), db.ForeignKey('schools.id')))
 
 
+# table many-to-many connects classes and teachers (one class has few user teachers. one teacher may have few classes)
+classes_teacher = db.Table('classes_teacher', db.Column('teacher_id', db.Integer(), db.ForeignKey('teachers.id')),
+                         db.Column('class_id', db.Integer(), db.ForeignKey('classes.id')))
+
+# table many-to-many connects events and teachers (one event has few user teachers. one teacher may have few events)
+events_teachers = db.Table('events_teachers', db.Column('teacher_id', db.Integer(), db.ForeignKey('teachers.id')),
+                         db.Column('event_id', db.Integer(), db.ForeignKey('events.id')))
+
 class Enrollment(db.Model):
     __tablename__ = "enrollments"
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
@@ -28,7 +36,7 @@ class Schdl_Class(db.Model):
     __tablename__ = "classes"
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
     school_id = db.Column(db.Integer, db.ForeignKey('schools.id'))
-    teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'))
+    # teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'))
     subject_id = db.Column(db.Integer, db.ForeignKey('subjects.id'))
     current = db.Column('current', db.Boolean())
     info = db.Column('info', db.UnicodeText())
@@ -81,15 +89,17 @@ class Teacher(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True)
     note = db.Column('note', db.Unicode(2048))
     current = db.Column('current', db.Boolean())
-    classes = db.relationship('Schdl_Class', backref='teacher', lazy='dynamic')
-    events = db.relationship('Event', backref='teacher', lazy='dynamic')
+    classes = db.relationship('Schdl_Class', secondary=classes_teacher, backref='teachers', lazy='dynamic')
+    events = db.relationship('Event', secondary=events_teachers, backref='teachers', lazy='dynamic')
+    # classes = db.relationship('Schdl_Class', backref='teacher', lazy='dynamic')
+    # events = db.relationship('Event', backref='teacher', lazy='dynamic')
 
 
 class Event(db.Model):
     __tablename__ = "events"
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
     class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
-    teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'))
+    # teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'))
     note = db.Column('note', db.Unicode(2048))
     active = db.Column('active', db.Boolean())
     payrate = db.Column('payrate', db.Numeric(scale=2))
