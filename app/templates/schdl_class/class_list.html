@@ -84,7 +84,7 @@
 
                             <td>
                                 {% for teacher in current_class.teachers %}
-                                    <a href="{{ url_for('teacher.teacher_info', teacher_id=teacher.id) }}">{{ teacher.user.first_name }} {{ teacher.user.last_name }}</a>
+                                    <a href="{{ url_for('teacher.teacher_info', teacher_id=teacher.id) }}">{{ teacher.user.first_name }} {{ teacher.user.last_name }}</a><br>
                                     {%  endfor %}</td>
                             <td>${{ current_class.price }}
 

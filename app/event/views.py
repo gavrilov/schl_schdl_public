@@ -26,13 +26,13 @@ def generate_popup_url():
 def generate_popup_html(event_id):
     current_event = Event.query.filter_by(id=event_id).first()
     form = PopupEventForm(obj=current_event)
-    current_teachers = Teacher.query.filter_by(current=True).all()
+    # current_teachers = Teacher.query.filter_by(current=True).all()
 
     # Now forming the list of tuples for SelectField
-    teacher_list = [(i.id, i.user.first_name + " " + i.user.last_name) for i in current_teachers]
+    # teacher_list = [(i.id, i.user.first_name + " " + i.user.last_name) for i in current_teachers]
 
     # form.school_id.choices = school_list
-    form.teacher_id.choices = teacher_list
+    # form.teacher_id.choices = teacher_list
     return render_template('event/edit_popup.html', form=form, current_event=current_event)
 
 
@@ -176,7 +176,7 @@ def generate_calendar_data(events, time_zone):
     json_data = []
     for current_event in events:
         json_data.append(dict_from_event(current_event, time_zone))
-    print(json_data)
+    # print(json_data)
     return json.dumps(json_data)
 
 
@@ -186,18 +186,20 @@ def dict_from_event(current_event, time_zone):
     event_data['start'] = current_event.start.astimezone(time_zone).isoformat()
     event_data['end'] = current_event.end.astimezone(time_zone).isoformat()
     event_data['active'] = current_event.active
+    title_teachers = ''
+    for teacher in current_event.schdl_class.teachers:
+        title_teachers += '{} {}; '.format(teacher.user.first_name, teacher.user.last_name)
+    title = '<s>{} @ {} - {}</s>'.format(current_event.schdl_class.subject.name,
+                                         current_event.schdl_class.school.name,
+                                         title_teachers)
+
     if not current_event.active:
-        event_data['title'] = '<s>{} @ {} - {} {}</s>'.format(current_event.schdl_class.subject.name,
-                                                              current_event.schdl_class.school.name,
-                                                              current_event.schdl_class.teacher.user.first_name,
-                                                              current_event.schdl_class.teacher.user.last_name)
+        event_data['title'] = '<s>{}</s>'.format(title)
         event_data['color'] = '#ff0000'
     else:
-        event_data['title'] = '{} @ {} - {} {}'.format(current_event.schdl_class.subject.name,
-                                                       current_event.schdl_class.school.name,
-                                                       current_event.schdl_class.teacher.user.first_name,
-                                                       current_event.schdl_class.teacher.user.last_name)
+        event_data['title'] = '{}'.format(title)
         event_data['color'] = current_event.schdl_class.subject.color
+
     if current_event.payrate:
         event_data['payrate'] = float(current_event.payrate)
     if current_event.billing_rate:
