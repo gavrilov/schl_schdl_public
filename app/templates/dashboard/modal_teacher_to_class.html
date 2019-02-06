@@ -1,0 +1,9 @@
+<form method="POST" id="teachertoclass" action="{{ url_for('dashboard.teacher_to_class') }}">
+    {{ form.csrf_token }}
+    {{ form.class_id }}
+    <div class="form-group row">
+        {{ form.teacher_id.label }}
+        {{ form.teacher_id }}
+    </div>
+</form>
+

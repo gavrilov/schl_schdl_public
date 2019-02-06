@@ -1,6 +1,6 @@
 from flask_babelex import lazy_gettext as _l
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField, BooleanField
+from wtforms import StringField, SubmitField, SelectField, BooleanField, HiddenField
 from wtforms.fields.html5 import EmailField, TelField
 from wtforms.validators import Optional, Regexp
 
@@ -42,4 +42,9 @@ class AddContactForm(FlaskForm):
     contact_by_txt = BooleanField(_l('text messages'), validators=[Optional()])
     contact_by_mail = BooleanField(_l('mail'), validators=[Optional()])
     note = StringField(_l('Note'), validators=[Optional()])
+    submit = SubmitField(_l('Submit'))
+
+class TeacherToClassForm(FlaskForm):
+    class_id = HiddenField(_l('Class id'), validators=[Optional()])
+    teacher_id = SelectField(_l('Teacher'), coerce=int, validators=[Optional()])
     submit = SubmitField(_l('Submit'))
