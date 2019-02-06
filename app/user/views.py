@@ -189,6 +189,8 @@ def main():
         return redirect(url_for('user.add_contacts'))
     if 'teacher' in current_user.roles and 'admin' not in current_user.roles:
         return redirect(url_for('dashboard.teacher_dashboard'))
+    if 'school' in current_user.roles and 'admin' not in current_user.roles:
+        return redirect(url_for('dashboard.school_dashboard'))
     if not students:  # TODO filter for admins and parents and not (current_user.has_role('admin') or current_user.has_role('teacher')):
         flash(_('Please add student information'), 'danger')
         return redirect(url_for('student.add_student'))

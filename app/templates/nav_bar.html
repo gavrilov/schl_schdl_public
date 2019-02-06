@@ -23,7 +23,7 @@
             {% endif %}
             {% if current_user.has_role('school') %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('dashboard.main') }}">{{ _('School Dashboard') }}</a>
+                    <a class="nav-link" href="{{ url_for('dashboard.school_dashboard') }}">{{ _('School Dashboard') }}</a>
                 </li>
             {% endif %}
         </ul>

@@ -40,6 +40,13 @@ def teacher_dashboard():
     return render_template('dashboard/dashboard_teacher.html', teacher=teacher)
 
 
+@dashboard.route('/school', methods=['GET', 'POST'])
+@roles_required('school')
+def school_dashboard():
+    # Dashboard for teachers
+    return render_template('dashboard/dashboard_school.html')
+
+
 @dashboard.route('/add_contact_information', methods=['GET', 'POST'])
 @roles_required('admin')
 def add_contact_information():
