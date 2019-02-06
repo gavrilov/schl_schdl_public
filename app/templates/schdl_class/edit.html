@@ -18,7 +18,7 @@
                 {% endif %}
                 <br>
                 <small>
-                    {{ _('teacher:') }} {{ current_class.teacher.user.first_name }} {{ current_class.teacher.user.last_name }}</small>
+                    {{ _('teacher:') }} {%  for teacher in current_class.teachers %}{{ teacher.user.first_name }} {{ teacher.user.last_name }}, {% endfor %}</small>
             </h1>
         </div>
         <div class="col-2">
@@ -26,6 +26,9 @@
                role="button">{{ _('Events') }}</a>
             <a class="btn btn-info" href="{{ url_for('event.add_event', class_id=current_class.id) }}"
                role="button">{{ _('Create Events') }}</a>
+                    <a class="btn btn-outline-success" role="button" href="#theModal"
+                            data-remote="{{ url_for('dashboard.modal_teacher_to_class', class_id=current_class.id) }}" data-toggle="modal"
+                            data-target="#theModal">{{ _('Add Teacher') }}</a>
         </div>
     </div>
     <div class="row">
@@ -39,10 +42,6 @@
                     <div class="col">
                         {{ form.school_id.label(class="form-control-label") }}
                         {{ form.school_id(class="form-control") }}
-                    </div>
-                    <div class="col">
-                        {{ form.teacher_id.label(class="form-control-label") }}
-                        {{ form.teacher_id(class="form-control") }}
                     </div>
                     <div class="col">
                         {{ form.subject_id.label(class="form-control-label") }}
@@ -138,6 +137,26 @@
             </form>
         </div>
     </div>
+    {# modal code #}
+    <div class="modal fade" id="theModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ _('Add Teacher') }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {# remote content from "data-remote" loads here #}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('Close') }}</button>
+                    <button type="submit" class="btn btn-primary" form="teachertoclass">{{ _('Add') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 
@@ -158,6 +177,20 @@
                 ['insert', ['link', 'hr']],
                 ['misc', ['codeview', 'help']]
             ]
+        });
+    </script>
+        <script>
+        $('#theModal').on('show.bs.modal', function (e) {
+
+            var button = $(e.relatedTarget);
+            var modal = $(this);
+
+            // load content from HTML string
+            //modal.find('.modal-body').html("Nice modal body baby...");
+
+            // or, load content from value of data-remote url
+            modal.find('.modal-body').load(button.data("remote"));
+
         });
     </script>
 {% endblock %}

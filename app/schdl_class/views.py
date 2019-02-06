@@ -48,10 +48,12 @@ def add_class():
     form.teacher_id.choices = teacher_list
     form.subject_id.choices = subject_list
     if form.validate_on_submit():
+        teacher = Teacher.query.filter_by(id=form.teacher_id.data).first()
         new_class = Schdl_Class()
         form.populate_obj(new_class)
         # save new school to db
         db.session.add(new_class)
+        teacher.classes.append(new_class)
         db.session.commit()
         new_class.info = new_class.subject.default_info  # add default description from subject to class
         db.session.commit()

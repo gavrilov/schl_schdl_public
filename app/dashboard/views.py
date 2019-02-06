@@ -1,12 +1,12 @@
-from flask import render_template, Blueprint, flash, redirect, url_for, request
+from flask import render_template, Blueprint, flash, redirect, url_for, request, abort, jsonify
 from flask_babelex import _
 from flask_security import roles_required, current_user
 from datetime import datetime
 
 from app import db
-from app.dashboard.forms import AddContactForm
+from app.dashboard.forms import AddContactForm, TeacherToClassForm
 from app.student.forms import StudentForm
-from app.models import User, Student, Teacher, Enrollment, School, UserContacts
+from app.models import User, Student, Teacher, Enrollment, School, UserContacts, Schdl_Class
 
 
 dashboard = Blueprint('dashboard', __name__, template_folder='templates')
@@ -64,6 +64,43 @@ def add_contact_information():
     return render_template('dashboard/add_contact_info.html', form=form, user_id=user_id)  # step=1 for progress bar
 
 
+
+@dashboard.route('/teacher_to_class', methods=['POST', 'DELETE'])
+@roles_required('admin')
+def teacher_to_class():
+    teacher_id = request.form['teacher_id']
+    class_id = request.form['class_id']
+    print(request.form)
+    if not teacher_id or not class_id:
+        return abort(404)
+
+    teacher = Teacher.query.filter_by(id=teacher_id).first()
+    current_class = Schdl_Class.query.filter_by(id=class_id).first()
+
+    if not teacher or not current_class:
+        return abort(404)
+
+    # add current class to list of teacher classes
+    if request.method == 'POST':
+        teacher.classes.append(current_class)
+    elif request.method == 'DELETE':
+        teacher.classes.remove(current_class)
+    else:
+        return abort(404)
+
+    db.session.commit()
+    return redirect(url_for('schdl_class.edit_class', class_id=current_class.id))
+
+@dashboard.route('/modal_teacher_to_class/<class_id>', methods=['GET'])
+@roles_required('admin')
+def modal_teacher_to_class(class_id):
+    form = TeacherToClassForm()
+    # class_id = request.form['class_id']
+    teachers = Teacher.query.filter_by(current=True).all()
+    teacher_list = [(i.id, i.user.first_name + ' ' + i.user.last_name) for i in teachers]
+    form.teacher_id.choices = teacher_list
+    form.class_id.data = class_id
+    return render_template('dashboard/modal_teacher_to_class.html', form=form)
 
 @dashboard.route('user/<user_id>/student/add/', methods=['GET', 'POST'])
 @roles_required('admin')
