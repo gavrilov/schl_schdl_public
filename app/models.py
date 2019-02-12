@@ -22,6 +22,7 @@ classes_teacher = db.Table('classes_teacher', db.Column('teacher_id', db.Integer
 events_teachers = db.Table('events_teachers', db.Column('teacher_id', db.Integer(), db.ForeignKey('teachers.id')),
                          db.Column('event_id', db.Integer(), db.ForeignKey('events.id')))
 
+
 class Enrollment(db.Model):
     __tablename__ = "enrollments"
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
@@ -88,7 +89,7 @@ class Teacher(db.Model):
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True)
     note = db.Column('note', db.Unicode(2048))
-    current = db.Column('current', db.Boolean())
+    current = db.Column('current', db.Boolean(), default=False)
     classes = db.relationship('Schdl_Class', secondary=classes_teacher, backref='teachers', lazy='dynamic')
     events = db.relationship('Event', secondary=events_teachers, backref='teachers', lazy='dynamic')
     # classes = db.relationship('Schdl_Class', backref='teacher', lazy='dynamic')

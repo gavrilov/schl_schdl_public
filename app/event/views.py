@@ -189,7 +189,7 @@ def dict_from_event(current_event, time_zone):
     title_teachers = ''
     for teacher in current_event.schdl_class.teachers:
         title_teachers += '{} {}; '.format(teacher.user.first_name, teacher.user.last_name)
-    title = '<s>{} @ {} - {}</s>'.format(current_event.schdl_class.subject.name,
+    title = '{} @ {} - {}'.format(current_event.schdl_class.subject.name,
                                          current_event.schdl_class.school.name,
                                          title_teachers)
 
