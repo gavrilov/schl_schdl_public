@@ -92,6 +92,7 @@ class Teacher(db.Model):
     current = db.Column('current', db.Boolean(), default=False)
     classes = db.relationship('Schdl_Class', secondary=classes_teacher, backref='teachers', lazy='dynamic')
     events = db.relationship('Event', secondary=events_teachers, backref='teachers', lazy='dynamic')
+    read_only = db.Column('read_only', db.Boolean(), default=False)
     # classes = db.relationship('Schdl_Class', backref='teacher', lazy='dynamic')
     # events = db.relationship('Event', backref='teacher', lazy='dynamic')
 

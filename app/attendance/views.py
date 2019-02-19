@@ -1,6 +1,7 @@
 from flask import jsonify
-from flask import render_template, Blueprint
+from flask import render_template, Blueprint, flash, redirect, url_for
 from flask_security import roles_required, roles_accepted, current_user
+from flask_babelex import _
 
 from app import db
 from app.models import Attendance, Enrollment, Schdl_Class
@@ -23,11 +24,22 @@ def for_class(class_id):
     form = AttendanceForm()
     current_class = Schdl_Class.query.filter_by(id=class_id).first()
     if current_user.has_role('teacher') or current_user.has_role('admin'):
-        # TODO check if current_class in teacher.classes for security
-        return render_template('attendance/class_attendance.html', current_class=current_class, form=form)
+        for teacher in current_user.teachers:
+            if current_class in teacher.classes and not teacher.read_only:
+                return render_template('attendance/class_attendance.html', current_class=current_class, form=form)
+            elif current_class in teacher.classes and teacher.read_only:
+                return render_template('attendance/school_class_attendance.html', current_class=current_class,
+                                       form=form)
+            else:
+                flash(_('You do not have permission to get attendance for that class. Please contact office'))
+                return redirect(url_for('dashboard.teacher_dashboard'))
     elif current_user.has_role('school'):
-        # TODO check if current_class in school.classes for security
-        return render_template('attendance/school_class_attendance.html', current_class=current_class, form=form)
+        for school in current_user.schools:
+            if current_class in school.classes:
+                return render_template('attendance/school_class_attendance.html', current_class=current_class, form=form)
+            else:
+                flash(_('You do not have permission to get attendance for that class. Please contact office'))
+                return redirect(url_for('dashboard.school_dashboard'))
 
 
 
