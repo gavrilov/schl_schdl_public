@@ -23,7 +23,9 @@ def list_all():
 def for_class(class_id):
     form = AttendanceForm()
     current_class = Schdl_Class.query.filter_by(id=class_id).first()
-    if current_user.has_role('teacher') or current_user.has_role('admin'):
+    if current_user.has_role('admin'):
+        return render_template('attendance/class_attendance.html', current_class=current_class, form=form)
+    elif current_user.has_role('teacher'):
         for teacher in current_user.teachers:
             if current_class in teacher.classes and not teacher.read_only:
                 return render_template('attendance/class_attendance.html', current_class=current_class, form=form)
