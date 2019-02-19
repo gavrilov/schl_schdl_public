@@ -31,14 +31,14 @@ def for_class(class_id):
                 return render_template('attendance/school_class_attendance.html', current_class=current_class,
                                        form=form)
             else:
-                flash(_('You do not have permission to get attendance for that class. Please contact office'))
+                flash(_('You do not have permission to get attendance for that class. Please contact office'), 'danger')
                 return redirect(url_for('dashboard.teacher_dashboard'))
     elif current_user.has_role('school'):
         for school in current_user.schools:
             if current_class in school.classes:
                 return render_template('attendance/school_class_attendance.html', current_class=current_class, form=form)
             else:
-                flash(_('You do not have permission to get attendance for that class. Please contact office'))
+                flash(_('You do not have permission to get attendance for that class. Please contact office'), 'danger')
                 return redirect(url_for('dashboard.school_dashboard'))
 
 
