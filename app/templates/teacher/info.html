@@ -32,7 +32,8 @@
         </div>
         <div class="row">
             <div class="col">
-                {{ _('Phone') }}: {{ contact.phone }}
+                {{ _('Phone') }}: <a href="{{ url_for('txtmsg.send_msg', to_phone=contact.phone ) }}"
+                                     target="_blank">{{ contact.phone }}</a>
             </div>
         </div>
         <div class="row">

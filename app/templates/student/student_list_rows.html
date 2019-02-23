@@ -22,7 +22,8 @@
         {# if user has contacts - show emails and phones #}
         {% if student.user.contacts %}
             <td>{% for contact in student.user.contacts %}
-                {{ contact.phone }}
+                <a href="{{ url_for('txtmsg.send_msg', to_phone=contact.phone ) }}"
+                   target="_blank">{{ contact.phone }}</a>
             {% endfor %}
             </td>
             <td>{% for contact in student.user.contacts %}

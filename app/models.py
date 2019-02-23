@@ -13,14 +13,13 @@ roles_users = db.Table('roles_users', db.Column('user_id', db.Integer(), db.Fore
 schools_users = db.Table('schools_users', db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
                          db.Column('school_id', db.Integer(), db.ForeignKey('schools.id')))
 
-
 # table many-to-many connects classes and teachers (one class has few user teachers. one teacher may have few classes)
 classes_teacher = db.Table('classes_teacher', db.Column('teacher_id', db.Integer(), db.ForeignKey('teachers.id')),
-                         db.Column('class_id', db.Integer(), db.ForeignKey('classes.id')))
+                           db.Column('class_id', db.Integer(), db.ForeignKey('classes.id')))
 
 # table many-to-many connects events and teachers (one event has few user teachers. one teacher may have few events)
 events_teachers = db.Table('events_teachers', db.Column('teacher_id', db.Integer(), db.ForeignKey('teachers.id')),
-                         db.Column('event_id', db.Integer(), db.ForeignKey('events.id')))
+                           db.Column('event_id', db.Integer(), db.ForeignKey('events.id')))
 
 
 class Enrollment(db.Model):
@@ -180,6 +179,18 @@ class Student(db.Model):
     enrollments = db.relationship('Enrollment', backref='student', lazy='dynamic')
     timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     attendances = db.relationship('Attendance', backref='student', lazy='dynamic')
+
+
+class TextMessage(db.Model):
+    __tablename__ = "text_messages"
+    id = db.Column('id', db.Integer, primary_key=True)
+    msgid = db.Column('msgid', db.Unicode(128))
+    phone_number = db.Column('phone_number', db.BigInteger)
+    msg = db.Column('msg', db.Unicode(2048))
+    note = db.Column('note', db.Unicode(2048))
+    url_pic = db.Column('url_pic', db.Unicode(2048))
+    date = db.Column('date', db.DateTime, default=datetime.datetime.utcnow)
+    status = db.Column('status', db.Unicode(64))
 
 
 # for Flask-Security

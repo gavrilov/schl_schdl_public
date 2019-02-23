@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}{{ _('Send txt messages') }}{% endblock %}
+
+{% block page_content %}
+    <div class="col-md-9 offset-md-1">
+        <div class="page-header">
+            <h1>Send txt messages
+                <small></small>
+            </h1>
+        </div>
+
+        <form action="{{ url_for('txtmsg.send_msg') }}" method="post" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form.phone_number.label }} {{ form.phone_number(class="form-control", cols="3", rows="20") }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.msg.label }} {{ form.msg(class="form-control", cols="3", rows="20") }}
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    {# If you would like to send a media message, please choose file:<br>
+        {{form.upload.label}} {{form.upload(class="form-control")}}
+        Limit is 5MB - jpeg or png only. #}
+                    <br><br>
+                    Price for each message is $0.02
+                    {{ form.submit(class="form-control btn btn-success") }}
+                </div>
+                <div class="col-md-6">
+                    <br>
+                    {{ form.note.label }} {{ form.note(class="form-control") }}
+                </div>
+            </div>
+
+        </form>
+        <br>
+        <a href="{{ url_for('txtmsg.status') }}">Status of messages</a>
+    </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+{% endblock %}
