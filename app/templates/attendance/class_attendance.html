@@ -53,7 +53,8 @@
                 <th>Name</th>
                 {% for event in current_class.events|sort(attribute='start') %}
                     <th>{{ moment(event.start).format('DD MMM') }}
-                    {% if event.event_note %}<span class="badge badge-primary">{{ event.event_note }}</span>{% endif %}
+                        {% if event.event_note %}
+                            <span class="badge badge-primary">{{ event.event_note }}</span>{% endif %}
                     </th>
                 {% endfor %}
             </tr>
@@ -73,6 +74,44 @@
                                         {#  set id for select #}
                                         {{ form.status(onchange='attendanceChange(this)', id='s{student_id}e{event_id}'.format(student_id=enrollment.student_id, event_id=event.id)) }}
                                     </form>
+                                </td>
+                            {% else %}
+                                <td>N/A</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+
+        <!--Drop Student Attendance table-->
+        <div class="row mt-4">
+            <div class="col">
+                <h2>{{ _('Drops Students') }}</h2>
+            </div>
+        </div>
+        <table class="table table-striped table-bordered table-responsive">
+            <tr>
+                <th>Name</th>
+                {% for event in current_class.events|sort(attribute='start') %}
+                    <th>{{ moment(event.start).format('DD MMM') }}
+                        {% if event.event_note %}
+                            <span class="badge badge-primary">{{ event.event_note }}</span>{% endif %}
+                    </th>
+                {% endfor %}
+            </tr>
+            {% for enrollment in current_class.enrollments|sort(attribute='student.first_name') %}
+                {% if not enrollment.current %}
+                    <tr>
+                        <td>
+                            {{ enrollment.student.first_name }} {{ enrollment.student.last_name }}
+                        </td>
+                        {% for event in current_class.events|sort(attribute='start') %}
+                            {% if event.active %}
+                                <td>
+                                    <fieldset disabled>
+                                        {{ form.status(onchange='attendanceChange(this)', id='s{student_id}e{event_id}'.format(student_id=enrollment.student_id, event_id=event.id)) }}
+                                    </fieldset>
                                 </td>
                             {% else %}
                                 <td>N/A</td>

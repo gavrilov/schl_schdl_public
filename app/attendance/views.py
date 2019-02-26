@@ -87,9 +87,9 @@ def get_data(class_id):
     for current_event in current_class.events:
         for current_attendance in current_event.attendances:
             for enrollment in current_attendance.student.enrollments:
-                if enrollment in current_enrollments:
-                    attendance_data.append({'id': 's{}e{}'.format(current_attendance.student_id, current_event.id),
-                                    'status': current_attendance.status})
+                # if enrollment in current_enrollments: # uncomment for data of current students without drops
+                attendance_data.append({'id': 's{}e{}'.format(current_attendance.student_id, current_event.id),
+                                'status': current_attendance.status})
     # print(str(attendance_data))
     resp = jsonify(attendance_data)
     resp.status_code = 200
