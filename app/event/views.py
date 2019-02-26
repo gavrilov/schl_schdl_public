@@ -106,7 +106,8 @@ def edit_event(event_id):
         teacher_list = [(i.id, i.user.first_name + " " + i.user.last_name) for i in current_teachers]
 
         # form.school_id.choices = school_list
-        form.teacher_id.choices = teacher_list
+        # TODO add/remove teacher for event
+        # form.teacher_id.choices = teacher_list
 
         if form.validate_on_submit():
             form.populate_obj(current_event)
