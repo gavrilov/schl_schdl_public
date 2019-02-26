@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}{{ _('Send txt messages') }}{% endblock %}
+
+{% block page_content %}
+    <div class="col-md-9 offset-md-1">
+        <div class="page-header">
+            <h1>These messages have already been sent
+                <small></small>
+            </h1>
+        </div>
+
+        <table width="100%" class="table table-hover">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>Phone #</th>
+                <th>Text message</th>
+                <th>Date</th>
+                <th>Note</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for msg in data.items %}
+                {% if msg.status == "received" %}
+                    <tr bgcolor="#90EE90">
+                        {% else %}
+                    <tr>
+                {% endif %}
+
+            <td>{{ msg.id }}</td>
+            <td>{{ msg.phone_number }}</td>
+            <td>{{ msg.msg }}</td>
+            <td>{{ msg.date }}</td>
+            <td>{{ msg.note }}</td>
+            <td>{{ msg.status }}</td>
+
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <br><br>
+        <a href='{{ url_for('txtmsg.send_msg') }}'>Send text messages</a>
+
+        {% from "bootstrap/pagination.html" import render_pagination %}
+        {{ render_pagination(data) }}
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+{% endblock %}

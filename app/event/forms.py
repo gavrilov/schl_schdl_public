@@ -11,6 +11,7 @@ class PopupEventForm(FlaskForm):
     start = DateTimeField(_l('Date time start'), validators=[Optional()], format='%m/%d/%Y %I:%M %p')
     end = DateTimeField(_l('Date time end'), validators=[Optional()], format='%m/%d/%Y %I:%M %p')
     note = StringField(_l('Note'), validators=[Optional()])
+    event_note = StringField(_l('Event Note'), validators=[Optional()])
     # class_id = StringField(_l('Class id'), validators=[Optional()])
     # teacher_id = SelectField(_l('Teacher'), coerce=int, validators=[Optional()])
     active = BooleanField(_l('Active'), validators=[Optional()])

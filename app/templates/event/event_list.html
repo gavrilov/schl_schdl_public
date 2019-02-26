@@ -47,10 +47,10 @@
                     <td>{{ current_event.billing_rate }}</td>
                     <td>{{ current_event.payrate }}</td>
                     <td>
-                        {% for teacher in current_class.teachers %}
+                        {% for teacher in current_event.schdl_class.teachers %}
                         {{ teacher.user.first_name }} {{ teacher.user.last_name }}; <br>
                         {% endfor %}</td>
-                    <td>{{ current_event.note }}</td>
+                    <td>{{ current_event.note }}{% if current_event.event_note %}<span class="badge badge-primary">{{ current_event.event_note }}</span>{% endif %}</td>
                     <td>{{ current_event.active }}</td>
                     <td><a href="{{ url_for('event.edit_event', event_id=current_event.id) }}">{{ _('Edit') }}</a></td>
                 </tr>
