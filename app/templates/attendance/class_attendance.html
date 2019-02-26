@@ -52,7 +52,9 @@
             <tr>
                 <th>Name</th>
                 {% for event in current_class.events|sort(attribute='start') %}
-                    <th>{{ moment(event.start).format('DD MMM') }}</th>
+                    <th>{{ moment(event.start).format('DD MMM') }}
+                    {% if event.event_note %}<span class="badge badge-primary">{{ event.event_note }}</span>{% endif %}
+                    </th>
                 {% endfor %}
             </tr>
             {% for enrollment in current_class.enrollments|sort(attribute='student.first_name') %}

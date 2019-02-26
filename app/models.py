@@ -102,6 +102,7 @@ class Event(db.Model):
     class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
     # teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'))
     note = db.Column('note', db.Unicode(2048))
+    event_note = db.Column('event_note', db.Unicode(2048))
     active = db.Column('active', db.Boolean())
     payrate = db.Column('payrate', db.Numeric(scale=2))
     billing_rate = db.Column('billing_rate', db.Numeric(scale=2))
