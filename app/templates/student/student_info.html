@@ -67,7 +67,8 @@
         <div class="col">
             {% for contact in student.user.contacts %}
                 {{ _('Email:') }} {{ contact.email }}<br>
-                {{ _('Phone:') }} {{ contact.phone }}<br>
+                {{ _('Phone:') }}<a href="{{ url_for('txtmsg.send_msg', to_phone=contact.phone ) }}"
+                                    target="_blank">{{ contact.phone }}</a><br>
                 {{ _('Address:') }} {{ contact.address1 }} {{ contact.address2 }} {{ contact.city }} {{ contact.state }}
                 {{ contact.zip }}
                 <br>
