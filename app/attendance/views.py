@@ -39,9 +39,9 @@ def for_class(class_id):
         for school in current_user.schools:
             if current_class in school.classes:
                 return render_template('attendance/school_class_attendance.html', current_class=current_class, form=form)
-            else:
-                flash(_('You do not have permission to get attendance for that class. Please contact office'), 'danger')
-                return redirect(url_for('dashboard.school_dashboard'))
+        # If current user dosent have access to school with that class - show flash
+        flash(_('You do not have permission to get attendance for that class. Please contact office'), 'danger')
+        return redirect(url_for('dashboard.school_dashboard'))
 
 
 
@@ -79,8 +79,9 @@ def change():
 
 
 @attendance.route('/get_data/<class_id>', methods=['POST', 'GET'])
-@roles_accepted('teacher', 'admin')
+@roles_accepted('teacher', 'admin', 'school')
 def get_data(class_id):
+    # TODO Check if user has permission to get attendance for class
     current_class = Schdl_Class.query.filter_by(id=class_id).first()
     current_enrollments = current_class.enrollments.filter_by(current=True).all()
     attendance_data = []
