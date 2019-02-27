@@ -147,7 +147,7 @@ def user_edit(user_id):
 @roles_required('admin')
 def user_school(user_id):
     thisuser = User.query.filter_by(id=user_id).first()
-    current_schools = School.query.filter_by(current=True).all()
+    current_schools = School.query.filter_by(current=True).order_by(School.name.asc()).all()
 
     form = SchoolListForm()
     # Now forming the list of tuples for SelectField
