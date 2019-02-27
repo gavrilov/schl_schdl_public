@@ -160,7 +160,10 @@
                 $.each(json, function (key, val) {
                     // console.log(val.id);
                     // console.log(val.status);
-                    document.getElementById(val.id).value = val.status;
+                    var attSel = document.getElementById(val.id);
+                    if (attSel) {
+                        attSel.value = val.status;
+                    }
                 });
             });
         })

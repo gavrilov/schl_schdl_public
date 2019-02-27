@@ -130,7 +130,10 @@
                     // console.log(val.id);
                     // console.log(val.status);
                     {# if val.status = 2 then put P, else put A in <span> #}
-                    document.getElementById(val.id).innerHTML = (val.status === 2) ? "P" : "A"
+                    var attSel = document.getElementById(val.id);
+                    if (attSel) {
+                        attSel.innerHTML = (val.status === 2) ? "P" : "A"
+                    }
                 });
             });
         })
