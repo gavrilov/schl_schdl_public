@@ -82,15 +82,12 @@
                     </tr>
                 {% endif %}
             {% endfor %}
-        </table>
+            <tr>
+                <td>
+                    <h2>{{ _('Drops Students') }}</h2>
+                </td>
+            </tr>
 
-        <!--Drop Student Attendance table-->
-        <div class="row mt-4">
-            <div class="col">
-                <h2>{{ _('Drops Students') }}</h2>
-            </div>
-        </div>
-        <table class="table table-striped table-bordered table-responsive">
             <tr>
                 <th>Name</th>
                 {% for event in current_class.events|sort(attribute='start') %}

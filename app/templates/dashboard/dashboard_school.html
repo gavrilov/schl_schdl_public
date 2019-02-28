@@ -19,12 +19,14 @@
         <div class="row">
             <div class="col">
                 {% for school in current_user.schools %}
-                    <div class="row">
+                    {% if school.current %}
+                    <div class="row mt-5">
                         <div class="col">
                             <h3>{{ school.name }}</h3>
                         </div>
                     </div>
                     {% for current_class in school.classes %}
+                        {% if current_class.current %}
                         <div class="row border-bottom mt-3">
                             <div class="col">
                                 <a href="{{ url_for('attendance.for_class', class_id=current_class.id) }}">{{ current_class.subject.name }}</a>
@@ -42,7 +44,9 @@
                                 {% endif %}
                             </div>
                         </div>
+                        {% endif %}
                     {% endfor %}
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>
