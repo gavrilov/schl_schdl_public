@@ -1,0 +1,19 @@
+from flask_babelex import lazy_gettext as _l
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField, HiddenField, SelectField, BooleanField, IntegerField
+from wtforms.validators import DataRequired, Optional
+
+
+class StudentAwardForm(FlaskForm):
+    id = HiddenField(_l('id'), validators=[Optional()])
+    student_id = HiddenField(_l('Student id'), validators=[DataRequired()])
+    award_id = SelectField(_l('Award'), coerce=int, validators=[Optional()])
+    note = StringField(_l('Note'), validators=[Optional()])
+    submit = SubmitField(_l('Submit'))
+
+
+class AwardForm(FlaskForm):
+    name = StringField(_l('Name'), validators=[Optional()])
+    rank = IntegerField(_l('Rank'), validators=[Optional()])
+    note = StringField(_l('Note'), validators=[Optional()])
+    subject_id = SelectField(_l('Subject'), coerce=int, validators=[Optional()])
