@@ -1,5 +1,5 @@
 import secrets
-
+import re
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app, request
 from flask_babelex import _
 from flask_security import current_user, login_required, roles_required, url_for_security
@@ -232,6 +232,8 @@ def add_contacts():
         form.populate_obj(contact_info)
         # save new school to db
         contact_info.user_id = current_user.id
+        if contact_info.phone:
+            contact_info.phone = re.sub("\D", "", contact_info.phone)  # delete everything except digits
         db.session.add(contact_info)
         db.session.commit()
         flash(_('Contact information has been updated'), 'success')
@@ -260,6 +262,8 @@ def edit_contacts(contact_id):
 
     if form.validate_on_submit():
         form.populate_obj(contact_info)
+        if contact_info.phone:
+            contact_info.phone = re.sub("\D", "", contact_info.phone)  # delete everything except digits
         db.session.commit()
         flash(_('Contact information has been updated'), 'success')
         return redirect(url_for('user.main'))
