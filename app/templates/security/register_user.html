@@ -14,14 +14,14 @@
     {% include "security/_messages.html" %}
     <div class="row">
     <div class="col text-center">
-        <h1>{{ _('If you already have an account sign in') }} <a href="{{ url_for('security.login') }}">HERE</a></h1>
+        <h1>{{ _('Already Enrolled in Spring 2019 Classes?') }}<br>{{ _('Access your Account') }} <a href="{{ url_for('security.login') }}">HERE</a></h1>
     </div>
     </div>
     <div class="row justify-content-center mt-5">
         <form id="registration-form" method="POST" action="{{ url_for_security('register') }}">
             {{ register_user_form.hidden_tag() }}
             <div class="form-group row">
-                <h1>{{ _('New Parent Registration') }}</h1>
+                <h1>{{ _('New Registration Below') }}</h1>
             </div>
             <div class="form-group row">
                 {{ render_field_with_errors(register_user_form.first_name, size=30, class="form-control", placeholder=_('Parent First Name')) }}
