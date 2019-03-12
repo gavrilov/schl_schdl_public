@@ -4,7 +4,7 @@ from flask_security import roles_required
 from twilio.rest import Client
 from flask_security import url_for_security
 
-from app.models import db, TextMessage, UserContacts
+from app.models import db, TextMessage, UserContacts, User
 from app.txtmsg.forms import TxtMsgForm, ResetTxtMsgForm
 import re
 
@@ -112,7 +112,13 @@ def contact_fixer():
                 contact_changed = True
         if contact_changed:
             db.session.commit()
-    return "Ok!"
+    q = db.session.query(User)
+    users = q.filter(~User.contacts.any()).all()  # ~ means not
+    for user in users:
+        new_contact = UserContacts(user_id=user.id, email=user.email)
+        db.session.add(new_contact)
+        db.session.commit()
+    return 'Ok'
 
 
 @txtmsg.route('/forgot_email', methods=['GET', 'POST'])
