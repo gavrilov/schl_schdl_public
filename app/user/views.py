@@ -60,6 +60,9 @@ def user_add():
             note = form.note.data
             new_user = register_user(first_name=first_name, last_name=last_name, note=note, email=email,
                                      password=password)
+            new_contact = UserContacts(user_id=new_user.id, email=new_user.email)
+            db.session.add(new_contact)
+            db.session.commit()
             flash(_('User has been created'), 'success')
 
             # if send invitation is checked - send email with link to reset password
