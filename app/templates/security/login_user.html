@@ -21,7 +21,7 @@
         <form id="checkemail-form" action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
             {{ login_user_form.hidden_tag() }}
             <div class="form-group row">
-                <h1>{{ _('Enter your Password') }}</h1>
+                <h1>{{ _('Enter your Email and Password') }}</h1>
             </div>
             <div class="form-group row">
                 {{ render_field_with_errors(login_user_form.email, size=30, class="form-control", placeholder=_("Enter your Email")) }}
@@ -35,7 +35,7 @@
                     {{ login_user_form.remember.label(class="form-check-label") }}
                 </div>
                 <div class="ml-auto">
-                    <a href="{{ url_for_security('forgot_password') }}">{{ _('Forgot password?') }}</a>
+                    <a href="{{ url_for_security('forgot_password') }}">{{ _('Forgot Account?') }}</a>
                 </div>
             </div>
             <div class="form-group row">
