@@ -6,6 +6,8 @@
     {{ super() }}
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/jquery-editable/css/jquery-editable.css"
+          rel="stylesheet"/>
     <style>
         {# we use that style to freeze first column with student names #}
         th {
@@ -82,6 +84,23 @@
                     </tr>
                 {% endif %}
             {% endfor %}
+            <tr>
+                <td>Note:</td>
+                {% for event in current_class.events|sort(attribute='start') %}
+                    <td>
+                        <div>
+                            <a href="#" id="e{{ event.id }}" data-type="text" data-pk="{{ event.id }}" data-url="{{ url_for('event.edit_note') }}"
+                               data-title="Enter note">
+                                {% if event.note %}
+                                    {{ event.note }}
+                                {% else %}
+                                    {{ _('Add') }}
+                                {% endif %}
+                            </a>
+                        </div>
+                    </td>
+                {% endfor %}
+            </tr>
             <tr>
                 <td>
                     <h2>{{ _('Drops Students') }}</h2>
@@ -165,6 +184,16 @@
             });
         })
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/jquery-editable/js/jquery-editable-poshytip.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            //toggle `popup` / `inline` mode
+            $.fn.editable.defaults.mode = 'inline';
 
-
+            //make username editable
+            {% for event in current_class.events|sort(attribute='start') %}
+                $('#e{{ event.id }}').editable();
+            {% endfor %}
+        });
+    </script>
 {% endblock %}
