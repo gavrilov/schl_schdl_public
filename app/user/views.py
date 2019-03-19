@@ -293,3 +293,19 @@ def delete_contacts(contact_id):
     db.session.commit()
     flash(_('Contact information has been deleted'), 'success')
     return redirect(url_for('user.main'))
+
+
+@user.route('/edit_note', methods=['GET', 'POST'])
+@roles_required('admin')
+def edit_note():
+    name = request.form['name']
+    note = request.form['value']
+    user_id = request.form['pk']
+    if user_id:
+        this_user = User.query.filter_by(id=user_id).first()
+        if this_user:
+            this_user.note = note
+            db.session.commit()
+        return render_template('page.html'), 200
+    else:
+        return render_template('page.html'), 404
