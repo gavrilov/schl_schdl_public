@@ -18,14 +18,16 @@
         </div>
     </div>
     <div class="row justify-content-center mt-5">
+
+    <div class="form-group row text-center">
+        <h1 class="display-4">{{ _('Parents Register for <br> SUMMER Martial Arts <br> at Kipling Elementary') }} <a
+                href="https://enrichmentservices.com/summer-martial-arts-registration-kipling-elementary/"
+                class="success">{{ _('HERE') }}</a>
+        </h1>
+    </div>
+    {#
         <form id="registration-form" method="POST" action="{{ url_for_security('register') }}">
             {{ register_user_form.hidden_tag() }}
-            <div class="form-group row text-center">
-                <h1>{{ _('Parents Register for <br> SUMMER Martial Arts <br> at Kipling Elementary') }} <a href="https://enrichmentservices.com/summer-martial-arts-registration-kipling-elementary/"
-                                                                                                           class="success">{{ _('HERE') }}</a>
-                </h1>
-            </div>
-        {#
             <div class="form-group row">
                 {{ render_field_with_errors(register_user_form.first_name, size=30, class="form-control", placeholder=_('Parent First Name')) }}
             </div>
@@ -57,14 +59,16 @@
             <div class="form-group row">
                 <button id="recaptcha-submit" class="btn btn-primary">{{ _('Submit') }}</button>
             </div>
-        #}
+
             <div class="form-group row">
                 <h5>{{ _('Already have an account?') }} <a href="{{ url_for_security('login') }}">{{ _('Sign In') }}</a>
                 </h5>
             </div>
         </form>
+    #}
     </div>
-    <div class="row justify-content-center">
+
+    <div class="row justify-content-center mt-5">
         <img src="{{ url_for('static', filename='company_logo.png') }}"
              class="img-fluid mx-auto d-block">
         <h5 class="text-center"><i>{{ _(config.COMPANY_SLOGAN | safe) }}</i></h5>
