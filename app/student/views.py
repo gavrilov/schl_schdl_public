@@ -140,6 +140,7 @@ def enroll_student(student_id):
                            current_school=current_school, enrolled_classes=enrolled_classes, utc_now=utc_now,
                            step=3)  # step=3 for progressbar
 
+
 @student.route('/edit_note', methods=['GET', 'POST'])
 @roles_accepted('admin', 'teacher')
 def edit_note():
