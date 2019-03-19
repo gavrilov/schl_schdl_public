@@ -4,6 +4,8 @@
 
 {% block head %}
     {{ super() }}
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/jquery-editable/css/jquery-editable.css"
+          rel="stylesheet"/>
 {% endblock %}
 
 
@@ -41,7 +43,15 @@
     </div>
     <div class="row">
         <div class="col">
-            {{ _('Note:') }} {{ user.note }}
+            {{ _('Note:') }} <a href="#" id="note-u{{ user.id }}" data-type="text" data-pk="{{ user.id }}"
+               data-url="{{ url_for('user.edit_note') }}"
+               data-title="Enter note">
+                {% if user.note %}
+                    {{ user.note }}
+                {% else %}
+                    {{ _('Add') }}
+                {% endif %}
+            </a>
         </div>
     </div>
     <div class="row">
@@ -237,4 +247,14 @@
 {% block scripts %}
     {{ super() }}
     {{ moment.include_moment() }}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/jquery-editable/js/jquery-editable-poshytip.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            //toggle `popup` / `inline` mode
+            $.fn.editable.defaults.mode = 'inline';
+
+            //make student.note editable
+            $('#note-u{{ user.id }}').editable();
+        });
+    </script>
 {% endblock %}
