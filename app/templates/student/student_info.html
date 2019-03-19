@@ -4,6 +4,8 @@
 
 {% block head %}
     {{ super() }}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/jquery-editable/css/jquery-editable.css"
+          rel="stylesheet"/>
 {% endblock %}
 
 
@@ -44,7 +46,17 @@
     </div>
     <div class="row">
         <div class="col">
-            {{ _('Note about student:') }} {{ student.note }}<br>
+            {{ _('Note about student:') }}
+            <a href="#" id="note-s{{ student.id }}" data-type="text" data-pk="{{ student.id }}"
+               data-url="{{ url_for('student.edit_note') }}"
+               data-title="Enter note">
+                {% if student.note %}
+                    {{ student.note }}
+                {% else %}
+                    {{ _('Add') }}
+                {% endif %}
+            </a>
+
         </div>
     </div>
     <div class="row">
@@ -156,6 +168,16 @@
             // or, load content from value of data-remote url
             modal.find('.modal-body').load(button.data("remote"));
 
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/jquery-editable/js/jquery-editable-poshytip.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            //toggle `popup` / `inline` mode
+            $.fn.editable.defaults.mode = 'inline';
+
+            //make student.note editable
+            $('#note-s{{ student.id }}').editable();
         });
     </script>
 {% endblock %}
