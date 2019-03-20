@@ -1,5 +1,5 @@
 import secrets
-
+import re
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app, request
 from flask_babelex import _
 from flask_security import current_user, login_required, roles_required, url_for_security
@@ -60,6 +60,9 @@ def user_add():
             note = form.note.data
             new_user = register_user(first_name=first_name, last_name=last_name, note=note, email=email,
                                      password=password)
+            new_contact = UserContacts(user_id=new_user.id, email=new_user.email)
+            db.session.add(new_contact)
+            db.session.commit()
             flash(_('User has been created'), 'success')
 
             # if send invitation is checked - send email with link to reset password
@@ -229,6 +232,8 @@ def add_contacts():
         form.populate_obj(contact_info)
         # save new school to db
         contact_info.user_id = current_user.id
+        if contact_info.phone:
+            contact_info.phone = re.sub("\D", "", contact_info.phone)  # delete everything except digits
         db.session.add(contact_info)
         db.session.commit()
         flash(_('Contact information has been updated'), 'success')
@@ -257,6 +262,8 @@ def edit_contacts(contact_id):
 
     if form.validate_on_submit():
         form.populate_obj(contact_info)
+        if contact_info.phone:
+            contact_info.phone = re.sub("\D", "", contact_info.phone)  # delete everything except digits
         db.session.commit()
         flash(_('Contact information has been updated'), 'success')
         return redirect(url_for('user.main'))
@@ -286,3 +293,19 @@ def delete_contacts(contact_id):
     db.session.commit()
     flash(_('Contact information has been deleted'), 'success')
     return redirect(url_for('user.main'))
+
+
+@user.route('/edit_note', methods=['GET', 'POST'])
+@roles_required('admin')
+def edit_note():
+    name = request.form['name']
+    note = request.form['value']
+    user_id = request.form['pk']
+    if user_id:
+        this_user = User.query.filter_by(id=user_id).first()
+        if this_user:
+            this_user.note = note
+            db.session.commit()
+        return render_template('page.html'), 200
+    else:
+        return render_template('page.html'), 404

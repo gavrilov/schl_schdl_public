@@ -1,8 +1,8 @@
 from datetime import datetime
 
-from flask import render_template, Blueprint, flash, redirect, url_for, current_app
+from flask import render_template, Blueprint, flash, redirect, url_for, current_app, request
 from flask_babelex import _
-from flask_security import current_user, login_required, roles_required
+from flask_security import current_user, login_required, roles_required, roles_accepted
 from sqlalchemy import and_
 
 from app import db
@@ -139,3 +139,20 @@ def enroll_student(student_id):
     return render_template('student/enroll.html', current_classes=current_classes, student=current_student,
                            current_school=current_school, enrolled_classes=enrolled_classes, utc_now=utc_now,
                            step=3)  # step=3 for progressbar
+
+
+@student.route('/edit_note', methods=['GET', 'POST'])
+@roles_accepted('admin', 'teacher')
+def edit_note():
+    name = request.form['name']
+    note = request.form['value']
+    student_id = request.form['pk']
+    if student_id:
+        current_student = Student.query.filter_by(id=student_id).first()
+        if current_student:
+            current_student.note = note
+            db.session.commit()
+        return render_template('page.html'), 200
+    else:
+        return render_template('page.html'), 404
+

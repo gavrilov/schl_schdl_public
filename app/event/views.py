@@ -5,7 +5,7 @@ import pytz as tz
 from dateutil import rrule
 from flask import render_template, Blueprint, flash, redirect, url_for, request
 from flask_babelex import _
-from flask_security import roles_required
+from flask_security import roles_required, roles_accepted
 
 from app import db
 from app.models import Event, Schdl_Class, Teacher
@@ -136,6 +136,22 @@ def delete_event(event_id):
     else:
         flash(_('Event did not find'), 'danger')
         return redirect(url_for('event.event_list'))
+
+
+@event.route('/edit_note', methods=['GET', 'POST'])
+@roles_accepted('admin', 'teacher')
+def edit_note():
+    name = request.form['name']
+    note = request.form['value']
+    event_id = request.form['pk']
+    if event_id:
+        current_event = Event.query.filter_by(id=event_id).first()
+        if current_event:
+            current_event.note = note
+            db.session.commit()
+        return render_template('page.html'), 200
+    else:
+        return render_template('page.html'), 404
 
 
 @event.route('/data/<schdl_object>/<id>', methods=['GET', 'POST'])
