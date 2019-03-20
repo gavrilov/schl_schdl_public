@@ -13,7 +13,13 @@ class StudentAwardForm(FlaskForm):
 
 
 class AwardForm(FlaskForm):
-    name = StringField(_l('Name'), validators=[Optional()])
-    rank = IntegerField(_l('Rank'), validators=[Optional()])
+    name = StringField(_l('Name'), validators=[DataRequired()])
+    rank = IntegerField(_l('Rank'), validators=[DataRequired()])
     note = StringField(_l('Note'), validators=[Optional()])
     subject_id = SelectField(_l('Subject'), coerce=int, validators=[Optional()])
+    submit = SubmitField(_l('Submit'))
+
+
+class AwardEditForm(AwardForm):
+    id = HiddenField(_l('id'), validators=[DataRequired()])
+
