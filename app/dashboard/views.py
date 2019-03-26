@@ -126,8 +126,11 @@ def teacher_to_class():
 
     # add current class to list of teacher classes
     if request.method == 'POST':
-        teacher.classes.append(current_class)
-        db.session.commit()
+        if current_class not in teacher.classes:
+            teacher.classes.append(current_class)
+            db.session.commit()
+        else:
+            flash(_('Teacher already has access to that class'), 'danger')
 
     elif request.method == 'DELETE':
         teacher.classes.remove(current_class)
