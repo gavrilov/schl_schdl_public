@@ -114,7 +114,7 @@ def delete_contact_information(contact_id):
 def teacher_to_class():
     teacher_id = request.form['teacher_id']
     class_id = request.form['class_id']
-    print(request.form)
+
     if not teacher_id or not class_id:
         return abort(404)
 
@@ -127,12 +127,16 @@ def teacher_to_class():
     # add current class to list of teacher classes
     if request.method == 'POST':
         teacher.classes.append(current_class)
+        db.session.commit()
+
     elif request.method == 'DELETE':
         teacher.classes.remove(current_class)
+        db.session.commit()
+        return render_template('page.html'), 200
     else:
         return abort(404)
 
-    db.session.commit()
+
     return redirect(url_for('schdl_class.edit_class', class_id=current_class.id))
 
 
