@@ -1,9 +1,10 @@
-from flask import render_template, Blueprint, flash, redirect, url_for, request
+from flask import render_template, Blueprint, flash, redirect, url_for
 from flask_babelex import _
-from flask_security import roles_required, current_user, roles_accepted
-from .forms import AwardForm, StudentAwardForm, AwardEditForm
-from app.models import User, Student, Teacher, Enrollment, Schdl_Class, School, Award, Subject
+from flask_security import roles_required, roles_accepted
+
 from app import db
+from app.models import Student, Award, Subject, StudentAwards
+from .forms import AwardForm, StudentAwardForm, AwardEditForm, StudentEditAwardForm
 
 award = Blueprint('award', __name__, template_folder='templates')
 
@@ -23,7 +24,6 @@ def add():
     subjects = Subject.query.all()
     subjects_list = [(i.id, i.name) for i in subjects]
     form.subject_id.choices = subjects_list
-
     if form.validate_on_submit():
         new_award = Award()
         form.populate_obj(new_award)
@@ -62,50 +62,65 @@ def delete(award_id):
     return redirect(url_for('award.list_all'))
 
 
-@award.route('/student', methods=['POST'])
+@award.route('/student/<student_id>', methods=['GET', 'POST'])
 @roles_accepted('admin', 'teacher')
-def student():
-    student_id = request.form['student_id']
+def student_add(student_id):
+    # Add Award record to Student
     form = StudentAwardForm()
     awards = Award.query.order_by(Award.rank.asc()).all()
 
-    award_list = [(i.id, i.name + '@' + i.subject.name) for i in awards]
+    award_list = [(i.id, i.subject.name + ' - ' + i.name) for i in awards]
     form.award_id.choices = award_list
-
     if form.validate_on_submit():
-        form.id.data = None
         current_student = Student.query.filter_by(id=student_id).first()
-        new_enrollment = Enrollment()
-        form.populate_obj(new_enrollment)
-        current_student.enrollments.append(new_enrollment)
+        new_award_record = StudentAwards()
+        form.populate_obj(new_award_record)
+        db.session.add(new_award_record)
         db.session.commit()
-        flash(_('New Enrollment created'), 'success')
+        flash(_('Award has been added '), 'success')
         return redirect(url_for('student.info', student_id=current_student.id))
     else:
         for fieldName, errorMessages in form.errors.items():
             for err in errorMessages:
                 print(err)
         form.student_id.data = student_id
-        return render_template('enrollment/modal_add_enrolment.html', form=form)
+        return render_template('award/modal_add_for_student.html', form=form)
 
 
-@award.route('/edit/<enrollment_id>', methods=['GET', 'POST'])
-@roles_required('admin')
-def edit_student(enrollment_id):
+@award.route('/awardrecord/<award_record_id>/edit', methods=['GET', 'POST'])
+@roles_accepted('admin', 'teacher')
+def student_edit(award_record_id):
+    # Edit Award record of Student
+    award_record = StudentAwards.query.filter_by(id=award_record_id).first()
+    if award_record:
+        form = StudentEditAwardForm(obj=award_record)
 
-    current_classes = Schdl_Class.query.filter_by(current=True).join(School, Schdl_Class.school).order_by(School.name.asc()).all()
-    current_enrollment = Enrollment.query.filter_by(id=enrollment_id).first()
-    form = StudentAwardForm(obj=current_enrollment)
-    class_list = [(i.id, i.school.name + '@' + i.subject.name + ' ' + i.day_of_week + ' ' + (i.class_time_start.strftime("%I:%M %p") if i.class_time_start else "")) for i in current_classes]
-    form.class_id.choices = class_list
-    if form.validate_on_submit():
-        form.populate_obj(current_enrollment)
-        db.session.commit()
-        flash(_('Enrollment has been updated'), 'success')
-        return redirect(url_for('student.info', student_id=current_enrollment.student_id))
-    else:
-        for fieldName, errorMessages in form.errors.items():
-            for err in errorMessages:
-                print(err)
-        return render_template('enrollment/modal_edit_enrolment.html', form=form)
+        awards = Award.query.order_by(Award.rank.asc()).all()
 
+        award_list = [(i.id, i.subject.name + ' - ' + i.name) for i in awards]
+        form.award_id.choices = award_list
+
+        if form.validate_on_submit():
+            form.populate_obj(award_record)
+            db.session.commit()
+            flash(_('Award record has been updated'), 'success')
+            return redirect(url_for('student.info', student_id=award_record.student_id))
+        else:
+            for fieldName, errorMessages in form.errors.items():
+                for err in errorMessages:
+                    print(err)
+            return render_template('award/modal_edit_for_student.html', form=form)
+
+
+@award.route('/awardrecord/<award_record_id>/delete', methods=['GET', 'POST'])
+@roles_accepted('admin', 'teacher')
+def student_delete(award_record_id):
+    # Delete Award record of Student
+    award_record = StudentAwards.query.filter_by(id=award_record_id).first()
+    student_id = award_record.student_id
+    if award_record:
+        if award:
+            db.session.delete(award_record)
+            db.session.commit()
+            flash(_('Award record has been deleted'), 'success')
+    return redirect(url_for('student.info', student_id=student_id))
