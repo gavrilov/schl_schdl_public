@@ -222,12 +222,12 @@
                                 {% endif %}
                             </td>
                             <td>
-                                <a class="far fa-edit" href="{{ url_for('user.edit_contacts', contact_id=contact.id) }}"
+                                <a class="far fa-edit" href="{{ url_for('dashboard.edit_contact_information', contact_id=contact.id) }}"
                                    role="button" data-toggle="tooltip" title="edit" style="color: blue"></a>
                             </td>
                             <td>
                                 <a class="far fa-trash-alt"
-                                   href="{{ url_for('user.delete_contacts', contact_id=contact.id) }}"
+                                   href="{{ url_for('dashboard.delete_contact_information', contact_id=contact.id) }}"
                                    role="button" data-toggle="tooltip" title="delete" style="color: red"></a>
                             </td>
                         </tr>
