@@ -25,15 +25,21 @@
                 {% if contact.phone %}
                 <a href="{{ url_for('txtmsg.send_msg', to_phone=contact.phone ) }}"
                    target="_blank">{{ contact.phone }}</a>
-                {% endif %}
+                {% endif %}<br>
             {% endfor %}
             </td>
             <td>{% for contact in student.user.contacts %}
-                <a href="mailto:{{ contact.email }}" target="_top">{{ contact.email }}</a>
+                {% if contact.email %}
+                <a href="mailto:{{ contact.email }}" target="_top">{{ contact.email }}</a><br>
+                {% endif %}
             {% endfor %}</td>
         {% else %}
             <td></td>
-            <td>{{ student.user.email }}</td>
+            <td>
+                {% if (student.user.email != config.COMPANY_CONTACT_EMAIL ) %}
+                {{ student.user.email }}
+                {% endif %}
+            </td>
         {% endif %}
 
         <td>{{ student.note }}</td>

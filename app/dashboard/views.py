@@ -4,7 +4,7 @@ from flask_security import roles_required, current_user
 from datetime import datetime
 
 from app import db
-from app.dashboard.forms import AddContactForm, TeacherToClassForm
+from app.dashboard.forms import AddContactForm, TeacherToClassForm, EditContactForm
 from app.student.forms import StudentForm
 from app.models import User, Student, Teacher, Enrollment, School, UserContacts, Schdl_Class
 
@@ -71,6 +71,43 @@ def add_contact_information():
     return render_template('dashboard/add_contact_info.html', form=form, user_id=user_id)  # step=1 for progress bar
 
 
+@dashboard.route('/edit_contact_information/<contact_id>', methods=['GET', 'POST'])
+@roles_required('admin')
+def edit_contact_information(contact_id):
+    contact_info = UserContacts.query.filter_by(id=contact_id).first()
+    if contact_info:
+        form = EditContactForm(obj=contact_info)
+    else:
+        flash(_('Contact information did not find'), 'success')
+    # user_id = request.form['user_id']
+    if form.validate_on_submit():
+        form.populate_obj(contact_info)
+        db.session.commit()
+        flash(_('Contact information has been updated'), 'success')
+        return redirect(url_for('user.user_info', user_id=contact_info.user_id))
+
+    if form.errors:
+        print(form.errors)
+        for error in form.errors.values():
+            flash(error, 'danger')
+
+    return render_template('dashboard/edit_contact_info.html', form=form, contact_id=contact_id)
+
+
+
+@dashboard.route('/delete_contact_information/<contact_id>', methods=['GET', 'POST'])
+@roles_required('admin')
+def delete_contact_information(contact_id):
+    contact_info = UserContacts.query.filter_by(id=contact_id).first()
+    user_id = contact_info.user_id
+    if not contact_info:
+        flash(_('Contact information did not find'), 'danger')
+
+    db.session.delete(contact_info)
+    db.session.commit()
+    flash(_('Contact information has been deleted'), 'success')
+    return redirect(url_for('user.user_info', user_id=user_id))
+
 
 @dashboard.route('/teacher_to_class', methods=['POST', 'DELETE'])
 @roles_required('admin')
@@ -98,6 +135,7 @@ def teacher_to_class():
     db.session.commit()
     return redirect(url_for('schdl_class.edit_class', class_id=current_class.id))
 
+
 @dashboard.route('/modal_teacher_to_class/<class_id>', methods=['GET'])
 @roles_required('admin')
 def modal_teacher_to_class(class_id):
@@ -108,6 +146,7 @@ def modal_teacher_to_class(class_id):
     form.teacher_id.choices = teacher_list
     form.class_id.data = class_id
     return render_template('dashboard/modal_teacher_to_class.html', form=form)
+
 
 @dashboard.route('user/<user_id>/student/add/', methods=['GET', 'POST'])
 @roles_required('admin')
