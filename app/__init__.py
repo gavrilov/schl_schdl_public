@@ -104,20 +104,24 @@ def create_app(config_class=Config):
         users = User.query.all()
         for this_user in users:
             if this_user.stripe_id:
-                customer = stripe.Customer.retrieve(this_user.stripe_id)
-                if customer:
-                    for card in customer['sources']['data']:
-                        address = UserContacts()
-                        if card.address_line1 and card.address_city and card.address_zip and card.address_state:
-                            address.address1 = card.address_line1
-                            address.address2 = card.address_line2
-                            address.city = card.address_city
-                            address.state = card.address_state
-                            address.zip = card.address_zip
-                            address.nickname = "stripe"
-                            address.user_id = this_user.id
-                        db.session.add(address)
+                try:
+                    customer = stripe.Customer.retrieve(this_user.stripe_id)
+                    if customer:
+                        for card in customer['sources']['data']:
+                            address = UserContacts()
+                            if card.address_line1 and card.address_city and card.address_zip and card.address_state:
+                                address.address1 = card.address_line1
+                                address.address2 = card.address_line2
+                                address.city = card.address_city
+                                address.state = card.address_state
+                                address.zip = card.address_zip
+                                address.nickname = "stripe"
+                                address.user_id = this_user.id
+                            db.session.add(address)
                     db.session.commit()
+                except:
+                    current_app.logger.error('ADDRESS: User with id {} - address_error'.format(this_user.id))
+
         return 'ok'
 
 
