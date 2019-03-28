@@ -96,8 +96,8 @@ def create_app(config_class=Config):
 
     @app.route('/')
     def hello_world():
-        return redirect(url_for('security.register')) \
- \
+        return redirect(url_for('security.register'))
+
     @app.route('/import_stripe_addresses')
     def import_stripe_addresses():
         stripe.api_key = current_app.config['STRIPE_SECRET_KEY']
