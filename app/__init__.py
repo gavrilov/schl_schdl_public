@@ -2,7 +2,8 @@ import logging
 import os
 from logging.handlers import RotatingFileHandler
 
-from flask import Flask, redirect, url_for, render_template, abort, flash, request, send_from_directory
+import stripe
+from flask import Flask, redirect, url_for, render_template, abort, flash, request, send_from_directory, current_app
 from flask_babelex import Babel
 from flask_bootstrap import Bootstrap
 from flask_mail import Mail
@@ -11,7 +12,7 @@ from flask_moment import Moment
 from flask_security import Security, utils
 from raven.contrib.flask import Sentry
 
-from app.models import db, user_datastore, Schdl_Class, User
+from app.models import db, user_datastore, Schdl_Class, User, UserContacts
 from app.user.forms import SignInForm, RegistrationForm
 from config import Config
 from .cli import register as cli
@@ -95,7 +96,30 @@ def create_app(config_class=Config):
 
     @app.route('/')
     def hello_world():
-        return redirect(url_for('security.register'))
+        return redirect(url_for('security.register')) \
+ \
+    @app.route('/import_stripe_addresses')
+    def import_stripe_addresses():
+        stripe.api_key = current_app.config['STRIPE_SECRET_KEY']
+        users = User.query.all()
+        for this_user in users:
+            if this_user.stripe_id:
+                customer = stripe.Customer.retrieve(this_user.stripe_id)
+                if customer:
+                    for card in customer['sources']['data']:
+                        address = UserContacts()
+                        if card.address_line1 and card.address_city and card.address_zip and card.address_state:
+                            address.address1 = card.address_line1
+                            address.address2 = card.address_line2
+                            address.city = card.address_city
+                            address.state = card.address_state
+                            address.zip = card.address_zip
+                            address.nickname = "stripe"
+                            address.user_id = this_user.id
+                        db.session.add(address)
+                    db.session.commit()
+        return 'ok'
+
 
     @app.route('/privacy')
     def privacy():
