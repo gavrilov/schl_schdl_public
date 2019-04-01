@@ -2,8 +2,7 @@ import logging
 import os
 from logging.handlers import RotatingFileHandler
 
-import stripe
-from flask import Flask, redirect, url_for, render_template, abort, flash, request, send_from_directory, current_app
+from flask import Flask, redirect, url_for, render_template, abort, flash, request, send_from_directory
 from flask_babelex import Babel
 from flask_bootstrap import Bootstrap
 from flask_mail import Mail
@@ -98,33 +97,6 @@ def create_app(config_class=Config):
     def hello_world():
         return redirect(url_for('security.register'))
 
-    @app.route('/import_stripe_addresses')
-    def import_stripe_addresses():
-        stripe.api_key = current_app.config['STRIPE_SECRET_KEY']
-        users = User.query.all()
-        for this_user in users:
-            if this_user.stripe_id:
-                try:
-                    customer = stripe.Customer.retrieve(this_user.stripe_id)
-                    if customer:
-                        for card in customer['sources']['data']:
-                            address = UserContacts()
-                            if card.address_line1 and card.address_city and card.address_zip and card.address_state:
-                                address.address1 = card.address_line1
-                                address.address2 = card.address_line2
-                                address.city = card.address_city
-                                address.state = card.address_state
-                                address.zip = card.address_zip
-                                address.nickname = "stripe"
-                                address.user_id = this_user.id
-                            db.session.add(address)
-                    db.session.commit()
-                except:
-                    current_app.logger.error('ADDRESS: User with id {} - address_error'.format(this_user.id))
-
-        return 'ok'
-
-
     @app.route('/privacy')
     def privacy():
         return render_template('privacy.html')
@@ -139,7 +111,8 @@ def create_app(config_class=Config):
             user_datastore.find_or_create_role(name='teacher', description='Teacher')
 
             encrypted_password = utils.hash_password('password')
-            user_datastore.create_user(email=app.config['SUPERADMIN'], password=encrypted_password, first_name='First', last_name='Last')
+            user_datastore.create_user(email=app.config['SUPERADMIN'], password=encrypted_password, first_name='First',
+                                       last_name='Last')
 
             db.session.commit()
 
