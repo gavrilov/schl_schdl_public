@@ -1,5 +1,8 @@
 import requests
+import stripe
 from flask import current_app, flash
+
+from app.models import db, User, UserContacts
 
 
 def send_email_to_user(user, msg_subject, msg_html):
@@ -26,3 +29,43 @@ def send_email_to_user(user, msg_subject, msg_html):
             current_app.logger.error('SparkPost {} error: {}'.format(error['code'], error['message']))
             return False
     return True
+
+
+def import_stripe_addresses():
+    # func to sync contact information from stripe to system
+    stripe.api_key = current_app.config['STRIPE_SECRET_KEY']
+    users = User.query.all()
+    for this_user in users:
+        if this_user.stripe_id:
+            try:
+                customer = stripe.Customer.retrieve(this_user.stripe_id)
+                if customer:
+                    for card in customer['sources']['data']:
+                        address = UserContacts()
+
+                        # check for duplicates
+                        not_dup = True
+                        for contact in this_user.contacts:
+                            if card.address_line1 == contact.address1:
+                                print('Dup find')
+                                not_dup = False
+
+                        if card.address_line1 and card.address_city and card.address_zip and card.address_state and not_dup:
+                            address.address1 = card.address_line1
+                            if card.address_line2:
+                                address.address2 = card.address_line2
+                            address.city = card.address_city
+                            address.state = card.address_state
+                            address.zip = card.address_zip
+                            address.nickname = "stripe"
+                            address.user_id = this_user.id
+                        db.session.add(address)
+                db.session.commit()
+                print("USER ID {}".format(this_user.id))
+            except:
+                print("ERROR! USER ID {}".format(this_user.id))
+                print(customer)
+                current_app.logger.error('ADDRESS: User with id {} - address_error'.format(this_user.id))
+                pass
+
+    return 'ok'
