@@ -211,7 +211,7 @@
                                        title="{{ _('txt messages is prohibited') }}"></i>
                                 {% endif %}
                             </td>
-                            <td>{{ contact.address1 }} {{ contact.address2 }}<br>{{ contact.city }} {{ contact.state }} {{ contact.zip }}
+                            <td>{{ contact.address1 }} {% if contact.address2 %}{{ contact.address2 }}{% endif %}<br>{{ contact.city }} {{ contact.state }} {{ contact.zip }}
                                 {% if contact.contact_by_mail == 1 %}
                                     <i class="far fa-envelope" style="font-size: 1em; color: green;"
                                        data-toggle="tooltip"
