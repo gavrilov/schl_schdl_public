@@ -2,6 +2,7 @@ from flask import render_template, Blueprint, flash, redirect, url_for, request,
 from flask_babelex import _
 from flask_security import roles_required, current_user
 from datetime import datetime
+import re
 
 from app import db
 from app.dashboard.forms import AddContactForm, TeacherToClassForm, EditContactForm
@@ -56,7 +57,8 @@ def add_contact_information():
     if form.validate_on_submit():
         contact_info = UserContacts()
         form.populate_obj(contact_info)
-
+        if contact_info.phone:
+            contact_info.phone = re.sub("\D", "", contact_info.phone)
         contact_info.user_id = user_id
         db.session.add(contact_info)
         db.session.commit()
@@ -82,6 +84,8 @@ def edit_contact_information(contact_id):
     # user_id = request.form['user_id']
     if form.validate_on_submit():
         form.populate_obj(contact_info)
+        if contact_info.phone:
+            contact_info.phone = re.sub("\D", "", contact_info.phone)
         db.session.commit()
         flash(_('Contact information has been updated'), 'success')
         return redirect(url_for('user.user_info', user_id=contact_info.user_id))
