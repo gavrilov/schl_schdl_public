@@ -167,11 +167,26 @@ def student_processing():
         students_ids = request.form.getlist('students')
         students = []
         if students_ids:
-            if action == "labels":
-                for student_id in students_ids:
-                    this_student = Student.query.filter_by(id=student_id).first()
-                    if this_student:
-                        students.append(this_student)
-        return render_template('student/address_labels.html', students=students)
+            for student_id in students_ids:
+                this_student = Student.query.filter_by(id=student_id).first()
+                if this_student:
+                    students.append(this_student)
+        if action == "labels":
+            return render_template('student/address_labels.html', students=students)
+        if action == "email":
+            emails = []
+            for this_student in students:
+                for contact in this_student.user.contacts:
+                    if contact.email:
+                        emails.append(contact.email)
+                    else:
+                        emails.append(this_student.user.email)
+            uniq_emails = set(emails)
+            emails = list(uniq_emails)
+            email_href_string = ','.join(emails)
+            email_string = '; '.join(emails)
+            email_link = '<a href="mailto:?bcc={email_href_string}">{email_string}</a>'.format(
+                email_href_string=email_href_string, email_string=email_string)
+            return render_template('student/email.html', email_link=email_link)
     else:
         return render_template('page.html'), 404
