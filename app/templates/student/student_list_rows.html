@@ -24,7 +24,7 @@
             <td>{% for contact in student.user.contacts %}
                 {% if contact.phone %}
                 <a href="{{ url_for('txtmsg.send_msg', to_phone=contact.phone ) }}"
-                   target="_blank">{{ contact.phone }}</a>
+                   target="_blank">{{ _('{first}-{second}-{third}'.format(first=contact.phone[0:3], second=contact.phone[3:6], third=contact.phone[6:10])) }}</a>
                 {% endif %}<br>
             {% endfor %}
             </td>

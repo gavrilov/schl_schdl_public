@@ -200,7 +200,7 @@
                                 {% endif %}
                             </td>
                             <td><a href="{{ url_for('txtmsg.send_msg', to_phone=contact.phone ) }}"
-                                   target="_blank">{{ contact.phone }}</a>
+                                   target="_blank">{{ _('{first}-{second}-{third}'.format(first=contact.phone[0:3], second=contact.phone[3:6], third=contact.phone[6:10])) }}</a>
                                 {% if contact.contact_by_txt == 1 %}
                                     <i class="fas fa-mobile-alt" style="font-size: 1em; color: green;"
                                        data-toggle="tooltip"
@@ -211,7 +211,7 @@
                                        title="{{ _('txt messages is prohibited') }}"></i>
                                 {% endif %}
                             </td>
-                            <td>{{ contact.address1 }} {{ contact.address2 }}<br>{{ contact.city }} {{ contact.state }} {{ contact.zip }}
+                            <td>{{ contact.address1 }} {% if contact.address2 %}{{ contact.address2 }}{% endif %}<br>{{ contact.city }} {{ contact.state }} {{ contact.zip }}
                                 {% if contact.contact_by_mail == 1 %}
                                     <i class="far fa-envelope" style="font-size: 1em; color: green;"
                                        data-toggle="tooltip"
