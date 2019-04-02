@@ -156,3 +156,22 @@ def edit_note():
     else:
         return render_template('page.html'), 404
 
+
+@student.route('/student_processing', methods=['GET', 'POST'])
+@roles_required('admin')
+def student_processing():
+    if request.method == 'POST':
+        # for send mass emails and txt msgs
+        # TODO csrf_token to ajax request
+        action = request.form['action']
+        students_ids = request.form.getlist('students')
+        students = []
+        if students_ids:
+            if action == "labels":
+                for student_id in students_ids:
+                    this_student = Student.query.filter_by(id=student_id).first()
+                    if this_student:
+                        students.append(this_student)
+        return render_template('student/address_labels.html', students=students)
+    else:
+        return render_template('page.html'), 404

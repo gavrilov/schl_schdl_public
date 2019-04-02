@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{{ _('Address Labels') }}</title>
+    <style>
+        @media print {
+            @page {
+                size: letter portrait;
+                margin: 0.5in .0625in .5in .1875in !important;
+                padding: 0;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            .hidden-print {
+                display: none;
+            }
+
+            html {
+                margin: 0;
+                padding: 0;
+            }
+
+            .page-break {
+                margin-bottom: 1.1in;
+                clear: both;
+                display: block;
+                break-before: page;
+
+            }
+        }
+
+        .label {
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+            /* Avery 5160 labels */
+            width: 2.325in;
+            height: 1in;
+            padding: .015in .15in 0 .15in;
+            margin-left: .125in;
+
+            float: left;
+            text-align: center;
+
+            overflow: hidden;
+            line-height: 1em;
+            outline: 1px dotted;
+            font-size: 12pt;
+            letter-spacing: normal;
+        }
+
+        body {
+            margin: 0.5in .0625in .5in .1875in !important;
+            width: 8.5in;
+        }
+    </style>
+
+</head>
+<body>
+
+{% set ns = namespace(foo=0) %} {# contact counter - it inserts page brake after 30 contacts #}
+{% for student in students %}
+    {% for contact in student.user.contacts %}
+
+        {% if ns.foo == 30 %}
+            {% set ns.foo = 0 %}
+            <div class="page-break"><h1 class="hidden-print">{{ _('Next Page') }}</h1></div>
+        {% endif %}
+        {% if contact.address1 %}
+            {% set ns.foo = ns.foo + 1 %}
+            <div class="label">
+                <p style="vertical-align: middle;">
+                    {{ _('To the Parents of:') }}<br>
+                    <b>{{ student.first_name }} {{ student.last_name }}</b><br>
+                    {{ contact.address1 }}{% if contact.address2 %} {{ contact.address2 }} {% endif %}<br>
+                    {{ contact.city }} {{ contact.state }} {{ contact.zip }}
+                </p>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+
+
+</body>
+</html>

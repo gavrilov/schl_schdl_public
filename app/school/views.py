@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint, redirect, url_for, flash, request
+from flask import render_template, Blueprint, redirect, url_for, flash
 from flask_babelex import _
 from flask_security import roles_required
 
@@ -9,18 +9,9 @@ from app.school.forms import SchoolForm
 school = Blueprint('school', __name__, template_folder='templates')
 
 
-@school.route('/', methods=['GET', 'POST'])
+@school.route('/', methods=['GET'])
 @roles_required('admin')
 def school_list():
-    if request.method == 'POST':
-        # for send mass emails and txt msgs
-        # TODO csrf_token to ajax request
-        data = request.form['action']
-        data = request.form.getlist('schools')
-        for school_id in data:
-            school = School.query.filter_by(id=school_id).first()
-            print(school.name)
-
     schools = School.query.filter_by(current=True).all()
     return render_template('school/list.html', schools=schools, current_schools_only=True)
 
