@@ -83,8 +83,16 @@
             console.log('serlialized inputs: ', selectedRowInputs.serialize());
             $.ajax({
                 type: "POST",
-                url: "{{ url_for('school.school_list') }}",
-                data: selectedRowInputs.serialize() + "&action=" + actionselect
+                url: "{{ url_for('student.student_processing') }}",
+                data: selectedRowInputs.serialize() + "&action=" + actionselect,
+                success: function (data) {
+                    // if success we will open new window with html
+                    var w = window.open();
+                    $(w.document.body).html(data);
+                },
+                error: function (data) {
+                    alert("Error! Cannot process your request");
+                },
             });
         })
     </script>

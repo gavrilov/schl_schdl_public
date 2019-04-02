@@ -17,7 +17,7 @@ class AddContactForm(FlaskForm):
     address2 = StringField(_l('Address 2'), validators=[Optional()])
     city = StringField(_l('City'), validators=[Optional(_l('Please enter your City'))])
     state = SelectField(_l('State'), validators=[Optional(_l('Please enter your State'))],
-                        choices=[("AL", "Alabama"), ("AK", "Alaska"), ("AS", "American Samoa"), ("AZ", "Arizona"),
+                        choices=[("", "---"), ("AL", "Alabama"), ("AK", "Alaska"), ("AS", "American Samoa"), ("AZ", "Arizona"),
                                  ("AR", "Arkansas"), ("CA", "California"), ("CO", "Colorado"), ("CT", "Connecticut"),
                                  ("DE", "Delaware"), ("DC", "District Of Columbia"),
                                  ("FM", "Federated States Of Micronesia"), ("FL", "Florida"), ("GA", "Georgia"),
@@ -43,6 +43,11 @@ class AddContactForm(FlaskForm):
     contact_by_mail = BooleanField(_l('mail'), validators=[Optional()])
     note = StringField(_l('Note'), validators=[Optional()])
     submit = SubmitField(_l('Submit'))
+
+
+class EditContactForm(AddContactForm):
+    id = HiddenField(_l('id'), validators=[Optional()])
+
 
 class TeacherToClassForm(FlaskForm):
     class_id = HiddenField(_l('Class id'), validators=[Optional()])

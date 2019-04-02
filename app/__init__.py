@@ -11,7 +11,7 @@ from flask_moment import Moment
 from flask_security import Security, utils
 from raven.contrib.flask import Sentry
 
-from app.models import db, user_datastore, Schdl_Class, User
+from app.models import db, user_datastore, Schdl_Class, User, UserContacts
 from app.user.forms import SignInForm, RegistrationForm
 from config import Config
 from .cli import register as cli
@@ -113,7 +113,8 @@ def create_app(config_class=Config):
             user_datastore.find_or_create_role(name='teacher', description='Teacher')
 
             encrypted_password = utils.hash_password('password')
-            user_datastore.create_user(email=app.config['SUPERADMIN'], password=encrypted_password, first_name='First', last_name='Last')
+            user_datastore.create_user(email=app.config['SUPERADMIN'], password=encrypted_password, first_name='First',
+                                       last_name='Last')
 
             db.session.commit()
 

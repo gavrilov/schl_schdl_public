@@ -88,7 +88,7 @@
             {% for contact in student.user.contacts %}
                 {{ _('Email:') }} <a href="mailto:{{ contact.email }}">{{ contact.email }}</a><br>
                 {{ _('Phone:') }} <a href="{{ url_for('txtmsg.send_msg', to_phone=contact.phone ) }}"
-                                     target="_blank">{{ contact.phone }}</a><br>
+                                     target="_blank">{{ _('{first}-{second}-{third}'.format(first=contact.phone[0:3], second=contact.phone[3:6], third=contact.phone[6:10])) }}</a><br>
                 {{ _('Address:') }} {{ contact.address1 }} {{ contact.address2 }} {{ contact.city }} {{ contact.state }}
                 {{ contact.zip }}
                 <br>
