@@ -58,7 +58,7 @@
 
         </div>
     </div>
-    <div class="row">
+    <div class="row mt-5">
         <div class="col">
             <h3>{{ _('User Info') }}</h3>
         </div>
@@ -95,7 +95,9 @@
             {% endfor %}
         </div>
     </div>
-    <div class="row">
+
+    {#  Enrollments #}
+    <div class="row mt-5">
         <div class="col">
             <h3>{{ _('Enrollments') }}</h3>
         </div>
@@ -138,6 +140,41 @@
         </div>
     {% endfor %}
 
+    {# Awards #}
+    <div class="row mt-5">
+        <div class="col">
+            <h3>{{ _('Awards') }}</h3>
+        </div>
+        <div class="col"><a class="btn btn-outline-success" role="button" href="#awardModal"
+                            data-remote="{{ url_for('award.student_add', student_id=student.id) }}" data-toggle="modal"
+                            data-target="#awardModal">{{ _('Add Award') }}</a></div>
+    </div>
+    <div class="row">
+        <div class="col">{{ _('Date') }}</div>
+        <div class="col">{{ _('Subject') }}</div>
+        <div class="col">{{ _('Award Name') }}</div>
+        <div class="col">{{ _('Note') }}</div>
+        <div class="col">{{ _('Edit') }}</div>
+    </div>
+    {% for award_record in student.awards %}
+        <div class="row border-top">
+            <div class="col">
+                {{ moment(award_record.date).format('L LT') }}</div>
+            <div class="col">
+                {{ award_record.award.subject.name }}
+            </div>
+            <div class="col">{{ award_record.award.name }}</div>
+            <div class="col">{{ award_record.note }}</div>
+            <div class="col"><a class="btn btn-outline-success" role="button" href="#awardModal"
+                                data-remote="{{ url_for('award.student_edit', award_record_id=award_record.id) }}"
+                                data-toggle="modal" data-target="#awardModal">Edit</a>
+                <a class="btn btn-outline-danger" role="button"
+                   href="{{ url_for('award.student_delete', award_record_id=award_record.id) }}">Delete</a>
+            </div>
+        </div>
+    {% endfor %}
+
+    {# Modal for Enrolment #}
     <div class="modal fade" id="theModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -157,6 +194,26 @@
             </div>
         </div>
     </div>
+    {# Modal for Awards #}
+    <div class="modal fade" id="awardModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="awardModalLabel">{{ _('Awards') }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {# remote content from "data-remote" loads here #}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('Close') }}</button>
+                    <button type="submit" class="btn btn-primary" form="award">{{ _('Submit') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 
@@ -166,6 +223,20 @@
     {{ moment.include_moment() }}
     <script>
         $('#theModal').on('show.bs.modal', function (e) {
+
+            var button = $(e.relatedTarget);
+            var modal = $(this);
+
+            // load content from HTML string
+            //modal.find('.modal-body').html("Nice modal body baby...");
+
+            // or, load content from value of data-remote url
+            modal.find('.modal-body').load(button.data("remote"));
+
+        });
+    </script>
+    <script>
+        $('#awardModal').on('show.bs.modal', function (e) {
 
             var button = $(e.relatedTarget);
             var modal = $(this);

@@ -1,0 +1,7 @@
+<form method="POST" id="award" action="{{ url_for('award.student_add', student_id=form.student_id.data) }}">
+    {{ form.csrf_token }}
+    {{ form.student_id }}
+    {{ form.award_id.label }} {{ form.award_id }}
+    {{ form.date.label }} {{ form.date }}
+    {{ form.note.label }} {{ form.note(size=50) }}
+</form>

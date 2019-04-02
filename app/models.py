@@ -81,6 +81,7 @@ class Subject(db.Model):
     current = db.Column('current', db.Boolean())
     default_info = db.Column('default_info', db.UnicodeText())  # default description will insert to Schdl_Class.info
     classes = db.relationship('Schdl_Class', backref='subject', lazy='dynamic')
+    awards = db.relationship('Award', backref='subject', lazy='dynamic')
 
 
 class Teacher(db.Model):
@@ -180,6 +181,7 @@ class Student(db.Model):
     enrollments = db.relationship('Enrollment', backref='student', lazy='dynamic')
     timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     attendances = db.relationship('Attendance', backref='student', lazy='dynamic')
+    awards = db.relationship('StudentAwards', backref='student', lazy='dynamic')
 
 
 class TextMessage(db.Model):
@@ -192,6 +194,25 @@ class TextMessage(db.Model):
     url_pic = db.Column('url_pic', db.Unicode(2048))
     date = db.Column('date', db.DateTime, default=datetime.datetime.utcnow)
     status = db.Column('status', db.Unicode(64))
+
+
+class Award(db.Model):
+    __tablename__ = "awards"
+    id = db.Column('id', db.Integer, primary_key=True)
+    name = db.Column('name', db.Unicode(2048))
+    rank = db.Column('rank', db.Integer)
+    note = db.Column('note', db.Unicode(2048))
+    subject_id = db.Column(db.Integer, db.ForeignKey('subjects.id'))
+    awards_records = db.relationship('StudentAwards', backref='award', lazy='dynamic')
+
+
+class StudentAwards(db.Model):
+    __tablename__ = "student_awards"
+    id = db.Column('id', db.Integer, primary_key=True)
+    student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
+    award_id = db.Column(db.Integer, db.ForeignKey('awards.id'))
+    date = db.Column('date', db.DateTime, default=datetime.datetime.utcnow)
+    note = db.Column('note', db.Unicode(2048))
 
 
 # for Flask-Security
