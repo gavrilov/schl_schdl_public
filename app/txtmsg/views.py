@@ -77,11 +77,25 @@ def send_msg():
 @txtmsg.route('/status', methods=['GET', 'POST'])
 @roles_required('admin')
 def status():
-    page = 1
+    page = 0
+    page_token = None
+
     if request.args.get('page'):
         page = int(request.args.get('page'))
-    txt_msg = TextMessage.query.order_by(TextMessage.id.desc()).paginate(page, 25, False)
-    return render_template('txtmsg/sms_status.html', data=txt_msg)
+    if request.args.get('page_token'):
+        page_token = str(request.args.get('page_token'))
+
+    account_sid = current_app.config['TWILIO_ACCOUNT_SID']
+    auth_token = current_app.config['TWILIO_AUTH_TOKEN']
+    messaging_ssid = current_app.config['TWILIO_MESSAGING_SSID']
+
+    client = Client(account_sid, auth_token)
+
+    txt_messages = client.messages.page(page_size=25, page_number=page, page_token=page_token)
+    # TODO delete TextMessage from Models - we use twilio api directly instead
+    # print(txt_messages.__dict__)
+    # txt_msg = TextMessage.query.order_by(TextMessage.id.desc()).paginate(page, 25, False)
+    return render_template('txtmsg/sms_status.html', data=txt_messages, page=page)
 
 
 @txtmsg.route('/updatestatus', methods=['POST'])

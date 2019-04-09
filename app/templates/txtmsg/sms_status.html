@@ -13,38 +13,39 @@
         <table width="100%" class="table table-hover">
             <thead>
             <tr>
-                <th>id</th>
                 <th>Phone #</th>
                 <th>Text message</th>
                 <th>Date</th>
-                <th>Note</th>
                 <th>Status</th>
             </tr>
             </thead>
             <tbody>
-            {% for msg in data.items %}
+            {% for msg in data %}
                 {% if msg.status == "received" %}
                     <tr bgcolor="#90EE90">
                         {% else %}
                     <tr>
                 {% endif %}
-
-            <td>{{ msg.id }}</td>
-            <td>{{ msg.phone_number }}</td>
-            <td>{{ msg.msg }}</td>
-            <td>{{ msg.date }}</td>
-            <td>{{ msg.note }}</td>
+            <td>{{ msg.to }}</td>
+            <td>{{ msg.body }}</td>
+            <td>{{ msg.date_sent }}</td>
             <td>{{ msg.status }}</td>
 
             </tr>
             {% endfor %}
             </tbody>
         </table>
+    {% if data._payload.previous_page_uri %}
+    {%  set page_token = data._payload.previous_page_uri.split('=') %}
+        <a href="{{ url_for('txtmsg.status', page=page-1, page_token=page_token[-1])  }}">{{ _('Previous') }}</a>
+    {% endif %}
+    {% if data._payload.next_page_uri %}
+    {%  set page_token = data._payload.next_page_uri.split('=') %}
+        <a href="{{ url_for('txtmsg.status', page=page+1, page_token=page_token[-1])  }}">{{ _('Next') }}</a>
+    {% endif %}
         <br><br>
         <a href='{{ url_for('txtmsg.send_msg') }}'>Send text messages</a>
 
-        {% from "bootstrap/pagination.html" import render_pagination %}
-        {{ render_pagination(data) }}
     </div>
 {% endblock %}
 
