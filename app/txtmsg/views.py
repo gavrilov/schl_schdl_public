@@ -15,14 +15,18 @@ txtmsg = Blueprint('txtmsg', __name__, template_folder='templates')
 @roles_required('admin')
 def send_msg():
     form = TxtMsgForm()
-    to_phone = request.args.get('to_phone')
-    if to_phone:
-        form.phone_number.data = to_phone
+
     account_sid = current_app.config['TWILIO_ACCOUNT_SID']
     auth_token = current_app.config['TWILIO_AUTH_TOKEN']
     messaging_ssid = current_app.config['TWILIO_MESSAGING_SSID']
 
     client = Client(account_sid, auth_token)
+
+    to_phone = request.args.get('to_phone')
+    if to_phone:
+        form.phone_number.data = to_phone
+        txt_messages = client.messages.page(to=to_phone, page_size=10)
+        # print(txt_messages.__dict__)
 
     if form.validate_on_submit():
         # check if the post request has the file part
@@ -71,7 +75,7 @@ def send_msg():
 
         return redirect(url_for('txtmsg.status'))
     else:
-        return render_template('txtmsg/sms_form.html', form=form)
+        return render_template('txtmsg/sms_form.html', form=form, txt_messages=txt_messages, to_phone=to_phone)
 
 
 @txtmsg.route('/status', methods=['GET', 'POST'])

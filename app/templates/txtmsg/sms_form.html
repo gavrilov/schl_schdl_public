@@ -39,6 +39,37 @@
 
         </form>
         <br>
+
+        {% if txt_messages %}
+            <h3>{{ _('Last 10 messages to ') }}{{ to_phone }}</h3>
+            <table width="100%" class="table table-hover">
+            <thead>
+            <tr>
+                <th>Phone #</th>
+                <th>Text message</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for msg in txt_messages %}
+                {% if msg.status == "received" %}
+                    <tr bgcolor="#90EE90">
+                        {% else %}
+                    <tr>
+                {% endif %}
+            <td>{{ msg.to }}</td>
+            <td>{{ msg.body }}</td>
+            <td>{{ msg.date_sent }}</td>
+            <td>{{ msg.status }}</td>
+
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% endif %}
+        <br>
         <a href="{{ url_for('txtmsg.status') }}">Status of messages</a>
     </div>
 
