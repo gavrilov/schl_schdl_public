@@ -23,6 +23,7 @@ def send_msg():
     client = Client(account_sid, auth_token)
 
     to_phone = request.args.get('to_phone')
+    txt_messages = None
     if to_phone:
         form.phone_number.data = to_phone
         txt_messages = client.messages.page(to=to_phone, page_size=10)
