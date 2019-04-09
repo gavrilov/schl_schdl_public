@@ -2,7 +2,7 @@ import requests
 import stripe
 from flask import current_app, flash
 
-from app.models import db, User, UserContacts
+from app.models import db, User, UserContacts, Enrollment
 
 
 def send_email_to_user(user, msg_subject, msg_html):
@@ -69,3 +69,32 @@ def import_stripe_addresses():
                 pass
 
     return 'ok'
+
+
+def export_contacts():
+    # def to export contacts to csv file
+    enrollments = Enrollment.query.all()
+    text = []
+    for this_enrollment in enrollments:
+        for contact in this_enrollment.student.user.contacts:
+            address = "{student_first_name}\t{student_last_name}\t{school}\t{subject}\t{email}\t{phone}\t{address1}\t{address2}\t{city}\t{state}\t{zip}".format(
+                student_first_name=this_enrollment.student.first_name,
+                student_last_name=this_enrollment.student.last_name,
+                school=this_enrollment.schdl_class.school.name,
+                subject=this_enrollment.schdl_class.subject.name,
+                email=contact.email,
+                phone=contact.phone,
+                address1=contact.address1,
+                address2=contact.address2,
+                city=contact.city,
+                state=contact.state,
+                zip=contact.zip
+            )
+            text.append(address)
+
+    with open('csvfile.csv', 'w') as file:
+        for line in text:
+            file.write(line)
+            file.write('\n')
+
+    return 'Ok'
