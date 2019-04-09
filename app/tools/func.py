@@ -98,3 +98,28 @@ def export_contacts():
             file.write('\n')
 
     return 'Ok'
+
+
+def contact_fixer():
+    #fix phone numbers
+    contacts = UserContacts.query.all()
+    for contact in contacts:
+        contact_changed = False
+        # if not contact.email:
+        #    contact.email = contact.user.email
+        #    contact_changed = True
+
+        if contact.phone:
+            format_phone = re.sub("\D", "", contact.phone)
+            if format_phone != contact.phone:
+                contact.phone = format_phone
+                contact_changed = True
+        if contact_changed:
+            db.session.commit()
+    # q = db.session.query(User)
+    # users = q.filter(~User.contacts.any()).all()  # ~ means not
+    # for user in users:
+    #    new_contact = UserContacts(user_id=user.id, email=user.email)
+    #    db.session.add(new_contact)
+    #    db.session.commit()
+    return 'Ok'

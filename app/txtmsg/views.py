@@ -15,14 +15,18 @@ txtmsg = Blueprint('txtmsg', __name__, template_folder='templates')
 @roles_required('admin')
 def send_msg():
     form = TxtMsgForm()
-    to_phone = request.args.get('to_phone')
-    if to_phone:
-        form.phone_number.data = to_phone
+
     account_sid = current_app.config['TWILIO_ACCOUNT_SID']
     auth_token = current_app.config['TWILIO_AUTH_TOKEN']
     messaging_ssid = current_app.config['TWILIO_MESSAGING_SSID']
 
     client = Client(account_sid, auth_token)
+
+    to_phone = request.args.get('to_phone')
+    if to_phone:
+        form.phone_number.data = to_phone
+        txt_messages = client.messages.page(to=to_phone, page_size=10)
+        # print(txt_messages.__dict__)
 
     if form.validate_on_submit():
         # check if the post request has the file part
@@ -71,17 +75,31 @@ def send_msg():
 
         return redirect(url_for('txtmsg.status'))
     else:
-        return render_template('txtmsg/sms_form.html', form=form)
+        return render_template('txtmsg/sms_form.html', form=form, txt_messages=txt_messages, to_phone=to_phone)
 
 
 @txtmsg.route('/status', methods=['GET', 'POST'])
 @roles_required('admin')
 def status():
-    page = 1
+    page = 0
+    page_token = None
+
     if request.args.get('page'):
         page = int(request.args.get('page'))
-    txt_msg = TextMessage.query.order_by(TextMessage.id.desc()).paginate(page, 25, False)
-    return render_template('txtmsg/sms_status.html', data=txt_msg)
+    if request.args.get('page_token'):
+        page_token = str(request.args.get('page_token'))
+
+    account_sid = current_app.config['TWILIO_ACCOUNT_SID']
+    auth_token = current_app.config['TWILIO_AUTH_TOKEN']
+    messaging_ssid = current_app.config['TWILIO_MESSAGING_SSID']
+
+    client = Client(account_sid, auth_token)
+
+    txt_messages = client.messages.page(page_size=25, page_number=page, page_token=page_token)
+    # TODO delete TextMessage from Models - we use twilio api directly instead
+    # print(txt_messages.__dict__)
+    # txt_msg = TextMessage.query.order_by(TextMessage.id.desc()).paginate(page, 25, False)
+    return render_template('txtmsg/sms_status.html', data=txt_messages, page=page)
 
 
 @txtmsg.route('/updatestatus', methods=['POST'])
@@ -93,32 +111,6 @@ def sms_status_callback():
     txt_msg.status = message_status
     db.session.commit()
     return render_template('page.html'), 200
-
-
-@txtmsg.route('/contact_fixer', methods=['GET', 'POST'])
-@roles_required('admin')
-def contact_fixer():
-    contacts = UserContacts.query.all()
-    for contact in contacts:
-        contact_changed = False
-        # if not contact.email:
-        #    contact.email = contact.user.email
-        #    contact_changed = True
-
-        if contact.phone:
-            format_phone = re.sub("\D", "", contact.phone)
-            if format_phone != contact.phone:
-                contact.phone = format_phone
-                contact_changed = True
-        if contact_changed:
-            db.session.commit()
-    # q = db.session.query(User)
-    # users = q.filter(~User.contacts.any()).all()  # ~ means not
-    # for user in users:
-    #    new_contact = UserContacts(user_id=user.id, email=user.email)
-    #    db.session.add(new_contact)
-    #    db.session.commit()
-    return 'Ok'
 
 
 @txtmsg.route('/forgot_email', methods=['GET', 'POST'])
