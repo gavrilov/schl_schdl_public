@@ -2,7 +2,7 @@ import requests
 import stripe
 from flask import current_app, flash
 
-from app.models import db, User, UserContacts, Enrollment
+from app.models import db, User, UserContacts, Enrollment, Student
 
 
 def send_email_to_user(user, msg_subject, msg_html):
@@ -122,4 +122,22 @@ def contact_fixer():
     #    new_contact = UserContacts(user_id=user.id, email=user.email)
     #    db.session.add(new_contact)
     #    db.session.commit()
+    return 'Ok'
+
+
+def move_notes():
+    students = Student.query.all()
+    for student in students:
+        for enrollment in student.enrollments:
+            if enrollment.note and student.note:
+                student.note = student.note + "\n" + enrollment.note
+            elif enrollment.note and not student.note:
+                student.note = enrollment.note
+        if student.user.note and student.note:
+            student.note = student.note + "\n" + student.user.note
+        elif student.user.note and not student.note:
+            student.note = student.user.note
+        if student.note:
+            print(student.note)
+        db.session.commit()
     return 'Ok'
