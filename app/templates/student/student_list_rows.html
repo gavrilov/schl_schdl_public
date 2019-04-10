@@ -42,7 +42,7 @@
             </td>
         {% endif %}
 
-        <td>{{ student.note }}</td>
+        <td>{% if student.note %}{{ student.note }}{% endif %}</td>
         <td><a href="{{ url_for('student.edit_student', student_id=student.id) }}">{{ _('Edit') }}</a></td>
     </tr>
     {% endif %}

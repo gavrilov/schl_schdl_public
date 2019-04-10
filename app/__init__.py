@@ -101,7 +101,12 @@ def create_app(config_class=Config):
 
     @app.route('/privacy')
     def privacy():
-        return render_template('privacy.html')
+        return render_template('privacy.html')\
+
+    @app.route('/maint')
+    def maint():
+        from app.tools import move_notes
+        return move_notes()
 
     @app.route('/setup', methods=['GET', 'POST'])
     def setup():
