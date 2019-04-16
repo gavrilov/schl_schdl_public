@@ -125,5 +125,101 @@
 
 {% block scripts %}
     {{ super() }}
-    {% include 'dashboard/datatable.html' %}
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript"
+            src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.18/b-1.5.2/b-colvis-1.5.2/b-html5-1.5.2/b-print-1.5.2/r-2.2.2/sl-1.2.6/datatables.min.js"></script>
+
+    <script>
+        // Setup - add a text input to each footer cell
+        $('#maintable thead tr#filterrow th#filtercol').each(function () {
+            var title = $('#maintable thead th').eq($(this).index()).text();
+            $(this).html('<input type="text" onclick="stopPropagation(event);" placeholder="{{ _('Search') }} ' + title + '" />');
+        });
+
+        // DataTable
+        var table = $('#maintable').DataTable({
+
+            responsive: true,
+            columnDefs: [{
+                orderable: false,
+                className: 'select-checkbox',
+                targets: 0
+            }],
+
+            select: {
+                style: 'os',
+                selector: 'td:first-child'
+            },
+            order: [[1, 'asc'], [4, 'asc'], [3, 'asc'], [2, 'asc']],
+            paging: false,
+            dom: '<"row"<"col"B><"col"f>>rtip',
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                'colvis'
+            ]
+        });
+
+        table.buttons().container()
+            .appendTo('#maintable_wrapper .col-md-6:eq(0)');
+
+        // Apply the filter
+        $("#maintable thead input").on('keyup change', function () {
+            table
+                .column($(this).parent().index() + ':visible')
+                .search(this.value)
+                .draw();
+        });
+
+        function stopPropagation(evt) {
+            if (evt.stopPropagation !== undefined) {
+                evt.stopPropagation();
+            } else {
+                evt.cancelBubble = true;
+            }
+        }
+
+    </script>
+
+    <script>
+        /* Pass selected rows to POST request */
+        var table = $('#maintable').DataTable();
+
+        $('#maintable tbody').on('click', 'tr', function () {
+            $(this).toggleClass('active');
+        });
+
+        $('#submit').click(function (e) {
+            e.preventDefault();
+            var selectedRowInputs = $('.selected input');
+            var actionselect = $("#actionselect option:selected").val();
+            //use the serialized version of selectedRowInputs as the data
+            //to be sent to the AJAX request
+
+            console.log('serlialized inputs: ', selectedRowInputs.serialize());
+            $.ajax({
+                type: "POST",
+                url: "{{ url_for('student.student_processing') }}",
+                data: selectedRowInputs.serialize() + "&action=" + actionselect,
+                success: function (data) {
+                    // if success we will open new window with html
+                    var w = window.open();
+                    $(w.document.body).html(data);
+                },
+                error: function (data) {
+                    alert("Error! Cannot process your request");
+                },
+            });
+        })
+    </script>
 {% endblock %}
