@@ -46,6 +46,8 @@
         <div class="row mt-4">
             <div class="col">
                 <h2>{{ _('Attendance') }}</h2>
+                <a class="btn btn-outline-success" role="button"
+                   href="{{ url_for('award.add_to_class', class_id=current_class.id) }}">{{ _('Add Awards') }}</a>
             </div>
         </div>
 

@@ -1,0 +1,68 @@
+{% extends "dashboard/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}{{ _('Award List') }}{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <div class="row">
+        <h1>{{ _('List of Awards for') }} {{ current_class.subject.name }} @ {{ current_class.school.name }}</h1>
+        <table class="table table-hover table-bordered">
+            <caption>{{ _('List of awards') }}</caption>
+            <tbody>
+            <tr>
+                <th>{{ _('Student Name') }}</th>
+                <th>{{ _('Rank History') }}</th>
+            </tr>
+            {% for enrollment in current_class.enrollments|sort(attribute='student.first_name') %}
+                {% if enrollment.current %}
+                    {% set student = enrollment.student %}
+                    <tr>
+                        <td>
+                            {{ student.first_name }} {{ student.last_name }}
+                        </td>
+                        <td>
+                            <a href="#" class="studentaward" id="award-s{{ student.id }}" data-type="select"
+                               data-pk="{{ student.id }}"
+                               data-url="{{ url_for('award.add_record', student_id=student.id) }}"
+                               data-title="Add New Award">
+                                {{ _('Add New Award') }}</a><br>
+
+                            {% for award_record in student.awards|sort(attribute='date', reverse=true) %}
+                                {% if award_record.award.subject_id == current_class.subject.id %}
+                                    {{ moment(award_record.date).format('MMM YYYY') }} - {{ award_record.award.name }}
+                                    {% if award_record.note %} ({{ award_record.note }}) {% endif %}
+                                    <br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/jquery-editable/js/jquery-editable-poshytip.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            //toggle `popup` / `inline` mode
+            $.fn.editable.defaults.mode = 'inline';
+
+            //make student.note editable
+            $('.studentaward').editable({
+                source: {{ award_list|safe }},
+            });
+        });
+    </script>
+{% endblock %}
