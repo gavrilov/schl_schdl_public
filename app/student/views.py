@@ -142,7 +142,7 @@ def enroll_student(student_id):
 
 
 @student.route('/edit_note', methods=['GET', 'POST'])
-@roles_accepted('admin', 'teacher')
+@roles_accepted('admin')
 def edit_note():
     name = request.form['name']
     note = request.form['value']

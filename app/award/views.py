@@ -1,9 +1,9 @@
-from flask import render_template, Blueprint, flash, redirect, url_for
+from flask import render_template, Blueprint, flash, redirect, url_for, abort, request
 from flask_babelex import _
-from flask_security import roles_required, roles_accepted
+from flask_security import roles_required, roles_accepted, current_user
 
 from app import db
-from app.models import Student, Award, Subject, StudentAwards
+from app.models import Student, Award, Subject, StudentAwards, Schdl_Class
 from .forms import AwardForm, StudentAwardForm, AwardEditForm, StudentEditAwardForm
 
 award = Blueprint('award', __name__, template_folder='templates')
@@ -87,8 +87,53 @@ def student_add(student_id):
         return render_template('award/modal_add_for_student.html', form=form)
 
 
-@award.route('/awardrecord/<award_record_id>/edit', methods=['GET', 'POST'])
+@award.route('/add_record/<student_id>', methods=['GET', 'POST'])
 @roles_accepted('admin', 'teacher')
+def add_record(student_id):
+    name = request.form['name']
+    award_id = request.form['value']
+    student_id = request.form['pk']
+    # note = request.form['note']
+
+    if student_id:
+        current_student = Student.query.filter_by(id=student_id).first()
+        if current_student:
+            new_award_record = StudentAwards(student_id=current_student.id, award_id=award_id)  # note=note)
+            db.session.add(new_award_record)
+            db.session.commit()
+        return render_template('page.html'), 200
+    else:
+        return render_template('page.html'), 404
+
+
+
+@award.route('/class/<class_id>', methods=['GET', 'POST'])
+@roles_accepted('admin', 'teacher')
+def add_to_class(class_id):
+    # Add Award records to Class
+    current_class = Schdl_Class.query.filter_by(id=class_id).first()
+
+    # Check if current user has access to class
+    access_to_class = False
+    if current_user.has_role('admin'):
+        access_to_class = True
+    elif current_user.has_role('teacher'):
+        for teacher in current_user.teachers:
+            if current_class in teacher.classes:
+                access_to_class = True
+
+    if not current_class or not access_to_class:
+        flash(_('Class did not find'), 'danger')
+        abort(404)
+
+    awards = Award.query.filter_by(subject_id=current_class.subject.id).order_by(Award.rank.asc()).all()
+
+    award_list = [{"value": i.id, "text": i.subject.name + " - " + i.name} for i in awards]
+    return render_template('award/class.html', current_class=current_class, award_list=award_list)
+
+
+@award.route('/awardrecord/<award_record_id>/edit', methods=['GET', 'POST'])
+@roles_accepted('admin')
 def student_edit(award_record_id):
     # Edit Award record of Student
     award_record = StudentAwards.query.filter_by(id=award_record_id).first()
@@ -113,7 +158,7 @@ def student_edit(award_record_id):
 
 
 @award.route('/awardrecord/<award_record_id>/delete', methods=['GET', 'POST'])
-@roles_accepted('admin', 'teacher')
+@roles_accepted('admin')
 def student_delete(award_record_id):
     # Delete Award record of Student
     award_record = StudentAwards.query.filter_by(id=award_record_id).first()
