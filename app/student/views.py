@@ -188,5 +188,18 @@ def student_processing():
             email_link = '<a href="mailto:?bcc={email_href_string}">{email_string}</a>'.format(
                 email_href_string=email_href_string, email_string=email_string)
             return render_template('student/email.html', email_link=email_link)
+        if action == "txt":
+            phone_numbers = []
+            for this_student in students:
+                for contact in this_student.user.contacts:
+                    if contact.phone:
+                        phone_numbers.append(contact.phone)
+            uniq_emails = set(phone_numbers)
+            phone_numbers = ",".join(str(x) for x in list(phone_numbers))
+            url = '<a href="{url}">{text2}</a>'.format(
+                url=url_for('txtmsg.send_msg', phone_numbers=phone_numbers, _external=True), text2=_('Click to send'))
+            print(url)
+
+            return url
     else:
         return render_template('page.html'), 404

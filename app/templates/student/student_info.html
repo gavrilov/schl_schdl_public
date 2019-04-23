@@ -162,10 +162,10 @@
         <div class="col">{{ _('Note') }}</div>
         <div class="col">{{ _('Edit') }}</div>
     </div>
-    {% for award_record in student.awards %}
+    {% for award_record in student.awards|sort(attribute='date', reverse=true) %}
         <div class="row border-top">
             <div class="col">
-                {{ moment(award_record.date).format('L LT') }}</div>
+                {{ moment(award_record.date).format('MMM DD, YYYY') }}</div>
             <div class="col">
                 {{ award_record.award.subject.name }}
             </div>

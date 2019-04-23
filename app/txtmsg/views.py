@@ -1,12 +1,13 @@
+import re
+
 from flask import Blueprint, current_app, render_template, redirect, url_for, flash, request
 from flask_babelex import _
 from flask_security import roles_required
-from twilio.rest import Client
 from flask_security import url_for_security
+from twilio.rest import Client
 
-from app.models import db, TextMessage, UserContacts, User
+from app.models import db, TextMessage, UserContacts
 from app.txtmsg.forms import TxtMsgForm, ResetTxtMsgForm
-import re
 
 txtmsg = Blueprint('txtmsg', __name__, template_folder='templates')
 
@@ -23,11 +24,15 @@ def send_msg():
     client = Client(account_sid, auth_token)
 
     to_phone = request.args.get('to_phone')
+    phone_numbers = request.args.get('phone_numbers')
     txt_messages = None
     if to_phone:
         form.phone_number.data = to_phone
         txt_messages = client.messages.page(to=to_phone, page_size=10)
         # print(txt_messages.__dict__)
+    if phone_numbers:
+        phone_numbers = str(phone_numbers).replace(',', '\r\n')
+        form.phone_number.data = phone_numbers
 
     if form.validate_on_submit():
         # check if the post request has the file part
