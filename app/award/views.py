@@ -33,6 +33,25 @@ def add():
     return render_template('award/add.html', form=form)
 
 
+@award.route('/export', methods=['GET', 'POST'])
+@roles_required('admin')
+def export():
+    award_records = StudentAwards.query.all()
+    ma_subject = Subject.query.filter_by(id=7).first()
+    html = []
+    for ma_class in ma_subject.classes:
+        for enrollment in ma_class.enrollments:
+            if enrollment.current:
+                for award_record in enrollment.student.awards:
+                    html.append({"student_name": enrollment.student.first_name + " " + enrollment.student.last_name,
+                                 "date": award_record.date.isoformat(), "note": award_record.note,
+                                 "school": enrollment.schdl_class.school.name, "class": enrollment.schdl_class.subject.name,
+                                 "time": enrollment.schdl_class.class_time_start.isoformat(), "belt": award_record.award.name})
+    import json
+    html = json.dumps(html)
+    return str(html)
+
+
 @award.route('/edit/<award_id>', methods=['GET', 'POST'])
 @roles_required('admin')
 def edit(award_id):
