@@ -91,10 +91,10 @@
                 {% for event in current_class.events|sort(attribute='start') %}
                     <td>
                         <div>
-                            <a href="#" id="e{{ event.id }}" data-type="text" data-pk="{{ event.id }}" data-url="{{ url_for('event.edit_note') }}"
+                            <a href="#" id="e{{ event.id }}" data-type="text" data-pk="{{ event.id }}" {% if event.note %}data-value="{{ event.note }}"{% endif %} data-url="{{ url_for('event.edit_note') }}"
                                data-title="Enter note">
                                 {% if event.note %}
-                                    {{ event.note }}
+                                    {{ event.note[:20] }}...
                                 {% else %}
                                     {{ _('Add') }}
                                 {% endif %}

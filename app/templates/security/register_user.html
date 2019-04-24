@@ -20,12 +20,17 @@
     <div class="row justify-content-center mt-5 pb-5">
 
     <div class="form-group row text-center">
-        <h1>{{ _('Register for <br> SUMMER Martial Arts') }} <a
+        <h1>{{ _('Register for <br> SUMMER Martial Arts at Kipling Elementary') }} <a
                 href="https://enrichmentservices.com/summer-martial-arts-registration-kipling-elementary/"
                 class="success">{{ _('HERE') }}</a>
         </h1>
     </div>
-    {#
+
+    <div class="form-group row text-center">
+        <h1>{{ _('For all other schools please login or register a new account') }}
+        </h1>
+    </div>
+
         <form id="registration-form" method="POST" action="{{ url_for_security('register') }}">
             {{ register_user_form.hidden_tag() }}
             <div class="form-group row">
@@ -65,7 +70,7 @@
                 </h5>
             </div>
         </form>
-    #}
+
     </div>
     <div class="row justify-content-center mt-5">
         <img src="{{ url_for('static', filename='company_logo.png') }}"
