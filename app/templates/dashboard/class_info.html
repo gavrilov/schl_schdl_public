@@ -14,16 +14,30 @@
     <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
         <div class="row">
             <div class="col text-left">
-                <h1>{{ current_class.subject.name }} @ {{ current_class.school.name }}</h1>
+                <h1>{{ current_class.subject.name }} @ {{ current_class.school.name }}<br><small>{{ current_class.day_of_week }} {% if current_class.class_time_start %}{{ current_class.class_time_start.strftime("%I:%M %p") }}{% endif %}</small></h1>
+            </div>
+            <div class="col">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ _('Teachers') }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{% for teacher in current_class.teachers %}
+                        <a href="{{ url_for('teacher.teacher_info', teacher_id=teacher.id) }}">{{ teacher.user.first_name }} {{ teacher.user.last_name }}</a>
+                        ;{% endfor %} </h6>
+                        {% if current_class.registration_start and current_class.registration_end %}
+                        <p class="card-text">{{ _('Registration Dates') }}: {{ current_class.registration_start.strftime("%b %d, %Y") }} - {{ current_class.registration_end.strftime("%b %d, %Y") }}</p>
+                        {% endif %}
+                    {% if current_class.class_start and current_class.class_end %}
+                        <p class="card-text">{{ _('Class Dates') }}: {{ current_class.class_start.strftime("%b %d, %Y") }} - {{ current_class.class_end.strftime("%b %d, %Y") }}</p>
+                        {% endif %}
+                        <a class="btn btn-primary" href="{{ url_for('attendance.for_class', class_id=current_class.id) }}"
+                   role="button">{{ _('Attendance List') }}</a>
+                        <a class="btn btn-primary" href="{{ url_for('schdl_class.edit_class', class_id=current_class.id) }}"
+                   role="button">{{ _('Edit Class') }}</a>
+                    </div>
+                </div>
             </div>
         </div>
-            <div class="row">
-            <div class="col text-left">
-                <h3>{{ _('Teachers') }}:
-                    {% for teacher in current_class.teachers %}
-                        <a href="{{ url_for('teacher.teacher_info', teacher_id=teacher.id) }}">{{ teacher.user.first_name }} {{ teacher.user.last_name }}</a>;{% endfor %} </h3>
-            </div>
-        </div>
+
         <div class="row">
             <div class="col">
                 <h3 style="color: lightgrey"></h3>
@@ -34,49 +48,47 @@
             <div class="col">
                 <h2>{{ _('Current Students') }}</h2>
             </div>
-            <div class="col">
-                <a class="btn btn-primary" href="{{ url_for('attendance.for_class', class_id=current_class.id) }}"
-                   role="button">{{ _('Attendance List') }}</a>
-                <a class="btn btn-primary" href="{{ url_for('schdl_class.edit_class', class_id=current_class.id) }}"
-                   role="button">{{ _('Edit Class') }}</a>
-            </div>
         </div>
 
         {% for enrollment in enrollments|sort(attribute='student.first_name') %}
             {% if enrollment.current %}
-            <div class="row border-bottom mt-1">
-                <div class="col text-center text-md-left align-self-center">
-                    <a href="{{ url_for('student.info', student_id=enrollment.student.id) }}">{{ enrollment.student.first_name }} {{ enrollment.student.last_name }}</a>
+                <div class="row border-bottom mt-1">
+                    <div class="col text-center text-md-left align-self-center">
+                        <a href="{{ url_for('student.info', student_id=enrollment.student.id) }}">{{ enrollment.student.first_name }} {{ enrollment.student.last_name }}</a>
+                    </div>
                 </div>
-            </div>
             {% endif %}
         {% endfor %}
-            <div class="row mt-4">
+        <div class="row mt-4">
             <div class="col">
-                <h2>{{ _('Drops Students') }}</h2>
+                <h2 class="border-top">{{ _('Drops Students') }}</h2>
             </div>
-            </div>
-            {% for enrollment in enrollments|sort(attribute='student.first_name') %}
+        </div>
+        {% for enrollment in enrollments|sort(attribute='student.first_name') %}
             {% if not enrollment.current %}
-            <div class="row border-bottom mt-1">
-                <div class="col text-center text-md-left align-self-center">
-                    <a href="{{ url_for('student.info', student_id=enrollment.student.id) }}">{{ enrollment.student.first_name }} {{ enrollment.student.last_name }}</a>
+                <div class="row border-bottom mt-1">
+                    <div class="col text-center text-md-left align-self-center">
+                        <a href="{{ url_for('student.info', student_id=enrollment.student.id) }}">{{ enrollment.student.first_name }} {{ enrollment.student.last_name }}</a>
+                    </div>
                 </div>
-            </div>
             {% endif %}
         {% endfor %}
         {% if current_class.school.agreement %}
-            <div class="row border-top mt-5">
-                <div class="col">
+            <h2 class="border-top ">{{ _('Agreement for school') }}</h2>
+            <div class="row mt-5">
+                <div class="alert alert-danger" role="alert">
                     {{ current_class.school.agreement | safe }}
                 </div>
             </div>
         {% endif %}
-        <div class="row border-top mt-2">
-            <div class="col">
-                {{ current_class.info | safe }}
+        {% if current_class.info %}
+            <h2 class="border-top ">{{ _('Class info') }}</h2>
+            <div class="row mt-2">
+                <div class="col">
+                    {{ current_class.info | safe }}
+                </div>
             </div>
-        </div>
+        {% endif %}
     </div>
 {% endblock %}
 

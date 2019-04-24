@@ -38,7 +38,7 @@
         </div>
         <div class="row">
             <div class="col text-left">
-                <h3>{{ current_class.day_of_week }} - {{ current_class.class_time_start }}</h3>
+                <h3>{{ current_class.day_of_week }} - {% if current_class.class_time_start %}{{ current_class.class_time_start.strftime("%I:%M %p") }}{% endif %}</h3>
             </div>
         </div>
 
