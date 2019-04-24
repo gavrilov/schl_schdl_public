@@ -33,7 +33,7 @@
             </div>
             <div class="row text-center alert alert-success mt-5" style="display: none"
                  id="registration-form-title2">
-                <h1>{{ _('NEW students register below:') }}</h1>
+                <h1>{{ _('NEW students register ') }}<a href="#" onclick="hideLinks2()">{{ _('HERE') }}</a></h1>
             </div>
         </div>
         <div class="row">
@@ -109,9 +109,14 @@
             $("#hide-on-click1").hide();
             $("#hide-on-click2").hide();
             $("#hide-on-click3").hide();
-            $("#registration-form").show();
             $("#registration-form-title1").show();
             $("#registration-form-title2").show();
+        }
+
+        function hideLinks2() {
+            $("#registration-form").show();
+            $("#registration-form-title1").hide();
+            $("#registration-form-title2").hide();
         }
     </script>
 {% endblock %}
