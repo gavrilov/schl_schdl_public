@@ -12,26 +12,28 @@
 {% block page_content %}
     {{ super() }}
     {% include "security/_messages.html" %}
-    <div class="row pb-5">
-        <div class="col text-center">
-            <h3>{{ _('Instructor Login') }} <a href="{{ url_for('security.login') }}">{{ _('HERE') }}</a></h3>
-        </div>
-    </div>
     <div class="row justify-content-center mt-5 pb-5">
 
-    <div class="form-group row text-center">
-        <h1>{{ _('Register for <br> SUMMER Martial Arts at Kipling Elementary') }} <a
-                href="https://enrichmentservices.com/summer-martial-arts-registration-kipling-elementary/"
-                class="success">{{ _('HERE') }}</a>
-        </h1>
-    </div>
+        <div class="form-group row text-center alert alert-success" id="hide-on-click2">
+            <h1>{{ _('Register for <br> SUMMER Martial Arts at Kipling Elementary') }} <a
+                    href="https://enrichmentservices.com/summer-martial-arts-registration-kipling-elementary/"
+                    class="success">{{ _('HERE') }}</a>
+            </h1>
+        </div>
 
-    <div class="form-group row text-center">
-        <h1>{{ _('For all other schools please login or register a new account') }}
-        </h1>
-    </div>
+        <div class="form-group row text-center alert alert-info mt-5" id="hide-on-click3">
+            <h1>{{ _('For all other schools please login or register a new account') }} <a href="#"
+                                                                                           onclick="hideLinks()">{{ _('HERE') }}</a>
+            </h1>
+        </div>
 
-        <form id="registration-form" method="POST" action="{{ url_for_security('register') }}">
+        <div class="form-group row text-center alert alert-info mt-5" style="display: none"
+             id="registration-form-title">
+            <h1>{{ _('Current SPRING stundents') }} <a href="{{ url_for('security.login') }}">{{ _('LOGIN HERE') }}</a></h1>
+            <h1>{{ _('NEW students register below:') }}</h1>
+        </div>
+
+        <form style="display: none" id="registration-form" method="POST" action="{{ url_for_security('register') }}">
             {{ register_user_form.hidden_tag() }}
             <div class="form-group row">
                 {{ render_field_with_errors(register_user_form.first_name, size=30, class="form-control", placeholder=_('Parent First Name')) }}
@@ -70,13 +72,18 @@
                 </h5>
             </div>
         </form>
-
+    </div>
+        <div class="row pb-5">
+        <div class="col text-center" id="hide-on-click1">
+            <h4>{{ _('Instructor Login') }} <a href="{{ url_for('security.login') }}">{{ _('HERE') }}</a></h4>
+        </div>
     </div>
     <div class="row justify-content-center mt-5">
         <img src="{{ url_for('static', filename='company_logo.png') }}"
              class="img-fluid mx-auto d-block">
         <h5 class="text-center"><i>{{ _(config.COMPANY_SLOGAN | safe) }}</i></h5>
     </div>
+
 {% endblock %}
 
 
@@ -86,6 +93,17 @@
     <script>
         function onSubmitCallback(token) {
             document.getElementById("registration-form").submit();
+        }
+    </script>
+    <script>
+        {# Function to hide links and show form on click #}
+
+        function hideLinks() {
+            $("#hide-on-click1").hide();
+            $("#hide-on-click2").hide();
+            $("#hide-on-click3").hide();
+            $("#registration-form").show();
+            $("#registration-form-title").show();
         }
     </script>
 {% endblock %}
