@@ -13,67 +13,74 @@
     {{ super() }}
     {% include "security/_messages.html" %}
     <div class="row justify-content-center mt-5 pb-5">
+        <div>
+            <div class="form-group row text-center alert alert-success" id="hide-on-click2">
+                <h1>{{ _('Register for <br> SUMMER Martial Arts at Kipling Elementary') }} <a
+                        href="https://enrichmentservices.com/summer-martial-arts-registration-kipling-elementary/"
+                        class="success">{{ _('HERE') }}</a>
+                </h1>
+            </div>
 
-        <div class="form-group row text-center alert alert-success" id="hide-on-click2">
-            <h1>{{ _('Register for <br> SUMMER Martial Arts at Kipling Elementary') }} <a
-                    href="https://enrichmentservices.com/summer-martial-arts-registration-kipling-elementary/"
-                    class="success">{{ _('HERE') }}</a>
-            </h1>
+            <div class="form-group row text-center alert alert-info mt-5" id="hide-on-click3">
+                <h1>{{ _('For all other schools click') }} <a href="#" onclick="hideLinks()">{{ _('HERE') }}</a>
+                </h1>
+            </div>
+
+            <div class="form-group row text-center alert alert-info mt-5" style="display: none"
+                 id="registration-form-title1">
+                <h1>{{ _('Current SPRING stundents') }} <a
+                        href="{{ url_for('security.login') }}">{{ _('LOGIN HERE') }}</a></h1>
+            </div>
+            <div class="row text-center alert alert-success mt-5" style="display: none"
+                 id="registration-form-title2">
+                <h1>{{ _('NEW students register below:') }}</h1>
+            </div>
         </div>
-
-        <div class="form-group row text-center alert alert-info mt-5" id="hide-on-click3">
-            <h1>{{ _('For all other schools please login or register a new account') }} <a href="#"
-                                                                                           onclick="hideLinks()">{{ _('HERE') }}</a>
-            </h1>
-        </div>
-
-        <div class="form-group row text-center alert alert-info mt-5" style="display: none"
-             id="registration-form-title">
-            <h1>{{ _('Current SPRING stundents') }} <a href="{{ url_for('security.login') }}">{{ _('LOGIN HERE') }}</a></h1>
-            <h1>{{ _('NEW students register below:') }}</h1>
-        </div>
-
-        <form style="display: none" id="registration-form" method="POST" action="{{ url_for_security('register') }}">
-            {{ register_user_form.hidden_tag() }}
-            <div class="form-group row">
-                {{ render_field_with_errors(register_user_form.first_name, size=30, class="form-control", placeholder=_('Parent First Name')) }}
-            </div>
-            <div class="form-group row">
-                {{ render_field_with_errors(register_user_form.last_name, size=30, class="form-control", placeholder=_('Parent Last Name')) }}
-            </div>
-            <div class="form-group row">
-                {{ render_field_with_errors(register_user_form.email, size=30, class="form-control", placeholder=_('Enter your Email')) }}
-            </div>
-            <div class="form-group row">
-                {{ render_field_with_errors(register_user_form.password, size=30, class="form-control", placeholder=_('Create your Password')) }}
-            </div>
-            <div class="form-group row">
-                {{ render_field_with_errors(register_user_form.password_confirm, size=30, class="form-control", placeholder=_('Repeat your Password')) }}
-            </div>
-            <div class="form-group row">
-                <div class="form-check mr-auto">
-                    {{ render_field_with_errors(register_user_form.agreement, class="form-check-input") }}
-                    <label class="form-check-label" for="agreement">
-                        {{ _('I agree to the') }} <a href="{{ url_for('privacy') }}"
-                                                     target=”_blank”>{{ _('Terms of Service and Privacy Policy') }}</a>
-                    </label>
+        <div class="row">
+            <form style="display: none" id="registration-form" method="POST"
+                  action="{{ url_for_security('register') }}">
+                {{ register_user_form.hidden_tag() }}
+                <div class="form-group row">
+                    {{ render_field_with_errors(register_user_form.first_name, size=30, class="form-control", placeholder=_('Parent First Name')) }}
                 </div>
-            </div>
+                <div class="form-group row">
+                    {{ render_field_with_errors(register_user_form.last_name, size=30, class="form-control", placeholder=_('Parent Last Name')) }}
+                </div>
+                <div class="form-group row">
+                    {{ render_field_with_errors(register_user_form.email, size=30, class="form-control", placeholder=_('Enter your Email')) }}
+                </div>
+                <div class="form-group row">
+                    {{ render_field_with_errors(register_user_form.password, size=30, class="form-control", placeholder=_('Create your Password')) }}
+                </div>
+                <div class="form-group row">
+                    {{ render_field_with_errors(register_user_form.password_confirm, size=30, class="form-control", placeholder=_('Repeat your Password')) }}
+                </div>
+                <div class="form-group row">
+                    <div class="form-check mr-auto">
+                        {{ render_field_with_errors(register_user_form.agreement, class="form-check-input") }}
+                        <label class="form-check-label" for="agreement">
+                            {{ _('I agree to the') }} <a href="{{ url_for('privacy') }}"
+                                                         target=”_blank”>{{ _('Terms of Service and Privacy Policy') }}</a>
+                        </label>
+                    </div>
+                </div>
 
-            <div class="form-group row">
-                {{ register_user_form.recaptcha }}
-            </div>
-            <div class="form-group row">
-                <button id="recaptcha-submit" class="btn btn-primary">{{ _('Submit') }}</button>
-            </div>
+                <div class="form-group row">
+                    {{ register_user_form.recaptcha }}
+                </div>
+                <div class="form-group row">
+                    <button id="recaptcha-submit" class="btn btn-primary">{{ _('Submit') }}</button>
+                </div>
 
-            <div class="form-group row">
-                <h5>{{ _('Already have an account?') }} <a href="{{ url_for_security('login') }}">{{ _('Sign In') }}</a>
-                </h5>
-            </div>
-        </form>
+                <div class="form-group row">
+                    <h5>{{ _('Already have an account?') }} <a
+                            href="{{ url_for_security('login') }}">{{ _('Sign In') }}</a>
+                    </h5>
+                </div>
+            </form>
+        </div>
     </div>
-        <div class="row pb-5">
+    <div class="row pb-5">
         <div class="col text-center" id="hide-on-click1">
             <h4>{{ _('Instructor Login') }} <a href="{{ url_for('security.login') }}">{{ _('HERE') }}</a></h4>
         </div>
@@ -103,7 +110,8 @@
             $("#hide-on-click2").hide();
             $("#hide-on-click3").hide();
             $("#registration-form").show();
-            $("#registration-form-title").show();
+            $("#registration-form-title1").show();
+            $("#registration-form-title2").show();
         }
     </script>
 {% endblock %}
