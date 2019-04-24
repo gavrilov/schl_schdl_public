@@ -16,6 +16,11 @@
             <div class="col text-left">
                 <h1>{{ user.first_name }} {{ user.last_name }} </h1>
             </div>
+            {% if config['NOTE_FOR_ALL_PARENTS'] %}
+            <div class="col text-right">
+                <h3 class="alert alert-info">{{ config['NOTE_FOR_ALL_PARENTS'] }} </h3>
+            </div>
+        {% endif %}
         </div>
         <div class="row">
             <div class="col">
@@ -45,7 +50,7 @@
                             {% if enrollment.current %}
                             <a class="btn btn-outline-primary"
                                href="{{ url_for('schdl_class.enroll_class', student_id=student.id, class_id=enrollment.schdl_class.id) }}"
-                               role="button">{{ enrollment.schdl_class.subject.name }}</a>
+                               role="button">{{ enrollment.schdl_class.subject.name }}<br>{{ enrollment.schdl_class.class_start.strftime("%b %Y") }}-{{ enrollment.schdl_class.class_end.strftime("%b %Y") }}</a>
                             {% endif %}
                         {% endfor %}
                     {% else %}
