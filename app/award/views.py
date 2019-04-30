@@ -86,7 +86,7 @@ def delete(award_id):
 def student_add(student_id):
     # Add Award record to Student
     form = StudentAwardForm()
-    awards = Award.query.order_by(Award.rank.asc()).all()
+    awards = Award.query.order_by(Award.subject_id.asc(), Award.rank.asc()).all()
 
     award_list = [(i.id, i.subject.name + ' - ' + i.name) for i in awards]
     form.award_id.choices = award_list
@@ -159,7 +159,7 @@ def student_edit(award_record_id):
     if award_record:
         form = StudentEditAwardForm(obj=award_record)
 
-        awards = Award.query.order_by(Award.rank.asc()).all()
+        awards = Award.query.order_by(Award.subject_id.asc(), Award.rank.asc()).all()
 
         award_list = [(i.id, i.subject.name + ' - ' + i.name) for i in awards]
         form.award_id.choices = award_list

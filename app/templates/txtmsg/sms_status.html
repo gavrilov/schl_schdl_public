@@ -21,12 +21,14 @@
             </thead>
             <tbody>
             {% for msg in data %}
+
                 {% if msg.status == "received" %}
                     <tr bgcolor="#90EE90">
+                        <td>{{ msg.from_ }}</td>
                         {% else %}
                     <tr>
+                    <td>{{ msg.to }}</td>
                 {% endif %}
-            <td>{{ msg.to }}</td>
             <td>{{ msg.body }}</td>
             <td>{{ msg.date_sent }}</td>
             <td>{{ msg.status }}</td>
