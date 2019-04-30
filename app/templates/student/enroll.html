@@ -47,7 +47,7 @@
                             - {{ current_class.class_time_end | ctimeformat }}
                         {% endif %}
                     </div>
-                    <div class="col align-self-center">${{ current_class.price }}</div>
+                    <div class="col align-self-center">{{ _('${:,.2f}').format(current_class.price) }}</div>
 
 
                     {% if current_class in enrolled_classes %}
