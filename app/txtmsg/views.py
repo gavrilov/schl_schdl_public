@@ -6,7 +6,7 @@ from flask_security import roles_required
 from flask_security import url_for_security
 from twilio.rest import Client
 
-from app.models import db, TextMessage, UserContacts
+from app.models import UserContacts
 from app.txtmsg.forms import TxtMsgForm, ResetTxtMsgForm
 
 txtmsg = Blueprint('txtmsg', __name__, template_folder='templates')
@@ -68,14 +68,6 @@ def send_msg():
                 except:
                     flash(message.error_message, 'danger')
                     pass
-                txt_msg = TextMessage()
-                txt_msg.msgid = msgid
-                txt_msg.phone_number = number
-                txt_msg.msg = text_message
-                txt_msg.note = note
-                txt_msg.status = status
-                db.session.add(txt_msg)
-                db.session.commit()
             else:
                 flash(_('Number {phone_number} is wrong').format(phone_number=number), 'danger')
 
@@ -102,9 +94,6 @@ def status():
     client = Client(account_sid, auth_token)
 
     txt_messages = client.messages.page(page_size=25, page_number=page, page_token=page_token)
-    # TODO delete TextMessage from Models - we use twilio api directly instead
-    # print(txt_messages.__dict__)
-    # txt_msg = TextMessage.query.order_by(TextMessage.id.desc()).paginate(page, 25, False)
     return render_template('txtmsg/sms_status.html', data=txt_messages, page=page)
 
 
@@ -113,9 +102,6 @@ def sms_status_callback():
     # it is a callback url. Twillo makes requests with status updates
     message_sid = request.form['MessageSid']
     message_status = request.form['MessageStatus']
-    txt_msg = TextMessage.query.filter_by(msgid=message_sid).first()
-    txt_msg.status = message_status
-    db.session.commit()
     return render_template('page.html'), 200
 
 
@@ -155,14 +141,6 @@ def forgot_email():
             except:
                 flash(message.error_message, 'danger')
                 pass
-            txt_msg = TextMessage()
-            txt_msg.msgid = msgid
-            txt_msg.phone_number = phone_number
-            txt_msg.msg = text_message
-            txt_msg.note = note
-            txt_msg.status = status
-            db.session.add(txt_msg)
-            db.session.commit()
             flash(_('Text message has been send'), 'success')
         else:
             flash(_('Number {phone_number} is wrong').format(phone_number=phone_number), 'danger')

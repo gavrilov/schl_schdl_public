@@ -184,18 +184,6 @@ class Student(db.Model):
     awards = db.relationship('StudentAwards', backref='student', lazy='dynamic')
 
 
-class TextMessage(db.Model):
-    __tablename__ = "text_messages"
-    id = db.Column('id', db.Integer, primary_key=True)
-    msgid = db.Column('msgid', db.Unicode(128))
-    phone_number = db.Column('phone_number', db.BigInteger)
-    msg = db.Column('msg', db.Unicode(2048))
-    note = db.Column('note', db.Unicode(2048))
-    url_pic = db.Column('url_pic', db.Unicode(2048))
-    date = db.Column('date', db.DateTime, default=datetime.datetime.utcnow)
-    status = db.Column('status', db.Unicode(64))
-
-
 class Award(db.Model):
     __tablename__ = "awards"
     id = db.Column('id', db.Integer, primary_key=True)
