@@ -17,9 +17,9 @@
 }
 
 #summary a.collapsed:after  {
-    content: '+ Read More';
+    content: '+More';
 }
 
 #summary a:not(.collapsed):after {
-    content: '- Read Less';
+    content: '-Less';
 }
