@@ -2,48 +2,58 @@
 
     {% set student = enrollment.student %}
     {% if enrollment.current %}
-    <tr>
-        <td><input type="hidden" name="students" value="{{ student.id }}"></td>
-        <td>
-            <a href="{{ url_for('student.info', student_id=student.id) }}">
-                {{ student.first_name }} {{ student.last_name }}</a>
-        </td>
-        <td>{{ current_class.school.name }}</td>
-        <td>{{ current_class.school.type }}</td>
-        <td bgcolor="{{ current_class.subject.color }}">{{ current_class.subject.name }}</td>
-        <td>{{ current_class.day_of_week }}
-            {% if current_class.class_time_start and current_class.class_time_end %}
-                <br>{{ current_class.class_time_start | ctimeformat }}
-                - {{ current_class.class_time_end | ctimeformat }}
-            {% endif %}
-        </td>
-
-
-        {# if user has contacts - show emails and phones #}
-        {% if student.user.contacts %}
-            <td>{% for contact in student.user.contacts %}
-                {% if contact.phone %}
-                <a href="{{ url_for('txtmsg.send_msg', to_phone=contact.phone ) }}"
-                   target="_blank">{{ _('{first}-{second}-{third}'.format(first=contact.phone[0:3], second=contact.phone[3:6], third=contact.phone[6:10])) }}</a>
-                {% endif %}<br>
-            {% endfor %}
-            </td>
-            <td>{% for contact in student.user.contacts %}
-                {% if contact.email %}
-                <a href="mailto:{{ contact.email }}" target="_top">{{ contact.email }}</a><br>
-                {% endif %}
-            {% endfor %}</td>
-        {% else %}
-            <td></td>
+        <tr>
+            <td><input type="hidden" name="students" value="{{ student.id }}"></td>
             <td>
-                {% if (student.user.email != config.COMPANY_CONTACT_EMAIL ) %}
-                {{ student.user.email }}
+                <a href="{{ url_for('student.info', student_id=student.id) }}">
+                    {{ student.first_name }} {{ student.last_name }}</a>
+            </td>
+            <td>{{ current_class.school.name }}</td>
+            <td>{{ current_class.school.type }}</td>
+            <td bgcolor="{{ current_class.subject.color }}">{{ current_class.subject.name }}</td>
+            <td>{{ current_class.day_of_week }}
+                {% if current_class.class_time_start and current_class.class_time_end %}
+                    <br>{{ current_class.class_time_start | ctimeformat }}
+                    - {{ current_class.class_time_end | ctimeformat }}
                 {% endif %}
             </td>
-        {% endif %}
 
-        <td>{% if student.note %}{{ student.note }}{% endif %}</td>
-        <td><a href="{{ url_for('student.edit_student', student_id=student.id) }}">{{ _('Edit') }}</a></td>
-    </tr>
+
+            {# if user has contacts - show emails and phones #}
+            {% if student.user.contacts %}
+                <td>{% for contact in student.user.contacts %}
+                    {% if contact.phone %}
+                        <a href="{{ url_for('txtmsg.send_msg', to_phone=contact.phone ) }}"
+                           target="_blank">{{ _('{first}-{second}-{third}'.format(first=contact.phone[0:3], second=contact.phone[3:6], third=contact.phone[6:10])) }}</a>
+                    {% endif %}<br>
+                {% endfor %}
+                </td>
+                <td>{% for contact in student.user.contacts %}
+                    {% if contact.email %}
+                        <a href="mailto:{{ contact.email }}" target="_top">{{ contact.email }}</a><br>
+                    {% endif %}
+                {% endfor %}</td>
+            {% else %}
+                <td></td>
+                <td>
+                    {% if (student.user.email != config.COMPANY_CONTACT_EMAIL ) %}
+                        {{ student.user.email }}
+                    {% endif %}
+                </td>
+            {% endif %}
+
+            <td>{% if student.note %}
+                <div id="summary">
+                    <p class="collapse dark" id="collapseSummary_{{ student.id }}">
+                        {{ student.note }}
+                    </p>
+                    <a class="collapsed" data-toggle="collapse"
+                       href="#collapseSummary_{{ student.id }}"
+                       aria-expanded="false" aria-controls="collapseSummary_{{ student.id }}"></a>
+                </div>
+
+            {% endif %}</td>
+            <td><a href="{{ url_for('student.edit_student', student_id=student.id) }}">{{ _('Edit') }}</a></td>
+        </tr>
     {% endif %}
 {% endfor %}
