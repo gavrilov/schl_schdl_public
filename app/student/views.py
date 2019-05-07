@@ -6,7 +6,7 @@ from flask_security import current_user, login_required, roles_required, roles_a
 from sqlalchemy import and_
 
 from app import db
-from app.models import Student, Schdl_Class, School
+from app.models import Student, Schdl_Class, School, Semester
 from .forms import StudentForm
 
 student = Blueprint('student', __name__, template_folder='templates')
@@ -15,23 +15,53 @@ student = Blueprint('student', __name__, template_folder='templates')
 @student.route('/', methods=['GET', 'POST'])
 @roles_required('admin')
 def student_list():
+    semesters = Semester.query.filter_by(current=True).all()
     students_html = ""
     current_classes = Schdl_Class.query.filter_by(current=True).all()
     for current_class in current_classes:
         # generate rows for table for each class
         students_html += render_template('student/student_list_rows.html', current_class=current_class)
-    return render_template('student/student_list.html', students_html=students_html, current_students_only=True)
+    return render_template('student/student_list.html', students_html=students_html, current_students_only=True,
+                           semesters=semesters)
+
+
+@student.route('/semester/<semester_id>', methods=['GET', 'POST'])
+@roles_required('admin')
+def student_list_by_semester(semester_id):
+    semesters = Semester.query.filter_by(current=True).all()
+    students_html = ""
+    current_classes = Schdl_Class.query.filter_by(current=True, semester_id=semester_id).all()
+    for current_class in current_classes:
+        # generate rows for table for each class
+        students_html += render_template('student/student_list_rows.html', current_class=current_class)
+    return render_template('student/student_list.html', students_html=students_html, current_students_only=True,
+                           semesters=semesters)
 
 
 @student.route('/drops', methods=['GET', 'POST'])
 @roles_required('admin')
 def student_drops_list():
+    semesters = Semester.query.filter_by(current=True).all()
     students_html = ""
     current_classes = Schdl_Class.query.filter_by(current=True).all()
     for current_class in current_classes:
         # generate rows for table for each class
         students_html += render_template('student/student_drops_list_rows.html', current_class=current_class)
-    return render_template('student/student_list.html', students_html=students_html, drops_students_only=True)
+    return render_template('student/student_list.html', students_html=students_html, drops_students_only=True,
+                           semesters=semesters)
+
+
+@student.route('/drops/semester/<semester_id>', methods=['GET', 'POST'])
+@roles_required('admin')
+def student_drops_list_by_semester(semester_id):
+    semesters = Semester.query.filter_by(current=True).all()
+    students_html = ""
+    current_classes = Schdl_Class.query.filter_by(current=True, semester_id=semester_id).all()
+    for current_class in current_classes:
+        # generate rows for table for each class
+        students_html += render_template('student/student_drops_list_rows.html', current_class=current_class)
+    return render_template('student/student_list.html', students_html=students_html, drops_students_only=True,
+                           semesters=semesters)
 
 
 @student.route('/all', methods=['GET', 'POST'])

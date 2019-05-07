@@ -94,6 +94,7 @@ def status():
     client = Client(account_sid, auth_token)
 
     txt_messages = client.messages.page(page_size=25, page_number=page, page_token=page_token)
+    # print(txt_messages.__dict__)
     return render_template('txtmsg/sms_status.html', data=txt_messages, page=page)
 
 

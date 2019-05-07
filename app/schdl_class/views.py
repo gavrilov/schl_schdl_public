@@ -6,7 +6,7 @@ from flask_security import current_user, login_required, roles_required, roles_a
 from sqlalchemy import and_
 
 from app import db
-from app.models import Schdl_Class, Student, Enrollment, School, Subject, Teacher
+from app.models import Schdl_Class, Student, Enrollment, School, Subject, Teacher, Semester
 from app.payment import charge_customer
 from app.tools import send_email_to_user
 from .forms import ClassForm
@@ -17,9 +17,23 @@ schdl_class = Blueprint('schdl_class', __name__, template_folder='templates')
 @schdl_class.route('/', methods=['GET', 'POST'])
 @roles_required('admin')
 def class_list():
+    semesters = Semester.query.filter_by(current=True).all()
     classes = Schdl_Class.query.filter_by(current=True).join(School, Schdl_Class.school).order_by(Schdl_Class.day_of_week.asc(), Schdl_Class.class_time_start.asc(), School.name.asc()).all()
     utc_now = datetime.utcnow()
-    return render_template('schdl_class/class_list.html', classes=classes, current_classes_only=True, utc_now=utc_now)
+    return render_template('schdl_class/class_list.html', classes=classes, current_classes_only=True, utc_now=utc_now,
+                           semesters=semesters)
+
+
+@schdl_class.route('/semester/<semester_id>', methods=['GET', 'POST'])
+@roles_required('admin')
+def class_list_by_semester(semester_id):
+    semesters = Semester.query.filter_by(current=True).all()
+    classes = Schdl_Class.query.filter_by(current=True, semester_id=semester_id).join(School,
+                                                                                      Schdl_Class.school).order_by(
+        Schdl_Class.day_of_week.asc(), Schdl_Class.class_time_start.asc(), School.name.asc()).all()
+    utc_now = datetime.utcnow()
+    return render_template('schdl_class/class_list.html', classes=classes, current_classes_only=True, utc_now=utc_now,
+                           semesters=semesters)
 
 
 @schdl_class.route('/not_current', methods=['GET', 'POST'])
@@ -84,15 +98,18 @@ def edit_class(class_id):
         current_schools = School.query.filter_by(current=True).all()
         current_teachers = Teacher.query.filter_by(current=True).all()
         current_subjects = Subject.query.filter_by(current=True).all()
+        current_semesters = Semester.query.filter_by(current=True).all()
 
         # Now forming the list of tuples for SelectField
         school_list = [(i.id, i.name) for i in current_schools]
         teacher_list = [(i.id, i.user.first_name + " " + i.user.last_name) for i in current_teachers]
         subject_list = [(i.id, i.name) for i in current_subjects]
+        semester_list = [(i.id, i.name) for i in current_semesters]
 
         form.school_id.choices = school_list
         form.teacher_id.choices = teacher_list
         form.subject_id.choices = subject_list
+        form.semester_id.choices = semester_list
 
         if form.validate_on_submit():
             form.populate_obj(current_class)

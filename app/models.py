@@ -38,6 +38,7 @@ class Schdl_Class(db.Model):
     school_id = db.Column(db.Integer, db.ForeignKey('schools.id'))
     # teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'))
     subject_id = db.Column(db.Integer, db.ForeignKey('subjects.id'))
+    semester_id = db.Column(db.Integer, db.ForeignKey('semesters.id'))
     current = db.Column('current', db.Boolean())
     info = db.Column('info', db.UnicodeText())
     day_of_week = db.Column('day_of_week', db.Unicode(2048))
@@ -82,6 +83,15 @@ class Subject(db.Model):
     default_info = db.Column('default_info', db.UnicodeText())  # default description will insert to Schdl_Class.info
     classes = db.relationship('Schdl_Class', backref='subject', lazy='dynamic')
     awards = db.relationship('Award', backref='subject', lazy='dynamic')
+
+
+class Semester(db.Model):
+    __tablename__ = "semesters"
+    id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
+    name = db.Column('name', db.Unicode(2048))
+    color = db.Column('color', db.Unicode(32))
+    current = db.Column('current', db.Boolean())
+    classes = db.relationship('Schdl_Class', backref='semester', lazy='dynamic')
 
 
 class Teacher(db.Model):

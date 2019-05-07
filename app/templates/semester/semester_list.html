@@ -1,0 +1,44 @@
+{% extends "dashboard/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}{{ _('Semester List') }}{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <div class="row">
+        <div class="col-md-3 offset-md-9">
+            <a class="btn btn-outline-success" href="{{ url_for('semester.add_semester') }}"
+               role="button">{{ _('Add New Semester') }}</a>
+        </div>
+
+    </div>
+    <div class="row">
+        <h1>{{ _('List of semesters') }}</h1>
+        <table class="table table-hover table-bordered">
+            <caption>{{ _('List of semesters') }}</caption>
+            <tbody>
+            <tr>
+                <th>{{ _('Semester') }}</th>
+                <th>{{ _('Edit') }}</th>
+            </tr>
+            {% for semester in semesters %}
+                <tr>
+                    <td bgcolor="{{ semester.color }}"><a
+                            href="{{ url_for('semester.info', semester_id=semester.id) }}">{{ semester.name }}</a></td>
+                    <td><a href="{{ url_for('semester.edit_semester', semester_id=semester.id) }}">{{ _('Edit') }}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}

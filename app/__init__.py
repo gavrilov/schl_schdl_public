@@ -47,6 +47,8 @@ def create_app(config_class=Config):
     app.register_blueprint(school, url_prefix='/school')
     from app.teacher.views import teacher
     app.register_blueprint(teacher, url_prefix='/teacher')
+    from app.semester.views import semester
+    app.register_blueprint(semester, url_prefix='/semester')
     from app.subject.views import subject
     app.register_blueprint(subject, url_prefix='/subject')
     from app.schdl_class.views import schdl_class

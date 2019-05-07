@@ -1,0 +1,30 @@
+{% extends "dashboard/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}{{ _('Semester Info') }}{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <a href="{{ url_for('semester.add_semester') }}">{{ _('Add Semester') }}</a>>
+    <table>
+        <tbody>
+        <tr>
+            <td>{{ _('Semester') }}</td>
+            <td>{{ _('Edit') }}</td>
+        </tr>
+        <tr>
+            <td>{{ semester.name }} </td>
+            <td><a href="{{ url_for('semester.edit_semester', semester_id=semester_id) }}">{{ _('Edit') }}</a>></td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}
