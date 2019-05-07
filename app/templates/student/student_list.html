@@ -59,6 +59,16 @@
     {{ super() }}
     <div class="row">
         <div class="col-md-3 offset-md-9">
+            <select name="select_semester" onchange="location = this.value;">
+                <option value="#">{{ _('Select Semester') }}</option>
+                {% for semester in semesters %}
+                    {% if drops_students_only %}
+                        <option value="{{ url_for('student.student_drops_list_by_semester', semester_id=semester.id) }}">{{ semester.name }}</option>
+                    {% else %}
+                        <option value="{{ url_for('student.student_list_by_semester', semester_id=semester.id) }}">{{ semester.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
             <a class="btn btn-outline-primary" href="{{ url_for('student.student_all_list') }}"
                role="button">{{ _('All Students') }}</a>
             {#  <a class="btn btn-outline-success" href="{{ url_for('student.add_student') }}" role="button">{{ _('Add New Student') }}</a> #}
@@ -66,16 +76,16 @@
             <a class="btn btn-outline-warning" href="{{ url_for('student.not_enrolled') }}"
                role="button">{{ _('Not Enrolled Students') }}</a>
 
-                        <a class="btn btn-outline-danger" href="{{ url_for('student.student_drops_list') }}"
+            <a class="btn btn-outline-danger" href="{{ url_for('student.student_drops_list') }}"
                role="button">{{ _('Drops Student') }}</a>
             {#  <a class="btn btn-outline-success" href="{{ url_for('student.add_student') }}" role="button">{{ _('Add New Student') }}</a> #}
         </div>
 
     </div>
     {% if drops_students_only %}
-    <h1>{{ _('Drops List of students') }}</h1>
+        <h1>{{ _('Drops List of students') }}</h1>
     {% else %}
-    <h1>{{ _('List of students') }}</h1>
+        <h1>{{ _('List of students') }}</h1>
     {% endif %}
     <form method="POST" action="" id="theForm">
         <table class="table table-hover table-bordered" id="maintable">
