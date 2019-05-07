@@ -54,7 +54,7 @@
             {% if enrollment.current %}
                 <div class="row border-bottom mt-1">
                     <div class="col text-center text-md-left align-self-center">
-                        <a href="{{ url_for('student.info', student_id=enrollment.student.id) }}">{{ enrollment.student.first_name }} {{ enrollment.student.last_name }}</a>
+                        {% if enrollment.student.gender == 2 %} <i class="fas fa-female" style="color:deeppink" title="{{ _('Girl') }}"></i> {% else %} <i class="fas fa-male" style="color:blue" title="{{ _('Boy') }}></i> {% endif %} <a href="{{ url_for('student.info', student_id=enrollment.student.id) }}">{{ enrollment.student.first_name }} {{ enrollment.student.last_name }}</a>
                     </div>
                 </div>
             {% endif %}

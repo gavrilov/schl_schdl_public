@@ -92,7 +92,7 @@
                                 {% for teacher in current_class.teachers %}
                                     <a href="{{ url_for('teacher.teacher_info', teacher_id=teacher.id) }}">{{ teacher.user.first_name }} {{ teacher.user.last_name }}</a><br>
                                     {%  endfor %}</td>
-                            <td>${{ current_class.price }}
+                            <td>{{ _('${:,.2f}').format(current_class.price) }}
 
                                 {% if current_class.registration_end and current_class.registration_start %}
                                     {% if utc_now > current_class.registration_end %}

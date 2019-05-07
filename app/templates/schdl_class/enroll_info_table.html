@@ -24,7 +24,7 @@
                     <a class="btn btn-success"
                        href="{{ url_for('schdl_class.payment_class', class_id=current_class.id, student_id=current_student.id) }}"
                        role="button">
-                        {{ _('Complete Registration') }}<br>{{ _('Pay with your card ${price}').format(price=current_class.price) }}
+                        {{ _('Complete Registration') }}<br>{{ _('Pay with your card ${:,.2f}').format(current_class.price) }}
                     </a>
                 {% elif not registration_message %}
                     <!--Update Card and Pay Button-->
@@ -49,7 +49,7 @@
                 {% if current_class.class_start and current_class.class_end %}
                     {{ _('Dates:') }} {{ current_class.class_start | cdateformat }}
                     - {{ current_class.class_end | cdateformat }}<br>
-                    {{ _('Price: ${price}').format(price=current_class.price) }}<br>
+                    {{ _('Price: ${:,.2f}').format(current_class.price) }}<br>
                 {% endif %}
             </p>
         </div>
