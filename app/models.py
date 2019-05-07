@@ -38,6 +38,7 @@ class Schdl_Class(db.Model):
     school_id = db.Column(db.Integer, db.ForeignKey('schools.id'))
     # teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'))
     subject_id = db.Column(db.Integer, db.ForeignKey('subjects.id'))
+    semester_id = db.Column(db.Integer, db.ForeignKey('semesters.id'))
     current = db.Column('current', db.Boolean())
     info = db.Column('info', db.UnicodeText())
     day_of_week = db.Column('day_of_week', db.Unicode(2048))
@@ -82,6 +83,15 @@ class Subject(db.Model):
     default_info = db.Column('default_info', db.UnicodeText())  # default description will insert to Schdl_Class.info
     classes = db.relationship('Schdl_Class', backref='subject', lazy='dynamic')
     awards = db.relationship('Award', backref='subject', lazy='dynamic')
+
+
+class Semester(db.Model):
+    __tablename__ = "semesters"
+    id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
+    name = db.Column('name', db.Unicode(2048))
+    color = db.Column('color', db.Unicode(32))
+    current = db.Column('current', db.Boolean())
+    classes = db.relationship('Schdl_Class', backref='semester', lazy='dynamic')
 
 
 class Teacher(db.Model):
@@ -182,18 +192,6 @@ class Student(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     attendances = db.relationship('Attendance', backref='student', lazy='dynamic')
     awards = db.relationship('StudentAwards', backref='student', lazy='dynamic')
-
-
-class TextMessage(db.Model):
-    __tablename__ = "text_messages"
-    id = db.Column('id', db.Integer, primary_key=True)
-    msgid = db.Column('msgid', db.Unicode(128))
-    phone_number = db.Column('phone_number', db.BigInteger)
-    msg = db.Column('msg', db.Unicode(2048))
-    note = db.Column('note', db.Unicode(2048))
-    url_pic = db.Column('url_pic', db.Unicode(2048))
-    date = db.Column('date', db.DateTime, default=datetime.datetime.utcnow)
-    status = db.Column('status', db.Unicode(64))
 
 
 class Award(db.Model):

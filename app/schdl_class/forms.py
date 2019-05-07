@@ -25,4 +25,5 @@ class ClassForm(FlaskForm):
     info = TextAreaField(_l('Class Description'), validators=[Optional()])
     day_of_week = StringField(_l('Day of Week'), validators=[Optional()])
     current = BooleanField(_l('Current Class'), validators=[Optional()])
+    semester_id = SelectField(_l('Semester'), coerce=int, validators=[Optional()])
     submit = SubmitField(_l('Update'))

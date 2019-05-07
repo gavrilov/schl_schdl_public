@@ -13,6 +13,12 @@
     {{ super() }}
     <div class="row">
         <div class="col-md-3 offset-md-9">
+            <select name="select_semester" onchange="location = this.value;">
+                <option value="#">{{ _('Select Semester') }}</option>
+                {% for semester in semesters %}
+                    <option value="{{ url_for('schdl_class.class_list_by_semester', semester_id=semester.id) }}">{{ semester.name }}</option>
+                {% endfor %}
+            </select>
             {% if current_classes_only %}
                 <a class="btn btn-outline-primary" href="{{ url_for('schdl_class.not_current_list') }}"
                    role="button">{{ _('Show Not Current Classes') }}</a>
