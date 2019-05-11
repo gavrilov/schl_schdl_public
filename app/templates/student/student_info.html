@@ -14,7 +14,10 @@
         <div class="col">
             <h1>{{ student.first_name }} {{ student.last_name }}</h1>
             <small><a class="far fa-edit" href="{{ url_for('student.edit_student', student_id=student.id) }}"
-                      role="button" data-toggle="tooltip" title="edit" style="color: blue"></a></small>
+                      role="button" data-toggle="tooltip" title="edit" style="color: blue"></a>
+                <a class="fas fa-times-circle" href="{{ url_for('student.delete_student', student_id=student.id) }}"
+                   role="button" data-toggle="tooltip" title="delete" style="color: red"></a>
+            </small>
             <small>
                 {{ _('Created:') }} {{ moment(student.timestamp).format('L LT') }}
             </small>

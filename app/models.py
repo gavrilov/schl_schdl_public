@@ -188,10 +188,10 @@ class Student(db.Model):
     note = db.Column('note', db.Unicode(2048))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     default_school_id = db.Column(db.Integer, db.ForeignKey('schools.id'))
-    enrollments = db.relationship('Enrollment', backref='student', lazy='dynamic')
+    enrollments = db.relationship('Enrollment', backref='student', lazy='dynamic', cascade="all, delete-orphan")
     timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-    attendances = db.relationship('Attendance', backref='student', lazy='dynamic')
-    awards = db.relationship('StudentAwards', backref='student', lazy='dynamic')
+    attendances = db.relationship('Attendance', backref='student', lazy='dynamic', cascade="all, delete-orphan")
+    awards = db.relationship('StudentAwards', backref='student', lazy='dynamic', cascade="all, delete-orphan")
 
 
 class Award(db.Model):
