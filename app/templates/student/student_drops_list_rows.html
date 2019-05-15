@@ -33,7 +33,17 @@
             <td></td>
         {% endif %}
 
-        <td>{{ student.note }}</td>
+                    <td>{% if student.note %}
+                <div id="summary">
+                    <p class="collapse dark" id="collapseSummary_{{ student.id }}">
+                        {{ student.note }}
+                    </p>
+                    <a class="collapsed" data-toggle="collapse"
+                       href="#collapseSummary_{{ student.id }}"
+                       aria-expanded="false" aria-controls="collapseSummary_{{ student.id }}"></a>
+                </div>
+
+            {% endif %}</td>
         <td><a href="{{ url_for('student.edit_student', student_id=student.id) }}">{{ _('Edit') }}</a></td>
     </tr>
     {% endif %}
