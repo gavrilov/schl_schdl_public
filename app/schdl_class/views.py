@@ -8,7 +8,6 @@ from sqlalchemy import and_
 from app import db
 from app.models import Schdl_Class, Student, Enrollment, School, Subject, Teacher, Semester
 from app.payment import charge_customer
-from app.tools import send_email_to_user
 from .forms import ClassForm
 
 schdl_class = Blueprint('schdl_class', __name__, template_folder='templates')
@@ -186,9 +185,11 @@ def payment_class(class_id, student_id):
         db.session.commit()
         flash(_('{student_name} has been added to student list of {subject_name} classes').format(
             student_name=current_student.first_name, subject_name=current_class.subject.name), 'success')
-        if current_class.school.agreement:
+
+        # # Uncomment it if you want to send email with school's agreement
+        # if current_class.school.agreement:
             # from app.tools import send_email_to_user
-            send_email_to_user(user=current_user, msg_subject='Reminder', msg_html=str(current_class.school.agreement))
+            # send_email_to_user(user=current_user, msg_subject='Reminder', msg_html=str(current_class.school.agreement))
 
         return render_template('payment/successful.html', charge=charge, current_class=current_class,
                                current_student=current_student)
