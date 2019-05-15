@@ -19,6 +19,8 @@ def student_list():
     students_html = ""
     current_classes = Schdl_Class.query.filter_by(current=True).all()
     for current_class in current_classes:
+        for enrollment in current_class.enrollments:
+            print(enrollment.student_id)
         # generate rows for table for each class
         students_html += render_template('student/student_list_rows.html', current_class=current_class)
     return render_template('student/student_list.html', students_html=students_html, current_students_only=True,
@@ -148,6 +150,23 @@ def edit_student(student_id):
     form.dob_year.data = form.dob.data.strftime("%Y")
 
     return render_template('student/edit.html', form=form, student_id=student_id)
+
+
+@student.route('/<student_id>/delete', methods=['GET', 'POST'])
+@roles_required('admin')
+def delete_student(student_id):
+    current_student = Student.query.filter_by(id=student_id).first()
+    current_user = current_student.user
+    if not current_student or (current_student not in current_user.students and not current_user.has_role(
+            'admin')):  # TODO or current_student not in current_user.students
+        current_app.logger.warning(
+            'User is trying to edit not his student. user_id = {} student_id = {}'.format(current_user.id, student_id))
+        flash(_('Student does not find'), 'danger')
+        return redirect(url_for('user.main'))
+    db.session.delete(current_student)
+    db.session.commit()
+    flash(_('Student has been deleted'), 'info')
+    return redirect(url_for('user.user_info', user_id=current_user.id))
 
 
 @student.route('/<student_id>/enroll', methods=['GET', 'POST'])
