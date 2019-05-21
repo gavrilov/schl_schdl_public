@@ -34,7 +34,16 @@
 
                             {% for award_record in student.awards|sort(attribute='date', reverse=true) %}
                                 {% if award_record.award.subject_id == current_class.subject.id %}
-                                    {{ moment(award_record.date).format('MMM YYYY') }} - {{ award_record.award.name }}
+                                    {# get season from date #}
+                                    {% if award_record.date.month < 6 %}
+                                        {{ _('Spring') }}
+                                    {% elif 5 < award_record.date.month < 9 %}
+                                        {{ _('Summer') }}
+                                    {% elif 8 < award_record.date.month < 13 %}
+                                        {{ _('Fall') }}
+                                    {% endif %}
+                                    {{ award_record.date.year }}
+                                    - {{ award_record.award.name }}
                                     {% if award_record.note %} ({{ award_record.note }}) {% endif %}
                                     <br>
                                 {% endif %}

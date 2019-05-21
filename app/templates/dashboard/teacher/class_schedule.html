@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}{{ _('Admin Dashboard') }}{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
+        <div class="row">
+            <div class="col">
+                <h1>{{ teacher.user.first_name }} {{ teacher.user.last_name }} </h1>
+                <h3 style="color: lightgrey">{{ teacher.user.email }}</h3>
+            </div>
+        </div>
+
+        <table class="table table-striped table-responsive">
+            <thead>
+            <tr>
+                <th scope="col">{{ _('Class') }}</th>
+                <th scope="col">{{ _('School') }}</th>
+                <th scope="col">{{ _('Day') }}</th>
+                <th scope="col">{{ _('Time') }}</th>
+                <th scope="col">{{ _('Class dates') }}</th>
+                <th scope="col">{{ _('No classes') }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for current_class in teacher.classes %}
+                {# #TODO sort by day and time - it doesnt work because few classes dosent have time start {% for current_class in teacher.classes|sort(attribute='class_time_start')|sort(attribute='day_of_week') %} #}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('attendance.for_class', class_id=current_class.id) }}">{{ current_class.subject.name }}</a>
+                    </td>
+                    <td>
+                        {{ current_class.school.name }}
+                    </td>
+                    <td>
+                        {{ current_class.day_of_week }}
+                    </td>
+                    <td>
+                        {% if current_class.class_time_start and current_class.class_time_end %}
+                            {{ current_class.class_time_start | ctimeformat }} -
+                            {{ current_class.class_time_end | ctimeformat }}
+                        {% endif %}
+                    </td>
+                    <td>{% if current_class.class_start and current_class.class_end %}
+                        {{ current_class.class_start.strftime("%m/%d/%Y") }} -
+                        {{ current_class.class_end.strftime("%m/%d/%Y") }}{% endif %}</div>
+                <td>
+                    {% for event in current_class.events %}
+                        {% if not event.active %}
+                            {% if event.start %}{{ event.start.strftime("%m/%d/%Y") }}; {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                </tr>
+            {% endfor %}
+
+    </tbody>
+    </table>
+    </div>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}
