@@ -41,6 +41,17 @@ def teacher_dashboard():
     return render_template('dashboard/dashboard_teacher.html', teacher=teacher)
 
 
+@dashboard.route('/teacher/class_schedule', methods=['GET', 'POST'])
+@roles_required('teacher')
+def teacher_class_schedule_dashboard():
+    # Dashboard for teachers
+    teacher = Teacher.query.filter_by(user_id=current_user.id).first()
+    if not teacher or not teacher.current:
+        flash(_('Teacher did not find. Please contact administration'), 'danger')
+        return redirect(url_for('hello_world'))
+    return render_template('dashboard/teacher/class_schedule.html', teacher=teacher)
+
+
 @dashboard.route('/school', methods=['GET', 'POST'])
 @roles_required('school')
 def school_dashboard():
