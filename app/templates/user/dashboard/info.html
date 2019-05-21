@@ -102,7 +102,7 @@
                                             <a class="btn btn-danger"
                                         {% endif %}
                                                href="{{ url_for('schdl_class.enroll_class', student_id=student.id, class_id=enrollment.schdl_class.id) }}"
-                                               role="button">{{ enrollment.schdl_class.subject.name }}<br>{% if enrollment.schdl_class.class_start and enrollment.schdl_class.class_end %}{{ enrollment.schdl_class.class_start.strftime("%b %Y") }}-{{ enrollment.schdl_class.class_end.strftime("%b %Y") }}{% endif %}</a>
+                                               role="button">{{ enrollment.schdl_class.subject.name }} @ {{ enrollment.schdl_class.school.name  }}<br>{% if enrollment.schdl_class.class_start and enrollment.schdl_class.class_end %}{{ enrollment.schdl_class.class_start.strftime("%b %Y") }}-{{ enrollment.schdl_class.class_end.strftime("%b %Y") }}{% endif %}</a>
                                     {% endfor %}
                                 {% else %}
                                     {{ _('not enrolled yet') }}
