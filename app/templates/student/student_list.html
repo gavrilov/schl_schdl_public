@@ -85,7 +85,7 @@
     {% if drops_students_only %}
         <h1>{{ _('Drops List of students') }}</h1>
     {% else %}
-        <h1>{{ _('List of students') }}</h1>
+        <h1>{{ _('Student list') }}{% if current_semester %} ({{ current_semester.name }}){% endif %}</h1>
     {% endif %}
     <form method="POST" action="" id="theForm">
         <table class="table table-hover table-bordered" id="maintable">
