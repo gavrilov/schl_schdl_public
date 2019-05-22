@@ -31,13 +31,14 @@ def student_list():
 @roles_required('admin')
 def student_list_by_semester(semester_id):
     semesters = Semester.query.filter_by(current=True).all()
+    current_semester = Semester.query.filter_by(id=semester_id).first()
     students_html = ""
     current_classes = Schdl_Class.query.filter_by(current=True, semester_id=semester_id).all()
     for current_class in current_classes:
         # generate rows for table for each class
         students_html += render_template('student/student_list_rows.html', current_class=current_class)
     return render_template('student/student_list.html', students_html=students_html, current_students_only=True,
-                           semesters=semesters)
+                           semesters=semesters, current_semester=current_semester)
 
 
 @student.route('/drops', methods=['GET', 'POST'])
