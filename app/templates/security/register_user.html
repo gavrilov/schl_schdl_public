@@ -12,16 +12,23 @@
 {% block page_content %}
     {{ super() }}
     {% include "security/_messages.html" %}
-    <div class="row justify-content-center mt-5 pb-5">
+    <div class="row justify-content-center text-center mt-5 pb-5">
         <div>
-            <div class="form-group row text-center alert alert-success" id="hide-on-click2">
+            <div class="text-center alert alert-success" id="hide-on-click2">
                 <h1>{{ _('Kipling <b>ELEMENTARY</b> register') }} <a
                         href="https://enrichmentservices.com/summer-martial-arts-registration-kipling-elementary/"
                         class="success">{{ _('HERE') }}</a>
                 </h1>
+
             </div>
 
-            <div class="form-group row text-center alert alert-info mt-5" id="hide-on-click3">
+            <div class="mt-5" id="hide-on-click4">
+                 <p class="text-center"><h2>
+                    {{ _('Kipling PRESCHOOLS<br> <i class="fas fa-arrow-down"></i> (Kipling St Academy and Kipling on Floyd register BELOW)') }} <i class="fas fa-arrow-down"></i>
+            </h2></p>
+            </div>
+
+            <div class="text-center alert alert-info mt-5" id="hide-on-click3">
                 <h1>{{ _('For all other schools click') }} <a href="#" onclick="hideLinks()">{{ _('HERE') }}</a>
                 </h1>
             </div>
@@ -109,6 +116,7 @@
             $("#hide-on-click1").hide();
             $("#hide-on-click2").hide();
             $("#hide-on-click3").hide();
+            $("#hide-on-click4").hide();
             $("#registration-form-title1").show();
             $("#registration-form-title2").show();
         }
