@@ -130,20 +130,20 @@
                 {% if enrollment.schdl_class.current %}
 
                 {% endif %}
-                {% if enrollment.current and enrollment.schdl_class.current %}
-                    <span class="badge badge-success">{{ _('Enrolled') }}</span>
-                {% elif enrollment.current and not enrollment.schdl_class.current %}
+                {% if enrollment.current and enrollment.schdl_class.current and enrollment.schdl_class.semester.current %}
+                    <span class="badge badge-success">{{ _('Currently Enrolled') }}</span>
+                {% elif enrollment.current and not (enrollment.schdl_class.current and enrollment.schdl_class.semester.current )%}
                     <span class="badge badge-warning">{{ _('Archive') }}</span>
-                    <span class="badge badge-success">{{ _('Was enrolled') }}</span>
-                {% elif not enrollment.current and not enrollment.schdl_class.current %}
+                    <span class="badge badge-success">{{ _('Was Enrolled') }}</span>
+                {% elif not enrollment.current and not ( enrollment.schdl_class.current and enrollment.schdl_class.semester.current )%}
                     <span class="badge badge-warning">{{ _('Archive') }}</span>
                     <span class="badge badge-danger">{{ _('Dropped') }}</span>
                 {% else %}
-                    <span class="badge badge-danger">{{ _('Dropped') }}</span>
+                    <span class="badge badge-danger">{{ _('Currently Dropped') }}</span>
                 {% endif %}
                 {{ moment(enrollment.timestamp).format('L LT') }}</div>
             <div class="col">
-                <a href="{{ url_for('schdl_class.info_class', class_id=enrollment.schdl_class.id) }}">{{ enrollment.schdl_class.subject.name }}
+                <a href="{{ url_for('schdl_class.info_class', class_id=enrollment.schdl_class.id) }}">{{ enrollment.schdl_class.semester.name }} - {{ enrollment.schdl_class.subject.name }} {{ enrollment.schdl_class.day_of_week }} {% if enrollment.schdl_class.class_time_start %}{{ enrollment.schdl_class.class_time_start.strftime("%I:%M %p") }}{% endif %}
                     @ {{ enrollment.schdl_class.school.name }}</a><br>
             </div>
             <div class="col">{{ enrollment.note }}</div>

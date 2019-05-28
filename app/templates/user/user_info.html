@@ -47,7 +47,7 @@
                 <div class="col-sm-5 text-center align-self-center">
                     {% if student.enrollments.count() > 0 %}{{ _('Enrolled in') }}
                         {% for enrollment in student.enrollments %}
-                            {% if enrollment.current %}
+                            {% if enrollment.current and enrollment.schdl_class.current and enrollment.schdl_class.semester.current %}
                                 <a class="btn btn-outline-primary"
                                    href="{{ url_for('schdl_class.enroll_class', student_id=student.id, class_id=enrollment.schdl_class.id) }}"
                                    role="button">{{ enrollment.schdl_class.subject.name }} @

@@ -3,11 +3,12 @@ from flask_babelex import _
 from flask_security import roles_required, current_user
 from datetime import datetime
 import re
+import operator
 
 from app import db
 from app.dashboard.forms import AddContactForm, TeacherToClassForm, EditContactForm
 from app.student.forms import StudentForm
-from app.models import User, Student, Teacher, Enrollment, School, UserContacts, Schdl_Class
+from app.models import User, Student, Teacher, Enrollment, School, UserContacts, Schdl_Class, Semester
 
 
 dashboard = Blueprint('dashboard', __name__, template_folder='templates')
@@ -56,7 +57,16 @@ def teacher_class_schedule_dashboard():
 @roles_required('school')
 def school_dashboard():
     # Dashboard for teachers
-    return render_template('dashboard/dashboard_school.html')
+    # Create list of current School, that not hided from user and in current semester
+    current_classes = [] # School.query.filter_by(current=True, hide_from_users=False).order_by(School.name.asc()).all()
+    current_semesters = Semester.query.filter_by(current=True).all()
+    for semester in current_semesters:
+        for current_class in semester.classes:
+            if current_class.current and current_class.school.current and not current_class.school.hide_from_users and current_class not in current_classes and current_class.school in current_user.schools:
+                current_classes.append(current_class)
+    #current_classes.sort(key=operator.attrgetter('name'))
+
+    return render_template('dashboard/dashboard_school.html', current_classes=current_classes)
 
 
 @dashboard.route('/add_contact_information', methods=['GET', 'POST'])

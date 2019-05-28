@@ -1,5 +1,5 @@
 from datetime import datetime
-
+import operator
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app, request
 from flask_babelex import _
 from flask_security import current_user, login_required, roles_required, roles_accepted
@@ -15,12 +15,10 @@ student = Blueprint('student', __name__, template_folder='templates')
 @student.route('/', methods=['GET', 'POST'])
 @roles_required('admin')
 def student_list():
-    semesters = Semester.query.filter_by(current=True).all()
+    semesters = Semester.query.all()
     students_html = ""
-    current_classes = Schdl_Class.query.filter_by(current=True).all()
+    current_classes = Schdl_Class.query.filter_by(current=True).join(Semester, Schdl_Class.semester).filter_by(current=True).all()
     for current_class in current_classes:
-        for enrollment in current_class.enrollments:
-            print(enrollment.student_id)
         # generate rows for table for each class
         students_html += render_template('student/student_list_rows.html', current_class=current_class)
     return render_template('student/student_list.html', students_html=students_html, current_students_only=True,
@@ -30,7 +28,7 @@ def student_list():
 @student.route('/semester/<semester_id>', methods=['GET', 'POST'])
 @roles_required('admin')
 def student_list_by_semester(semester_id):
-    semesters = Semester.query.filter_by(current=True).all()
+    semesters = Semester.query.all()
     current_semester = Semester.query.filter_by(id=semester_id).first()
     students_html = ""
     current_classes = Schdl_Class.query.filter_by(current=True, semester_id=semester_id).all()
@@ -98,7 +96,16 @@ def info(student_id):
 @student.route('/add', methods=['GET', 'POST'])
 @login_required
 def add_student():
-    current_schools = School.query.filter_by(current=True, hide_from_users=False).order_by(School.name.asc()).all()
+
+    # Create list of current School, that not hided from user and in current semester
+    current_schools = []  # School.query.filter_by(current=True, hide_from_users=False).order_by(School.name.asc()).all()
+    current_semesters = Semester.query.filter_by(current=True).all()
+    for semester in current_semesters:
+        for current_class in semester.classes:
+            if current_class.current and current_class.school.current and not current_class.school.hide_from_users and current_class.school not in current_schools:
+                current_schools.append(current_class.school)
+    current_schools.sort(key=operator.attrgetter('name'))
+
     # Now forming the list of tuples for SelectField
     school_list = [(i.id, i.name) for i in current_schools]
 
@@ -131,7 +138,16 @@ def edit_student(student_id):
             'User is trying to edit not his student. user_id = {} student_id = {}'.format(current_user.id, student_id))
         flash(_('Student does not find'), 'danger')
         return redirect(url_for('user.main'))
-    current_schools = School.query.filter_by(current=True, hide_from_users=False).order_by(School.name.asc()).all()
+
+    # Create list of current School, that not hided from user and in current semester
+    current_schools = [] # School.query.filter_by(current=True, hide_from_users=False).order_by(School.name.asc()).all()
+    current_semesters = Semester.query.filter_by(current=True).all()
+    for semester in current_semesters:
+        for current_class in semester.classes:
+            if current_class.current and current_class.school.current and not current_class.school.hide_from_users and current_class.school not in current_schools:
+                current_schools.append(current_class.school)
+    current_schools.sort(key=operator.attrgetter('name'))
+
     # Now forming the list of tuples for SelectField
     school_list = [(i.id, i.name) for i in current_schools]
     form = StudentForm(obj=current_student)

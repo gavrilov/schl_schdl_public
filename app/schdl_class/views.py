@@ -16,8 +16,8 @@ schdl_class = Blueprint('schdl_class', __name__, template_folder='templates')
 @schdl_class.route('/', methods=['GET', 'POST'])
 @roles_required('admin')
 def class_list():
-    semesters = Semester.query.filter_by(current=True).all()
-    classes = Schdl_Class.query.filter_by(current=True).join(School, Schdl_Class.school).order_by(Schdl_Class.day_of_week.asc(), Schdl_Class.class_time_start.asc(), School.name.asc()).all()
+    semesters = Semester.query.all()
+    classes = Schdl_Class.query.filter_by(current=True).join(Semester, Schdl_Class.semester).filter_by(current=True).join(School, Schdl_Class.school).order_by(Schdl_Class.day_of_week.asc(), Schdl_Class.class_time_start.asc(), School.name.asc()).all()
     utc_now = datetime.utcnow()
     return render_template('schdl_class/class_list.html', classes=classes, current_classes_only=True, utc_now=utc_now,
                            semesters=semesters)
@@ -26,12 +26,13 @@ def class_list():
 @schdl_class.route('/semester/<semester_id>', methods=['GET', 'POST'])
 @roles_required('admin')
 def class_list_by_semester(semester_id):
-    semesters = Semester.query.filter_by(current=True).all()
+    semesters = Semester.query.all()
+    current_semester = Semester.query.filter_by(id=semester_id).first()
     classes = Schdl_Class.query.filter_by(current=True, semester_id=semester_id).join(School,
                                                                                       Schdl_Class.school).order_by(
         Schdl_Class.day_of_week.asc(), Schdl_Class.class_time_start.asc(), School.name.asc()).all()
     utc_now = datetime.utcnow()
-    return render_template('schdl_class/class_list.html', classes=classes, current_classes_only=True, utc_now=utc_now,
+    return render_template('schdl_class/class_list.html', classes=classes, current_semester=current_semester, current_classes_only=True, utc_now=utc_now,
                            semesters=semesters)
 
 
