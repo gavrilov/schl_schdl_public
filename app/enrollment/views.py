@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint, flash, redirect, url_for
+from flask import render_template, Blueprint, flash, redirect, url_for, request
 from flask_babelex import _
 from flask_security import roles_required, current_user
 from .forms import EnrollmentForm
@@ -11,9 +11,16 @@ enrollment = Blueprint('enrollment', __name__, template_folder='templates')
 @enrollment.route('/', methods=['GET', 'POST'])
 @roles_required('admin')
 def list_all():
-    # Dashboard for teachers
-    enrollments = Enrollment.query.all()
-    return 'Hello from All Enrollments'  # render_template('', enrollments=enrollments)
+
+    page = request.args.get('page', 1, type=int)
+    enrollments = Enrollment.query.order_by(Enrollment.timestamp.desc()).paginate(page, 20, False)
+
+    next_url = url_for('enrollment.list_all', page=enrollments.next_num) \
+        if enrollments.has_next else None
+    prev_url = url_for('enrollment.list_all', page=enrollments.prev_num) \
+        if enrollments.has_prev else None
+
+    return render_template('enrollment/list.html', enrollments=enrollments.items, next_url=next_url, prev_url=prev_url)
 
 
 @enrollment.route('/current', methods=['GET', 'POST'])

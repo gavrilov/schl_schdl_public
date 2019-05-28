@@ -1,0 +1,47 @@
+{% extends "dashboard/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}{{ _('Admin Dashboard') }}{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <div class="row">
+        <div class="col">
+            <h2>{{ _('List of Enrollments') }}</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <ul class="list-group list-group-flush">
+                {% for enrollment in enrollments %}
+                    <li class="list-group-item">
+                        {{ moment(enrollment.timestamp).format('L LT') }}
+                        <a href="{{ url_for('student.info', student_id=enrollment.student.id) }}">{{ enrollment.student.first_name }} {{ enrollment.student.last_name }}</a>
+                        -
+                        <a href="{{ url_for('schdl_class.info_class', class_id=enrollment.schdl_class.id) }}">{{ enrollment.schdl_class.subject.name }}
+                            @ {{ enrollment.schdl_class.school.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+<div class="row mb-5 mt-2">
+    {% if next_url %}
+        <a class="btn btn-outline-info" href="{{ next_url }}">{{ _('<< Older Enrollments') }}</a>
+    {% endif %}
+    {% if prev_url %}
+        <a class="btn btn-outline-info" href="{{ prev_url }}">{{ _('Newer Enrollments >>') }}</a>
+    {% endif %}
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+{% endblock %}
