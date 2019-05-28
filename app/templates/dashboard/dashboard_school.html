@@ -25,8 +25,8 @@
                             <h3>{{ school.name }}</h3>
                         </div>
                     </div>
-                    {% for current_class in school.classes %}
-                        {% if current_class.current %}
+                    {% for current_class in current_classes %}
+                        {% if current_class.current and current_class.school == school %}
                         <div class="row border-bottom mt-3">
                             <div class="col">
                                 <a href="{{ url_for('attendance.for_class', class_id=current_class.id) }}">{{ current_class.subject.name }}</a>

@@ -33,7 +33,7 @@
     </div>
     <div class="row">
         <div class="col">
-            <h1>{{ _('List of classes') }}</h1>
+            <h1>{{ _('List of classes') }}{% if current_semester %} ({{ current_semester.name }}){% endif %}</h1>
             <form method="POST" action="" id="theForm">
                 <table class="table table-hover table-bordered" id="maintable">
                     <caption>{{ _('List of classes') }}</caption>
