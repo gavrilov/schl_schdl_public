@@ -71,3 +71,19 @@ def edit(enrollment_id):
             for err in errorMessages:
                 print(err)
         return render_template('enrollment/modal_edit_enrolment.html', form=form)
+
+
+@enrollment.route('/delete/<enrollment_id>', methods=['GET', 'POST'])
+@roles_required('admin')
+def delete(enrollment_id):
+
+    current_enrollment = Enrollment.query.filter_by(id=enrollment_id).first()
+    current_student = current_enrollment.student
+    if current_enrollment:
+        db.session.delete(current_enrollment)
+        db.session.commit()
+        flash(_('Enrollment has been deleted'), 'success')
+        return redirect(url_for('student.info', student_id=current_student.id))
+    else:
+        flash(_('Enrollment did not find'), 'danger')
+        return redirect(url_for('student.info', student_id=current_student.id))
