@@ -63,8 +63,8 @@
                     <a class="btn btn-success" href="{{ url_for('student.enroll_student', student_id=student.id) }}"
                        role="button">{{ _('Register for Classes') }}</a>
                     {# Edit Student Button  #}
-                    <a class="far fa-edit" href="{{ url_for('student.edit_student', student_id=student.id) }}"
-                       role="button" data-toggle="tooltip" title="edit" style="color: blue"></a>
+                    <a class="btn btn-outline-info" href="{{ url_for('student.edit_student', student_id=student.id) }}"
+                       role="button">{{ _('Edit Student') }}</a>
                 </div>
             </div>
         {% endfor %}
