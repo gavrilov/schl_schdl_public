@@ -14,6 +14,7 @@ def selection_validator(form, field):
 
 class SchoolForm(FlaskForm):
     name = StringField(_l('School Name'), validators=[DataRequired()])
+    short_name = StringField(_l('Short School Name'), validators=[Optional()])
     director_name = StringField(_l('Director Name'), validators=[Optional()])
     note = StringField(_l('Note'), validators=[Optional()])
     agreement = StringField(_l('Additional Agreement for Users'), validators=[Optional()])

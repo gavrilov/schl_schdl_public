@@ -64,6 +64,7 @@ class School(db.Model):
     __tablename__ = "schools"
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
     name = db.Column('name', db.Unicode(2048))
+    short_name = db.Column('short_name', db.Unicode(2048))
     type = db.Column('type', db.Unicode(2048))
     director_name = db.Column('director_name', db.Unicode(2048))
     note = db.Column('note', db.Unicode(2048))
