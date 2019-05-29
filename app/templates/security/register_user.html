@@ -14,33 +14,14 @@
     {% include "security/_messages.html" %}
     <div class="row justify-content-center text-center mt-5 pb-5">
         <div>
-            <div class="text-center alert alert-success" id="hide-on-click2">
-                <h1>{{ _('Kipling <b>ELEMENTARY</b> register') }} <a
-                        href="https://enrichmentservices.com/summer-martial-arts-registration-kipling-elementary/"
-                        class="success">{{ _('HERE') }}</a>
-                </h1>
-
-            </div>
-
-            <div class="mt-5" id="hide-on-click4">
-                 <p class="text-center"><h2>
-                    {{ _('Kipling PRESCHOOLS<br> <i class="fas fa-arrow-down"></i> (Kipling St Academy & Kipling on Floyd register BELOW)') }} <i class="fas fa-arrow-down"></i>
-            </h2></p>
-            </div>
-
-            <div class="text-center alert alert-info mt-5" id="hide-on-click3">
-                <h1>{{ _('All other schools click') }} <a href="#" onclick="hideLinks()">{{ _('HERE') }}</a>
-                </h1>
-            </div>
-
-            <div class="form-group row text-center alert alert-info mt-5" style="display: none"
+            <div class="form-group row text-center alert alert-info mt-5" style="display: block"
                  id="registration-form-title1">
                 <h1>{{ _('<b>SPRING students</b>') }} <a
                         href="{{ url_for('security.login') }}">{{ _('LOGIN HERE') }}</a></h1>
             </div>
-            <div class="row text-center alert alert-success mt-5" style="display: none"
+            <div class="row text-center alert alert-success mt-5" style="display: block"
                  id="registration-form-title2">
-                <h1>{{ _('NEW students register ') }}<a href="#" onclick="hideLinks2()">{{ _('HERE') }}</a></h1>
+                <h1>{{ _('NEW students register ') }}<a href="#" onclick="hideLinks()">{{ _('HERE') }}</a></h1>
             </div>
         </div>
         <div class="row">
@@ -116,17 +97,7 @@
     </script>
     <script>
         {# Function to hide links and show form on click #}
-
         function hideLinks() {
-            $("#hide-on-click1").hide();
-            $("#hide-on-click2").hide();
-            $("#hide-on-click3").hide();
-            $("#hide-on-click4").hide();
-            $("#registration-form-title1").show();
-            $("#registration-form-title2").show();
-        }
-
-        function hideLinks2() {
             $("#registration-form").show();
             $("#registration-form-title1").hide();
             $("#registration-form-title2").hide();
