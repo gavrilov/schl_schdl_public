@@ -99,11 +99,13 @@ def create_app(config_class=Config):
 
     @app.route('/')
     def hello_world():
-        return redirect(url_for('security.register'))
+        
+        return render_template('index.html')
+        # return redirect(url_for('security.register'))
 
     @app.route('/privacy')
     def privacy():
-        return render_template('privacy.html')\
+        return render_template('privacy.html')
 
     @app.route('/maint')
     def maint():

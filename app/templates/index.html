@@ -1,0 +1,68 @@
+{% extends "security/security_base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}{{ _('Registration') }}{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <div class="row justify-content-center text-center mt-5 pb-5">
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-outline-success btn-lg dropdown-toggle" data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                {{ _('Please select a School to continue') }}
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{{ url_for_security('register') }}">Bethany Methodist Weekday School</a>
+                <a class="dropdown-item"
+                   href="https://enrichmentservices.com/summer-martial-arts-registration-kipling-elementary/">Kipling
+                    Elementary</a>
+                <a class="dropdown-item" href="{{ url_for_security('register') }}">Kipling Street Academy</a>
+                <a class="dropdown-item" href="{{ url_for_security('register') }}">Messiah Lutheran</a>
+                <a class="dropdown-item" href="{{ url_for_security('register') }}">St. Christopher's Day School</a>
+                <a class="dropdown-item" href="{{ url_for_security('register') }}">The Kipling School on Floyd</a>
+                <a class="dropdown-item" href="{{ url_for_security('register') }}">Westlake CDC</a>
+                <a class="dropdown-item" href="{{ url_for_security('register') }}">Woodcreek CDC</a>
+            </div>
+        </div>
+
+
+        <div class="form-group row text-center alert alert-info mt-5" style="display: none"
+             id="registration-form-title1">
+            <h1>{{ _('<b>SPRING students</b>') }} <a
+                    href="{{ url_for('security.login') }}">{{ _('LOGIN HERE') }}</a></h1>
+        </div>
+        <div class="row text-center alert alert-success mt-5" style="display: none"
+             id="registration-form-title2">
+            <h1>{{ _('NEW students register ') }}<a href="#" onclick="hideLinks2()">{{ _('HERE') }}</a></h1>
+        </div>
+    </div>
+
+
+    <div class="row mt-5">
+        <div class="col text-center" id="hide-on-click1">
+            <h4>{{ _('Instructor Login') }} <a href="{{ url_for('security.login') }}">{{ _('HERE') }}</a></h4>
+        </div>
+    </div>
+    <div class="row pb-5">
+        <div class="col text-center" id="hide-on-click1">
+            <h4>{{ _('School Login') }} <a href="{{ url_for('security.login') }}">{{ _('HERE') }}</a></h4>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5">
+        <img src="{{ url_for('static', filename='company_logo.png') }}"
+             class="img-fluid mx-auto d-block">
+        <h5 class="text-center"><i>{{ _(config.COMPANY_SLOGAN | safe) }}</i></h5>
+    </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}
