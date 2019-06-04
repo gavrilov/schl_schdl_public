@@ -87,6 +87,20 @@
         {% endif %}
     {% endfor %}
 
+    <div class="row mt-3">
+        <div class="col">
+            <h5>{{ _('Events') }}</h5>
+        </div>
+    </div>
+
+    {% for current_event in teacher.events %}
+            <div class="row">
+                <div class="col">
+                    <a href="#">{{ current_event.event.schdl_class.day_of_week }}${{ current_event.payrate }}</a>
+                </div>
+            </div>
+    {% endfor %}
+
 
 {% endblock %}
 
