@@ -48,13 +48,12 @@ def user_add():
     if form.validate_on_submit():
         email = form.email.data
         contact_exists = UserContacts.query.filter_by(email=email).first()
-        user_exists = contact_exists.user
-        if user_exists:
+        if contact_exists:
             flash(_('{email} is already associated with another user').format(email=email), 'danger')
-            return render_template('user/dashboard/add.html', form=form, action='add', user_exists=user_exists)
+            return render_template('user/dashboard/add.html', form=form, action='add', user_exists=contact_exists.user)
         else:
             # generate random password
-            password = secrets.token_urlsafe(16)
+            password = secrets.token_urlsafe()
             first_name = form.first_name.data
             last_name = form.last_name.data
             note = form.note.data
