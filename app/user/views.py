@@ -47,11 +47,11 @@ def user_add():
     form = UserForm()
     if form.validate_on_submit():
         email = form.email.data
-        user_exists = User.query.filter_by(email=email).first()
+        contact_exists = UserContacts.query.filter_by(email=email).first()
+        user_exists = contact_exists.user
         if user_exists:
             flash(_('{email} is already associated with another user').format(email=email), 'danger')
-            form.email.data = ''
-            return render_template('user/dashboard/add.html', form=form, action='add')
+            return render_template('user/dashboard/add.html', form=form, action='add', user_exists=user_exists)
         else:
             # generate random password
             password = secrets.token_urlsafe(16)

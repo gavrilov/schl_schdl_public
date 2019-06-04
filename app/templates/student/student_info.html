@@ -124,7 +124,7 @@
         <div class="col">{{ _('Note') }}</div>
         <div class="col">{{ _('Edit') }}</div>
     </div>
-    {% for enrollment in student.enrollments %}
+    {% for enrollment in student.enrollments|sort(attribute='timestamp', reverse=true) %}
         <div class="row border-top">
             <div class="col">
                 {% if enrollment.schdl_class.current %}
