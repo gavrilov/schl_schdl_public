@@ -30,6 +30,7 @@
             </thead>
             <tbody>
             {% for current_class in teacher.classes %}
+                {%  if current_class.semester.current %}
                 {# #TODO sort by day and time - it doesnt work because few classes dosent have time start {% for current_class in teacher.classes|sort(attribute='class_time_start')|sort(attribute='day_of_week') %} #}
                 <tr>
                     <td>
@@ -58,6 +59,7 @@
                     {% endfor %}
                 </td>
                 </tr>
+                {% endif %}
             {% endfor %}
 
     </tbody>
