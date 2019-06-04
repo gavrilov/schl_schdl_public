@@ -35,7 +35,7 @@ def list_current():
 @roles_required('admin')
 def add(student_id):
     form = EnrollmentForm()
-    current_classes = Schdl_Class.query.filter_by(current=True).join(Semester, Schdl_Class.semester).order_by(Semester.name.asc()).join(School, Schdl_Class.school).order_by(School.name.asc()).all()
+    current_classes = Schdl_Class.query.filter_by(current=True).join(Semester, Schdl_Class.semester).filter_by(current=True).order_by(Semester.name.asc()).join(School, Schdl_Class.school).order_by(School.name.asc()).all()
 
     class_list = [(i.id, i.semester.name + " - " + i.school.name + '@' + i.subject.name + ' ' + i.day_of_week + ' ' + (
         i.class_time_start.strftime("%I:%M %p") if i.class_time_start else "")) for i in current_classes]
