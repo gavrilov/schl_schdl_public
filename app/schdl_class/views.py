@@ -173,7 +173,7 @@ def payment_class(class_id, student_id):
                                                                                             student_id))
         flash(_('Student does not find'), 'danger')
         return redirect(url_for('user.main'))
-    description = "{} class at {} for {} {}".format(current_class.subject.name, current_class.school.name,
+    description = "{} - {} class at {} for {} {}".format(current_class.semester.name, current_class.subject.name, current_class.school.name,
                                                     current_student.first_name, current_student.last_name)
     charge = charge_customer(int(current_class.price * 100), description)
     if charge.status == 'succeeded':
