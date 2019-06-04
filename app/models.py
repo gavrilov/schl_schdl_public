@@ -17,10 +17,6 @@ schools_users = db.Table('schools_users', db.Column('user_id', db.Integer(), db.
 classes_teacher = db.Table('classes_teacher', db.Column('teacher_id', db.Integer(), db.ForeignKey('teachers.id')),
                            db.Column('class_id', db.Integer(), db.ForeignKey('classes.id')))
 
-# table many-to-many connects events and teachers (one event has few user teachers. one teacher may have few events)
-events_teachers = db.Table('events_teachers', db.Column('teacher_id', db.Integer(), db.ForeignKey('teachers.id')),
-                           db.Column('event_id', db.Integer(), db.ForeignKey('events.id')))
-
 
 class Enrollment(db.Model):
     __tablename__ = "enrollments"
@@ -102,17 +98,30 @@ class Teacher(db.Model):
     note = db.Column('note', db.Unicode(2048))
     current = db.Column('current', db.Boolean(), default=False)
     classes = db.relationship('Schdl_Class', secondary=classes_teacher, backref='teachers', lazy='dynamic')
-    events = db.relationship('Event', secondary=events_teachers, backref='teachers', lazy='dynamic')
+    events = db.relationship("Payroll", back_populates="teacher")
+    # payrolls = db.relationship('Payroll', backref='teacher', lazy='dynamic')
     read_only = db.Column('read_only', db.Boolean(), default=False)
     # classes = db.relationship('Schdl_Class', backref='teacher', lazy='dynamic')
     # events = db.relationship('Event', backref='teacher', lazy='dynamic')
+
+
+class Payroll(db.Model):
+    __tablename__ = "payrolls"
+    id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
+    teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'), primary_key=True)
+    event_id = db.Column(db.Integer, db.ForeignKey('events.id'), primary_key=True)
+    payrate = db.Column('payrate', db.Numeric(scale=2))
+    note = db.Column('note', db.Unicode(2048))
+    paid = db.Column('current', db.Boolean(), default=False)
+
+    teacher = db.relationship('Teacher', back_populates="events")
+    event = db.relationship('Event', back_populates="teachers")
 
 
 class Event(db.Model):
     __tablename__ = "events"
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
     class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
-    # teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'))
     note = db.Column('note', db.Unicode(2048))
     event_note = db.Column('event_note', db.Unicode(2048))
     active = db.Column('active', db.Boolean())
@@ -120,6 +129,7 @@ class Event(db.Model):
     billing_rate = db.Column('billing_rate', db.Numeric(scale=2))
     start = db.Column('start', db.DateTime(timezone=True))
     end = db.Column('end', db.DateTime(timezone=True))
+    teachers = db.relationship('Payroll', back_populates="event", lazy='dynamic')
     attendances = db.relationship('Attendance', backref='event', lazy='dynamic')
 
 

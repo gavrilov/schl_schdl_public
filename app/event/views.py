@@ -8,7 +8,7 @@ from flask_babelex import _
 from flask_security import roles_required, roles_accepted
 
 from app import db
-from app.models import Event, Schdl_Class, Teacher
+from app.models import Event, Schdl_Class, Teacher, Payroll
 from .forms import PopupEventForm
 
 event = Blueprint('event', __name__, template_folder='templates')
@@ -270,7 +270,13 @@ def create_events(current_class):
         # add time zone and convert to utc
         new_event.start = time_zone.localize(event_date).astimezone(tz.utc)
         new_event.end = new_event.start + datetime.timedelta(seconds=class_duration)
-        new_event.teacher_id = current_class.teacher.id
+
+        for teacher in current_class.teachers:
+            # https://docs.sqlalchemy.org/en/13/orm/basic_relationships.html#association-object
+            payroll = Payroll(payrate=current_class.payrate)
+            payroll.teacher = Teacher.query.filter_by(id=teacher.id).first()
+            new_event.teachers.append(payroll)
+
         new_event.payrate = current_class.payrate
         new_event.billing_rate = current_class.billing_rate
         db.session.add(new_event)
