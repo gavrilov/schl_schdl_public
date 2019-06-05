@@ -7,7 +7,7 @@ from flask_security.recoverable import generate_reset_password_token
 from flask_security.registerable import register_user
 
 from app import db, user_datastore
-from app.models import User, UserContacts, Student, Role, School, Teacher, Enrollment
+from app.models import User, UserContacts, Student, Role, School, Teacher, Enrollment, Schdl_Class
 from app.payment import my_cards, my_payments
 from app.payment.forms import PaymentForm
 from app.school.forms import SchoolListForm
@@ -20,8 +20,15 @@ user = Blueprint('user', __name__, template_folder='templates')
 @user.route('/', methods=['GET', 'POST'])
 @roles_required('admin')
 def user_list():
+
+    """
+    current_semesters = Semeser.query.filter_by(current=True).all()
+    for semester in current_semesters:
+        for class in semester:
+
+    """
     q = db.session.query(User)
-    users = q.filter(User.students.any(Student.enrollments.any(Enrollment.schdl_class.has(current=True))))
+    users = q.filter(User.students.any(Student.enrollments.any(Enrollment.schdl_class.has(Schdl_Class.semester.has(current=True)))))
     return render_template('user/dashboard/list.html', users=users, current_users_only=True)
 
 

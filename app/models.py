@@ -161,6 +161,7 @@ class User(UserMixin, db.Model):
     roles = db.relationship('Role', secondary=roles_users, backref='users', lazy='dynamic')
     timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     last_seen = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    dont_want_back = db.Column('dont_want_back', db.Boolean(), default=False)
 
 
 class Role(db.Model, RoleMixin):
@@ -203,6 +204,7 @@ class Student(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     attendances = db.relationship('Attendance', backref='student', lazy='dynamic', cascade="all, delete-orphan")
     awards = db.relationship('StudentAwards', backref='student', lazy='dynamic', cascade="all, delete-orphan")
+    dont_want_back = db.Column('dont_want_back', db.Boolean(), default=False)
 
 
 class Award(db.Model):
