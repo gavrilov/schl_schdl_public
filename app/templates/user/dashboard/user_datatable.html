@@ -1,0 +1,205 @@
+{% block scripts %}
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript"
+            src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.18/b-1.5.2/b-colvis-1.5.2/b-html5-1.5.2/b-print-1.5.2/r-2.2.2/sl-1.2.6/datatables.min.js"></script>
+
+    <script>
+        // Setup - add a text input to each footer cell
+        $('#maintable thead tr#filterrow th#filtercol').each(function () {
+            var title = $('#maintable thead th').eq($(this).index()).text();
+            $(this).html('<input type="text" onclick="stopPropagation(event);" placeholder="{{ _('Search') }} ' + title + '" />');
+        });
+
+        // DataTable
+        var table = $('#maintable').DataTable({
+
+            responsive: true,
+            columnDefs: [{
+                orderable: false,
+                className: 'select-checkbox',
+                targets: 0
+            }],
+
+            select: {
+                style: 'os',
+                selector: 'td:first-child'
+            },
+            order: [[1, 'asc'], [2, 'asc'], [3, 'asc']],
+            paging: false,
+            dom: '<"row"<"col"B><"col"f>>rtip',
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                'colvis'
+            ]
+        });
+
+        table.buttons().container()
+            .appendTo('#maintable_wrapper .col-md-6:eq(0)');
+
+        // Apply the filter
+        $("#maintable thead input").on('keyup change', function () {
+            table
+                .column($(this).parent().index() + ':visible')
+                .search(this.value)
+                .draw();
+        });
+
+        function stopPropagation(evt) {
+            if (evt.stopPropagation !== undefined) {
+                evt.stopPropagation();
+            } else {
+                evt.cancelBubble = true;
+            }
+        }
+
+        //This function initializes the content inside the filter modal
+        function configFilter($this, colArray) {
+            setTimeout(function () {
+                var tableName = $this[0].id;
+                var columns = $this.api().columns();
+                $.each(colArray, function (i, arg) {
+                    $('#' + tableName + ' th:eq(' + arg + ')').append('<img src="http://www.icone-png.com/png/39/38556.png" class="filterIcon" onclick="showFilter(event,\'' + tableName + '_' + arg + '\')" />');
+                });
+
+                var template = '<div class="modalFilter">' +
+                    '<div class="modal-content">' +
+                    '{0}</div>' +
+                    '<div class="modal-footer">' +
+                    '<a href="#!" onclick="clearFilter(this, {1}, \'{2}\');"  class=" btn left waves-effect waves-light">Clear</a>' +
+                    '<a href="#!" onclick="performFilter(this, {1}, \'{2}\');"  class=" btn right waves-effect waves-light">Ok</a>' +
+                    '</div>' +
+                    '</div>';
+                $.each(colArray, function (index, value) {
+                    columns.every(function (i) {
+                        if (value === i) {
+                            var column = this,
+                                content = '<input type="text" class="filterSearchText" onkeyup="filterValues(this)" /> <br/>';
+                            var columnName = $(this.header()).text().replace(/\s+/g, "_");
+                            var distinctArray = [];
+                            column.data().each(function (d, j) {
+                                if (distinctArray.indexOf(d) == -1) {
+                                    var id = tableName + "_" + columnName + "_" + j; // onchange="formatValues(this,' + value + ');
+                                    content += '<div><input type="checkbox" value="' + d + '"  id="' + id + '"/><label for="' + id + '"> ' + d + '</label></div>';
+                                    distinctArray.push(d);
+                                }
+                            });
+                            var newTemplate = $(template.replace('{0}', content).replace('{1}', value).replace('{1}', value).replace('{2}', tableName).replace('{2}', tableName));
+                            $('body').append(newTemplate);
+                            modalFilterArray[tableName + "_" + value] = newTemplate;
+                            content = '';
+                        }
+                    });
+                });
+            }, 50);
+        }
+
+        var modalFilterArray = {};
+
+        //User to show the filter modal
+        function showFilter(e, index) {
+            $('.modalFilter').hide();
+            $(modalFilterArray[index]).css({left: 0, top: 0});
+            var th = $(e.target).parent();
+            var pos = th.offset();
+            console.log(th);
+            $(modalFilterArray[index]).width(th.width() * 0.75);
+            $(modalFilterArray[index]).css({'left': pos.left, 'top': pos.top});
+            $(modalFilterArray[index]).show();
+            $('#mask').show();
+            e.stopPropagation();
+        }
+
+        //This function is to use the searchbox to filter the checkbox
+        function filterValues(node) {
+            var searchString = $(node).val().toUpperCase().trim();
+            var rootNode = $(node).parent();
+            if (searchString == '') {
+                rootNode.find('div').show();
+            } else {
+                rootNode.find("div").hide();
+                rootNode.find("div:contains('" + searchString + "')").show();
+            }
+        }
+
+        //Execute the filter on the table for a given column
+        function performFilter(node, i, tableId) {
+            var rootNode = $(node).parent().parent();
+            var searchString = '', counter = 0;
+
+            rootNode.find('input:checkbox').each(function (index, checkbox) {
+                if (checkbox.checked) {
+                    searchString += (counter == 0) ? checkbox.value : '|' + checkbox.value;
+                    counter++;
+                }
+            });
+            $('#' + tableId).DataTable().column(i).search(
+                searchString,
+                true, false
+            ).draw();
+            rootNode.hide();
+            $('#mask').hide();
+        }
+
+        //Removes the filter from the table for a given column
+        function clearFilter(node, i, tableId) {
+            var rootNode = $(node).parent().parent();
+            rootNode.find(".filterSearchText").val('');
+            rootNode.find('input:checkbox').each(function (index, checkbox) {
+                checkbox.checked = false;
+                $(checkbox).parent().show();
+            });
+            $('#' + tableId).DataTable().column(i).search(
+                '',
+                true, false
+            ).draw();
+            rootNode.hide();
+            $('#mask').hide();
+        }
+
+    </script>
+
+    <script>
+        /* Pass selected rows to POST request */
+        var table = $('#maintable').DataTable();
+
+        $('#maintable tbody').on('click', 'tr', function () {
+            $(this).toggleClass('active');
+        });
+
+        $('#submit').click(function (e) {
+            e.preventDefault();
+            var selectedRowInputs = $('.selected input');
+            var actionselect = $("#actionselect option:selected").val();
+            //use the serialized version of selectedRowInputs as the data
+            //to be sent to the AJAX request
+
+            console.log('serlialized inputs: ', selectedRowInputs.serialize());
+            $.ajax({
+                type: "POST",
+                url: "{{ url_for('student.student_processing') }}",
+                data: selectedRowInputs.serialize() + "&action=" + actionselect,
+                success: function (data) {
+                    // if success we will open new window with html
+                    var w = window.open();
+                    $(w.document.body).html(data);
+                },
+                error: function (data) {
+                    alert("Error! Cannot process your request");
+                },
+            });
+        });
+    </script>
+
+{% endblock %}

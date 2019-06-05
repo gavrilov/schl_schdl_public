@@ -54,7 +54,7 @@
             <tbody>
             {% for user in users %}
                 <tr>
-                    <td><input type="hidden" name="schools" value="{{ user.id }}"></td>
+                    <td><input type="hidden" name="users" value="{{ user.id }}"></td>
                     <td>
                         <a href="{{ url_for('user.user_info', user_id=user.id) }}">{{ user.first_name }} {{ user.last_name }}</a>
                     </td>
@@ -64,19 +64,19 @@
             {% endfor %}
             </tbody>
         </table>
-        <select name="actionselect" id="actionselect">
+        {# <select name="actionselect" id="actionselect">
             <option value="">{{ _('with selection') }}</option>
             <option value="call">{{ _('Robo Call') }}</option>
             <option value="txt">{{ _('Send txt') }}</option>
             <option value="email">{{ _('Send email') }}</option>
             <option value="labels">{{ _('Print Labels') }}</option>
         </select>
-        <button id="submit">{{ _('Submit') }}</button>
+        <button id="submit">{{ _('Submit') }}</button> #}
     </form>
 {% endblock %}
 
 
 {% block scripts %}
     {{ super() }}
-    {% include 'dashboard/datatable.html' %}
+    {% include 'user/dashboard/user_datatable.html' %}
 {% endblock %}
