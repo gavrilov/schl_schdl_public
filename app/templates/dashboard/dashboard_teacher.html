@@ -20,24 +20,24 @@
             <div class="col">
                 {% for current_class in teacher.classes %}
                     {# #TODO sort by day and time - it doesnt work because few classes dosent have time start {% for current_class in teacher.classes|sort(attribute='class_time_start')|sort(attribute='day_of_week') %} #}
-                    {%  if current_class.semester.current %}
-                    <div class="row border-bottom mt-3">
-                        <div class="col">
-                            <a href="{{ url_for('attendance.for_class', class_id=current_class.id) }}">{{ current_class.subject.name }}</a>
+                    {% if current_class.semester.current %}
+                        <div class="row border-bottom mt-3">
+                            <div class="col">
+                                <a href="{{ url_for('attendance.for_class', class_id=current_class.id) }}">{{ current_class.subject.name }}</a>
+                            </div>
+                            <div class="col">
+                                {{ current_class.school.name }}
+                            </div>
+                            <div class="col">
+                                {{ current_class.day_of_week }}
+                            </div>
+                            <div class="col">
+                                {% if current_class.class_time_start and current_class.class_time_end %}
+                                    {{ current_class.class_time_start | ctimeformat }} -
+                                    {{ current_class.class_time_end | ctimeformat }}
+                                {% endif %}
+                            </div>
                         </div>
-                        <div class="col">
-                            {{ current_class.school.name }}
-                        </div>
-                        <div class="col">
-                            {{ current_class.day_of_week }}
-                        </div>
-                        <div class="col">
-                            {% if current_class.class_time_start and current_class.class_time_end %}
-                                {{ current_class.class_time_start | ctimeformat }} -
-                                {{ current_class.class_time_end | ctimeformat }}
-                            {% endif %}
-                        </div>
-                    </div>
                     {% endif %}
                 {% endfor %}
             </div>
