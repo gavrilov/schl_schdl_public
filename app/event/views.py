@@ -127,8 +127,9 @@ def edit_event(event_id):
 def delete_event(event_id):
     # TODO check attendance that connect with this event, told user that he should delete them first
     current_event = Event.query.filter_by(id=event_id).first()
-    current_class = current_event.schdl_class
+
     if current_event:
+        current_class = current_event.schdl_class
         db.session.delete(current_event)
         db.session.commit()
         flash(_('Event has been deleted'), 'success')
