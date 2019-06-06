@@ -50,17 +50,22 @@ def add_class():
     current_schools = School.query.filter_by(current=True).order_by(School.name.asc()).all()
     current_teachers = Teacher.query.filter_by(current=True).all()
     current_subjects = Subject.query.filter_by(current=True).order_by(Subject.name.asc()).all()
+    current_semesters = Semester.query.filter_by(current=True).all()
+
     form = ClassForm()
 
     # Now forming the list of tuples for SelectField
     school_list = [(i.id, i.name) for i in current_schools]
     teacher_list = [(i.id, i.user.first_name + " " + i.user.last_name) for i in current_teachers]
     subject_list = [(i.id, i.name) for i in current_subjects]
+    semester_list = [(i.id, i.name) for i in current_semesters]
 
     # passing group_list to the form
     form.school_id.choices = school_list
     form.teacher_id.choices = teacher_list
     form.subject_id.choices = subject_list
+    form.semester_id.choices = semester_list
+
     if form.validate_on_submit():
         teacher = Teacher.query.filter_by(id=form.teacher_id.data).first()
         new_class = Schdl_Class()
