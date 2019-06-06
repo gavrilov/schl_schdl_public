@@ -39,7 +39,7 @@ class Schdl_Class(db.Model):
     info = db.Column('info', db.UnicodeText())
     day_of_week = db.Column('day_of_week', db.Unicode(2048))
     price = db.Column('price', db.Numeric(scale=2))
-    events = db.relationship('Event', backref='schdl_class', lazy='dynamic')
+    events = db.relationship('Event', backref='schdl_class', lazy='dynamic', cascade="all, delete-orphan")
     registration_start = db.Column('registration_start', db.DateTime)
     registration_end = db.Column('registration_end', db.DateTime)
     grade_limit_from = db.Column('grade_limit_from', db.Integer)
@@ -129,8 +129,8 @@ class Event(db.Model):
     billing_rate = db.Column('billing_rate', db.Numeric(scale=2))
     start = db.Column('start', db.DateTime(timezone=True))
     end = db.Column('end', db.DateTime(timezone=True))
-    teachers = db.relationship('Payroll', back_populates="event", lazy='dynamic')
-    attendances = db.relationship('Attendance', backref='event', lazy='dynamic')
+    teachers = db.relationship('Payroll', back_populates="event", lazy='dynamic', cascade="all, delete-orphan")
+    attendances = db.relationship('Attendance', backref='event', lazy='dynamic', cascade="all, delete-orphan")
 
 
 class Attendance(db.Model):
