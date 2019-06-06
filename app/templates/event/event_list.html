@@ -15,6 +15,9 @@
                     <a class="btn btn-outline-primary"
                        href="{{ url_for('event.add_event_for_class', class_id=current_class.id) }}"
                        role="button">{{ _('Add New Event') }}</a>
+                    <a class="btn btn-outline-danger"
+                       href="{{ url_for('event.delete_all_events', class_id=current_class.id) }}"
+                       role="button">{{ _('Delete all Events of current Class') }}</a>
                 {% endif %}
                 <a class="btn btn-outline-primary" href="{{ url_for('event.event_list') }}"
                    role="button">{{ _('Show Current Events') }}</a>

@@ -139,6 +139,22 @@ def delete_event(event_id):
         return redirect(url_for('event.event_list'))
 
 
+@event.route('/delete/class/<class_id>', methods=['GET', 'POST'])
+@roles_required('admin')
+def delete_all_events(class_id):
+    # TODO check attendance that connect with this event, told user that he should delete them first
+    current_class = Schdl_Class.query.filter_by(id=class_id).first()
+
+    if current_class:
+        for current_event in current_class.events:
+            db.session.delete(current_event)
+        db.session.commit()
+        flash(_('Events have been deleted'), 'success')
+    else:
+        flash(_('Class did not find'), 'danger')
+    return redirect(url_for('schdl_class.class_list'))
+
+
 @event.route('/edit_note', methods=['GET', 'POST'])
 @roles_accepted('admin', 'teacher')
 def edit_note():
