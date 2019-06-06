@@ -99,7 +99,8 @@ def create_app(config_class=Config):
 
     @app.route('/')
     def hello_world():
-        
+        if current_user.is_authenticated:
+            return redirect(url_for('user.main'))
         return render_template('index.html')
         # return redirect(url_for('security.register'))
 
