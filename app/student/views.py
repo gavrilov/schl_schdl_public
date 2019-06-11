@@ -86,8 +86,12 @@ def not_enrolled():
 @roles_required('admin')
 def info(student_id):
     current_student = Student.query.filter_by(id=student_id).first()
+    from dateutil.relativedelta import relativedelta
+
+    age = round(abs((current_student.dob - datetime.utcnow()).total_seconds() / 31536000), 1)
+
     if current_student:
-        return render_template('student/student_info.html', student=current_student)
+        return render_template('student/student_info.html', student=current_student, age=age)
     else:
         flash(_('Student did not find'), 'danger')
         return redirect(url_for('student.student_list'))

@@ -40,7 +40,7 @@
             {% else %}
                 {{ student.grade }}
             {% endif %}<br>
-            {{ _('DOB:') }} {{ student.dob | cdateformat }} <br>
+            {{ _('DOB:') }} {{ student.dob | cdateformat }} == Age: {{ age }} years old<br>
             {% if student.gender == 1 %}
                 {{ _('Gender:') }} {{ _('Boy') }} <br>
             {% else %}
