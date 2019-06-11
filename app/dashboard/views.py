@@ -64,7 +64,9 @@ def school_dashboard():
         for current_class in semester.classes:
             if current_class.current and current_class.school.current and not current_class.school.hide_from_users and current_class not in current_classes and current_class.school in current_user.schools:
                 current_classes.append(current_class)
-    #current_classes.sort(key=operator.attrgetter('name'))
+
+    current_classes.sort(key=operator.attrgetter('class_time_start'))
+    current_classes.sort(key=operator.attrgetter('day_of_week'))
 
     return render_template('dashboard/dashboard_school.html', current_classes=current_classes)
 
