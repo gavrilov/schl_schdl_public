@@ -10,22 +10,38 @@
 {% block page_content %}
     {{ super() }}
     <div class="row justify-content-center text-center mt-5 pb-5">
-
-        <div class="btn-group">
-            <button type="button" class="btn btn-outline-success btn-lg dropdown-toggle" data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false">
-                {{ _('Please select a School to continue') }}
-            </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item"
-                   href="{{ url_for('kipling') }}">Kipling</a>
-                <a class="dropdown-item" href="{{ url_for_security('register') }}">Messiah Lutheran</a>
-                <a class="dropdown-item" href="{{ url_for_security('register') }}">St. Christopher's Day School</a>
-                <a class="dropdown-item" href="{{ url_for_security('register') }}">Westlake CDC</a>
-                <a class="dropdown-item" href="{{ url_for_security('register') }}">Woodcreek CDC</a>
+        <div class="row">
+            <H1>{{ _('Please select a School to continue') }}</H1>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Kipling Elementary</h5>
+                        <p class="card-text">620 Shepherd Dr, Houston TX 77007</p>
+                        <a href="https://enrichmentservices.com/summer-martial-arts-registration-kipling-elementary/"
+                           class="card-link">Register</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Kipling Street Academy</h5>
+                        <p class="card-text">1425 Kipling St, Houston TX 77006</p>
+                        <a href="{{ url_for_security('register') }}" class="card-link">Register</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">The Kipling School on Floyd</h5>
+                        <p class="card-text">4704 Floyd St, Houston TX 77007</p>
+                        <a href="{{ url_for_security('register') }}" class="card-link">Register</a>
+                    </div>
+                </div>
             </div>
         </div>
+
 
 
         <div class="form-group row text-center alert alert-info mt-5" style="display: none"
