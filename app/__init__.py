@@ -104,6 +104,10 @@ def create_app(config_class=Config):
         return render_template('index.html')
         # return redirect(url_for('security.register'))
 
+    @app.route('/kipling')
+    def kipling():
+        return render_template('kipling_schools.html')
+
     @app.route('/privacy')
     def privacy():
         return render_template('privacy.html')
