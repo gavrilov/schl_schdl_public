@@ -18,9 +18,7 @@ schdl_class = Blueprint('schdl_class', __name__, template_folder='templates')
 def class_list():
     semesters = Semester.query.all()
     classes = Schdl_Class.query.filter_by(current=True).join(Semester, Schdl_Class.semester).filter_by(current=True).join(School, Schdl_Class.school).order_by(Schdl_Class.day_of_week.asc(), Schdl_Class.class_time_start.asc(), School.name.asc()).all()
-    utc_now = datetime.utcnow()
-    return render_template('schdl_class/class_list.html', classes=classes, current_classes_only=True, utc_now=utc_now,
-                           semesters=semesters)
+    return render_template('schdl_class/class_list.html', classes=classes, current_classes_only=True, semesters=semesters)
 
 
 @schdl_class.route('/semester/<semester_id>', methods=['GET', 'POST'])
@@ -31,8 +29,7 @@ def class_list_by_semester(semester_id):
     classes = Schdl_Class.query.filter_by(current=True, semester_id=semester_id).join(School,
                                                                                       Schdl_Class.school).order_by(
         Schdl_Class.day_of_week.asc(), Schdl_Class.class_time_start.asc(), School.name.asc()).all()
-    utc_now = datetime.utcnow()
-    return render_template('schdl_class/class_list.html', classes=classes, current_semester=current_semester, current_classes_only=True, utc_now=utc_now,
+    return render_template('schdl_class/class_list.html', classes=classes, current_semester=current_semester, current_classes_only=True,
                            semesters=semesters)
 
 
@@ -40,8 +37,7 @@ def class_list_by_semester(semester_id):
 @roles_required('admin')
 def not_current_list():
     classes = Schdl_Class.query.filter_by(current=False).all()
-    utc_now = datetime.utcnow()
-    return render_template('schdl_class/class_list.html', classes=classes, current_classes_only=False, utc_now=utc_now)
+    return render_template('schdl_class/class_list.html', classes=classes, current_classes_only=False)
 
 
 @schdl_class.route('/add', methods=['GET', 'POST'])
@@ -149,9 +145,8 @@ def enroll_class(class_id, student_id):
         return redirect(url_for('user.main'))
     current_enrollment = Enrollment.query.filter(
         and_(Enrollment.student_id == student_id, Enrollment.class_id == class_id, Enrollment.current == True)).first()
-    utc_now = datetime.utcnow()
     return render_template('schdl_class/enroll.html', current_class=current_class, current_student=current_student,
-                           current_enrollment=current_enrollment, utc_now=utc_now, step=4)  # step=4 for progressbar
+                           current_enrollment=current_enrollment, step=4)  # step=4 for progressbar
 
 
 @schdl_class.route('/<class_id>/payment/<student_id>', methods=['GET', 'POST'])
