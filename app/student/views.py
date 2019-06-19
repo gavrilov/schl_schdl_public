@@ -205,9 +205,9 @@ def enroll_student(student_id):
     current_classes = current_school.classes.filter_by(current=True).order_by(Schdl_Class.day_of_week.asc(), Schdl_Class.class_time_start.asc()).all()
     enrolled_classes = Schdl_Class.query.filter(and_(Schdl_Class.enrollments.any(student_id=current_student.id),
                                                      Schdl_Class.enrollments.any(current=True))).all()
-    utc_now = datetime.utcnow()
+
     return render_template('student/enroll.html', current_classes=current_classes, student=current_student,
-                           current_school=current_school, enrolled_classes=enrolled_classes, utc_now=utc_now,
+                           current_school=current_school, enrolled_classes=enrolled_classes,
                            step=3)  # step=3 for progressbar
 
 

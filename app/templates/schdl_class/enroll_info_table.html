@@ -1,11 +1,11 @@
 {# check if current class registraion is open #}
 {% if current_class.registration_end %}
-    {% if utc_now > current_class.registration_end %}
+    {% if NOW > current_class.registration_end %}
         {% set registration_message = _('Registration is closed') %}
     {% endif %}
 {% endif %}
 {% if current_class.registration_start %}
-    {% if utc_now < current_class.registration_start %}
+    {% if NOW < current_class.registration_start %}
         {% set registration_message = _('Registration has not started yet') %}
     {% endif %}
 {% endif %}
