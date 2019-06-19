@@ -38,7 +38,8 @@
         </div>
         <div class="row">
             <div class="col text-left">
-                <h3>{{ current_class.day_of_week }} - {% if current_class.class_time_start %}{{ current_class.class_time_start.strftime("%I:%M %p") }}{% endif %}</h3>
+                <h3>{{ current_class.day_of_week }} - {% if current_class.class_time_start %}
+                    {{ current_class.class_time_start.strftime("%I:%M %p") }}{% endif %}</h3>
             </div>
         </div>
 
@@ -67,6 +68,10 @@
                     <tr>
                         <td>
                             {{ enrollment.student.first_name }} {{ enrollment.student.last_name }}
+                            {# Show badge "NEW" for users who sign in last 7 days #}
+                            {% if (NOW - enrollment.timestamp).total_seconds() < 604800 %}
+                                <sup><span class="badge badge-primary">New</span></sup>
+                            {% endif %}
                         </td>
                         {% for event in current_class.events|sort(attribute='start') %}
                             {% if event.active %}
@@ -91,7 +96,9 @@
                 {% for event in current_class.events|sort(attribute='start') %}
                     <td>
                         <div>
-                            <a href="#" id="e{{ event.id }}" data-type="text" data-pk="{{ event.id }}" {% if event.note %}data-value="{{ event.note }}"{% endif %} data-url="{{ url_for('event.edit_note') }}"
+                            <a href="#" id="e{{ event.id }}" data-type="text" data-pk="{{ event.id }}"
+                               {% if event.note %}data-value="{{ event.note }}"{% endif %}
+                               data-url="{{ url_for('event.edit_note') }}"
                                data-title="Enter note">
                                 {% if event.note %}
                                     {{ event.note[:20] }}...
