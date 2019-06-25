@@ -9,7 +9,7 @@
                     {{ student.first_name }} {{ student.last_name }}</a>
                 {# Show badge "NEW" for users who sign in last 7 days #}
                 {% if (NOW - enrollment.timestamp).total_seconds() < 604800 %}
-                    <sup><span class="badge badge-primary">New</span></sup>
+                    <sup><span class="badge badge-danger">New</span></sup>
                 {% endif %}
             </td>
             <td>{{ current_class.school.name }}</td>
