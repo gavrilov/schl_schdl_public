@@ -17,7 +17,7 @@ student = Blueprint('student', __name__, template_folder='templates')
 def student_list():
     semesters = Semester.query.all()
     students_html = ""
-    current_classes = Schdl_Class.query.filter_by(current=True).join(Semester, Schdl_Class.semester).filter_by(current=True).all()
+    current_classes = Schdl_Class.query.filter_by(current=True).join(Semester, Schdl_Class.semester).filter_by(show_in_list=True).all()
     for current_class in current_classes:
         # generate rows for table for each class
         students_html += render_template('student/student_list_rows.html', current_class=current_class)

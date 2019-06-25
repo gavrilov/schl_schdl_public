@@ -89,6 +89,7 @@ class Semester(db.Model):
     color = db.Column('color', db.Unicode(32))
     current = db.Column('current', db.Boolean())
     classes = db.relationship('Schdl_Class', backref='semester', lazy='dynamic')
+    show_in_list = db.Column('show_in_list', db.Boolean(), default=False)  #show in default list for students
 
 
 class Teacher(db.Model):
