@@ -26,7 +26,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Kipling<br>Street Academy</h5>
                     <p class="card-text">1425 Kipling St,<br>Houston TX 77006</p>
-                    <a href="{{ url_for_security('register') }}" class="card-link">Register</a>
+                    <a href="{{ url_for('login_or_register')}}" class="card-link">Register</a>
                 </div>
             </div>
 
@@ -34,32 +34,9 @@
                 <div class="card-body">
                     <h5 class="card-title">The Kipling<br>School on Floyd</h5>
                     <p class="card-text">4704 Floyd St,<br>Houston TX 77007</p>
-                    <a href="{{ url_for_security('register') }}" class="card-link">Register</a>
+                    <a href="{{ url_for('login_or_register')}}" class="card-link">Register</a>
                 </div>
             </div>
-        </div>
-
-
-        <div class="form-group row text-center alert alert-info mt-5" style="display: none"
-             id="registration-form-title1">
-            <h1>{{ _('<b>SPRING students</b>') }} <a
-                    href="{{ url_for('security.login') }}">{{ _('LOGIN HERE') }}</a></h1>
-        </div>
-        <div class="row text-center alert alert-success mt-5" style="display: none"
-             id="registration-form-title2">
-            <h1>{{ _('NEW students register ') }}<a href="#" onclick="hideLinks2()">{{ _('HERE') }}</a></h1>
-        </div>
-    </div>
-
-
-    <div class="row mt-5">
-        <div class="col text-center" id="hide-on-click1">
-            <h4>{{ _('Instructor Login') }} <a href="{{ url_for('security.login') }}">{{ _('HERE') }}</a></h4>
-        </div>
-    </div>
-    <div class="row pb-5">
-        <div class="col text-center" id="hide-on-click1">
-            <h4>{{ _('School Login') }} <a href="{{ url_for('security.login') }}">{{ _('HERE') }}</a></h4>
         </div>
     </div>
     <div class="row justify-content-center mt-5">

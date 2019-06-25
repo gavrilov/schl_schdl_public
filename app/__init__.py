@@ -111,6 +111,10 @@ def create_app(config_class=Config):
     def kipling():
         return render_template('kipling_schools.html')
 
+    @app.route('/login_or_register')
+    def login_or_register():
+        return render_template('login_or_register.html')
+
     @app.route('/privacy')
     def privacy():
         return render_template('privacy.html')
