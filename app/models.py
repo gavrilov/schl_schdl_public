@@ -18,6 +18,14 @@ classes_teacher = db.Table('classes_teacher', db.Column('teacher_id', db.Integer
                            db.Column('class_id', db.Integer(), db.ForeignKey('classes.id')))
 
 
+class Note(db.Model):
+    __tablename__ = "notes"
+    id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
+    student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
+    timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    text = db.Column('text', db.Unicode(2048))
+
+
 class Enrollment(db.Model):
     __tablename__ = "enrollments"
     id = db.Column('id', db.Integer, autoincrement=True, primary_key=True)
@@ -89,6 +97,7 @@ class Semester(db.Model):
     color = db.Column('color', db.Unicode(32))
     current = db.Column('current', db.Boolean())
     classes = db.relationship('Schdl_Class', backref='semester', lazy='dynamic')
+    show_in_list = db.Column('show_in_list', db.Boolean(), default=False)  #show in default list for students
 
 
 class Teacher(db.Model):
@@ -197,7 +206,7 @@ class Student(db.Model):
     gender = db.Column('gender', db.Integer())  # 1 - for boy, 2 - for girl
     grade = db.Column('grade', db.Integer())  # -3 for preschools, -2 for PreK, -1 for K, 1-12 regular
     dob = db.Column('dob', db.DateTime)
-    note = db.Column('note', db.Unicode(2048))
+    notes = db.relationship('Note', backref='student', lazy='dynamic', cascade="all, delete-orphan")
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     default_school_id = db.Column(db.Integer, db.ForeignKey('schools.id'))
     enrollments = db.relationship('Enrollment', backref='student', lazy='dynamic', cascade="all, delete-orphan")

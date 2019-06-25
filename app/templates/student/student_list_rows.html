@@ -9,7 +9,7 @@
                     {{ student.first_name }} {{ student.last_name }}</a>
                 {# Show badge "NEW" for users who sign in last 7 days #}
                 {% if (NOW - enrollment.timestamp).total_seconds() < 604800 %}
-                    <sup><span class="badge badge-primary">New</span></sup>
+                    <sup><span class="badge badge-danger">New</span></sup>
                 {% endif %}
             </td>
             <td>{{ current_class.school.name }}</td>
@@ -46,17 +46,18 @@
                 </td>
             {% endif %}
 
-            <td>{% if student.note %}
+            <td>{% for note in student.notes %}
+                {% if note is not none %}
                 <div id="summary">
-                    <p class="collapse dark" id="collapseSummary_{{ student.id }}">
-                        {{ student.note }}
+                    <p class="collapse dark" id="collapseSummary_{{ note.id }}">
+                        {{ moment(note.timestamp).format('MM/DD/YYYY') }} - {{ note.text }}
                     </p>
                     <a class="collapsed" data-toggle="collapse"
                        href="#collapseSummary_{{ student.id }}"
-                       aria-expanded="false" aria-controls="collapseSummary_{{ student.id }}"></a>
+                       aria-expanded="false" aria-controls="collapseSummary_{{ note.id }}"></a>
                 </div>
-
-            {% endif %}</td>
+                {%  endif %}
+            {% endfor %}</td>
             <td><a href="{{ url_for('student.edit_student', student_id=student.id) }}">{{ _('Edit') }}</a></td>
         </tr>
     {% endif %}
