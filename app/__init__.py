@@ -97,12 +97,23 @@ def create_app(config_class=Config):
         app.logger.setLevel(logging.WARNING)
         app.logger.info('App startup')
 
+    #global variable for Jinja2 Templates
+    app.jinja_env.globals['NOW'] = datetime.datetime.utcnow()
+
     @app.route('/')
     def hello_world():
         if current_user.is_authenticated:
             return redirect(url_for('user.main'))
         return render_template('index.html')
         # return redirect(url_for('security.register'))
+
+    @app.route('/kipling')
+    def kipling():
+        return render_template('kipling_schools.html')
+
+    @app.route('/login_or_register')
+    def login_or_register():
+        return render_template('login_or_register.html')
 
     @app.route('/privacy')
     def privacy():

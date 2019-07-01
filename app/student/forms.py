@@ -22,10 +22,10 @@ class StudentForm(FlaskForm):
                          validators=[selection_validator])
     dob = DateField(_l('Student Date of Birth'), validators=[Optional()])
     dob_month = SelectField(_l('Month'),
-                            choices=[('0', _l('Month')), ('01', _l('Jan')), ('02', _l('Feb')), ('03', _l('Mar')),
-                                     ('04', _l('Apr')), ('05', _l('May')), ('06', _l('Jun')), ('07', _l('Jul')),
-                                     ('08', _l('Aug')), ('09', _l('Sep')), ('10', _l('Oct')), ('11', _l('Nov')),
-                                     ('12', _l('Dec'))], validators=[selection_validator])
+                            choices=[('0', _l('Month')), ('01', _l('01 - Jan')), ('02', _l('02 - Feb')), ('03', _l('03 - Mar')),
+                                     ('04', _l('04 - Apr')), ('05', _l('05 - May')), ('06', _l('06 - Jun')), ('07', _l('07 - Jul')),
+                                     ('08', _l('08 - Aug')), ('09', _l('09 - Sep')), ('10', _l('10 - Oct')), ('11', _l('11 - Nov')),
+                                     ('12', _l('12 - Dec'))], validators=[selection_validator])
     dob_day = SelectField(_l('Day'),
                           choices=[('0', _l('Day')), ('01', '1'), ('02', '2'), ('03', '3'), ('04', '4'), ('05', '5'),
                                    ('06', '6'), ('07', '7'), ('08', '8'), ('09', '9'), ('10', '10'), ('11', '11'),

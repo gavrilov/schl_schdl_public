@@ -100,6 +100,17 @@ def user_info(user_id):
                            cards_html=cards_html, form=form)
 
 
+@user.route('/phone/<phone_number>', methods=['GET'])
+@roles_required('admin')
+def phone_search(phone_number):
+    contact = UserContacts.query.filter_by(phone=phone_number).first()
+
+    if not contact:
+        flash(_('Phone number did not find'), 'danger')
+        return render_template('user/auto_close.html')
+
+    return redirect(url_for('user.user_info', user_id=contact.user.id))
+
 
 @user.route('/role', methods=['POST'])
 @roles_required('admin')

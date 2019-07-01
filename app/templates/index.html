@@ -18,16 +18,14 @@
                 {{ _('Please select a School to continue') }}
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="{{ url_for_security('register') }}">Bethany Methodist Weekday School</a>
                 <a class="dropdown-item"
-                   href="https://enrichmentservices.com/summer-martial-arts-registration-kipling-elementary/">Kipling
-                    Elementary</a>
-                <a class="dropdown-item" href="{{ url_for_security('register') }}">Kipling Street Academy</a>
-                <a class="dropdown-item" href="{{ url_for_security('register') }}">Messiah Lutheran</a>
-                <a class="dropdown-item" href="{{ url_for_security('register') }}">St. Christopher's Day School</a>
-                <a class="dropdown-item" href="{{ url_for_security('register') }}">The Kipling School on Floyd</a>
-                <a class="dropdown-item" href="{{ url_for_security('register') }}">Westlake CDC</a>
-                <a class="dropdown-item" href="{{ url_for_security('register') }}">Woodcreek CDC</a>
+                   href="{{ url_for('kipling') }}">Kipling</a>
+                <a class="dropdown-item" href="{{ url_for('login_or_register')}}">Messiah Lutheran</a>
+                <a class="dropdown-item" href="{{ url_for('login_or_register')}}">Poe Elementary</a>
+                <a class="dropdown-item" href="{{ url_for('login_or_register')}}">St. Christopher's Day School</a>
+                <a class="dropdown-item" href="{{ url_for('login_or_register')}}">Westlake CDC</a>
+                <a class="dropdown-item" href="{{ url_for('login_or_register')}}">Wilson Montessorri</a>
+                <a class="dropdown-item" href="{{ url_for('login_or_register')}}">Woodcreek CDC</a>
             </div>
         </div>
 

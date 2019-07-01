@@ -1,0 +1,53 @@
+{% extends "security/security_base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}{{ _('Registration') }}{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <div class="row justify-content-center text-center mt-5 pb-5">
+        <div class="row"><H1>{{ _('Please select a School to continue') }}</H1></div>
+        <div class="row">
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Kipling<br>Elementary</h5>
+                    <p class="card-text">620 Shepherd Dr,<br>Houston TX 77007</p>
+                    <a href="https://enrichmentservices.com/summer-martial-arts-registration-kipling-elementary/"
+                       class="card-link">Register</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Kipling<br>Street Academy</h5>
+                    <p class="card-text">1425 Kipling St,<br>Houston TX 77006</p>
+                    <a href="{{ url_for('login_or_register')}}" class="card-link">Register</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">The Kipling<br>School on Floyd</h5>
+                    <p class="card-text">4704 Floyd St,<br>Houston TX 77007</p>
+                    <a href="{{ url_for('login_or_register')}}" class="card-link">Register</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5">
+        <img src="{{ url_for('static', filename='company_logo.png') }}"
+             class="img-fluid mx-auto d-block">
+        <h5 class="text-center"><i>{{ _(config.COMPANY_SLOGAN | safe) }}</i></h5>
+    </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}

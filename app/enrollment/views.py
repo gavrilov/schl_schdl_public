@@ -69,6 +69,7 @@ def edit(enrollment_id):
     form.class_id.choices = class_list
     if form.validate_on_submit():
         form.populate_obj(current_enrollment)
+        # current_enrollment.timestamp = datetime.datetime.utcnow()  # uncomment if you want to save time of last change
         db.session.commit()
         flash(_('Enrollment has been updated'), 'success')
         return redirect(url_for('student.info', student_id=current_enrollment.student_id))

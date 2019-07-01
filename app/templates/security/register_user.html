@@ -13,19 +13,9 @@
     {{ super() }}
     {% include "security/_messages.html" %}
     <div class="row justify-content-center text-center mt-5 pb-5">
-        <div>
-            <div class="form-group row text-center alert alert-info mt-5" style="display: block"
-                 id="registration-form-title1">
-                <h1>{{ _('<b>SPRING students</b>') }} <a
-                        href="{{ url_for('security.login') }}">{{ _('LOGIN HERE') }}</a></h1>
-            </div>
-            <div class="row text-center alert alert-success mt-5" style="display: block"
-                 id="registration-form-title2">
-                <h1>{{ _('NEW students register ') }}<a href="#" onclick="hideLinks()">{{ _('HERE') }}</a></h1>
-            </div>
-        </div>
+
         <div class="row">
-            <form style="display: none" id="registration-form" method="POST"
+            <form id="registration-form" method="POST"
                   action="{{ url_for_security('register') }}">
                 {{ register_user_form.hidden_tag() }}
                 <div class="form-group row">
@@ -93,14 +83,6 @@
     <script>
         function onSubmitCallback(token) {
             document.getElementById("registration-form").submit();
-        }
-    </script>
-    <script>
-        {# Function to hide links and show form on click #}
-        function hideLinks() {
-            $("#registration-form").show();
-            $("#registration-form-title1").hide();
-            $("#registration-form-title2").hide();
         }
     </script>
 {% endblock %}

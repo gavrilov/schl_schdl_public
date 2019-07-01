@@ -6,7 +6,7 @@ from flask_security import current_user, login_required, roles_required, roles_a
 from sqlalchemy import and_
 
 from app import db
-from app.models import Student, Schdl_Class, School, Semester
+from app.models import Student, Schdl_Class, School, Semester, Note
 from .forms import StudentForm
 
 student = Blueprint('student', __name__, template_folder='templates')
@@ -17,7 +17,7 @@ student = Blueprint('student', __name__, template_folder='templates')
 def student_list():
     semesters = Semester.query.all()
     students_html = ""
-    current_classes = Schdl_Class.query.filter_by(current=True).join(Semester, Schdl_Class.semester).filter_by(current=True).all()
+    current_classes = Schdl_Class.query.filter_by(current=True).join(Semester, Schdl_Class.semester).filter_by(show_in_list=True).all()
     for current_class in current_classes:
         # generate rows for table for each class
         students_html += render_template('student/student_list_rows.html', current_class=current_class)
@@ -44,7 +44,7 @@ def student_list_by_semester(semester_id):
 def student_drops_list():
     semesters = Semester.query.filter_by(current=True).all()
     students_html = ""
-    current_classes = Schdl_Class.query.filter_by(current=True).all()
+    current_classes = Schdl_Class.query.filter_by(current=True).join(Semester, Schdl_Class.semester).filter_by(show_in_list=True).all()
     for current_class in current_classes:
         # generate rows for table for each class
         students_html += render_template('student/student_drops_list_rows.html', current_class=current_class)
@@ -86,8 +86,12 @@ def not_enrolled():
 @roles_required('admin')
 def info(student_id):
     current_student = Student.query.filter_by(id=student_id).first()
+    from dateutil.relativedelta import relativedelta
+
+    age = round(abs((current_student.dob - datetime.utcnow()).total_seconds() / 31536000), 1)
+
     if current_student:
-        return render_template('student/student_info.html', student=current_student)
+        return render_template('student/student_info.html', student=current_student, age=age)
     else:
         flash(_('Student did not find'), 'danger')
         return redirect(url_for('student.student_list'))
@@ -201,9 +205,9 @@ def enroll_student(student_id):
     current_classes = current_school.classes.filter_by(current=True).order_by(Schdl_Class.day_of_week.asc(), Schdl_Class.class_time_start.asc()).all()
     enrolled_classes = Schdl_Class.query.filter(and_(Schdl_Class.enrollments.any(student_id=current_student.id),
                                                      Schdl_Class.enrollments.any(current=True))).all()
-    utc_now = datetime.utcnow()
+
     return render_template('student/enroll.html', current_classes=current_classes, student=current_student,
-                           current_school=current_school, enrolled_classes=enrolled_classes, utc_now=utc_now,
+                           current_school=current_school, enrolled_classes=enrolled_classes,
                            step=3)  # step=3 for progressbar
 
 
@@ -212,15 +216,26 @@ def enroll_student(student_id):
 def edit_note():
     name = request.form['name']
     note = request.form['value']
-    student_id = request.form['pk']
-    if student_id:
-        current_student = Student.query.filter_by(id=student_id).first()
-        if current_student:
-            current_student.note = note
+    note_id = request.form['pk']
+    student_id = name.split('-')[2]
+    print(note_id)
+    if note_id != '0':
+        current_note = Note.query.filter_by(id=note_id).first()
+        if current_note:
+            current_note.text = note
             db.session.commit()
         return render_template('page.html'), 200
-    else:
-        return render_template('page.html'), 404
+
+    elif note_id == '0':
+        current_student = Student.query.filter_by(id=student_id).first()
+        print(current_student.first_name)
+        if current_student:
+            current_note = Note()
+            current_note.text = note
+            current_student.notes.append(current_note)
+            db.session.commit()
+            return render_template('page.html'), 200
+    return render_template('page.html'), 404
 
 
 @student.route('/student_processing', methods=['GET', 'POST'])

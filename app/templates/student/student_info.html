@@ -40,7 +40,7 @@
             {% else %}
                 {{ student.grade }}
             {% endif %}<br>
-            {{ _('DOB:') }} {{ student.dob | cdateformat }} <br>
+            {{ _('DOB:') }} {{ student.dob | cdateformat }} == Age: {{ age }} years old<br>
             {% if student.gender == 1 %}
                 {{ _('Gender:') }} {{ _('Boy') }} <br>
             {% else %}
@@ -50,17 +50,19 @@
     </div>
     <div class="row">
         <div class="col">
-            {{ _('Note about student:') }}
-            <a href="#" id="note-s{{ student.id }}" data-type="text" data-pk="{{ student.id }}"
+            {{ _('Notes about student:') }}
+            {% for note in student.notes %}
+                {{ moment(note.timestamp).format('MM/DD/YYYY') }} - <a href="#" id="note-s-{{ student.id }}-{{ note.id }}" data-type="text" data-pk="{{ note.id }}"
+                   data-url="{{ url_for('student.edit_note') }}"
+                   data-title="Enter note" class="note-s">
+                    {{ note.text }}
+                </a><br/>
+            {% endfor %}
+            <a href="#" id="note-s-{{ student.id }}-0" data-type="text" data-pk="0"
                data-url="{{ url_for('student.edit_note') }}"
-               data-title="Enter note">
-                {% if student.note %}
-                    {{ student.note }}
-                {% else %}
-                    {{ _('Add') }}
-                {% endif %}
+               data-title="Enter note" class="note-s">
+                {{ _('Add') }}
             </a>
-
         </div>
     </div>
     <div class="row mt-5">
@@ -132,10 +134,10 @@
                 {% endif %}
                 {% if enrollment.current and enrollment.schdl_class.current and enrollment.schdl_class.semester.current %}
                     <span class="badge badge-success">{{ _('Currently Enrolled') }}</span>
-                {% elif enrollment.current and not (enrollment.schdl_class.current and enrollment.schdl_class.semester.current )%}
+                {% elif enrollment.current and not (enrollment.schdl_class.current and enrollment.schdl_class.semester.current ) %}
                     <span class="badge badge-warning">{{ _('Archive') }}</span>
                     <span class="badge badge-success">{{ _('Was Enrolled') }}</span>
-                {% elif not enrollment.current and not ( enrollment.schdl_class.current and enrollment.schdl_class.semester.current )%}
+                {% elif not enrollment.current and not ( enrollment.schdl_class.current and enrollment.schdl_class.semester.current ) %}
                     <span class="badge badge-warning">{{ _('Archive') }}</span>
                     <span class="badge badge-danger">{{ _('Dropped') }}</span>
                 {% else %}
@@ -143,7 +145,10 @@
                 {% endif %}
                 {{ moment(enrollment.timestamp).format('L LT') }}</div>
             <div class="col">
-                <a href="{{ url_for('schdl_class.info_class', class_id=enrollment.schdl_class.id) }}">{{ enrollment.schdl_class.semester.name }} - {{ enrollment.schdl_class.subject.name }} {{ enrollment.schdl_class.day_of_week }} {% if enrollment.schdl_class.class_time_start %}{{ enrollment.schdl_class.class_time_start.strftime("%I:%M %p") }}{% endif %}
+                <a href="{{ url_for('schdl_class.info_class', class_id=enrollment.schdl_class.id) }}">{{ enrollment.schdl_class.semester.name }}
+                    - {{ enrollment.schdl_class.subject.name }} {{ enrollment.schdl_class.day_of_week }}
+                    {% if enrollment.schdl_class.class_time_start %}
+                        {{ enrollment.schdl_class.class_time_start.strftime("%I:%M %p") }}{% endif %}
                     @ {{ enrollment.schdl_class.school.name }}</a><br>
             </div>
             <div class="col">{{ enrollment.note }}</div>
@@ -277,7 +282,7 @@
             $.fn.editable.defaults.mode = 'inline';
 
             //make student.note editable
-            $('#note-s{{ student.id }}').editable();
+            $('.note-s').editable();
             $('#note-u{{ student.user.id }}').editable();
         });
     </script>

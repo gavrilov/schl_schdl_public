@@ -12,9 +12,11 @@
     {{ super() }}
     <form method="POST" action="{{ url_for('semester.edit_semester', semester_id=semester_id) }}">
         {{ form.csrf_token }}
-        {{ form.name.label }} {{ form.name(size=50) }}
-        {{ form.color.label }} {{ form.color(size=50) }}
-        {{ form.current.label }} {{ form.current }}
+        {{ form.name.label }} {{ form.name(size=50) }}<br/>
+        {{ form.color.label }} {{ form.color(size=50) }}<br/>
+        {{ form.current.label }} {{ form.current }}<br/>
+        {{ form.show_in_list.label }} {{ form.show_in_list }}<br/>
+        {{ form.current.label }} {{ form.current }}<br/>
         <input type="submit" value="{{ _('Save') }}">
     </form>
 {% endblock %}
