@@ -149,15 +149,19 @@ def edit_student(student_id):
         for current_class in semester.classes:
             if current_class.current and current_class.school.current and not current_class.school.hide_from_users and current_class.school not in current_schools:
                 current_schools.append(current_class.school)
+
+    if current_user.has_role('admin'):
+        current_schools = School.query.all()
+        form = StudentFormDashboard(obj=current_student)
+    else:
+        form = StudentForm(obj=current_student)
+
     current_schools.sort(key=operator.attrgetter('name'))
 
     # Now forming the list of tuples for SelectField
     school_list = [(i.id, i.name) for i in current_schools]
 
-    if current_user.has_role('admin'):
-        form = StudentFormDashboard(obj=current_student)
-    else:
-        form = StudentForm(obj=current_student)
+
 
     form.default_school_id.choices = [(0, "---")] + school_list
 
