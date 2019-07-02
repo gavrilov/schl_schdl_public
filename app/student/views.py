@@ -42,7 +42,7 @@ def student_list_by_semester(semester_id):
 @student.route('/drops', methods=['GET', 'POST'])
 @roles_required('admin')
 def student_drops_list():
-    semesters = Semester.query.filter_by(current=True).all()
+    semesters = Semester.query.all()
     students_html = ""
     current_classes = Schdl_Class.query.filter_by(current=True).join(Semester, Schdl_Class.semester).filter_by(show_in_list=True).all()
     for current_class in current_classes:
@@ -55,7 +55,7 @@ def student_drops_list():
 @student.route('/drops/semester/<semester_id>', methods=['GET', 'POST'])
 @roles_required('admin')
 def student_drops_list_by_semester(semester_id):
-    semesters = Semester.query.filter_by(current=True).all()
+    semesters = Semester.query.all()
     students_html = ""
     current_classes = Schdl_Class.query.filter_by(current=True, semester_id=semester_id).all()
     for current_class in current_classes:
