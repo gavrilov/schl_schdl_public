@@ -32,6 +32,7 @@ class Enrollment(db.Model):
     student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
     class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
     timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    timestamp_last_change = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     note = db.Column('note', db.Unicode(2048))
     current = db.Column('current', db.Boolean())
 
