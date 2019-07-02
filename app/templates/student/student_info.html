@@ -12,10 +12,16 @@
     {{ super() }}
     <div class="row">
         <div class="col">
-            <h1>{{ student.first_name }} {{ student.last_name }}</h1>
+            <h1>
+                {{ student.first_name }} {{ student.last_name }}
+                {% if student.dont_want_back %}
+                    <sup><span class="badge badge-warning">DON'T WANT BACK</span></sup>
+                {% endif %}
+            </h1>
+
             <small><a class="far fa-edit" href="{{ url_for('student.edit_student', student_id=student.id) }}"
                       role="button" data-toggle="tooltip" title="edit" style="color: blue"></a>
-                <a class="fas fa-times-circle" href="{{ url_for('student.delete_student', student_id=student.id) }}"
+                <a class="fas fa-times-circle" href="#" onclick="deleteStudent()"
                    role="button" data-toggle="tooltip" title="delete" style="color: red"></a>
             </small>
             <small>
@@ -52,7 +58,8 @@
         <div class="col">
             {{ _('Notes about student:') }}
             {% for note in student.notes %}
-                {{ moment(note.timestamp).format('MM/DD/YYYY') }} - <a href="#" id="note-s-{{ student.id }}-{{ note.id }}" data-type="text" data-pk="{{ note.id }}"
+                {{ moment(note.timestamp).format('MM/DD/YYYY') }} -
+                <a href="#" id="note-s-{{ student.id }}-{{ note.id }}" data-type="text" data-pk="{{ note.id }}"
                    data-url="{{ url_for('student.edit_note') }}"
                    data-title="Enter note" class="note-s">
                     {{ note.text }}
@@ -285,5 +292,14 @@
             $('.note-s').editable();
             $('#note-u{{ student.user.id }}').editable();
         });
+    </script>
+    <script>
+    function deleteStudent() {
+            var doc;
+            var result = confirm("Do you really want to delete this student (with all enrollments and attendance history)? ");
+            if (result == true) {
+                window.location.href = "{{ url_for('student.delete_student', student_id=student.id) }}";
+            }
+        }
     </script>
 {% endblock %}

@@ -48,7 +48,7 @@
     <tr>
         <td><input type="hidden" name="students" value="{{ student.id }}"></td>
         <td>{{ moment(student.timestamp).format('L LT') }}</td>
-        <td><a href="{{ url_for('student.info', student_id=student.id) }}">{{ student.first_name }} {{ student.last_name }}</a></td>
+        <td {%  if student.dont_want_back %}bgcolor="red"{% endif %}><a href="{{ url_for('student.info', student_id=student.id) }}">{{ student.first_name }} {{ student.last_name }}</a></td>
 
         {# if user has contacts - show emails and phones #}
         {% if student.user.contacts %}

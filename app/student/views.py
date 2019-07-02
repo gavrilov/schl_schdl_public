@@ -7,7 +7,7 @@ from sqlalchemy import and_
 
 from app import db
 from app.models import Student, Schdl_Class, School, Semester, Note
-from .forms import StudentForm
+from .forms import StudentForm, StudentFormDashboard
 
 student = Blueprint('student', __name__, template_folder='templates')
 
@@ -88,9 +88,8 @@ def info(student_id):
     current_student = Student.query.filter_by(id=student_id).first()
     from dateutil.relativedelta import relativedelta
 
-    age = round(abs((current_student.dob - datetime.utcnow()).total_seconds() / 31536000), 1)
-
     if current_student:
+        age = round(abs((current_student.dob - datetime.utcnow()).total_seconds() / 31536000), 1)
         return render_template('student/student_info.html', student=current_student, age=age)
     else:
         flash(_('Student did not find'), 'danger')
@@ -154,7 +153,12 @@ def edit_student(student_id):
 
     # Now forming the list of tuples for SelectField
     school_list = [(i.id, i.name) for i in current_schools]
-    form = StudentForm(obj=current_student)
+
+    if current_user.has_role('admin'):
+        form = StudentFormDashboard(obj=current_student)
+    else:
+        form = StudentForm(obj=current_student)
+
     form.default_school_id.choices = [(0, "---")] + school_list
 
     if form.validate_on_submit():
@@ -170,7 +174,12 @@ def edit_student(student_id):
     form.dob_day.data = form.dob.data.strftime("%d")
     form.dob_year.data = form.dob.data.strftime("%Y")
 
-    return render_template('student/edit.html', form=form, student_id=student_id)
+    if current_user.has_role('admin'):
+        return render_template('dashboard/student/edit.html', form=form, student_id=student_id)
+    else:
+        return render_template('student/edit.html', form=form, student_id=student_id)
+
+
 
 
 @student.route('/<student_id>/delete', methods=['GET', 'POST'])
