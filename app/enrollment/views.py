@@ -4,6 +4,7 @@ from flask_security import roles_required, current_user
 from .forms import EnrollmentForm
 from app.models import User, Student, Teacher, Enrollment, Schdl_Class, School, Semester
 from app import db
+import datetime
 
 enrollment = Blueprint('enrollment', __name__, template_folder='templates')
 
@@ -69,7 +70,7 @@ def edit(enrollment_id):
     form.class_id.choices = class_list
     if form.validate_on_submit():
         form.populate_obj(current_enrollment)
-        # current_enrollment.timestamp = datetime.datetime.utcnow()  # uncomment if you want to save time of last change
+        current_enrollment.timestamp_last_change = datetime.datetime.utcnow()  # uncomment if you want to save time of last change
         db.session.commit()
         flash(_('Enrollment has been updated'), 'success')
         return redirect(url_for('student.info', student_id=current_enrollment.student_id))
