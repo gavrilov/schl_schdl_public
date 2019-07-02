@@ -150,6 +150,7 @@ def delete_all_events(class_id):
             db.session.delete(current_event)
         db.session.commit()
         flash(_('Events have been deleted'), 'success')
+        return redirect(url_for('schdl_class.info_class', class_id=current_class.id))
     else:
         flash(_('Class did not find'), 'danger')
     return redirect(url_for('schdl_class.class_list'))
