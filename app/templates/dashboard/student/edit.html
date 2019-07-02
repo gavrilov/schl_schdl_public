@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}{{ _('Edit Student') }}{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <div class="col-10 offset-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 justify-content-center">
+        <form method="POST" action="{{ url_for('student.edit_student', student_id=student_id) }}">
+            {{ form.csrf_token }}
+            <div class="form-group row">
+                <h1>{{ _('Edit Student Information') }}</h1>
+            </div>
+            <div class="form-group row">
+                {{ form.first_name.label }}
+                {{ form.first_name(size=30, class="form-control", placeholder=_('Enter First Name of Student')) }}
+            </div>
+            <div class="form-group row">
+                {{ form.last_name.label }}
+                {{ form.last_name(size=30, class="form-control", placeholder=_('Enter Last Name of Student')) }}
+            </div>
+            <div class="form-group row">
+                {{ form.gender.label }}
+                {{ form.gender(class="form-control") }}
+            </div>
+            <div class="form-group row">
+                {{ form.dob.label(class='col-12') }}
+                <div class="col-12" id="dob">
+                    <div class="row">
+                        <div class="col-4">
+                            {{ form.dob_month(class="form-control") }}
+                        </div>
+                        <div class="col-4">
+                            {{ form.dob_day(class="form-control") }}
+                        </div>
+                        <div class="col-4">
+                            {{ form.dob_year(class="form-control") }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                {{ form.default_school_id.label(class="form-control-label") }}
+                {{ form.default_school_id(class="form-control") }}
+            </div>
+            <div class="form-group row">
+                {{ form.grade.label(class="form-control-label") }}
+                {{ form.grade(class="form-control") }}
+            </div>
+            <div class="form-group row">
+                <div class="form-check">
+                    {{ form.dont_want_back(class="form-check-input") }}
+                    {{ form.dont_want_back.label(class="form-check-label", for="dont_want_back") }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <button id="recaptcha-submit" class="btn btn-primary">{{ _('Submit') }}</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}

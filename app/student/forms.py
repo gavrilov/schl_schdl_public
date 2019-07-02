@@ -2,7 +2,7 @@ from flask import flash
 from flask_babelex import _
 from flask_babelex import lazy_gettext as _l
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField
+from wtforms import StringField, SubmitField, SelectField, BooleanField
 from wtforms.fields.html5 import DateField
 from wtforms.validators import DataRequired, Optional, ValidationError
 
@@ -45,3 +45,7 @@ class StudentForm(FlaskForm):
                                               (5, _l('5th'))], coerce=int,
                         validators=[selection_validator])
     submit = SubmitField(_l('Submit'))
+
+
+class StudentFormDashboard(StudentForm):
+    dont_want_back = BooleanField(_l('Dont want back'), validators=[Optional()])

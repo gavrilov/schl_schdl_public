@@ -63,9 +63,8 @@ if DEBUG == 'True':
 # Show modem version
 ser.write(b'AT+FMM\r\n')
 
-
-# Enables unformatted Caller ID.
-# ser.write(b'AT#CID=2\r\n')
+# Enables formatted Caller ID.
+ser.write(b'AT+VCID=1\r\n')
 
 
 def getCommands(data):
@@ -73,9 +72,12 @@ def getCommands(data):
     commands = data.split('\r\n')
     for command in commands:
         if command:
-            # TODO if CALLERID in command call open_url(number) to proceed
             now = datetime.datetime.now().isoformat()
             print(f"{now} == {command}")
+            # if NMBR= in command call open_url(number) to proceed
+            if command.startswith("NMBR="):
+                phone_number = command.split('=')[1]
+                open_url(phone_number)
     commands = ""
 
 

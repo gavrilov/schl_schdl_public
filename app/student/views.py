@@ -7,7 +7,7 @@ from sqlalchemy import and_
 
 from app import db
 from app.models import Student, Schdl_Class, School, Semester, Note
-from .forms import StudentForm
+from .forms import StudentForm, StudentFormDashboard
 
 student = Blueprint('student', __name__, template_folder='templates')
 
@@ -42,7 +42,7 @@ def student_list_by_semester(semester_id):
 @student.route('/drops', methods=['GET', 'POST'])
 @roles_required('admin')
 def student_drops_list():
-    semesters = Semester.query.filter_by(current=True).all()
+    semesters = Semester.query.all()
     students_html = ""
     current_classes = Schdl_Class.query.filter_by(current=True).join(Semester, Schdl_Class.semester).filter_by(show_in_list=True).all()
     for current_class in current_classes:
@@ -55,7 +55,7 @@ def student_drops_list():
 @student.route('/drops/semester/<semester_id>', methods=['GET', 'POST'])
 @roles_required('admin')
 def student_drops_list_by_semester(semester_id):
-    semesters = Semester.query.filter_by(current=True).all()
+    semesters = Semester.query.all()
     students_html = ""
     current_classes = Schdl_Class.query.filter_by(current=True, semester_id=semester_id).all()
     for current_class in current_classes:
@@ -88,9 +88,8 @@ def info(student_id):
     current_student = Student.query.filter_by(id=student_id).first()
     from dateutil.relativedelta import relativedelta
 
-    age = round(abs((current_student.dob - datetime.utcnow()).total_seconds() / 31536000), 1)
-
     if current_student:
+        age = round(abs((current_student.dob - datetime.utcnow()).total_seconds() / 31536000), 1)
         return render_template('student/student_info.html', student=current_student, age=age)
     else:
         flash(_('Student did not find'), 'danger')
@@ -150,11 +149,20 @@ def edit_student(student_id):
         for current_class in semester.classes:
             if current_class.current and current_class.school.current and not current_class.school.hide_from_users and current_class.school not in current_schools:
                 current_schools.append(current_class.school)
+
+    if current_user.has_role('admin'):
+        current_schools = School.query.all()
+        form = StudentFormDashboard(obj=current_student)
+    else:
+        form = StudentForm(obj=current_student)
+
     current_schools.sort(key=operator.attrgetter('name'))
 
     # Now forming the list of tuples for SelectField
     school_list = [(i.id, i.name) for i in current_schools]
-    form = StudentForm(obj=current_student)
+
+
+
     form.default_school_id.choices = [(0, "---")] + school_list
 
     if form.validate_on_submit():
@@ -170,7 +178,12 @@ def edit_student(student_id):
     form.dob_day.data = form.dob.data.strftime("%d")
     form.dob_year.data = form.dob.data.strftime("%Y")
 
-    return render_template('student/edit.html', form=form, student_id=student_id)
+    if current_user.has_role('admin'):
+        return render_template('dashboard/student/edit.html', form=form, student_id=student_id)
+    else:
+        return render_template('student/edit.html', form=form, student_id=student_id)
+
+
 
 
 @student.route('/<student_id>/delete', methods=['GET', 'POST'])
