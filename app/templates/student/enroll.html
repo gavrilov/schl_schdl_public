@@ -74,7 +74,9 @@
         {% if not ns.do_we_have_any_current_classes %}
             {{ do_we_have_any_current_classes }}
             <div class="alert alert-warning" role="alert">
-                {{ _('At the moment we do not have any open for registration classes. Please contact our office if you have any questions.') }}
+                {{ _('Registration is now closed.') }} <br>
+                <a href="mailto:{{ config.COMPANY_CONTACT_EMAIL }}">{{ config.COMPANY_CONTACT_EMAIL }}</a>
+            <br> {{ config.COMPANY_CONTACT_PHONE }}
             </div>
         {% endif %}
 
