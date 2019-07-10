@@ -17,10 +17,16 @@ def my_cards(user=current_user):
         customer = stripe.Customer.retrieve(user.stripe_id)
         cards = customer.sources.data
     except stripe.error.InvalidRequestError as e:
+
         body = e.json_body
         current_app.logger.error(
             'Unable to get card information for user id={}. Check Stripe API Key. {}'.format(user.id, body))
         return _l('Error: Unable to get your card information')
+    except stripe.error.APIError as e:
+        body = e.json_body
+        current_app.logger.error(
+            'Unable to get payment information for user id={}. Check Stripe API Key. {}'.format(user.id, body))
+        return _l('Error: Unable to get your payment information')
     return render_template('payment/my_cards.html', cards=cards)
 
 
@@ -33,6 +39,11 @@ def my_payments(user=current_user):
     try:
         payments = stripe.Charge.list(customer=user.stripe_id)['data']
     except stripe.error.InvalidRequestError as e:
+        body = e.json_body
+        current_app.logger.error(
+            'Unable to get payment information for user id={}. Check Stripe API Key. {}'.format(user.id, body))
+        return _l('Error: Unable to get your payment information')
+    except stripe.error.APIError as e:
         body = e.json_body
         current_app.logger.error(
             'Unable to get payment information for user id={}. Check Stripe API Key. {}'.format(user.id, body))
