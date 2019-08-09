@@ -1,15 +1,15 @@
-from flask import render_template, Blueprint, flash, redirect, url_for, request, abort, jsonify
+import operator
+import re
+from datetime import datetime
+
+from flask import render_template, Blueprint, flash, redirect, url_for, request, abort
 from flask_babelex import _
 from flask_security import roles_required, current_user
-from datetime import datetime
-import re
-import operator
 
 from app import db
 from app.dashboard.forms import AddContactForm, TeacherToClassForm, EditContactForm
-from app.student.forms import StudentForm
 from app.models import User, Student, Teacher, Enrollment, School, UserContacts, Schdl_Class, Semester
-
+from app.student.forms import StudentForm
 
 dashboard = Blueprint('dashboard', __name__, template_folder='templates')
 
@@ -65,7 +65,7 @@ def school_dashboard():
             if current_class.current and current_class.school.current and not current_class.school.hide_from_users and current_class not in current_classes and current_class.school in current_user.schools:
                 current_classes.append(current_class)
 
-    current_classes.sort(key=operator.attrgetter('class_time_start'))
+    # current_classes.sort(key=operator.attrgetter('class_time_start'))
     current_classes.sort(key=operator.attrgetter('day_of_week'))
 
     return render_template('dashboard/dashboard_school.html', current_classes=current_classes)
