@@ -10,7 +10,13 @@
 {% block page_content %}
     {{ super() }}
     <div class="row">
+        <div class="col">
         <h1>{{ _('List of Awards for') }} {{ current_class.subject.name }} @ {{ current_class.school.name }}</h1>
+        </div>>
+        <div class="col">
+            <a class="btn btn-outline-success" role="button"
+                href="{{ url_for('award.labels_for_class', class_id=current_class.id) }}">{{ _('Print Awards Labels') }}</a>
+        </div>
         <table class="table table-hover table-bordered">
             <caption>{{ _('List of awards') }}</caption>
             <tbody>
