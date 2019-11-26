@@ -147,7 +147,7 @@ def labels_for_class(class_id):
     awards = Award.query.filter_by(subject_id=current_class.subject.id).order_by(Award.rank.asc()).all()
 
     award_list = [{"value": i.id, "text": i.subject.name + " - " + i.name} for i in awards]
-    return render_template('award/class.html', current_class=current_class, award_list=award_list)
+    return render_template('award/awards_labels.html', current_class=current_class, award_list=award_list)
 
 
 @award.route('/class/<class_id>', methods=['GET', 'POST'])
@@ -172,7 +172,7 @@ def add_to_class(class_id):
     awards = Award.query.filter_by(subject_id=current_class.subject.id).order_by(Award.rank.asc()).all()
 
     award_list = [{"value": i.id, "text": i.subject.name + " - " + i.name} for i in awards]
-    return render_template('award/awards_labels.html', current_class=current_class, award_list=award_list)
+    return render_template('award/class.html', current_class=current_class, award_list=award_list)
 
 
 @award.route('/awardrecord/<award_record_id>/edit', methods=['GET', 'POST'])
