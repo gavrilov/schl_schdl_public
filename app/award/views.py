@@ -125,6 +125,30 @@ def add_record(student_id):
         return render_template('page.html'), 404
 
 
+@award.route('/class/<class_id>/labels', methods=['GET', 'POST'])
+@roles_accepted('admin', 'teacher')
+def labels_for_class(class_id):
+    # Add Award records to Class
+    current_class = Schdl_Class.query.filter_by(id=class_id).first()
+
+    # Check if current user has access to class
+    access_to_class = False
+    if current_user.has_role('admin'):
+        access_to_class = True
+    elif current_user.has_role('teacher'):
+        for teacher in current_user.teachers:
+            if current_class in teacher.classes:
+                access_to_class = True
+
+    if not current_class or not access_to_class:
+        flash(_('Class did not find'), 'danger')
+        abort(404)
+
+    awards = Award.query.filter_by(subject_id=current_class.subject.id).order_by(Award.rank.asc()).all()
+
+    award_list = [{"value": i.id, "text": i.subject.name + " - " + i.name} for i in awards]
+    return render_template('award/class.html', current_class=current_class, award_list=award_list)
+
 
 @award.route('/class/<class_id>', methods=['GET', 'POST'])
 @roles_accepted('admin', 'teacher')
@@ -148,7 +172,7 @@ def add_to_class(class_id):
     awards = Award.query.filter_by(subject_id=current_class.subject.id).order_by(Award.rank.asc()).all()
 
     award_list = [{"value": i.id, "text": i.subject.name + " - " + i.name} for i in awards]
-    return render_template('award/class.html', current_class=current_class, award_list=award_list)
+    return render_template('award/awards_labels.html', current_class=current_class, award_list=award_list)
 
 
 @award.route('/awardrecord/<award_record_id>/edit', methods=['GET', 'POST'])
