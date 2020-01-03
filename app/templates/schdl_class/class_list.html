@@ -15,7 +15,7 @@
         <div class="col-md-3 offset-md-9">
             <select name="select_semester" onchange="location = this.value;">
                 <option value="#">{{ _('Select Semester') }}</option>
-                {% for semester in semesters %}
+                {% for semester in semesters|sort(attribute='name') %}
                     <option value="{{ url_for('schdl_class.class_list_by_semester', semester_id=semester.id) }}">{{ semester.name }}</option>
                 {% endfor %}
             </select>

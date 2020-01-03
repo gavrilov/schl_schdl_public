@@ -61,7 +61,7 @@
         <div class="col-md-3 offset-md-9">
             <select name="select_semester" onchange="location = this.value;">
                 <option value="#">{{ _('Select Semester') }}</option>
-                {% for semester in semesters %}
+                {% for semester in semesters|sort(attribute='name') %}
                     {% if drops_students_only %}
                         <option value="{{ url_for('student.student_drops_list_by_semester', semester_id=semester.id) }}">{{ semester.name }}</option>
                     {% else %}
