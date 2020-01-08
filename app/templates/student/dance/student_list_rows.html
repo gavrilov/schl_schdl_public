@@ -14,7 +14,11 @@
             </td>
             <td>{{ NOW.year() - student.dob.year() }}</td>
             <td>{% if student.gender == 1 %}Boy{% else %}Girl{% endif %}</td>
-            <td>{% if student.grade == -3 %}preschool{% elif student.grade = -2 %}PreK{% elif student.grade = -1 %}K{% else %}{{ student.grade }}{% endif %}</td>
+            <td>{% if student.grade == -3 %}preschool
+            {% elif student.grade == -2 %}PreK
+            {% elif student.grade == -1 %}K
+            {% else %}{{ student.grade }}
+            {% endif %}</td>
             <td>{{ current_class.school.name }}</td>
             <td>{{ current_class.school.type }}</td>
             <td bgcolor="{{ current_class.subject.color }}">{{ current_class.subject.name }}</td>
