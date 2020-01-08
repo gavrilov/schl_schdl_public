@@ -297,3 +297,17 @@ def student_processing():
             return url
     else:
         return render_template('page.html'), 404
+
+
+@student.route('/dance', methods=['GET', 'POST'])
+@roles_required('admin')
+def student_dance_list():
+    semesters = Semester.query.all()
+    students_html = ""
+    current_classes = Schdl_Class.query.filter_by(current=True).filter_by(subject_id=1).join(Semester, Schdl_Class.semester).filter_by(show_in_list=True).all()
+    for current_class in current_classes:
+        # generate rows for table for each class
+        students_html += render_template('student/dance/student_list_rows.html', current_class=current_class)
+    return render_template('student/dance/student_list.html', students_html=students_html, current_students_only=True,
+                           semesters=semesters)
+

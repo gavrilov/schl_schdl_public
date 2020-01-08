@@ -1,0 +1,70 @@
+{% for enrollment in current_class.enrollments %}
+
+    {% set student = enrollment.student %}
+    {% if enrollment.current %}
+        <tr>
+            <td><input type="hidden" name="students" value="{{ student.id }}"></td>
+            <td {%  if student.dont_want_back %}bgcolor="red"{% endif %} >
+                <a href="{{ url_for('student.info', student_id=student.id) }}">
+                    {{ student.first_name }} {{ student.last_name }}</a>
+                {# Show badge "NEW" for users who sign in last 7 days #}
+                {% if (NOW - enrollment.timestamp_last_change).total_seconds() < 604800 %}
+                    <sup><span class="badge badge-danger">New</span></sup>
+                {% endif %}
+            </td>
+            <td>{{ student.dob }}</td>
+            <td>{{ student.gender }}</td>
+            <td>{{ student.grade }}</td>
+            <td>{{ current_class.school.name }}</td>
+            <td>{{ current_class.school.type }}</td>
+            <td bgcolor="{{ current_class.subject.color }}">{{ current_class.subject.name }}</td>
+            <td>{{ current_class.day_of_week }}
+                {% if current_class.class_time_start and current_class.class_time_end %}
+                    <br>{{ current_class.class_time_start | ctimeformat }}
+                    - {{ current_class.class_time_end | ctimeformat }}
+                {% endif %}
+            </td>
+
+
+            {# if user has contacts - show emails and phones #}
+            {% if student.user.contacts %}
+                <td>{% for contact in student.user.contacts %}
+                    {% if contact.phone %}
+                        <a href="{{ url_for('txtmsg.send_msg', to_phone=contact.phone ) }}"
+                           target="_blank">{{ _('{first}-{second}-{third}'.format(first=contact.phone[0:3], second=contact.phone[3:6], third=contact.phone[6:10])) }}</a>
+                    {% endif %}<br>
+                {% endfor %}
+                </td>
+                <td>{% for contact in student.user.contacts %}
+                    {% if contact.email %}
+                        <a href="mailto:{{ contact.email }}" target="_top">{{ contact.email }}</a><br>
+                    {% endif %}
+                {% endfor %}</td>
+            {% else %}
+                <td></td>
+                <td>
+                    {% if (student.user.email != config.COMPANY_CONTACT_EMAIL ) %}
+                        {{ student.user.email }}
+                    {% endif %}
+                </td>
+            {% endif %}
+
+            <td>
+                <div id="summary">
+                    <p class="collapse dark" id="collapseSummary_{{ student.id }}">
+                        {% for note in student.notes|sort(attribute='timestamp', reverse=true) %}
+                            {% if note is not none %}
+                                {{ moment(note.timestamp).format('MM/DD/YYYY') }} - {{ note.text }}<br/>
+                            {% endif %}
+                        {% endfor %}
+                    </p>
+                    <a class="collapsed" data-toggle="collapse"
+                       href="#collapseSummary_{{ student.id }}"
+                       aria-expanded="false" aria-controls="collapseSummary_{{ student.id }}"></a>
+                </div>
+
+            </td>
+            <td><a href="{{ url_for('student.edit_student', student_id=student.id) }}">{{ _('Edit') }}</a></td>
+        </tr>
+    {% endif %}
+{% endfor %}
