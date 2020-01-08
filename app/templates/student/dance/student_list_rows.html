@@ -12,7 +12,7 @@
                     <sup><span class="badge badge-danger">New</span></sup>
                 {% endif %}
             </td>
-            <td>{{ NOW.year() - student.dob.year() }}</td>
+            <td>{{ student.dob }}</td>
             <td>{% if student.gender == 1 %}Boy{% else %}Girl{% endif %}</td>
             <td>{% if student.grade == -3 %}preschool
             {% elif student.grade == -2 %}PreK
