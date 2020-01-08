@@ -1,0 +1,150 @@
+{% extends "dashboard/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}{{ _('Student List') }}{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.18/b-1.5.2/b-colvis-1.5.2/b-html5-1.5.2/b-print-1.5.2/r-2.2.2/sl-1.2.6/datatables.min.css"/>
+    <style>
+        .filterIcon {
+            height: 16px;
+            width: 16px;
+        }
+
+        .modalFilter {
+            display: none;
+            height: auto;
+            background: #FFF;
+            padding: 8px;
+            position: absolute;
+            z-index: 1001;
+        }
+
+        .modalFilter .modal-content {
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .modalFilter .modal-footer {
+            background: #FFF;
+            height: 35px;
+            padding-top: 6px;
+        }
+
+        .modalFilter .btn {
+            padding: 0 1em;
+            height: 28px;
+            line-height: 28px;
+            text-transform: none;
+        }
+
+        #mask {
+            display: none;
+            background: transparent;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            opacity: 1000;
+        }
+    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='note.css') }}">
+{% endblock %}
+
+
+{% block page_content %}
+    {{ super() }}
+    <div class="row">
+        <div class="col-md-3 offset-md-9">
+            <select name="select_semester" onchange="location = this.value;">
+                <option value="#">{{ _('Select Semester') }}</option>
+                {% for semester in semesters|sort(attribute='name') %}
+                    {% if drops_students_only %}
+                        <option value="{{ url_for('student.student_drops_list_by_semester', semester_id=semester.id) }}">{{ semester.name }}</option>
+                    {% else %}
+                        <option value="{{ url_for('student.student_list_by_semester', semester_id=semester.id) }}">{{ semester.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <a class="btn btn-outline-primary" href="{{ url_for('student.student_all_list') }}"
+               role="button">{{ _('All Students') }}</a>
+            {#  <a class="btn btn-outline-success" href="{{ url_for('student.add_student') }}" role="button">{{ _('Add New Student') }}</a> #}
+
+            <a class="btn btn-outline-warning" href="{{ url_for('student.not_enrolled') }}"
+               role="button">{{ _('Not Enrolled Students') }}</a>
+
+            <a class="btn btn-outline-danger" href="{{ url_for('student.student_drops_list') }}"
+               role="button">{{ _('Drops Student') }}</a>
+            {#  <a class="btn btn-outline-success" href="{{ url_for('student.add_student') }}" role="button">{{ _('Add New Student') }}</a> #}
+        </div>
+
+    </div>
+    {% if drops_students_only %}
+        <h1>{{ _('Drops List of students') }}</h1>
+    {% else %}
+        <h1>{{ _('Student list') }}{% if current_semester %} ({{ current_semester.name }}){% endif %}</h1>
+    {% endif %}
+    <form method="POST" action="" id="theForm">
+        <table class="table table-hover table-bordered" id="maintable">
+            <caption>{{ _('List of students') }}</caption>
+            <thead>
+            <tr id="filterrow">
+                <th></th>
+                <th id="filtercol">{{ _('Student Name') }}</th>
+                <th id="filtercol">{{ _('Student DOB') }}</th>
+                <th id="filtercol">{{ _('Student Gender') }}</th>
+                <th id="filtercol">{{ _('Student Grade') }}</th>
+                <th id="filtercol">{{ _('School') }}</th>
+                <th id="filtercol">{{ _('Type') }}</th>
+                <th id="filtercol">{{ _('Class') }}</th>
+                <th id="filtercol">{{ _('Day') }}/{{ _('Time') }} </th>
+                <th id="filtercol">{{ _('Phone') }}</th>
+                <th id="filtercol">{{ _('Email') }}</th>
+                <th id="filtercol">{{ _('Note') }}</th>
+                <th></th>
+            </tr>
+            <tr>
+                <th class="text-center">#</th>
+                <th class="text-center">{{ _('Student Name') }}</th>
+                <th class="text-center">{{ _('Student DOB') }}</th>
+                <th class="text-center">{{ _('Student Gender') }}</th>
+                <th class="text-center">{{ _('Student Grade') }}</th>
+                <th class="text-center">{{ _('School') }}</th>
+                <th class="text-center">{{ _('Type') }}</th>
+                <th class="text-center">{{ _('Class') }}</th>
+                <th class="text-center">{{ _('Day') }}/{{ _('Time') }}</th>
+                <th class="text-center">{{ _('Phone') }}</th>
+                <th class="text-center">{{ _('Email') }}</th>
+                <th class="text-center">{{ _('Note') }}</th>
+                <th class="text-center">{{ _('Edit') }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {# student/student_list_rows.html generates all rows for that table #}
+            {{ students_html|safe }}
+            </tbody>
+        </table>
+        <select name="actionselect" id="actionselect">
+            <option value="">{{ _('with selection') }}</option>
+            <!-- <option value="call">{{ _('Robo Call') }}</option> -->
+            <option value="txt">{{ _('Send txt') }}</option>
+            <option value="email">{{ _('Send email') }}</option>
+            <option value="labels">{{ _('Print Labels') }}</option>
+        </select>
+        <button id="submit">{{ _('Submit') }}</button>
+    </form>
+
+
+
+
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+    {% include 'dashboard/datatable.html' %}
+{% endblock %}
