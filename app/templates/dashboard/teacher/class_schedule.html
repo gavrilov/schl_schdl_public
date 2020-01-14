@@ -4,12 +4,59 @@
 
 {% block head %}
     {{ super() }}
+      <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.18/b-1.5.2/b-colvis-1.5.2/b-html5-1.5.2/b-print-1.5.2/r-2.2.2/sl-1.2.6/datatables.min.css"/>
+    <style>
+        .filterIcon {
+            height: 16px;
+            width: 16px;
+        }
+
+        .modalFilter {
+            display: none;
+            height: auto;
+            background: #FFF;
+            padding: 8px;
+            position: absolute;
+            z-index: 1001;
+        }
+
+        .modalFilter .modal-content {
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .modalFilter .modal-footer {
+            background: #FFF;
+            height: 35px;
+            padding-top: 6px;
+        }
+
+        .modalFilter .btn {
+            padding: 0 1em;
+            height: 28px;
+            line-height: 28px;
+            text-transform: none;
+        }
+
+        #mask {
+            display: none;
+            background: transparent;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            opacity: 1000;
+        }
+    </style>
 {% endblock %}
 
 
 {% block page_content %}
     {{ super() }}
-    <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
+    <div class="col-lg-10 offset-lg-1 col-xl-10 offset-xl-1">
         <div class="row">
             <div class="col">
                 <h1>{{ teacher.user.first_name }} {{ teacher.user.last_name }} </h1>
@@ -17,15 +64,24 @@
             </div>
         </div>
 
-        <table class="table table-striped table-responsive">
+        <table class="table table-hover table-bordered" id="maintable">
+            <caption>{{ _('List of classes') }}</caption>
             <thead>
+            <tr id="filterrow">
+                <th id="filtercol">{{ _('Class') }}</th>
+                <th id="filtercol">{{ _('School') }}</th>
+                <th id="filtercol">{{ _('Day') }}</th>
+                <th id="filtercol">{{ _('Time') }}</th>
+                <th id="filtercol">{{ _('Class dates') }}</th>
+                <th id="filtercol">{{ _('No classes') }}</th>
+            </tr>
             <tr>
-                <th scope="col">{{ _('Class') }}</th>
-                <th scope="col">{{ _('School') }}</th>
-                <th scope="col">{{ _('Day') }}</th>
-                <th scope="col">{{ _('Time') }}</th>
-                <th scope="col">{{ _('Class dates') }}</th>
-                <th scope="col">{{ _('No classes') }}</th>
+                <th class="text-center">{{ _('Class') }}</th>
+                <th class="text-center">{{ _('School') }}</th>
+                <th class="text-center">{{ _('Day') }}</th>
+                <th class="text-center">{{ _('Time') }}</th>
+                <th class="text-center">{{ _('Class dates') }}</th>
+                <th class="text-center">{{ _('No classes') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -72,4 +128,176 @@
 
 {% block scripts %}
     {{ super() }}
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript"
+            src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.18/b-1.5.2/b-colvis-1.5.2/b-html5-1.5.2/b-print-1.5.2/r-2.2.2/sl-1.2.6/datatables.min.js"></script>
+
+    <script>
+        // Setup - add a text input to each footer cell
+        $('#maintable thead tr#filterrow th#filtercol').each(function () {
+            var title = $('#maintable thead th').eq($(this).index()).text();
+            $(this).html('<input type="text" onclick="stopPropagation(event);" placeholder="{{ _('Search') }} ' + title + '" />');
+        });
+
+        // DataTable
+        var table = $('#maintable').DataTable({
+
+            responsive: true,
+            columnDefs: [{
+                orderable: false,
+            }],
+
+            select: {
+                style: 'os',
+                selector: 'td:first-child'
+            },
+            order: [[2, 'asc'], [3, 'asc'], [1, 'asc'], [0, 'asc']],
+            paging: false,
+            dom: '<"row"<"col"B><"col"f>>rtip',
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                'colvis'
+            ],
+            initComplete: function () {
+                configFilter(this, [0, 1, 2, 3, 4, 5]);
+            }
+
+        });
+
+        table.buttons().container()
+            .appendTo('#maintable_wrapper .col-md-6:eq(0)');
+
+        // Apply the filter
+        $("#maintable thead input").on('keyup change', function () {
+            table
+                .column($(this).parent().index() + ':visible')
+                .search(this.value)
+                .draw();
+        });
+
+        function stopPropagation(evt) {
+            if (evt.stopPropagation !== undefined) {
+                evt.stopPropagation();
+            } else {
+                evt.cancelBubble = true;
+            }
+        }
+
+        //This function initializes the content inside the filter modal
+        function configFilter($this, colArray) {
+            setTimeout(function () {
+                var tableName = $this[0].id;
+                var columns = $this.api().columns();
+                $.each(colArray, function (i, arg) {
+                    $('#' + tableName + ' th:eq(' + arg + ')').append('<img src="http://www.icone-png.com/png/39/38556.png" class="filterIcon" onclick="showFilter(event,\'' + tableName + '_' + arg + '\')" />');
+                });
+
+                var template = '<div class="modalFilter">' +
+                    '<div class="modal-content">' +
+                    '{0}</div>' +
+                    '<div class="modal-footer">' +
+                    '<a href="#!" onclick="clearFilter(this, {1}, \'{2}\');"  class=" btn left waves-effect waves-light">Clear</a>' +
+                    '<a href="#!" onclick="performFilter(this, {1}, \'{2}\');"  class=" btn right waves-effect waves-light">Ok</a>' +
+                    '</div>' +
+                    '</div>';
+                $.each(colArray, function (index, value) {
+                    columns.every(function (i) {
+                        if (value === i) {
+                            var column = this,
+                                content = '<input type="text" class="filterSearchText" onkeyup="filterValues(this)" /> <br/>';
+                            var columnName = $(this.header()).text().replace(/\s+/g, "_");
+                            var distinctArray = [];
+                            column.data().each(function (d, j) {
+                                if (distinctArray.indexOf(d) == -1) {
+                                    var id = tableName + "_" + columnName + "_" + j; // onchange="formatValues(this,' + value + ');
+                                    content += '<div><input type="checkbox" value="' + d + '"  id="' + id + '"/><label for="' + id + '"> ' + d + '</label></div>';
+                                    distinctArray.push(d);
+                                }
+                            });
+                            var newTemplate = $(template.replace('{0}', content).replace('{1}', value).replace('{1}', value).replace('{2}', tableName).replace('{2}', tableName));
+                            $('body').append(newTemplate);
+                            modalFilterArray[tableName + "_" + value] = newTemplate;
+                            content = '';
+                        }
+                    });
+                });
+            }, 50);
+        }
+
+        var modalFilterArray = {};
+
+        //User to show the filter modal
+        function showFilter(e, index) {
+            $('.modalFilter').hide();
+            $(modalFilterArray[index]).css({left: 0, top: 0});
+            var th = $(e.target).parent();
+            var pos = th.offset();
+            console.log(th);
+            $(modalFilterArray[index]).width(th.width() * 0.75);
+            $(modalFilterArray[index]).css({'left': pos.left, 'top': pos.top});
+            $(modalFilterArray[index]).show();
+            $('#mask').show();
+            e.stopPropagation();
+        }
+
+        //This function is to use the searchbox to filter the checkbox
+        function filterValues(node) {
+            var searchString = $(node).val().toUpperCase().trim();
+            var rootNode = $(node).parent();
+            if (searchString == '') {
+                rootNode.find('div').show();
+            } else {
+                rootNode.find("div").hide();
+                rootNode.find("div:contains('" + searchString + "')").show();
+            }
+        }
+
+        //Execute the filter on the table for a given column
+        function performFilter(node, i, tableId) {
+            var rootNode = $(node).parent().parent();
+            var searchString = '', counter = 0;
+
+            rootNode.find('input:checkbox').each(function (index, checkbox) {
+                if (checkbox.checked) {
+                    searchString += (counter == 0) ? checkbox.value : '|' + checkbox.value;
+                    counter++;
+                }
+            });
+            $('#' + tableId).DataTable().column(i).search(
+                searchString,
+                true, false
+            ).draw();
+            rootNode.hide();
+            $('#mask').hide();
+        }
+
+        //Removes the filter from the table for a given column
+        function clearFilter(node, i, tableId) {
+            var rootNode = $(node).parent().parent();
+            rootNode.find(".filterSearchText").val('');
+            rootNode.find('input:checkbox').each(function (index, checkbox) {
+                checkbox.checked = false;
+                $(checkbox).parent().show();
+            });
+            $('#' + tableId).DataTable().column(i).search(
+                '',
+                true, false
+            ).draw();
+            rootNode.hide();
+            $('#mask').hide();
+        }
+
+    </script>
 {% endblock %}
