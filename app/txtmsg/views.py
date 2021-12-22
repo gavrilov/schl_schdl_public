@@ -63,14 +63,14 @@ def send_msg():
                         to=number,
                         media_url=url_for('static', filename='default_txt_media.png', _external=True, _scheme='https')
                     )
+                    try:
+                        status = message.status
+                        msgid = message.sid
+                    except:
+                        flash(message.error_message, 'danger')
+                        pass
                 except Exception as e:
                     flash(_('Error sending message to: ' + number + ' ' + str(e)), 'danger')
-                try:
-                    status = message.status
-                    msgid = message.sid
-                except:
-                    flash(message.error_message, 'danger')
-                    pass
             else:
                 flash(_('Number {phone_number} is wrong').format(phone_number=number), 'danger')
 
