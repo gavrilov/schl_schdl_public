@@ -56,12 +56,15 @@ def send_msg():
 
         for number in phone_numbs:
             if number is not "" and len(number) == 10:
-                message = client.messages.create(
-                    messaging_service_sid=messaging_ssid,
-                    body=text_message,
-                    to=number,
-                    media_url=url_for('static', filename='default_txt_media.png', _external=True, _scheme='https')
-                )
+                try:
+                    message = client.messages.create(
+                        messaging_service_sid=messaging_ssid,
+                        body=text_message,
+                        to=number,
+                        media_url=url_for('static', filename='default_txt_media.png', _external=True, _scheme='https')
+                    )
+                except Exception as e:
+                    flash(_('Error sending message to: ' + number + ' ' + str(e)), 'danger')
                 try:
                     status = message.status
                     msgid = message.sid
