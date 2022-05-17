@@ -2,7 +2,7 @@ from flask_babelex import lazy_gettext as _l
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.widgets import TextArea
-from wtforms.fields.html5 import TelField
+from wtforms.fields import TelField
 from wtforms.validators import DataRequired, Optional, Regexp
 
 
